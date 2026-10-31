@@ -68,6 +68,9 @@ pub use calendar_quarter_difference::difference_in_calendar_quarters;
 mod quarters;
 pub use quarters::{end_of_quarter, get_quarter, start_of_quarter};
 
+mod fiscal_quarters;
+pub use fiscal_quarters::{end_of_fiscal_quarter, get_fiscal_quarter, start_of_fiscal_quarter};
+
 mod calendar_predicates;
 pub use calendar_predicates::{
     is_first_day_of_month, is_last_day_of_month, is_leap_day, is_same_quarter,

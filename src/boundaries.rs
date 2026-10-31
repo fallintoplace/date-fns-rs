@@ -27,14 +27,12 @@ pub fn end_of_month(date: NaiveDate) -> NaiveDate {
 
 /// Return January 1 of the date's year.
 pub fn start_of_year(date: NaiveDate) -> NaiveDate {
-    NaiveDate::from_ymd_opt(date.year(), 1, 1)
-        .expect("first day of a valid year must exist")
+    NaiveDate::from_ymd_opt(date.year(), 1, 1).expect("first day of a valid year must exist")
 }
 
 /// Return December 31 of the date's year.
 pub fn end_of_year(date: NaiveDate) -> NaiveDate {
-    NaiveDate::from_ymd_opt(date.year(), 12, 31)
-        .expect("last day of a valid year must exist")
+    NaiveDate::from_ymd_opt(date.year(), 12, 31).expect("last day of a valid year must exist")
 }
 
 #[cfg(test)]

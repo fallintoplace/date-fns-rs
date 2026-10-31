@@ -69,3 +69,6 @@ pub use interval_months::{each_month_of_interval, MonthsInInterval};
 
 mod interval_years;
 pub use interval_years::{each_year_of_interval, YearsInInterval};
+
+mod interval_quarters;
+pub use interval_quarters::{each_quarter_of_interval, QuartersInInterval};

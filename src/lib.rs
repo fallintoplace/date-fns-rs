@@ -46,3 +46,6 @@ pub use quarters::{end_of_quarter, get_quarter, start_of_quarter};
 
 mod quarter_arithmetic;
 pub use quarter_arithmetic::{add_quarters, sub_quarters};
+
+mod iso_weeks;
+pub use iso_weeks::{get_iso_week, get_iso_week_year, get_iso_weeks_in_year};

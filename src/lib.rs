@@ -76,6 +76,9 @@ pub use interval_quarters::{each_quarter_of_interval, QuartersInInterval};
 mod interval_business_days;
 pub use interval_business_days::{each_business_day_of_interval, BusinessDaysInInterval};
 
+mod nth_weekday;
+pub use nth_weekday::nth_weekday_of_month;
+
 mod week_of_month;
 pub use week_of_month::get_week_of_month;
 

@@ -96,6 +96,9 @@ pub use business_days::{
 mod business_difference;
 pub use business_difference::difference_in_business_days;
 
+mod business_holiday_difference;
+pub use business_holiday_difference::difference_in_business_days_with_holidays;
+
 mod closest_date;
 pub use closest_date::{closest_date_index_to, closest_date_to};
 

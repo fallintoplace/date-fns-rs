@@ -44,6 +44,9 @@ pub use interval::{
     are_intervals_overlapping, each_day_of_interval, is_within_interval, DaysInInterval,
 };
 
+mod stepped_days;
+pub use stepped_days::{each_nth_day_of_interval, SteppedDaysInInterval};
+
 mod iso;
 pub use iso::{format_iso_date, parse_iso_date};
 

@@ -58,7 +58,10 @@ mod tests {
         let days = each_business_day_of_interval(date(2024, 3, 1), date(2024, 3, 5))
             .unwrap()
             .collect::<Vec<_>>();
-        assert_eq!(days, vec![date(2024, 3, 1), date(2024, 3, 4), date(2024, 3, 5)]);
+        assert_eq!(
+            days,
+            vec![date(2024, 3, 1), date(2024, 3, 4), date(2024, 3, 5)]
+        );
     }
 
     #[test]
@@ -83,7 +86,10 @@ mod tests {
     #[test]
     fn is_fused_at_maximum_date() {
         let mut days = each_business_day_of_interval(NaiveDate::MAX, NaiveDate::MAX).unwrap();
-        assert_eq!(days.next(), is_business_day(NaiveDate::MAX).then_some(NaiveDate::MAX));
+        assert_eq!(
+            days.next(),
+            is_business_day(NaiveDate::MAX).then_some(NaiveDate::MAX)
+        );
         assert_eq!(days.next(), None);
         assert_eq!(days.next(), None);
     }

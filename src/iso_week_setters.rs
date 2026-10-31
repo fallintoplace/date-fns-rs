@@ -18,6 +18,17 @@ pub fn set_iso_week_year(date: NaiveDate, year: i32) -> Option<NaiveDate> {
     NaiveDate::from_isoywd_opt(year, date.iso_week().week(), date.weekday())
 }
 
+/// Set the ISO weekday to 1 (Monday) through 7 (Sunday).
+///
+/// The ISO week and ISO week-numbering year are preserved.
+pub fn set_iso_day_of_week(date: NaiveDate, weekday: u32) -> Option<NaiveDate> {
+    if !(1..=7).contains(&weekday) {
+        return None;
+    }
+    let offset = i64::from(weekday) - i64::from(date.weekday().number_from_monday());
+    crate::arithmetic::add_days(date, offset)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -53,5 +64,24 @@ mod tests {
         assert_eq!(set_iso_week(day, 54), None);
         assert_eq!(set_iso_week_year(day, i32::MAX), None);
         assert_eq!(set_iso_week_year(day, i32::MIN), None);
+    }
+    #[test]
+    fn changes_weekday_across_calendar_year_boundary() {
+        let friday = date(2021, 1, 1);
+        assert_eq!(set_iso_day_of_week(friday, 1), Some(date(2020, 12, 28)));
+        assert_eq!(set_iso_day_of_week(friday, 7), Some(date(2021, 1, 3)));
+        assert_eq!(set_iso_day_of_week(friday, 5), Some(friday));
+    }
+
+    #[test]
+    fn validates_weekday_and_keeps_checked_arithmetic() {
+        let monday = date(2024, 1, 1);
+        assert_eq!(set_iso_day_of_week(monday, 0), None);
+        assert_eq!(set_iso_day_of_week(monday, 8), None);
+        assert_eq!(set_iso_day_of_week(monday, 7), Some(date(2024, 1, 7)));
+        assert_eq!(
+            set_iso_day_of_week(NaiveDate::MAX, NaiveDate::MAX.weekday().number_from_monday()),
+            Some(NaiveDate::MAX)
+        );
     }
 }

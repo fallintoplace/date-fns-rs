@@ -160,4 +160,4 @@ mod set_day_of_year;
 pub use set_day_of_year::set_day_of_year;
 
 mod holiday_business_difference;
-pub use holiday_business_difference::{difference_in_business_days_excluding_holidays};
+pub use holiday_business_difference::difference_in_business_days_excluding_holidays;

@@ -158,3 +158,6 @@ pub use set_year::set_year;
 
 mod set_day_of_year;
 pub use set_day_of_year::set_day_of_year;
+
+mod iso_year_month;
+pub use iso_year_month::{format_iso_year_month, parse_iso_year_month};

@@ -84,3 +84,6 @@ pub use full_week_difference::difference_in_weeks;
 
 mod full_month_difference;
 pub use full_month_difference::difference_in_months;
+
+mod full_quarter_difference;
+pub use full_quarter_difference::difference_in_quarters;

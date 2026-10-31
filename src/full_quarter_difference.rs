@@ -48,9 +48,6 @@ mod tests {
             difference_in_quarters(NaiveDate::MIN, NaiveDate::MAX),
             -span
         );
-        assert_eq!(
-            difference_in_quarters(NaiveDate::MAX, NaiveDate::MAX),
-            0
-        );
+        assert_eq!(difference_in_quarters(NaiveDate::MAX, NaiveDate::MAX), 0);
     }
 }

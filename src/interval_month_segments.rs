@@ -19,11 +19,7 @@ impl Iterator for MonthSegmentsInInterval {
     fn next(&mut self) -> Option<Self::Item> {
         let start = self.next?;
         let end = end_of_month(start).min(self.end);
-        self.next = if end < self.end {
-            end.succ_opt()
-        } else {
-            None
-        };
+        self.next = if end < self.end { end.succ_opt() } else { None };
         Some((start, end))
     }
 }
@@ -54,12 +50,9 @@ mod tests {
 
     #[test]
     fn clips_partial_months_and_preserves_leap_day() {
-        let segments = each_month_segment_of_interval(
-            date(2024, 1, 30),
-            date(2024, 3, 2),
-        )
-        .unwrap()
-        .collect::<Vec<_>>();
+        let segments = each_month_segment_of_interval(date(2024, 1, 30), date(2024, 3, 2))
+            .unwrap()
+            .collect::<Vec<_>>();
         assert_eq!(
             segments,
             vec![
@@ -82,11 +75,7 @@ mod tests {
 
     #[test]
     fn remains_fused_at_supported_limits() {
-        let mut last = each_month_segment_of_interval(
-            NaiveDate::MAX,
-            NaiveDate::MAX,
-        )
-        .unwrap();
+        let mut last = each_month_segment_of_interval(NaiveDate::MAX, NaiveDate::MAX).unwrap();
         assert_eq!(last.next(), Some((NaiveDate::MAX, NaiveDate::MAX)));
         assert_eq!(last.next(), None);
         assert_eq!(last.next(), None);

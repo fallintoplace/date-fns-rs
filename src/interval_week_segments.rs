@@ -50,6 +50,7 @@ pub fn each_week_segment_of_interval(
 #[cfg(test)]
 mod tests {
     use super::*;
+    use chrono::Datelike;
 
     fn date(y: i32, m: u32, d: u32) -> NaiveDate {
         NaiveDate::from_ymd_opt(y, m, d).unwrap()

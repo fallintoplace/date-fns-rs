@@ -25,6 +25,21 @@ pub fn sub_months(date: NaiveDate, months: i32) -> Option<NaiveDate> {
     }
 }
 
+/// Add months while keeping end-of-month dates at the end of the target month.
+///
+/// Unlike ordinary month addition, February 29 plus one month becomes
+/// March 31. Dates that are not month ends use normal clamping.
+pub fn add_months_preserving_end_of_month(date: NaiveDate, months: i32) -> Option<NaiveDate> {
+    use crate::boundaries::end_of_month;
+
+    let shifted = add_months(date, months)?;
+    Some(if date == end_of_month(date) {
+        end_of_month(shifted)
+    } else {
+        shifted
+    })
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -55,4 +70,30 @@ mod tests {
         assert_eq!(add_months(date(2024, 1, 1), i32::MIN), None);
         assert_eq!(sub_months(date(2024, 1, 1), i32::MAX), None);
     }
+    #[test]
+    fn retains_month_end_for_recurrences() {
+        let leap_day = date(2024, 2, 29);
+        assert_eq!(
+            add_months_preserving_end_of_month(leap_day, 1),
+            Some(date(2024, 3, 31))
+        );
+        assert_eq!(
+            add_months_preserving_end_of_month(date(2023, 2, 28), 12),
+            Some(date(2024, 2, 29))
+        );
+        assert_eq!(
+            add_months_preserving_end_of_month(date(2024, 1, 30), 1),
+            Some(date(2024, 2, 29))
+        );
+    }
+
+    #[test]
+    fn retains_checked_overflow_behavior() {
+        assert_eq!(add_months_preserving_end_of_month(NaiveDate::MAX, 1), None);
+        assert_eq!(
+            add_months_preserving_end_of_month(date(2024, 2, 29), -1),
+            Some(date(2024, 1, 31))
+        );
+    }
+
 }

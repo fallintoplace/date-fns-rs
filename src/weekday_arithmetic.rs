@@ -36,9 +36,15 @@ mod tests {
     fn navigates_across_week_and_year_boundaries() {
         let monday = date(2024, 1, 1);
         assert_eq!(next_weekday(monday, Weekday::Fri), Some(date(2024, 1, 5)));
-        assert_eq!(previous_weekday(monday, Weekday::Fri), Some(date(2023, 12, 29)));
+        assert_eq!(
+            previous_weekday(monday, Weekday::Fri),
+            Some(date(2023, 12, 29))
+        );
         assert_eq!(next_weekday(monday, Weekday::Mon), Some(date(2024, 1, 8)));
-        assert_eq!(previous_weekday(monday, Weekday::Mon), Some(date(2023, 12, 25)));
+        assert_eq!(
+            previous_weekday(monday, Weekday::Mon),
+            Some(date(2023, 12, 25))
+        );
     }
 
     #[test]

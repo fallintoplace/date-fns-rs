@@ -16,6 +16,24 @@ pub struct QuartersInInterval {
 impl Iterator for QuartersInInterval {
     type Item = NaiveDate;
 
+    fn size_hint(&self) -> (usize, Option<usize>) {
+        let remaining = self.next.map_or(0, |next| {
+            (crate::difference::difference_in_calendar_months(self.end, next) / 3 + 1) as usize
+        });
+        (remaining, Some(remaining))
+    }
+
+    fn nth(&mut self, n: usize) -> Option<Self::Item> {
+        if n >= self.len() {
+            self.next = None;
+            return None;
+        }
+
+        let months = u32::try_from(n).ok()?.checked_mul(3)?;
+        self.next = self.next?.checked_add_months(Months::new(months));
+        self.next()
+    }
+
     fn next(&mut self) -> Option<Self::Item> {
         let current = self.next?;
         self.next = current
@@ -24,6 +42,8 @@ impl Iterator for QuartersInInterval {
         Some(current)
     }
 }
+
+impl ExactSizeIterator for QuartersInInterval {}
 
 impl FusedIterator for QuartersInInterval {}
 
@@ -78,5 +98,22 @@ mod tests {
         assert_eq!(quarters.next(), Some(start_of_quarter(NaiveDate::MAX)));
         assert_eq!(quarters.next(), None);
         assert_eq!(quarters.next(), None);
+    }
+    #[test]
+    fn skips_quarter_starts_and_tracks_exact_size() {
+        let mut quarters =
+            each_quarter_of_interval(date(2023, 12, 31), date(2024, 7, 1)).unwrap();
+        assert_eq!(quarters.len(), 4);
+        assert_eq!(quarters.nth(2), Some(date(2024, 4, 1)));
+        assert_eq!(quarters.len(), 1);
+        assert_eq!(quarters.next(), Some(date(2024, 7, 1)));
+        assert_eq!(quarters.len(), 0);
+    }
+
+    #[test]
+    fn rejects_large_skip_offsets_at_supported_limits() {
+        let mut quarters = each_quarter_of_interval(NaiveDate::MIN, NaiveDate::MAX).unwrap();
+        assert_eq!(quarters.nth(usize::MAX), None);
+        assert_eq!(quarters.size_hint(), (0, Some(0)));
     }
 }

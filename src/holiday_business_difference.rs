@@ -78,11 +78,7 @@ mod tests {
             0
         );
         assert_eq!(
-            difference_in_business_days_excluding_holidays(
-                NaiveDate::MAX,
-                NaiveDate::MIN,
-                &[]
-            ),
+            difference_in_business_days_excluding_holidays(NaiveDate::MAX, NaiveDate::MIN, &[]),
             difference_in_business_days(NaiveDate::MAX, NaiveDate::MIN)
         );
     }

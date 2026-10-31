@@ -38,6 +38,9 @@ pub use interval::{
 mod iso;
 pub use iso::{format_iso_date, parse_iso_date};
 
+mod iso_week_date;
+pub use iso_week_date::{format_iso_week_date, parse_iso_week_date};
+
 mod metadata;
 pub use metadata::{get_day_of_year, get_days_in_month, get_days_in_year};
 

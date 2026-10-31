@@ -17,7 +17,7 @@ pub fn count_business_days_in_interval(start: NaiveDate, end: NaiveDate) -> Opti
     let full_weeks = days / 7;
     let monday_index = i64::from(start.weekday().num_days_from_monday());
     let partial = (0..days % 7)
-        .filter(|offset| (monday_index + offset) % 7 < 5)
+        .filter(|offset| (monday_index + *offset) % 7 < 5)
         .count() as i64;
     Some(full_weeks * 5 + partial)
 }
@@ -46,9 +46,7 @@ mod tests {
             let business = crate::each_business_day_of_interval(start, end)
                 .unwrap()
                 .count() as i64;
-            let weekends = crate::each_weekend_of_interval(start, end)
-                .unwrap()
-                .count() as i64;
+            let weekends = crate::each_weekend_of_interval(start, end).unwrap().count() as i64;
             assert_eq!(count_business_days_in_interval(start, end), Some(business));
             assert_eq!(count_weekend_days_in_interval(start, end), Some(weekends));
             assert_eq!(business + weekends, days + 1);
@@ -60,10 +58,15 @@ mod tests {
         let friday = date(2024, 3, 1);
         assert_eq!(count_business_days_in_interval(friday, friday), Some(1));
         assert_eq!(count_weekend_days_in_interval(friday, friday), Some(0));
-        assert_eq!(count_business_days_in_interval(date(2024, 3, 2), friday), None);
-        assert_eq!(count_weekend_days_in_interval(NaiveDate::MAX, NaiveDate::MAX), Some(0)
-            .filter(|_| crate::is_weekend(NaiveDate::MAX) == false)
-            .or_else(|| Some(1)));
+        assert_eq!(
+            count_business_days_in_interval(date(2024, 3, 2), friday),
+            None
+        );
+        let expected = if crate::is_weekend(NaiveDate::MAX) { 1 } else { 0 };
+        assert_eq!(
+            count_weekend_days_in_interval(NaiveDate::MAX, NaiveDate::MAX),
+            Some(expected)
+        );
         let span = difference_in_calendar_days(NaiveDate::MAX, NaiveDate::MIN) + 1;
         let business = count_business_days_in_interval(NaiveDate::MIN, NaiveDate::MAX).unwrap();
         let weekends = count_weekend_days_in_interval(NaiveDate::MIN, NaiveDate::MAX).unwrap();

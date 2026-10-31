@@ -35,7 +35,11 @@ fn week_and_year(
 
     let (week_year, week_start) = if day < current_start {
         let previous_year = year.checked_sub(1)?;
-        let previous_days = if is_leap_year(previous_year) { 366 } else { 365 };
+        let previous_days = if is_leap_year(previous_year) {
+            366
+        } else {
+            365
+        };
         let previous_jan1 = jan1_day - previous_days;
         let previous_weekday = (jan1_weekday - previous_days).rem_euclid(7);
         (

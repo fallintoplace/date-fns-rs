@@ -69,8 +69,14 @@ mod tests {
     #[test]
     fn rejects_invalid_week_dates_and_noncanonical_spelling() {
         for input in [
-            "2021W531", "2024W001", "2024W018", "2024W010",
-            "2024w011", "2024-W01-1", "2024W01", "2024W011 ",
+            "2021W531",
+            "2024W001",
+            "2024W018",
+            "2024W010",
+            "2024w011",
+            "2024-W01-1",
+            "2024W01",
+            "2024W011 ",
         ] {
             assert_eq!(parse_iso_basic_week_date(input), None, "{input}");
         }

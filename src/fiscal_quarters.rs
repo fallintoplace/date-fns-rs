@@ -75,7 +75,10 @@ mod tests {
         let december = date(2024, 12, 31);
         assert_eq!(get_fiscal_quarter(december, 1), Some(4));
         assert_eq!(get_fiscal_quarter(december, 4), Some(3));
-        assert_eq!(start_of_fiscal_quarter(december, 4), Some(date(2024, 10, 1)));
+        assert_eq!(
+            start_of_fiscal_quarter(december, 4),
+            Some(date(2024, 10, 1))
+        );
         assert_eq!(end_of_fiscal_quarter(december, 4), Some(date(2024, 12, 31)));
     }
 
@@ -89,6 +92,9 @@ mod tests {
             start_of_fiscal_quarter(NaiveDate::MIN, 1),
             Some(NaiveDate::MIN)
         );
-        assert_eq!(end_of_fiscal_quarter(NaiveDate::MAX, 1), Some(NaiveDate::MAX));
+        assert_eq!(
+            end_of_fiscal_quarter(NaiveDate::MAX, 1),
+            Some(NaiveDate::MAX)
+        );
     }
 }

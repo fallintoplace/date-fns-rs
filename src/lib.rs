@@ -135,6 +135,9 @@ pub use week_of_month::get_week_of_month;
 mod calendar_week_metadata;
 pub use calendar_week_metadata::{get_week, get_week_year};
 
+mod calendar_week_year_bounds;
+pub use calendar_week_year_bounds::{end_of_week_year, get_weeks_in_week_year, start_of_week_year};
+
 mod full_week_difference;
 pub use full_week_difference::difference_in_weeks;
 

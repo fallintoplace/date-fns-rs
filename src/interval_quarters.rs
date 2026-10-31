@@ -101,8 +101,7 @@ mod tests {
     }
     #[test]
     fn skips_quarter_starts_and_tracks_exact_size() {
-        let mut quarters =
-            each_quarter_of_interval(date(2023, 12, 31), date(2024, 7, 1)).unwrap();
+        let mut quarters = each_quarter_of_interval(date(2023, 12, 31), date(2024, 7, 1)).unwrap();
         assert_eq!(quarters.len(), 4);
         assert_eq!(quarters.nth(2), Some(date(2024, 4, 1)));
         assert_eq!(quarters.len(), 1);

@@ -55,16 +55,17 @@ mod tests {
         let mon = date(2024, 3, 4);
         assert_eq!(count_weekday_occurrences(mon, mon, Weekday::Tue), Some(0));
         assert_eq!(count_weekday_occurrences(mon, mon, Weekday::Mon), Some(1));
-        assert_eq!(count_weekday_occurrences(date(2024, 3, 5), mon, Weekday::Mon), None);
         assert_eq!(
-            count_weekday_occurrences(
-                NaiveDate::MIN,
-                NaiveDate::MIN,
-                NaiveDate::MIN.weekday()
-            ),
+            count_weekday_occurrences(date(2024, 3, 5), mon, Weekday::Mon),
+            None
+        );
+        assert_eq!(
+            count_weekday_occurrences(NaiveDate::MIN, NaiveDate::MIN, NaiveDate::MIN.weekday()),
             Some(1)
         );
-        assert!(count_weekday_occurrences(NaiveDate::MIN, NaiveDate::MAX, Weekday::Fri)
-            .unwrap() > 1_000_000);
+        assert!(
+            count_weekday_occurrences(NaiveDate::MIN, NaiveDate::MAX, Weekday::Fri).unwrap()
+                > 1_000_000
+        );
     }
 }

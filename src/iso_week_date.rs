@@ -58,9 +58,15 @@ mod tests {
 
     #[test]
     fn handles_iso_week_year_boundaries_and_week_53() {
-        assert_eq!(format_iso_week_date(date(2021, 1, 1)).as_deref(), Some("2020-W53-5"));
+        assert_eq!(
+            format_iso_week_date(date(2021, 1, 1)).as_deref(),
+            Some("2020-W53-5")
+        );
         assert_eq!(parse_iso_week_date("2020-W53-5"), Some(date(2021, 1, 1)));
-        assert_eq!(format_iso_week_date(date(2018, 12, 31)).as_deref(), Some("2019-W01-1"));
+        assert_eq!(
+            format_iso_week_date(date(2018, 12, 31)).as_deref(),
+            Some("2019-W01-1")
+        );
         assert_eq!(parse_iso_week_date("2020-W53-7"), Some(date(2021, 1, 3)));
     }
 

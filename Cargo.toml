@@ -1,0 +1,13 @@
+[package]
+name = "date-fns-rs"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.75"
+description = "Date-only calendar helpers inspired by date-fns"
+repository = "https://github.com/fallintoplace/date-fns-rs"
+readme = "README.md"
+keywords = ["date", "calendar", "date-fns"]
+categories = ["date-and-time"]
+
+[dependencies]
+chrono = { version = "0.4", default-features = false, features = ["std"] }

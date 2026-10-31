@@ -110,8 +110,7 @@ mod tests {
     #[test]
     fn reports_exact_occurrences_and_skips_in_one_step() {
         let mut dates =
-            each_weekday_of_interval(date(2024, 2, 27), date(2024, 3, 12), Weekday::Tue)
-                .unwrap();
+            each_weekday_of_interval(date(2024, 2, 27), date(2024, 3, 12), Weekday::Tue).unwrap();
         assert_eq!(dates.len(), 3);
         assert_eq!(dates.nth(1), Some(date(2024, 3, 5)));
         assert_eq!(dates.len(), 1);

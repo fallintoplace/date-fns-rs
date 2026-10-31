@@ -100,6 +100,7 @@ mod closest_date;
 pub use closest_date::{closest_date_index_to, closest_date_to};
 
 mod interval_ops;
+pub use interval_ops::is_interval_within_interval;
 pub use interval_ops::{clamp_to_interval, intersection_of_intervals, interval_length_in_days};
 
 mod interval_subtract;

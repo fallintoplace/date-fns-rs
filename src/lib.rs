@@ -31,4 +31,6 @@ mod compare;
 pub use compare::{is_after, is_before, is_same_day, is_same_month, is_same_year, is_weekend};
 
 mod interval;
-pub use interval::{are_intervals_overlapping, each_day_of_interval, is_within_interval, DaysInInterval};
+pub use interval::{
+    are_intervals_overlapping, each_day_of_interval, is_within_interval, DaysInInterval,
+};

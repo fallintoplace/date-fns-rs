@@ -89,7 +89,10 @@ mod tests {
         let second = date(2024, 1, 2);
         assert!(each_day_of_interval(second, first).is_none());
         assert_eq!(is_within_interval(first, second, first), None);
-        assert_eq!(are_intervals_overlapping(second, first, first, second), None);
+        assert_eq!(
+            are_intervals_overlapping(second, first, first, second),
+            None
+        );
     }
 
     #[test]

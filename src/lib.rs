@@ -72,6 +72,7 @@ mod quarters;
 pub use quarters::{end_of_quarter, get_quarter, start_of_quarter};
 
 mod fiscal_quarters;
+pub use fiscal_quarters::difference_in_calendar_fiscal_quarters;
 pub use fiscal_quarters::{end_of_fiscal_quarter, get_fiscal_quarter, start_of_fiscal_quarter};
 
 mod calendar_predicates;

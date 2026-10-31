@@ -109,6 +109,9 @@ pub use nth_weekday::nth_weekday_of_month;
 mod week_of_month;
 pub use week_of_month::get_week_of_month;
 
+mod calendar_week_metadata;
+pub use calendar_week_metadata::{get_week, get_week_year};
+
 mod full_week_difference;
 pub use full_week_difference::difference_in_weeks;
 

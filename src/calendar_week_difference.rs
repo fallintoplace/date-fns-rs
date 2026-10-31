@@ -34,10 +34,22 @@ mod tests {
     fn counts_monday_and_sunday_boundaries_differently() {
         let sunday = date(2024, 1, 7);
         let monday = date(2024, 1, 8);
-        assert_eq!(difference_in_calendar_weeks(monday, sunday, Weekday::Mon), 1);
-        assert_eq!(difference_in_calendar_weeks(monday, sunday, Weekday::Sun), 0);
-        assert_eq!(difference_in_calendar_weeks(sunday, monday, Weekday::Mon), -1);
-        assert_eq!(difference_in_calendar_weeks(sunday, sunday, Weekday::Mon), 0);
+        assert_eq!(
+            difference_in_calendar_weeks(monday, sunday, Weekday::Mon),
+            1
+        );
+        assert_eq!(
+            difference_in_calendar_weeks(monday, sunday, Weekday::Sun),
+            0
+        );
+        assert_eq!(
+            difference_in_calendar_weeks(sunday, monday, Weekday::Mon),
+            -1
+        );
+        assert_eq!(
+            difference_in_calendar_weeks(sunday, sunday, Weekday::Mon),
+            0
+        );
     }
 
     #[test]

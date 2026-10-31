@@ -78,3 +78,6 @@ pub use interval_business_days::{each_business_day_of_interval, BusinessDaysInIn
 
 mod week_of_month;
 pub use week_of_month::get_week_of_month;
+
+mod full_week_difference;
+pub use full_week_difference::difference_in_weeks;

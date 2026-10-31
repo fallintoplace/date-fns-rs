@@ -56,10 +56,7 @@ mod tests {
             subtract_intervals(date(1), date(10), date(9), date(20)),
             Some(vec![(date(1), date(8))])
         );
-        assert_eq!(
-            subtract_intervals(date(1), date(10), date(1), date(10)),
-            Some(vec![])
-        );
+        assert_eq!(subtract_intervals(date(1), date(10), date(1), date(10)), Some(vec![]));
         assert_eq!(
             subtract_intervals(date(1), date(10), date(11), date(12)),
             Some(vec![(date(1), date(10))])

@@ -91,6 +91,9 @@ pub use full_quarter_difference::difference_in_quarters;
 mod full_year_difference;
 pub use full_year_difference::difference_in_years;
 
+mod set_day_of_month;
+pub use set_day_of_month::set_day_of_month;
+
 mod set_month;
 pub use set_month::set_month;
 

@@ -16,6 +16,23 @@ pub struct MonthsInInterval {
 impl Iterator for MonthsInInterval {
     type Item = NaiveDate;
 
+    fn size_hint(&self) -> (usize, Option<usize>) {
+        let remaining = self.next.map_or(0, |next| {
+            (crate::difference::difference_in_calendar_months(self.end, next) + 1) as usize
+        });
+        (remaining, Some(remaining))
+    }
+
+    fn nth(&mut self, n: usize) -> Option<Self::Item> {
+        if n >= self.len() {
+            self.next = None;
+            return None;
+        }
+
+        self.next = self.next?.checked_add_months(Months::new(n as u32));
+        self.next()
+    }
+
     fn next(&mut self) -> Option<Self::Item> {
         let current = self.next?;
         self.next = current
@@ -24,6 +41,8 @@ impl Iterator for MonthsInInterval {
         Some(current)
     }
 }
+
+impl ExactSizeIterator for MonthsInInterval {}
 
 impl FusedIterator for MonthsInInterval {}
 
@@ -70,5 +89,22 @@ mod tests {
         assert_eq!(months.next(), Some(start_of_month(NaiveDate::MAX)));
         assert_eq!(months.next(), None);
         assert_eq!(months.next(), None);
+    }
+    #[test]
+    fn skips_month_starts_and_tracks_exact_remaining_count() {
+        let mut months =
+            each_month_of_interval(date(2023, 12, 31), date(2024, 4, 2)).unwrap();
+        assert_eq!(months.len(), 5);
+        assert_eq!(months.nth(2), Some(date(2024, 2, 1)));
+        assert_eq!(months.len(), 2);
+        assert_eq!(months.next(), Some(date(2024, 3, 1)));
+        assert_eq!(months.len(), 1);
+    }
+
+    #[test]
+    fn exhausts_impossible_skips_at_date_limits() {
+        let mut months = each_month_of_interval(NaiveDate::MIN, NaiveDate::MAX).unwrap();
+        assert_eq!(months.nth(usize::MAX), None);
+        assert_eq!(months.size_hint(), (0, Some(0)));
     }
 }

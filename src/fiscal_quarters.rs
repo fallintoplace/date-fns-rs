@@ -133,7 +133,10 @@ mod tests {
         let a = date(2024, 6, 15);
         let b = date(2023, 12, 31);
         let count = difference_in_calendar_fiscal_quarters(a, b, 4).unwrap();
-        assert_eq!(difference_in_calendar_fiscal_quarters(b, a, 4), Some(-count));
+        assert_eq!(
+            difference_in_calendar_fiscal_quarters(b, a, 4),
+            Some(-count)
+        );
         assert_eq!(difference_in_calendar_fiscal_quarters(a, b, 0), None);
         assert_eq!(difference_in_calendar_fiscal_quarters(a, b, 13), None);
     }

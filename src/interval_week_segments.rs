@@ -57,13 +57,10 @@ mod tests {
 
     #[test]
     fn splits_monday_first_weeks_without_losing_dates() {
-        let segments = each_week_segment_of_interval(
-            date(2024, 3, 1),
-            date(2024, 3, 12),
-            Weekday::Mon,
-        )
-        .unwrap()
-        .collect::<Vec<_>>();
+        let segments =
+            each_week_segment_of_interval(date(2024, 3, 1), date(2024, 3, 12), Weekday::Mon)
+                .unwrap()
+                .collect::<Vec<_>>();
         assert_eq!(
             segments,
             vec![
@@ -76,13 +73,10 @@ mod tests {
 
     #[test]
     fn supports_sunday_first_weeks() {
-        let segments = each_week_segment_of_interval(
-            date(2024, 3, 1),
-            date(2024, 3, 12),
-            Weekday::Sun,
-        )
-        .unwrap()
-        .collect::<Vec<_>>();
+        let segments =
+            each_week_segment_of_interval(date(2024, 3, 1), date(2024, 3, 12), Weekday::Sun)
+                .unwrap()
+                .collect::<Vec<_>>();
         assert_eq!(
             segments,
             vec![
@@ -97,12 +91,9 @@ mod tests {
     fn handles_reverse_order_and_chrono_limits() {
         let day = date(2024, 3, 1);
         assert!(each_week_segment_of_interval(day, date(2024, 2, 29), Weekday::Mon).is_none());
-        let mut last = each_week_segment_of_interval(
-            NaiveDate::MAX,
-            NaiveDate::MAX,
-            NaiveDate::MAX.weekday(),
-        )
-        .unwrap();
+        let mut last =
+            each_week_segment_of_interval(NaiveDate::MAX, NaiveDate::MAX, NaiveDate::MAX.weekday())
+                .unwrap();
         assert_eq!(last.next(), Some((NaiveDate::MAX, NaiveDate::MAX)));
         assert_eq!(last.next(), None);
         assert_eq!(last.next(), None);

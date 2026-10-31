@@ -30,6 +30,9 @@ pub use weeks::{end_of_iso_week, end_of_week, start_of_iso_week, start_of_week};
 mod compare;
 pub use compare::{is_after, is_before, is_same_day, is_same_month, is_same_year, is_weekend};
 
+mod weekday_navigation;
+pub use weekday_navigation::{next_day, previous_day};
+
 mod interval;
 pub use interval::{
     are_intervals_overlapping, each_day_of_interval, is_within_interval, DaysInInterval,

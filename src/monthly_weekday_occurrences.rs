@@ -24,12 +24,9 @@ impl Iterator for MonthlyWeekdayOccurrences {
     fn next(&mut self) -> Option<Self::Item> {
         while let Some(month) = self.next_month {
             self.next_month = add_months(month, 1).filter(|next| *next <= self.end);
-            if let Some(candidate) = nth_weekday_of_month(
-                month.year(),
-                month.month(),
-                self.weekday,
-                self.occurrence,
-            ) {
+            if let Some(candidate) =
+                nth_weekday_of_month(month.year(), month.month(), self.weekday, self.occurrence)
+            {
                 if candidate >= self.start && candidate <= self.end {
                     return Some(candidate);
                 }
@@ -106,8 +103,9 @@ mod tests {
         let day = date(2024, 3, 1);
         assert!(each_nth_weekday_of_month_in_interval(day, day, Weekday::Fri, 0).is_none());
         assert!(each_nth_weekday_of_month_in_interval(day, day, Weekday::Fri, 6).is_none());
-        assert!(each_nth_weekday_of_month_in_interval(day, date(2024, 2, 1), Weekday::Fri, 1)
-            .is_none());
+        assert!(
+            each_nth_weekday_of_month_in_interval(day, date(2024, 2, 1), Weekday::Fri, 1).is_none()
+        );
         let mut items = each_nth_weekday_of_month_in_interval(
             NaiveDate::MAX,
             NaiveDate::MAX,

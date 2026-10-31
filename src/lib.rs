@@ -69,6 +69,8 @@ mod calendar_quarter_difference;
 pub use calendar_quarter_difference::difference_in_calendar_quarters;
 
 mod quarters;
+pub use quarters::get_day_of_quarter;
+pub use quarters::get_days_in_quarter;
 pub use quarters::{end_of_quarter, get_quarter, start_of_quarter};
 
 mod fiscal_quarters;

@@ -22,26 +22,14 @@ mod tests {
 
     #[test]
     fn leap_day_anniversaries_are_clamped() {
-        assert_eq!(
-            difference_in_years(date(2021, 2, 28), date(2020, 2, 29)),
-            1
-        );
-        assert_eq!(
-            difference_in_years(date(2021, 2, 27), date(2020, 2, 29)),
-            0
-        );
-        assert_eq!(
-            difference_in_years(date(2024, 2, 29), date(2020, 2, 29)),
-            4
-        );
+        assert_eq!(difference_in_years(date(2021, 2, 28), date(2020, 2, 29)), 1);
+        assert_eq!(difference_in_years(date(2021, 2, 27), date(2020, 2, 29)), 0);
+        assert_eq!(difference_in_years(date(2024, 2, 29), date(2020, 2, 29)), 4);
     }
 
     #[test]
     fn ignores_partial_years_and_keeps_signs() {
-        assert_eq!(
-            difference_in_years(date(2025, 1, 1), date(2024, 12, 31)),
-            0
-        );
+        assert_eq!(difference_in_years(date(2025, 1, 1), date(2024, 12, 31)), 0);
         assert_eq!(
             difference_in_years(date(2020, 2, 29), date(2021, 2, 28)),
             -1

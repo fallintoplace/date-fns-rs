@@ -45,9 +45,15 @@ mod tests {
     #[test]
     fn supports_monday_and_sunday_first_calendars() {
         let wednesday = date(2024, 1, 3);
-        assert_eq!(start_of_week(wednesday, Weekday::Mon), Some(date(2024, 1, 1)));
+        assert_eq!(
+            start_of_week(wednesday, Weekday::Mon),
+            Some(date(2024, 1, 1))
+        );
         assert_eq!(end_of_week(wednesday, Weekday::Mon), Some(date(2024, 1, 7)));
-        assert_eq!(start_of_week(wednesday, Weekday::Sun), Some(date(2023, 12, 31)));
+        assert_eq!(
+            start_of_week(wednesday, Weekday::Sun),
+            Some(date(2023, 12, 31))
+        );
         assert_eq!(end_of_week(wednesday, Weekday::Sun), Some(date(2024, 1, 6)));
     }
 

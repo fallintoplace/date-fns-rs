@@ -93,3 +93,6 @@ pub use full_year_difference::difference_in_years;
 
 mod set_month;
 pub use set_month::set_month;
+
+mod set_year;
+pub use set_year::set_year;

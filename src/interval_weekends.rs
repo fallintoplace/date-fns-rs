@@ -90,8 +90,7 @@ mod tests {
 
     #[test]
     fn is_fused_at_maximum_date() {
-        let mut days = each_weekend_of_interval(NaiveDate::MAX, NaiveDate::MAX)
-            .unwrap();
+        let mut days = each_weekend_of_interval(NaiveDate::MAX, NaiveDate::MAX).unwrap();
         let expected = match NaiveDate::MAX.weekday() {
             Weekday::Sat | Weekday::Sun => Some(NaiveDate::MAX),
             _ => None,

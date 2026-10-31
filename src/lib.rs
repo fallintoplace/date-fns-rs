@@ -44,6 +44,9 @@ pub use metadata::{get_day_of_year, get_days_in_month, get_days_in_year};
 mod quarters;
 pub use quarters::{end_of_quarter, get_quarter, start_of_quarter};
 
+mod calendar_predicates;
+pub use calendar_predicates::{is_first_day_of_month, is_last_day_of_month, is_leap_day, is_same_quarter};
+
 mod quarter_arithmetic;
 pub use quarter_arithmetic::{add_quarters, sub_quarters};
 

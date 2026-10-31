@@ -2,7 +2,7 @@
 
 use std::iter::FusedIterator;
 
-use chrono::NaiveDate;
+use chrono::{Datelike, NaiveDate};
 
 /// A lazy iterator over each calendar day in an inclusive interval.
 #[derive(Clone, Debug)]
@@ -14,6 +14,14 @@ pub struct DaysInInterval {
 impl Iterator for DaysInInterval {
     type Item = NaiveDate;
 
+    fn size_hint(&self) -> (usize, Option<usize>) {
+        let remaining = self.next.map_or(0, |next| {
+            (i64::from(self.end.num_days_from_ce()) - i64::from(next.num_days_from_ce()) + 1)
+                as usize
+        });
+        (remaining, Some(remaining))
+    }
+
     fn next(&mut self) -> Option<Self::Item> {
         let current = self.next?;
         self.next = if current < self.end {
@@ -24,6 +32,21 @@ impl Iterator for DaysInInterval {
         Some(current)
     }
 }
+
+impl DoubleEndedIterator for DaysInInterval {
+    fn next_back(&mut self) -> Option<Self::Item> {
+        let front = self.next?;
+        let back = self.end;
+        if front == back {
+            self.next = None;
+        } else {
+            self.end = back.pred_opt()?;
+        }
+        Some(back)
+    }
+}
+
+impl ExactSizeIterator for DaysInInterval {}
 
 impl FusedIterator for DaysInInterval {}
 
@@ -81,6 +104,36 @@ mod tests {
         assert_eq!(days.next(), Some(NaiveDate::MAX));
         assert_eq!(days.next(), None);
         assert_eq!(days.next(), None);
+    }
+
+    #[test]
+    fn supports_interleaved_forward_and_backward_iteration() {
+        let mut days = each_day_of_interval(date(2024, 1, 1), date(2024, 1, 5)).unwrap();
+        assert_eq!(days.len(), 5);
+        assert_eq!(days.size_hint(), (5, Some(5)));
+        assert_eq!(days.next_back(), Some(date(2024, 1, 5)));
+        assert_eq!(days.next(), Some(date(2024, 1, 1)));
+        assert_eq!(days.len(), 3);
+        assert_eq!(days.next_back(), Some(date(2024, 1, 4)));
+        assert_eq!(days.next_back(), Some(date(2024, 1, 3)));
+        assert_eq!(days.next(), Some(date(2024, 1, 2)));
+        assert_eq!(days.len(), 0);
+        assert_eq!(days.next_back(), None);
+        assert_eq!(days.next(), None);
+    }
+
+    #[test]
+    fn handles_backwards_iteration_at_supported_limits() {
+        let previous = NaiveDate::MAX.pred_opt().unwrap();
+        let mut days = each_day_of_interval(previous, NaiveDate::MAX).unwrap();
+        assert_eq!(days.next_back(), Some(NaiveDate::MAX));
+        assert_eq!(days.next_back(), Some(previous));
+        assert_eq!(days.next_back(), None);
+        assert_eq!(days.size_hint(), (0, Some(0)));
+
+        let mut single = each_day_of_interval(NaiveDate::MIN, NaiveDate::MIN).unwrap();
+        assert_eq!(single.next_back(), Some(NaiveDate::MIN));
+        assert_eq!(single.next(), None);
     }
 
     #[test]

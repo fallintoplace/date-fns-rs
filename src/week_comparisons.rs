@@ -14,8 +14,7 @@ fn week_start_day_number(date: NaiveDate, week_starts_on: Weekday) -> i64 {
 /// The start day is explicit. Unlike calculating week-boundary dates,
 /// comparison remains valid even at the supported calendar extremes.
 pub fn is_same_week(left: NaiveDate, right: NaiveDate, week_starts_on: Weekday) -> bool {
-    week_start_day_number(left, week_starts_on)
-        == week_start_day_number(right, week_starts_on)
+    week_start_day_number(left, week_starts_on) == week_start_day_number(right, week_starts_on)
 }
 
 /// Check whether two dates belong to the same Monday-first ISO week.
@@ -55,10 +54,6 @@ mod tests {
     fn handles_date_limits_without_boundary_overflow() {
         assert!(is_same_iso_week(NaiveDate::MIN, NaiveDate::MIN));
         assert!(is_same_iso_week(NaiveDate::MAX, NaiveDate::MAX));
-        assert!(!is_same_week(
-            NaiveDate::MIN,
-            NaiveDate::MAX,
-            Weekday::Mon
-        ));
+        assert!(!is_same_week(NaiveDate::MIN, NaiveDate::MAX, Weekday::Mon));
     }
 }

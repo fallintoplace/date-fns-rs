@@ -44,6 +44,9 @@ pub use metadata::{get_day_of_year, get_days_in_month, get_days_in_year};
 mod quarters;
 pub use quarters::{end_of_quarter, get_quarter, start_of_quarter};
 
+mod fiscal_quarters;
+pub use fiscal_quarters::{get_fiscal_quarter, start_of_fiscal_quarter, end_of_fiscal_quarter};
+
 mod quarter_arithmetic;
 pub use quarter_arithmetic::{add_quarters, sub_quarters};
 

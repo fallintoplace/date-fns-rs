@@ -95,5 +95,4 @@ mod tests {
             Some(date(2024, 1, 31))
         );
     }
-
 }

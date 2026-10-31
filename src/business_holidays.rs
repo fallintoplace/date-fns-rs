@@ -117,9 +117,6 @@ mod tests {
             add_business_days_with_holidays(NaiveDate::MAX, 1, &[]),
             None
         );
-        assert_eq!(
-            sub_business_days_with_holidays(friday, i64::MIN, &[]),
-            None
-        );
+        assert_eq!(sub_business_days_with_holidays(friday, i64::MIN, &[]), None);
     }
 }

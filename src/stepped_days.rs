@@ -55,7 +55,10 @@ mod tests {
         let days = each_nth_day_of_interval(date(2024, 2, 27), date(2024, 3, 2), 2)
             .unwrap()
             .collect::<Vec<_>>();
-        assert_eq!(days, vec![date(2024, 2, 27), date(2024, 2, 29), date(2024, 3, 2)]);
+        assert_eq!(
+            days,
+            vec![date(2024, 2, 27), date(2024, 2, 29), date(2024, 3, 2)]
+        );
     }
 
     #[test]
@@ -74,8 +77,7 @@ mod tests {
 
     #[test]
     fn stops_without_overflow_and_is_fused() {
-        let mut iter = each_nth_day_of_interval(NaiveDate::MAX, NaiveDate::MAX, 1)
-            .unwrap();
+        let mut iter = each_nth_day_of_interval(NaiveDate::MAX, NaiveDate::MAX, 1).unwrap();
         assert_eq!(iter.next(), Some(NaiveDate::MAX));
         assert_eq!(iter.next(), None);
         assert_eq!(iter.next(), None);

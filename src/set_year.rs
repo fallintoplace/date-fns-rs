@@ -35,14 +35,23 @@ mod tests {
     #[test]
     fn preserves_other_months_and_rejects_invalid_years() {
         let date = date(2024, 12, 31);
-        assert_eq!(set_year(date, 2023), Some(NaiveDate::from_ymd_opt(2023, 12, 31).unwrap()));
+        assert_eq!(
+            set_year(date, 2023),
+            Some(NaiveDate::from_ymd_opt(2023, 12, 31).unwrap())
+        );
         assert_eq!(set_year(date, i32::MAX), None);
         assert_eq!(set_year(date, i32::MIN), None);
     }
 
     #[test]
     fn identity_works_at_date_limits() {
-        assert_eq!(set_year(NaiveDate::MIN, NaiveDate::MIN.year()), Some(NaiveDate::MIN));
-        assert_eq!(set_year(NaiveDate::MAX, NaiveDate::MAX.year()), Some(NaiveDate::MAX));
+        assert_eq!(
+            set_year(NaiveDate::MIN, NaiveDate::MIN.year()),
+            Some(NaiveDate::MIN)
+        );
+        assert_eq!(
+            set_year(NaiveDate::MAX, NaiveDate::MAX.year()),
+            Some(NaiveDate::MAX)
+        );
     }
 }

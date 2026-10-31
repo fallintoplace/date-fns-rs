@@ -158,3 +158,6 @@ pub use set_year::set_year;
 
 mod set_day_of_year;
 pub use set_day_of_year::set_day_of_year;
+
+mod interval_day_counts;
+pub use interval_day_counts::{count_business_days_in_interval, count_weekend_days_in_interval};

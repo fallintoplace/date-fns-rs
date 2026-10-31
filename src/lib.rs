@@ -158,3 +158,6 @@ pub use set_year::set_year;
 
 mod set_day_of_year;
 pub use set_day_of_year::set_day_of_year;
+
+mod monthly_weekday_occurrences;
+pub use monthly_weekday_occurrences::{each_nth_weekday_of_month_in_interval, MonthlyWeekdayOccurrences};

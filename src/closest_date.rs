@@ -40,8 +40,14 @@ mod tests {
         let target = date(2024, 1, 10);
         assert_eq!(closest_date_index_to(target, &candidates), Some(0));
         assert_eq!(closest_date_to(target, &candidates), Some(candidates[0]));
-        assert_eq!(closest_date_index_to(date(2024, 1, 19), &candidates), Some(2));
-        assert_eq!(closest_date_to(candidates[1], &candidates), Some(candidates[1]));
+        assert_eq!(
+            closest_date_index_to(date(2024, 1, 19), &candidates),
+            Some(2)
+        );
+        assert_eq!(
+            closest_date_to(candidates[1], &candidates),
+            Some(candidates[1])
+        );
     }
 
     #[test]
@@ -50,6 +56,9 @@ mod tests {
         assert_eq!(closest_date_to(date(2024, 1, 1), &[]), None);
         let candidates = [NaiveDate::MAX, NaiveDate::MIN];
         assert_eq!(closest_date_index_to(NaiveDate::MIN, &candidates), Some(1));
-        assert_eq!(closest_date_to(NaiveDate::MAX, &candidates), Some(NaiveDate::MAX));
+        assert_eq!(
+            closest_date_to(NaiveDate::MAX, &candidates),
+            Some(NaiveDate::MAX)
+        );
     }
 }

@@ -23,6 +23,8 @@ mod boundaries;
 pub use boundaries::{end_of_month, end_of_year, is_leap_year, start_of_month, start_of_year};
 
 mod decades;
+pub use decades::add_decades;
+pub use decades::sub_decades;
 pub use decades::{end_of_decade, start_of_decade};
 
 mod difference;

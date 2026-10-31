@@ -73,6 +73,9 @@ pub use interval_years::{each_year_of_interval, YearsInInterval};
 mod interval_quarters;
 pub use interval_quarters::{each_quarter_of_interval, QuartersInInterval};
 
+mod interval_weekdays;
+pub use interval_weekdays::{each_weekday_of_interval, WeekdaysInInterval};
+
 mod interval_business_days;
 pub use interval_business_days::{each_business_day_of_interval, BusinessDaysInInterval};
 

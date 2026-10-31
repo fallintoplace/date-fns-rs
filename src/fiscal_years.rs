@@ -83,10 +83,7 @@ mod tests {
             start_of_fiscal_year(NaiveDate::MIN, 1),
             Some(NaiveDate::MIN)
         );
-        assert_eq!(
-            end_of_fiscal_year(NaiveDate::MAX, 1),
-            Some(NaiveDate::MAX)
-        );
+        assert_eq!(end_of_fiscal_year(NaiveDate::MAX, 1), Some(NaiveDate::MAX));
         assert_eq!(end_of_fiscal_year(NaiveDate::MAX, 2), None);
     }
 }

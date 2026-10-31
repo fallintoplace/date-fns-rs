@@ -109,7 +109,10 @@ mod tests {
     fn supports_sunday_first_week_conventions() {
         let friday = date(2021, 1, 1);
         assert_eq!(set_week(friday, 2, Weekday::Sun, 1), Some(date(2021, 1, 8)));
-        assert_eq!(set_week_year(friday, 2020, Weekday::Sun, 1), Some(date(2020, 1, 3)));
+        assert_eq!(
+            set_week_year(friday, 2020, Weekday::Sun, 1),
+            Some(date(2020, 1, 3))
+        );
         assert_eq!(set_week(friday, 1, Weekday::Sun, 0), None);
         assert_eq!(set_week_year(friday, 2022, Weekday::Sun, 8), None);
         assert_eq!(set_week_year(friday, i32::MAX, Weekday::Sun, 1), None);

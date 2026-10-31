@@ -16,6 +16,9 @@ pub use months::{add_months, sub_months};
 mod years;
 pub use years::{add_years, sub_years};
 
+mod closest;
+pub use closest::closest_to;
+
 mod boundaries;
 pub use boundaries::{end_of_month, end_of_year, is_leap_year, start_of_month, start_of_year};
 

@@ -42,7 +42,10 @@ mod tests {
         assert_eq!(parse_iso_basic_date("20240229"), Some(leap_day));
         assert_eq!(format_iso_basic_date(leap_day).as_deref(), Some("20240229"));
         assert_eq!(parse_iso_basic_date("00000101"), Some(date(0, 1, 1)));
-        assert_eq!(format_iso_basic_date(date(9999, 12, 31)).as_deref(), Some("99991231"));
+        assert_eq!(
+            format_iso_basic_date(date(9999, 12, 31)).as_deref(),
+            Some("99991231")
+        );
     }
 
     #[test]

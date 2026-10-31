@@ -68,6 +68,9 @@ pub use quarter_arithmetic::{add_quarters, sub_quarters};
 mod iso_weeks;
 pub use iso_weeks::{get_iso_week, get_iso_week_year, get_iso_weeks_in_year};
 
+mod iso_week_year_boundaries;
+pub use iso_week_year_boundaries::{end_of_iso_week_year, start_of_iso_week_year};
+
 mod business_days;
 pub use business_days::{
     add_business_days, is_business_day, next_business_day, previous_business_day, sub_business_days,

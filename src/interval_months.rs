@@ -92,8 +92,7 @@ mod tests {
     }
     #[test]
     fn skips_month_starts_and_tracks_exact_remaining_count() {
-        let mut months =
-            each_month_of_interval(date(2023, 12, 31), date(2024, 4, 2)).unwrap();
+        let mut months = each_month_of_interval(date(2023, 12, 31), date(2024, 4, 2)).unwrap();
         assert_eq!(months.len(), 5);
         assert_eq!(months.nth(2), Some(date(2024, 2, 1)));
         assert_eq!(months.len(), 2);

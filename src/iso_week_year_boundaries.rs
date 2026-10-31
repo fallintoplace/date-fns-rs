@@ -32,7 +32,10 @@ mod tests {
     #[test]
     fn handles_53_week_years_crossing_both_calendar_boundaries() {
         let new_years_day = date(2021, 1, 1);
-        assert_eq!(start_of_iso_week_year(new_years_day), Some(date(2019, 12, 30)));
+        assert_eq!(
+            start_of_iso_week_year(new_years_day),
+            Some(date(2019, 12, 30))
+        );
         assert_eq!(end_of_iso_week_year(new_years_day), Some(date(2021, 1, 3)));
     }
 
@@ -42,7 +45,13 @@ mod tests {
         assert_eq!(start_of_iso_week_year(start), Some(date(2024, 1, 1)));
         assert_eq!(end_of_iso_week_year(start), Some(date(2024, 12, 29)));
         let next_week_year = date(2018, 12, 31);
-        assert_eq!(start_of_iso_week_year(next_week_year), Some(date(2018, 12, 31)));
-        assert_eq!(end_of_iso_week_year(next_week_year), Some(date(2019, 12, 29)));
+        assert_eq!(
+            start_of_iso_week_year(next_week_year),
+            Some(date(2018, 12, 31))
+        );
+        assert_eq!(
+            end_of_iso_week_year(next_week_year),
+            Some(date(2019, 12, 29))
+        );
     }
 }

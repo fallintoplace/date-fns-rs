@@ -158,3 +158,6 @@ pub use set_year::set_year;
 
 mod set_day_of_year;
 pub use set_day_of_year::set_day_of_year;
+
+mod set_quarter;
+pub use set_quarter::{set_quarter};

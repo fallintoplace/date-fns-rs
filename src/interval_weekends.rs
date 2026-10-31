@@ -34,10 +34,7 @@ impl FusedIterator for WeekendsInInterval {}
 ///
 /// Reversed intervals return None. Intervals without weekend dates return
 /// an empty iterator. Holidays and locale-specific weekends are not included.
-pub fn each_weekend_of_interval(
-    start: NaiveDate,
-    end: NaiveDate,
-) -> Option<WeekendsInInterval> {
+pub fn each_weekend_of_interval(start: NaiveDate, end: NaiveDate) -> Option<WeekendsInInterval> {
     if start > end {
         return None;
     }
@@ -87,10 +84,7 @@ mod tests {
                 .collect::<Vec<_>>(),
             vec![saturday]
         );
-        assert_eq!(
-            each_weekend_of_interval(monday, monday).unwrap().count(),
-            0
-        );
+        assert_eq!(each_weekend_of_interval(monday, monday).unwrap().count(), 0);
         assert!(each_weekend_of_interval(monday, saturday).is_none());
     }
 

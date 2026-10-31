@@ -62,7 +62,11 @@ mod tests {
             count_business_days_in_interval(date(2024, 3, 2), friday),
             None
         );
-        let expected = if crate::is_weekend(NaiveDate::MAX) { 1 } else { 0 };
+        let expected = if crate::is_weekend(NaiveDate::MAX) {
+            1
+        } else {
+            0
+        };
         assert_eq!(
             count_weekend_days_in_interval(NaiveDate::MAX, NaiveDate::MAX),
             Some(expected)

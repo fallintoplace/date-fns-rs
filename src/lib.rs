@@ -57,3 +57,6 @@ pub use business_days::{
 
 mod business_difference;
 pub use business_difference::difference_in_business_days;
+
+mod interval_ops;
+pub use interval_ops::{clamp_to_interval, intersection_of_intervals, interval_length_in_days};

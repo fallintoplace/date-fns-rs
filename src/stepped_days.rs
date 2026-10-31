@@ -19,8 +19,7 @@ impl Iterator for SteppedDaysInInterval {
         use chrono::Datelike;
 
         let remaining = self.next.map_or(0, |next| {
-            let days = i64::from(self.end.num_days_from_ce())
-                - i64::from(next.num_days_from_ce());
+            let days = i64::from(self.end.num_days_from_ce()) - i64::from(next.num_days_from_ce());
             (days as u64 / self.step + 1) as usize
         });
         (remaining, Some(remaining))

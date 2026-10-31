@@ -114,6 +114,9 @@ pub use interval_months::{each_month_of_interval, MonthsInInterval};
 mod interval_years;
 pub use interval_years::{each_year_of_interval, YearsInInterval};
 
+mod interval_year_segments;
+pub use interval_year_segments::{each_year_segment_of_interval, YearSegmentsInInterval};
+
 mod interval_quarters;
 pub use interval_quarters::{each_quarter_of_interval, QuartersInInterval};
 

@@ -10,6 +10,9 @@ pub use chrono::{NaiveDate, Weekday};
 mod arithmetic;
 pub use arithmetic::{add_days, add_weeks, sub_days, sub_weeks};
 
+mod epoch_days;
+pub use epoch_days::{from_epoch_day, to_epoch_day};
+
 mod months;
 pub use months::{add_months, sub_months};
 

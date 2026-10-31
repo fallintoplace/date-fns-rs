@@ -63,3 +63,6 @@ pub use interval_ops::{clamp_to_interval, intersection_of_intervals, interval_le
 
 mod interval_weeks;
 pub use interval_weeks::{each_week_of_interval, WeeksInInterval};
+
+mod interval_months;
+pub use interval_months::{each_month_of_interval, MonthsInInterval};

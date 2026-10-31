@@ -43,10 +43,7 @@ mod tests {
         assert_eq!(parse_iso_ordinal_date("2024-060"), Some(date(2024, 2, 29)));
         assert_eq!(parse_iso_ordinal_date("2023-060"), Some(date(2023, 3, 1)));
         assert_eq!(parse_iso_ordinal_date("2024-366"), Some(date(2024, 12, 31)));
-        assert_eq!(
-            format_iso_ordinal_date(date(2024, 2, 29)).as_deref(),
-            Some("2024-060")
-        );
+        assert_eq!(format_iso_ordinal_date(date(2024, 2, 29)).as_deref(), Some("2024-060"));
     }
 
     #[test]

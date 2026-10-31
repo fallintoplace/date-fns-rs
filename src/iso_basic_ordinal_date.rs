@@ -55,8 +55,8 @@ mod tests {
     #[test]
     fn rejects_invalid_and_noncanonical_inputs() {
         for input in [
-            "2023366", "2024000", "2024367", "2024-060", "202406", "2024060 ",
-            "+2024060", "2024a60",
+            "2023366", "2024000", "2024367", "2024-060", "202406", "2024060 ", "+2024060",
+            "2024a60",
         ] {
             assert_eq!(parse_iso_basic_ordinal_date(input), None, "{input}");
         }

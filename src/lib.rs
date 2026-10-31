@@ -96,3 +96,6 @@ pub use set_month::set_month;
 
 mod set_year;
 pub use set_year::set_year;
+
+mod set_day_of_year;
+pub use set_day_of_year::set_day_of_year;

@@ -22,10 +22,7 @@ pub fn calendar_month_grid(
 /// Count complete week rows (four to six) in a padded monthly grid.
 ///
 /// Returns None when either padded endpoint is not representable.
-pub fn get_calendar_weeks_in_month(
-    date: NaiveDate,
-    week_starts_on: Weekday,
-) -> Option<u32> {
+pub fn get_calendar_weeks_in_month(date: NaiveDate, week_starts_on: Weekday) -> Option<u32> {
     let (start, end) = calendar_month_grid(date, week_starts_on)?;
     let days = i64::from(end.num_days_from_ce()) - i64::from(start.num_days_from_ce()) + 1;
     u32::try_from(days / 7).ok()

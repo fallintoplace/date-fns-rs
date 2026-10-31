@@ -40,3 +40,6 @@ pub use iso::{format_iso_date, parse_iso_date};
 
 mod metadata;
 pub use metadata::{get_day_of_year, get_days_in_month, get_days_in_year};
+
+mod quarters;
+pub use quarters::{end_of_quarter, get_quarter, start_of_quarter};

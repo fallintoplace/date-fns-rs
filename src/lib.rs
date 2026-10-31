@@ -18,3 +18,8 @@ pub use years::{add_years, sub_years};
 
 mod boundaries;
 pub use boundaries::{end_of_month, end_of_year, is_leap_year, start_of_month, start_of_year};
+
+mod difference;
+pub use difference::{
+    difference_in_calendar_days, difference_in_calendar_months, difference_in_calendar_years,
+};

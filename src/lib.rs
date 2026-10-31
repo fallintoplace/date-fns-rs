@@ -6,3 +6,6 @@
 #![forbid(unsafe_code)]
 
 pub use chrono::{NaiveDate, Weekday};
+
+mod arithmetic;
+pub use arithmetic::{add_days, add_weeks, sub_days, sub_weeks};

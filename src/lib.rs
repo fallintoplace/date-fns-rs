@@ -103,6 +103,9 @@ pub use interval_weekdays::{each_weekday_of_interval, WeekdaysInInterval};
 mod interval_business_days;
 pub use interval_business_days::{each_business_day_of_interval, BusinessDaysInInterval};
 
+mod nth_weekday;
+pub use nth_weekday::nth_weekday_of_month;
+
 mod week_of_month;
 pub use week_of_month::get_week_of_month;
 

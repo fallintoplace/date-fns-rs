@@ -27,6 +27,9 @@ pub use difference::{
 mod weeks;
 pub use weeks::{end_of_iso_week, end_of_week, start_of_iso_week, start_of_week};
 
+mod weekday_arithmetic;
+pub use weekday_arithmetic::{next_weekday, previous_weekday};
+
 mod compare;
 pub use compare::{is_after, is_before, is_same_day, is_same_month, is_same_year, is_weekend};
 

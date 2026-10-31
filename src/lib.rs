@@ -24,6 +24,9 @@ pub use difference::{
     difference_in_calendar_days, difference_in_calendar_months, difference_in_calendar_years,
 };
 
+mod calendar_week_difference;
+pub use calendar_week_difference::difference_in_calendar_weeks;
+
 mod weeks;
 pub use weeks::{end_of_iso_week, end_of_week, start_of_iso_week, start_of_week};
 

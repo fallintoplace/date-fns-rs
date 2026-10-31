@@ -80,7 +80,10 @@ mod tests {
         assert_eq!(set_iso_day_of_week(monday, 8), None);
         assert_eq!(set_iso_day_of_week(monday, 7), Some(date(2024, 1, 7)));
         assert_eq!(
-            set_iso_day_of_week(NaiveDate::MAX, NaiveDate::MAX.weekday().number_from_monday()),
+            set_iso_day_of_week(
+                NaiveDate::MAX,
+                NaiveDate::MAX.weekday().number_from_monday()
+            ),
             Some(NaiveDate::MAX)
         );
     }

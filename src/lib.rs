@@ -17,6 +17,7 @@ mod months;
 pub use months::{add_months, sub_months};
 
 mod years;
+pub use years::add_years_preserving_end_of_month;
 pub use years::{add_years, sub_years};
 
 mod boundaries;

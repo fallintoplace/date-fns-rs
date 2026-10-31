@@ -40,20 +40,22 @@ mod tests {
 
     #[test]
     fn parses_first_day_and_formats_month_of_any_date() {
+        assert_eq!(parse_iso_year_month("2024-02"), Some(date(2024, 2, 1)));
         assert_eq!(
-            parse_iso_year_month("2024-02"),
-            Some(date(2024, 2, 1))
+            format_iso_year_month(date(2024, 2, 29)).as_deref(),
+            Some("2024-02")
         );
-        assert_eq!(format_iso_year_month(date(2024, 2, 29)).as_deref(), Some("2024-02"));
         assert_eq!(parse_iso_year_month("0000-01"), Some(date(0, 1, 1)));
-        assert_eq!(format_iso_year_month(date(9999, 12, 31)).as_deref(), Some("9999-12"));
+        assert_eq!(
+            format_iso_year_month(date(9999, 12, 31)).as_deref(),
+            Some("9999-12")
+        );
     }
 
     #[test]
     fn rejects_invalid_or_noncanonical_months() {
         for input in [
-            "2024-00", "2024-13", "2024-2", "202402", "2024/02",
-            "2024-02 ", "+2024-02", "2024-0a",
+            "2024-00", "2024-13", "2024-2", "202402", "2024/02", "2024-02 ", "+2024-02", "2024-0a",
         ] {
             assert_eq!(parse_iso_year_month(input), None, "{input}");
         }

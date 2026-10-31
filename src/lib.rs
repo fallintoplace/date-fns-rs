@@ -22,6 +22,9 @@ pub use years::{add_years, sub_years};
 mod boundaries;
 pub use boundaries::{end_of_month, end_of_year, is_leap_year, start_of_month, start_of_year};
 
+mod calendar_month_grid;
+pub use calendar_month_grid::{calendar_month_grid, get_calendar_weeks_in_month};
+
 mod decades;
 pub use decades::{end_of_decade, start_of_decade};
 

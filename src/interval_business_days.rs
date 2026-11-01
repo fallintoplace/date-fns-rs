@@ -4,7 +4,8 @@ use std::iter::FusedIterator;
 
 use chrono::NaiveDate;
 
-use crate::business_days::{is_business_day, next_business_day};
+use crate::business_days::{add_business_days, is_business_day, next_business_day};
+use crate::interval_day_counts::count_business_days_in_interval;
 
 /// A lazy iterator over Monday-Friday dates in an inclusive interval.
 #[derive(Clone, Debug)]
@@ -16,12 +17,31 @@ pub struct BusinessDaysInInterval {
 impl Iterator for BusinessDaysInInterval {
     type Item = NaiveDate;
 
+    fn size_hint(&self) -> (usize, Option<usize>) {
+        let remaining = self.next.map_or(0, |next| {
+            count_business_days_in_interval(next, self.end).unwrap_or(0) as usize
+        });
+        (remaining, Some(remaining))
+    }
+
+    fn nth(&mut self, n: usize) -> Option<Self::Item> {
+        if n >= self.len() {
+            self.next = None;
+            return None;
+        }
+
+        self.next = add_business_days(self.next?, i64::try_from(n).ok()?);
+        self.next()
+    }
+
     fn next(&mut self) -> Option<Self::Item> {
         let current = self.next?;
         self.next = next_business_day(current).filter(|day| *day <= self.end);
         Some(current)
     }
 }
+
+impl ExactSizeIterator for BusinessDaysInInterval {}
 
 impl FusedIterator for BusinessDaysInInterval {}
 
@@ -93,4 +113,27 @@ mod tests {
         assert_eq!(days.next(), None);
         assert_eq!(days.next(), None);
     }
+    #[test]
+    fn counts_and_skips_business_days_without_traversal() {
+        let mut days =
+            each_business_day_of_interval(date(2024, 3, 1), date(2024, 3, 11)).unwrap();
+        assert_eq!(days.len(), 7);
+        assert_eq!(days.nth(2), Some(date(2024, 3, 5)));
+        assert_eq!(days.len(), 4);
+        assert_eq!(days.nth(2), Some(date(2024, 3, 8)));
+        assert_eq!(days.len(), 1);
+        assert_eq!(days.next(), Some(date(2024, 3, 11)));
+        assert_eq!(days.len(), 0);
+
+        let mut weekend =
+            each_business_day_of_interval(date(2024, 3, 2), date(2024, 3, 3)).unwrap();
+        assert_eq!(weekend.len(), 0);
+        assert_eq!(weekend.nth(0), None);
+
+        let mut extreme =
+            each_business_day_of_interval(NaiveDate::MIN, NaiveDate::MAX).unwrap();
+        assert_eq!(extreme.nth(usize::MAX), None);
+        assert_eq!(extreme.next(), None);
+    }
+
 }

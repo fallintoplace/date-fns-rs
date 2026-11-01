@@ -179,6 +179,9 @@ pub use quarters::{end_of_quarter, get_quarter, start_of_quarter};
 mod datetime_epoch_micros;
 pub use datetime_epoch_micros::{from_unix_timestamp_micros, to_unix_timestamp_micros};
 
+mod datetime_epoch_nanos;
+pub use datetime_epoch_nanos::{from_unix_timestamp_nanos, to_unix_timestamp_nanos};
+
 mod datetime_epoch;
 pub use datetime_epoch::{
     from_unix_timestamp_millis, from_unix_timestamp_seconds, to_unix_timestamp_millis,

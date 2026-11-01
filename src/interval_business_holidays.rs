@@ -83,13 +83,10 @@ mod tests {
     #[test]
     fn excludes_weekends_duplicate_holidays_and_consecutive_dates() {
         let holidays = [date(4), date(6), date(2), date(4)];
-        let days: Vec<_> = each_business_day_of_interval_excluding_holidays(
-            date(1),
-            date(8),
-            &holidays,
-        )
-        .unwrap()
-        .collect();
+        let days: Vec<_> =
+            each_business_day_of_interval_excluding_holidays(date(1), date(8), &holidays)
+                .unwrap()
+                .collect();
         assert_eq!(days, vec![date(1), date(5), date(7), date(8)]);
     }
 

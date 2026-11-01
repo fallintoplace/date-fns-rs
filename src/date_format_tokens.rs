@@ -37,6 +37,12 @@ pub fn format_date_tokens(date: NaiveDate, pattern: &str) -> Option<String> {
     let mut i = 0;
     let bytes = pattern.as_bytes();
     while i < bytes.len() {
+        // Two consecutive quotes outside a literal represent one apostrophe.
+        if bytes[i] == b'\'' && bytes.get(i + 1) == Some(&b'\'') {
+            result.push('\'');
+            i += 2;
+            continue;
+        }
         if bytes[i] == b'\'' {
             i += 1;
             let mut closed = false;
@@ -125,6 +131,20 @@ mod tests {
         assert_eq!(
             format_date_tokens(day, "M/d/yy").as_deref(),
             Some("2/29/24")
+        );
+    }
+
+    #[test]
+    fn doubled_quote_formats_a_literal_apostrophe() {
+        let date = NaiveDate::from_ymd_opt(2024, 2, 29).unwrap();
+        assert_eq!(
+            format_date_tokens(date, "yyyy''MM''dd").as_deref(),
+            Some("2024'02'29")
+        );
+        assert_eq!(format_date_tokens(date, "''").as_deref(), Some("'"));
+        assert_eq!(
+            format_date_tokens(date, "'it''s'").as_deref(),
+            Some("it's")
         );
     }
 

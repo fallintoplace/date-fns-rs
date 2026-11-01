@@ -15,6 +15,28 @@ pub struct SteppedDaysInInterval {
 impl Iterator for SteppedDaysInInterval {
     type Item = NaiveDate;
 
+    fn size_hint(&self) -> (usize, Option<usize>) {
+        use chrono::Datelike;
+
+        let remaining = self.next.map_or(0, |next| {
+            let days = i64::from(self.end.num_days_from_ce()) - i64::from(next.num_days_from_ce());
+            (days as u64 / self.step + 1) as usize
+        });
+        (remaining, Some(remaining))
+    }
+
+    fn nth(&mut self, n: usize) -> Option<Self::Item> {
+        if n >= self.len() {
+            self.next = None;
+            return None;
+        }
+
+        let current = self.next?;
+        let offset = (n as u64).checked_mul(self.step)?;
+        self.next = current.checked_add_days(Days::new(offset));
+        self.next()
+    }
+
     fn next(&mut self) -> Option<Self::Item> {
         let current = self.next?;
         self.next = current
@@ -23,6 +45,8 @@ impl Iterator for SteppedDaysInInterval {
         Some(current)
     }
 }
+
+impl ExactSizeIterator for SteppedDaysInInterval {}
 
 impl FusedIterator for SteppedDaysInInterval {}
 
@@ -81,5 +105,21 @@ mod tests {
         assert_eq!(iter.next(), Some(NaiveDate::MAX));
         assert_eq!(iter.next(), None);
         assert_eq!(iter.next(), None);
+    }
+    #[test]
+    fn exposes_exact_lengths_and_skips_directly() {
+        let mut dates = each_nth_day_of_interval(date(2024, 2, 27), date(2024, 3, 4), 2).unwrap();
+        assert_eq!(dates.len(), 4);
+        assert_eq!(dates.nth(2), Some(date(2024, 3, 2)));
+        assert_eq!(dates.len(), 1);
+        assert_eq!(dates.next(), Some(date(2024, 3, 4)));
+        assert_eq!(dates.size_hint(), (0, Some(0)));
+    }
+
+    #[test]
+    fn skips_excessively_large_positions_without_overflow() {
+        let mut dates = each_nth_day_of_interval(NaiveDate::MIN, NaiveDate::MAX, 7).unwrap();
+        assert_eq!(dates.nth(usize::MAX), None);
+        assert_eq!(dates.next(), None);
     }
 }

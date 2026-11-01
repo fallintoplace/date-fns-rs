@@ -24,6 +24,16 @@ pub fn end_of_quarter(date: NaiveDate) -> NaiveDate {
     end_of_month(first)
 }
 
+/// Return the 1-based day within the calendar quarter.
+pub fn get_day_of_quarter(date: NaiveDate) -> u32 {
+    date.ordinal() - start_of_quarter(date).ordinal() + 1
+}
+
+/// Return the number of days in the date's calendar quarter.
+pub fn get_days_in_quarter(date: NaiveDate) -> u32 {
+    end_of_quarter(date).ordinal() - start_of_quarter(date).ordinal() + 1
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -53,5 +63,21 @@ mod tests {
     fn quarter_boundaries_work_at_date_limits() {
         assert!(start_of_quarter(NaiveDate::MIN) <= NaiveDate::MIN);
         assert!(end_of_quarter(NaiveDate::MAX) >= NaiveDate::MAX);
+    }
+    #[test]
+    fn counts_leap_and_common_quarters() {
+        assert_eq!(get_day_of_quarter(date(2024, 2, 29)), 60);
+        assert_eq!(get_days_in_quarter(date(2024, 2, 29)), 91);
+        assert_eq!(get_days_in_quarter(date(2023, 2, 28)), 90);
+        assert_eq!(get_day_of_quarter(date(2024, 4, 1)), 1);
+        assert_eq!(get_days_in_quarter(date(2024, 12, 31)), 92);
+    }
+
+    #[test]
+    fn supports_date_range_limits() {
+        for day in [NaiveDate::MIN, NaiveDate::MAX] {
+            assert!((1..=92).contains(&get_day_of_quarter(day)));
+            assert!((90..=92).contains(&get_days_in_quarter(day)));
+        }
     }
 }

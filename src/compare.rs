@@ -32,6 +32,16 @@ pub fn is_weekend(date: NaiveDate) -> bool {
     matches!(date.weekday(), Weekday::Sat | Weekday::Sun)
 }
 
+/// Return the earliest date in a slice, or None for an empty slice.
+pub fn min_date(dates: &[NaiveDate]) -> Option<NaiveDate> {
+    dates.iter().copied().min()
+}
+
+/// Return the latest date in a slice, or None for an empty slice.
+pub fn max_date(dates: &[NaiveDate]) -> Option<NaiveDate> {
+    dates.iter().copied().max()
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -67,5 +77,23 @@ mod tests {
         assert!(is_weekend(date(2024, 6, 1)));
         assert!(is_weekend(date(2024, 6, 2)));
         assert!(!is_weekend(date(2024, 6, 3)));
+    }
+    #[test]
+    fn finds_extrema_without_modifying_candidates() {
+        let input = [date(2024, 2, 29), date(2023, 12, 31), date(2025, 1, 1)];
+        assert_eq!(min_date(&input), Some(date(2023, 12, 31)));
+        assert_eq!(max_date(&input), Some(date(2025, 1, 1)));
+        assert_eq!(input[0], date(2024, 2, 29));
+    }
+
+    #[test]
+    fn handles_empty_singleton_and_extreme_dates() {
+        assert_eq!(min_date(&[]), None);
+        assert_eq!(max_date(&[]), None);
+        assert_eq!(min_date(&[NaiveDate::MAX]), Some(NaiveDate::MAX));
+        assert_eq!(
+            max_date(&[NaiveDate::MAX, NaiveDate::MIN]),
+            Some(NaiveDate::MAX)
+        );
     }
 }

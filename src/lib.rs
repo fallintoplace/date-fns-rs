@@ -472,6 +472,9 @@ pub use datetime_calendar_boundaries::{
     start_of_quarter_datetime, start_of_year_datetime,
 };
 
+mod datetime_ceil_minute;
+pub use datetime_ceil_minute::ceil_to_minute_step_datetime;
+
 mod datetime_calendar_differences;
 pub use datetime_calendar_differences::{
     difference_in_calendar_days_datetime, difference_in_calendar_months_datetime,

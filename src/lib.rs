@@ -44,6 +44,13 @@ pub use difference::{
     difference_in_calendar_days, difference_in_calendar_months, difference_in_calendar_years,
 };
 
+mod datetime_boundaries;
+pub use datetime_boundaries::{
+    end_of_day_datetime, end_of_hour_datetime, end_of_minute_datetime,
+    end_of_second_datetime, start_of_day_datetime, start_of_hour_datetime,
+    start_of_minute_datetime, start_of_second_datetime,
+};
+
 mod calendar_week_difference;
 pub use calendar_week_difference::difference_in_calendar_iso_week_years;
 pub use calendar_week_difference::difference_in_calendar_weeks;

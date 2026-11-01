@@ -122,6 +122,7 @@ mod tests {
         assert_eq!(years.nth(usize::MAX), None);
         assert_eq!(years.next(), None);
     }
+
     #[test]
     fn supports_reverse_and_interleaved_year_traversal() {
         let mut years =
@@ -138,6 +139,4 @@ mod tests {
         let mut edge = each_year_of_interval(NaiveDate::MAX, NaiveDate::MAX).unwrap();
         assert_eq!(edge.next_back(), Some(start_of_year(NaiveDate::MAX)));
         assert_eq!(edge.next_back(), None);
-    }
-
-}
+    }}

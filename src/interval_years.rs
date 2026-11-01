@@ -125,8 +125,7 @@ mod tests {
 
     #[test]
     fn supports_reverse_and_interleaved_year_traversal() {
-        let mut years =
-            each_year_of_interval(date(2021, 12, 31), date(2025, 1, 2)).unwrap();
+        let mut years = each_year_of_interval(date(2021, 12, 31), date(2025, 1, 2)).unwrap();
         assert_eq!(years.len(), 5);
         assert_eq!(years.next_back(), Some(date(2025, 1, 1)));
         assert_eq!(years.next(), Some(date(2021, 1, 1)));

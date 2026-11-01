@@ -98,10 +98,6 @@ mod tests {
             difference_in_nanoseconds_datetime(NaiveDateTime::MAX, NaiveDateTime::MIN),
             None
         );
-        assert_eq!(
-            difference_in_nanoseconds_datetime(first, first),
-            Some(0)
-        );
+        assert_eq!(difference_in_nanoseconds_datetime(first, first), Some(0));
     }
-
 }

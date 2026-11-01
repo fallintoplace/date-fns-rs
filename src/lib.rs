@@ -400,6 +400,4 @@ mod date_interval_coverage;
 pub use date_interval_coverage::{count_distinct_days_covered, overlapping_days_in_intervals};
 
 mod datetime_day_iterator;
-pub use datetime_day_iterator::{
-    each_nth_day_of_datetime_interval, DaysInDatetimeInterval,
-};
+pub use datetime_day_iterator::{each_nth_day_of_datetime_interval, DaysInDatetimeInterval};

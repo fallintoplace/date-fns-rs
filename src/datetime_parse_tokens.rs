@@ -163,7 +163,10 @@ mod tests {
                 None
             );
         }
-        assert_eq!(parse_datetime_tokens("2024-02-29 02", "yyyy-MM-dd MM"), None);
+        assert_eq!(
+            parse_datetime_tokens("2024-02-29 02", "yyyy-MM-dd MM"),
+            None
+        );
         assert_eq!(parse_datetime_tokens("2024-02-29", "yyyy-MM-QQ"), None);
         assert_eq!(parse_datetime_tokens("23:59", "HH:mm"), None);
         assert_eq!(parse_datetime_tokens("2024-02-29", "'unfinished"), None);

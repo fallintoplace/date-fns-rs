@@ -282,6 +282,9 @@ pub use datetime_intervals::{
     is_within_datetime_interval,
 };
 
+mod datetime_interval_symmetric_difference;
+pub use datetime_interval_symmetric_difference::symmetric_difference_of_datetime_intervals;
+
 mod interval_weeks;
 pub use interval_weeks::{each_week_of_interval, WeeksInInterval};
 

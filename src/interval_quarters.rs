@@ -128,6 +128,7 @@ mod tests {
         assert_eq!(quarters.nth(usize::MAX), None);
         assert_eq!(quarters.size_hint(), (0, Some(0)));
     }
+
     #[test]
     fn traverses_quarter_starts_from_both_ends() {
         let mut quarters =
@@ -144,6 +145,4 @@ mod tests {
         let mut edge = each_quarter_of_interval(NaiveDate::MAX, NaiveDate::MAX).unwrap();
         assert_eq!(edge.next_back(), Some(start_of_quarter(NaiveDate::MAX)));
         assert_eq!(edge.next(), None);
-    }
-
-}
+    }}

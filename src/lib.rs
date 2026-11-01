@@ -290,3 +290,6 @@ pub use holiday_business_difference::difference_in_business_days_excluding_holid
 
 mod half_year_intervals;
 pub use half_year_intervals::{each_half_year_of_interval, HalfYearsInInterval};
+
+mod fiscal_month_number;
+pub use fiscal_month_number::get_fiscal_month;

@@ -4,42 +4,42 @@ use chrono::{NaiveDateTime, TimeDelta};
 
 /// Shift a naive date-time by whole hours without wrapping at date limits.
 pub fn add_hours_datetime(value: NaiveDateTime, hours: i64) -> Option<NaiveDateTime> {
-    value.checked_add_signed(TimeDelta::seconds(hours.checked_mul(3_600)?))
+    value.checked_add_signed(TimeDelta::try_seconds(hours.checked_mul(3_600)?)?)
 }
 
 /// Subtract whole hours, accepting negative offsets.
 pub fn sub_hours_datetime(value: NaiveDateTime, hours: i64) -> Option<NaiveDateTime> {
-    value.checked_sub_signed(TimeDelta::seconds(hours.checked_mul(3_600)?))
+    value.checked_sub_signed(TimeDelta::try_seconds(hours.checked_mul(3_600)?)?)
 }
 
 /// Shift a naive date-time by whole minutes.
 pub fn add_minutes_datetime(value: NaiveDateTime, minutes: i64) -> Option<NaiveDateTime> {
-    value.checked_add_signed(TimeDelta::seconds(minutes.checked_mul(60)?))
+    value.checked_add_signed(TimeDelta::try_seconds(minutes.checked_mul(60)?)?)
 }
 
 /// Subtract whole minutes from a naive date-time.
 pub fn sub_minutes_datetime(value: NaiveDateTime, minutes: i64) -> Option<NaiveDateTime> {
-    value.checked_sub_signed(TimeDelta::seconds(minutes.checked_mul(60)?))
+    value.checked_sub_signed(TimeDelta::try_seconds(minutes.checked_mul(60)?)?)
 }
 
 /// Shift a naive date-time by whole seconds.
 pub fn add_seconds_datetime(value: NaiveDateTime, seconds: i64) -> Option<NaiveDateTime> {
-    value.checked_add_signed(TimeDelta::seconds(seconds))
+    value.checked_add_signed(TimeDelta::try_seconds(seconds)?)
 }
 
 /// Subtract whole seconds.
 pub fn sub_seconds_datetime(value: NaiveDateTime, seconds: i64) -> Option<NaiveDateTime> {
-    value.checked_sub_signed(TimeDelta::seconds(seconds))
+    value.checked_sub_signed(TimeDelta::try_seconds(seconds)?)
 }
 
 /// Shift a naive date-time by milliseconds.
 pub fn add_milliseconds_datetime(value: NaiveDateTime, millis: i64) -> Option<NaiveDateTime> {
-    value.checked_add_signed(TimeDelta::milliseconds(millis))
+    value.checked_add_signed(TimeDelta::try_milliseconds(millis)?)
 }
 
 /// Subtract milliseconds without overflowing intermediate negations.
 pub fn sub_milliseconds_datetime(value: NaiveDateTime, millis: i64) -> Option<NaiveDateTime> {
-    value.checked_sub_signed(TimeDelta::milliseconds(millis))
+    value.checked_sub_signed(TimeDelta::try_milliseconds(millis)?)
 }
 
 /// Shift a naive date-time by microseconds.
@@ -97,6 +97,23 @@ mod tests {
             sub_microseconds_datetime(start, -1),
             add_microseconds_datetime(start, 1)
         );
+    }
+
+    #[test]
+    fn huge_durations_return_none_without_panicking() {
+        let value = dt(2024, 1, 1, 0, 0, 0);
+        for amount in [i64::MIN, i64::MAX] {
+            assert_eq!(add_seconds_datetime(value, amount), None);
+            assert_eq!(sub_seconds_datetime(value, amount), None);
+            assert_eq!(add_milliseconds_datetime(value, amount), None);
+            assert_eq!(sub_milliseconds_datetime(value, amount), None);
+        }
+        let large_hours = i64::MAX / 3_600;
+        assert_eq!(add_hours_datetime(value, large_hours), None);
+        assert_eq!(sub_hours_datetime(value, large_hours), None);
+        let large_minutes = i64::MAX / 60;
+        assert_eq!(add_minutes_datetime(value, large_minutes), None);
+        assert_eq!(sub_minutes_datetime(value, large_minutes), None);
     }
 
     #[test]

@@ -151,6 +151,7 @@ mod tests {
         assert_eq!(format_date_tokens(day, "'unfinished"), None);
         assert_eq!(format_date_tokens(NaiveDate::MAX, "yyyy"), None);
     }
+
     #[test]
     fn formats_english_day_and_month_ordinals() {
         let date = NaiveDate::from_ymd_opt(2024, 2, 29).unwrap();
@@ -179,5 +180,4 @@ mod tests {
             assert_eq!(format_date_tokens(day, "do").as_deref(), Some(label));
         }
     }
-
 }

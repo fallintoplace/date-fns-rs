@@ -136,8 +136,8 @@ mod tests {
         assert!(!is_business_day_with_holidays(saturday, &holidays));
         assert!(is_business_day_with_holidays(monday, &holidays));
         assert!(is_business_day_with_holidays(friday, &[]));
-        assert!(is_business_day_with_holidays(NaiveDate::MAX, &[])
-            == is_business_day(NaiveDate::MAX));
+        assert!(
+            is_business_day_with_holidays(NaiveDate::MAX, &[]) == is_business_day(NaiveDate::MAX)
+        );
     }
-
 }

@@ -395,3 +395,6 @@ pub use business_month_metadata::{get_business_day_of_month, get_business_days_i
 
 mod interval_split;
 pub use interval_split::split_interval_after;
+
+mod date_interval_coverage;
+pub use date_interval_coverage::{count_distinct_days_covered, overlapping_days_in_intervals};

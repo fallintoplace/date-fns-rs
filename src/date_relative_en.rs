@@ -3,7 +3,13 @@
 use chrono::{Datelike, NaiveDate};
 
 const WEEKDAYS: [&str; 7] = [
-    "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday",
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
 ];
 
 /// Format a calendar day relative to another explicit day.
@@ -38,10 +44,25 @@ mod tests {
         let friday = NaiveDate::from_ymd_opt(2025, 1, 3).unwrap();
         let previous = NaiveDate::from_ymd_opt(2024, 12, 27).unwrap();
         assert_eq!(format_relative_calendar_date_en(monday, monday), "today");
-        assert_eq!(format_relative_calendar_date_en(tuesday, monday), "tomorrow");
-        assert_eq!(format_relative_calendar_date_en(monday, tuesday), "yesterday");
-        assert_eq!(format_relative_calendar_date_en(friday, monday), "next Friday");
-        assert_eq!(format_relative_calendar_date_en(previous, monday), "last Friday");
-        assert_eq!(format_relative_calendar_date_en(NaiveDate::from_ymd_opt(2025, 1, 20).unwrap(), monday), "2025-01-20");
+        assert_eq!(
+            format_relative_calendar_date_en(tuesday, monday),
+            "tomorrow"
+        );
+        assert_eq!(
+            format_relative_calendar_date_en(monday, tuesday),
+            "yesterday"
+        );
+        assert_eq!(
+            format_relative_calendar_date_en(friday, monday),
+            "next Friday"
+        );
+        assert_eq!(
+            format_relative_calendar_date_en(previous, monday),
+            "last Friday"
+        );
+        assert_eq!(
+            format_relative_calendar_date_en(NaiveDate::from_ymd_opt(2025, 1, 20).unwrap(), monday),
+            "2025-01-20"
+        );
     }
 }

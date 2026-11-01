@@ -65,8 +65,8 @@ pub use compare::{is_after, is_before, is_same_day, is_same_month, is_same_year,
 
 mod datetime_components;
 pub use datetime_components::{
-    get_millisecond_datetime, set_hour_datetime, set_millisecond_datetime,
-    set_minute_datetime, set_second_datetime,
+    get_millisecond_datetime, set_hour_datetime, set_millisecond_datetime, set_minute_datetime,
+    set_second_datetime,
 };
 
 mod interval;

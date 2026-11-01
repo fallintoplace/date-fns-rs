@@ -44,7 +44,10 @@ mod tests {
     #[test]
     fn rejects_invalid_steps_and_supports_datetime_limits() {
         assert_eq!(floor_to_minute_step_datetime(NaiveDateTime::MAX, 0), None);
-        assert_eq!(floor_to_minute_step_datetime(NaiveDateTime::MIN, 1_441), None);
+        assert_eq!(
+            floor_to_minute_step_datetime(NaiveDateTime::MIN, 1_441),
+            None
+        );
         assert_eq!(
             floor_to_minute_step_datetime(NaiveDateTime::MIN, 1),
             Some(NaiveDateTime::MIN)

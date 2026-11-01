@@ -68,6 +68,9 @@ pub use iso_ordinal_date::{format_iso_ordinal_date, parse_iso_ordinal_date};
 mod calendar_quarter_difference;
 pub use calendar_quarter_difference::difference_in_calendar_quarters;
 
+mod calendar_half_year_difference;
+pub use calendar_half_year_difference::difference_in_calendar_half_years;
+
 mod quarters;
 pub use quarters::{end_of_quarter, get_quarter, start_of_quarter};
 

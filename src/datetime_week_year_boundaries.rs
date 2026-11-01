@@ -8,12 +8,8 @@ pub fn start_of_week_year_datetime(
     week_starts_on: Weekday,
     first_week_contains_date: u32,
 ) -> Option<NaiveDateTime> {
-    crate::start_of_week_year(
-        value.date(),
-        week_starts_on,
-        first_week_contains_date,
-    )?
-    .and_hms_opt(0, 0, 0)
+    crate::start_of_week_year(value.date(), week_starts_on, first_week_contains_date)?
+        .and_hms_opt(0, 0, 0)
 }
 
 /// Last nanosecond of the week-numbering year containing the value.
@@ -22,12 +18,8 @@ pub fn end_of_week_year_datetime(
     week_starts_on: Weekday,
     first_week_contains_date: u32,
 ) -> Option<NaiveDateTime> {
-    crate::end_of_week_year(
-        value.date(),
-        week_starts_on,
-        first_week_contains_date,
-    )?
-    .and_hms_nano_opt(23, 59, 59, 999_999_999)
+    crate::end_of_week_year(value.date(), week_starts_on, first_week_contains_date)?
+        .and_hms_nano_opt(23, 59, 59, 999_999_999)
 }
 
 /// Midnight on the Monday beginning the current ISO week-numbering year.
@@ -56,14 +48,8 @@ mod tests {
         let end = date(2021, 1, 3).and_hms_nano_opt(23, 59, 59, 999_999_999);
         assert_eq!(start_of_iso_week_year_datetime(january), start);
         assert_eq!(end_of_iso_week_year_datetime(january), end);
-        assert_eq!(
-            start_of_week_year_datetime(january, Weekday::Mon, 4),
-            start
-        );
-        assert_eq!(
-            end_of_week_year_datetime(january, Weekday::Mon, 4),
-            end
-        );
+        assert_eq!(start_of_week_year_datetime(january, Weekday::Mon, 4), start);
+        assert_eq!(end_of_week_year_datetime(january, Weekday::Mon, 4), end);
     }
 
     #[test]
@@ -79,9 +65,6 @@ mod tests {
         );
         assert_eq!(start_of_week_year_datetime(january, Weekday::Mon, 0), None);
         assert_eq!(end_of_week_year_datetime(january, Weekday::Mon, 8), None);
-        assert_eq!(
-            end_of_iso_week_year_datetime(NaiveDateTime::MAX),
-            None
-        );
+        assert_eq!(end_of_iso_week_year_datetime(NaiveDateTime::MAX), None);
     }
 }

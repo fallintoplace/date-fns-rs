@@ -77,7 +77,10 @@ mod tests {
             .unwrap();
         let text = "20240229T235958.123000009";
         assert_eq!(parse_iso_basic_local_datetime(text), Some(value));
-        assert_eq!(format_iso_basic_local_datetime(value).as_deref(), Some(text));
+        assert_eq!(
+            format_iso_basic_local_datetime(value).as_deref(),
+            Some(text)
+        );
         assert_eq!(
             parse_iso_basic_local_datetime("20240229T000000"),
             Some(value.date().and_hms_opt(0, 0, 0).unwrap())

@@ -117,5 +117,4 @@ mod tests {
             get_business_days_in_year(date(2024, 1, 1))
         );
     }
-
 }

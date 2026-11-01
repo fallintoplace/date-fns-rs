@@ -159,5 +159,8 @@ pub use set_year::set_year;
 mod set_day_of_year;
 pub use set_day_of_year::set_day_of_year;
 
+mod iso_basic_ordinal_date;
+pub use iso_basic_ordinal_date::{format_iso_basic_ordinal_date, parse_iso_basic_ordinal_date};
+
 mod iso_basic_week_date;
 pub use iso_basic_week_date::{format_iso_basic_week_date, parse_iso_basic_week_date};

@@ -8,7 +8,7 @@ use chrono::{Datelike, NaiveDate};
 pub fn get_fiscal_month(date: NaiveDate, first_month: u32) -> Option<u32> {
     (1..=12)
         .contains(&first_month)
-        .then_some((date.month() + 12 - first_month) % 12 + 1)
+        .then(|| (date.month() + 12 - first_month) % 12 + 1)
 }
 
 #[cfg(test)]

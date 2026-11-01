@@ -53,6 +53,8 @@ pub use weekday_arithmetic::nearest_weekday;
 pub use weekday_arithmetic::{next_weekday, previous_weekday};
 
 mod compare;
+pub use compare::max_date;
+pub use compare::min_date;
 pub use compare::{is_after, is_before, is_same_day, is_same_month, is_same_year, is_weekend};
 
 mod interval;

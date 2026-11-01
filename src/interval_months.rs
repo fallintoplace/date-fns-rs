@@ -122,8 +122,7 @@ mod tests {
 
     #[test]
     fn iterates_months_from_either_end_without_duplicates() {
-        let mut months =
-            each_month_of_interval(date(2023, 11, 20), date(2024, 3, 1)).unwrap();
+        let mut months = each_month_of_interval(date(2023, 11, 20), date(2024, 3, 1)).unwrap();
         assert_eq!(months.len(), 5);
         assert_eq!(months.next_back(), Some(date(2024, 3, 1)));
         assert_eq!(months.next(), Some(date(2023, 11, 1)));

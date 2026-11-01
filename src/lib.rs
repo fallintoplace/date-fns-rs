@@ -65,6 +65,9 @@ pub use interval::{
     are_intervals_overlapping, each_day_of_interval, is_within_interval, DaysInInterval,
 };
 
+mod interval_adjacency;
+pub use interval_adjacency::are_intervals_adjacent;
+
 mod stepped_days;
 pub use stepped_days::{each_nth_day_of_interval, SteppedDaysInInterval};
 

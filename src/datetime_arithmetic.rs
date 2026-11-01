@@ -58,24 +58,45 @@ mod tests {
     use chrono::NaiveDate;
 
     fn dt(y: i32, m: u32, d: u32, h: u32, min: u32, s: u32) -> NaiveDateTime {
-        NaiveDate::from_ymd_opt(y, m, d).unwrap().and_hms_opt(h, min, s).unwrap()
+        NaiveDate::from_ymd_opt(y, m, d)
+            .unwrap()
+            .and_hms_opt(h, min, s)
+            .unwrap()
     }
 
     #[test]
     fn crosses_midnight_and_leap_days() {
         let before = dt(2024, 2, 28, 23, 30, 0);
-        assert_eq!(add_hours_datetime(before, 1), Some(dt(2024, 2, 29, 0, 30, 0)));
-        assert_eq!(sub_minutes_datetime(before, -60), add_hours_datetime(before, 1));
-        assert_eq!(add_seconds_datetime(before, 60), Some(dt(2024, 2, 28, 23, 31, 0)));
+        assert_eq!(
+            add_hours_datetime(before, 1),
+            Some(dt(2024, 2, 29, 0, 30, 0))
+        );
+        assert_eq!(
+            sub_minutes_datetime(before, -60),
+            add_hours_datetime(before, 1)
+        );
+        assert_eq!(
+            add_seconds_datetime(before, 60),
+            Some(dt(2024, 2, 28, 23, 31, 0))
+        );
     }
 
     #[test]
     fn retains_subsecond_precision() {
         let start = dt(2024, 1, 1, 0, 0, 0);
         let shifted = add_milliseconds_datetime(start, 1).unwrap();
-        assert_eq!(add_microseconds_datetime(shifted, 1).unwrap().and_utc().timestamp_subsec_nanos(), 1_001_000);
+        assert_eq!(
+            add_microseconds_datetime(shifted, 1)
+                .unwrap()
+                .and_utc()
+                .timestamp_subsec_nanos(),
+            1_001_000
+        );
         assert_eq!(sub_milliseconds_datetime(shifted, 1), Some(start));
-        assert_eq!(sub_microseconds_datetime(start, -1), add_microseconds_datetime(start, 1));
+        assert_eq!(
+            sub_microseconds_datetime(start, -1),
+            add_microseconds_datetime(start, 1)
+        );
     }
 
     #[test]
@@ -83,6 +104,9 @@ mod tests {
         assert_eq!(add_seconds_datetime(NaiveDateTime::MAX, 1), None);
         assert_eq!(sub_seconds_datetime(NaiveDateTime::MIN, 1), None);
         assert_eq!(add_hours_datetime(dt(2024, 1, 1, 0, 0, 0), i64::MAX), None);
-        assert_eq!(sub_minutes_datetime(dt(2024, 1, 1, 0, 0, 0), i64::MIN), None);
+        assert_eq!(
+            sub_minutes_datetime(dt(2024, 1, 1, 0, 0, 0), i64::MIN),
+            None
+        );
     }
 }

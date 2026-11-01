@@ -301,3 +301,6 @@ pub use fiscal_half_years::{
 
 mod business_month_metadata;
 pub use business_month_metadata::{get_business_day_of_month, get_business_days_in_month};
+
+mod interval_split;
+pub use interval_split::split_interval_after;

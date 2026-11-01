@@ -129,20 +129,12 @@ mod tests {
     fn validates_endpoints_and_avoids_range_overflow() {
         assert!(each_nth_day_of_datetime_interval(dt(28), dt(27), 1).is_none());
         assert!(each_nth_day_of_datetime_interval(dt(27), dt(28), 0).is_none());
-        let mut single = each_nth_day_of_datetime_interval(
-            NaiveDateTime::MAX,
-            NaiveDateTime::MAX,
-            1,
-        )
-        .unwrap();
+        let mut single =
+            each_nth_day_of_datetime_interval(NaiveDateTime::MAX, NaiveDateTime::MAX, 1).unwrap();
         assert_eq!(single.next(), Some(NaiveDateTime::MAX));
         assert_eq!(single.next(), None);
-        let mut enormous = each_nth_day_of_datetime_interval(
-            NaiveDateTime::MIN,
-            NaiveDateTime::MAX,
-            1,
-        )
-        .unwrap();
+        let mut enormous =
+            each_nth_day_of_datetime_interval(NaiveDateTime::MIN, NaiveDateTime::MAX, 1).unwrap();
         assert_eq!(enormous.nth(usize::MAX), None);
         assert_eq!(enormous.next(), None);
     }

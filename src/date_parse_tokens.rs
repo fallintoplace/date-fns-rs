@@ -26,6 +26,14 @@ pub fn parse_date_tokens(input: &str, pattern: &str) -> Option<NaiveDate> {
     let mut day = None;
     let pb = pattern.as_bytes();
     while pi < pb.len() {
+        if pb[pi] == b'\'' && pb.get(pi + 1) == Some(&b'\'') {
+            if !input[ii..].starts_with('\'') {
+                return None;
+            }
+            pi += 2;
+            ii += 1;
+            continue;
+        }
         if pb[pi] == b'\'' {
             pi += 1;
             let mut closed = false;
@@ -122,4 +130,18 @@ mod tests {
         assert_eq!(parse_date_tokens("2024-02-29", "yyyy-QQ-dd"), None);
         assert_eq!(parse_date_tokens("2024-02-29", "yyyy-MM-MM"), None);
     }
+    #[test]
+    fn parses_doubled_apostrophes_outside_quoted_literals() {
+        let date = NaiveDate::from_ymd_opt(2024, 2, 29).unwrap();
+        assert_eq!(
+            parse_date_tokens("2024'02'29", "yyyy''MM''dd"),
+            Some(date)
+        );
+        assert_eq!(
+            parse_date_tokens("'' 2024-02-29", "'''' yyyy-MM-dd"),
+            Some(date)
+        );
+        assert_eq!(parse_date_tokens("2024-02-29", "yyyy''MM''dd"), None);
+    }
+
 }

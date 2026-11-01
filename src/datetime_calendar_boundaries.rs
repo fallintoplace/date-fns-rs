@@ -56,7 +56,10 @@ mod tests {
         let value = dt(2024, 2, 29);
         assert_eq!(
             start_of_month_datetime(value),
-            NaiveDate::from_ymd_opt(2024, 2, 1).unwrap().and_hms_opt(0, 0, 0).unwrap()
+            NaiveDate::from_ymd_opt(2024, 2, 1)
+                .unwrap()
+                .and_hms_opt(0, 0, 0)
+                .unwrap()
         );
         assert_eq!(
             end_of_month_datetime(value),
@@ -65,7 +68,10 @@ mod tests {
                 .and_hms_nano_opt(23, 59, 59, 999_999_999)
                 .unwrap()
         );
-        assert_eq!(start_of_quarter_datetime(value), start_of_year_datetime(value));
+        assert_eq!(
+            start_of_quarter_datetime(value),
+            start_of_year_datetime(value)
+        );
         assert_eq!(
             end_of_quarter_datetime(value).date(),
             NaiveDate::from_ymd_opt(2024, 3, 31).unwrap()
@@ -82,8 +88,14 @@ mod tests {
 
     #[test]
     fn supports_supported_datetime_limits_without_overflow() {
-        assert_eq!(start_of_year_datetime(NaiveDateTime::MIN), NaiveDateTime::MIN);
+        assert_eq!(
+            start_of_year_datetime(NaiveDateTime::MIN),
+            NaiveDateTime::MIN
+        );
         assert_eq!(end_of_year_datetime(NaiveDateTime::MAX), NaiveDateTime::MAX);
-        assert_eq!(end_of_month_datetime(NaiveDateTime::MAX), NaiveDateTime::MAX);
+        assert_eq!(
+            end_of_month_datetime(NaiveDateTime::MAX),
+            NaiveDateTime::MAX
+        );
     }
 }

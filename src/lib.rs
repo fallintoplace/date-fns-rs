@@ -28,6 +28,8 @@ mod calendar_month_grid;
 pub use calendar_month_grid::{calendar_month_grid, get_calendar_weeks_in_month};
 
 mod decades;
+pub use decades::add_decades;
+pub use decades::sub_decades;
 pub use decades::{end_of_decade, start_of_decade};
 
 mod difference;

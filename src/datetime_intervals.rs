@@ -47,10 +47,7 @@ pub fn intersection_of_datetime_intervals(
 
 /// Duration in whole milliseconds between ordered endpoints.
 /// Unlike date-only interval lengths, both endpoints do not add a millisecond.
-pub fn datetime_interval_duration_millis(
-    start: NaiveDateTime,
-    end: NaiveDateTime,
-) -> Option<i64> {
+pub fn datetime_interval_duration_millis(start: NaiveDateTime, end: NaiveDateTime) -> Option<i64> {
     (start <= end).then(|| end.signed_duration_since(start).num_milliseconds())
 }
 
@@ -61,13 +58,24 @@ mod tests {
 
     #[test]
     fn handles_touching_reversed_and_subsecond_ranges() {
-        let start = NaiveDate::from_ymd_opt(2024, 2, 29).unwrap().and_hms_opt(23, 59, 59).unwrap();
-        let middle = start.checked_add_signed(TimeDelta::milliseconds(500)).unwrap();
+        let start = NaiveDate::from_ymd_opt(2024, 2, 29)
+            .unwrap()
+            .and_hms_opt(23, 59, 59)
+            .unwrap();
+        let middle = start
+            .checked_add_signed(TimeDelta::milliseconds(500))
+            .unwrap();
         let end = start.checked_add_signed(TimeDelta::seconds(1)).unwrap();
         assert_eq!(datetime_interval_duration_millis(start, end), Some(1_000));
         assert_eq!(datetime_interval_duration_millis(end, start), None);
-        assert_eq!(are_datetime_intervals_overlapping(start, middle, middle, end), Some(true));
-        assert_eq!(intersection_of_datetime_intervals(start, middle, middle, end), Some(Some((middle, middle))));
+        assert_eq!(
+            are_datetime_intervals_overlapping(start, middle, middle, end),
+            Some(true)
+        );
+        assert_eq!(
+            intersection_of_datetime_intervals(start, middle, middle, end),
+            Some(Some((middle, middle)))
+        );
         assert_eq!(clamp_datetime_to_interval(end, start, middle), Some(middle));
         assert_eq!(is_within_datetime_interval(end, start, middle), Some(false));
         assert_eq!(is_within_datetime_interval(start, end, middle), None);
@@ -75,7 +83,13 @@ mod tests {
 
     #[test]
     fn includes_datetime_limits() {
-        assert_eq!(datetime_interval_duration_millis(NaiveDateTime::MAX, NaiveDateTime::MAX), Some(0));
-        assert_eq!(clamp_datetime_to_interval(NaiveDateTime::MIN, NaiveDateTime::MAX, NaiveDateTime::MAX), Some(NaiveDateTime::MAX));
+        assert_eq!(
+            datetime_interval_duration_millis(NaiveDateTime::MAX, NaiveDateTime::MAX),
+            Some(0)
+        );
+        assert_eq!(
+            clamp_datetime_to_interval(NaiveDateTime::MIN, NaiveDateTime::MAX, NaiveDateTime::MAX),
+            Some(NaiveDateTime::MAX)
+        );
     }
 }

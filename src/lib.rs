@@ -65,10 +65,7 @@ pub use difference::{
     difference_in_calendar_days, difference_in_calendar_months, difference_in_calendar_years,
 };
 
-mod datetime_month_year_boundaries;
-pub use datetime_month_year_boundaries::{
-    end_of_month_datetime, end_of_year_datetime, start_of_month_datetime, start_of_year_datetime,
-};
+pub mod datetime_month_year_boundaries;
 
 mod datetime_boundaries;
 pub use datetime_boundaries::{

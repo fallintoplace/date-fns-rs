@@ -105,6 +105,9 @@ pub use interval_ops::{clamp_to_interval, intersection_of_intervals, interval_le
 mod interval_subtract;
 pub use interval_subtract::subtract_intervals;
 
+mod interval_split;
+pub use interval_split::split_interval_after;
+
 mod interval_weeks;
 pub use interval_weeks::{each_week_of_interval, WeeksInInterval};
 

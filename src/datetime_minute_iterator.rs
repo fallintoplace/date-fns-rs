@@ -100,6 +100,7 @@ mod tests {
         assert_eq!(it.next(), None);
         assert_eq!(it.next(), None);
     }
+
     #[test]
     fn skips_minute_samples_in_one_step_and_preserves_subseconds() {
         let first = NaiveDate::from_ymd_opt(2024, 2, 29)
@@ -120,6 +121,4 @@ mod tests {
                 .unwrap();
         assert_eq!(extreme.nth(usize::MAX), None);
         assert_eq!(extreme.next(), None);
-    }
-
-}
+    }}

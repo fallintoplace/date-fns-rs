@@ -193,6 +193,9 @@ pub use iso_weeks::{get_iso_week, get_iso_week_year, get_iso_weeks_in_year};
 mod iso_week_year_boundaries;
 pub use iso_week_year_boundaries::{end_of_iso_week_year, start_of_iso_week_year};
 
+mod datetime_rfc3339;
+pub use datetime_rfc3339::{format_rfc3339_datetime, parse_rfc3339_datetime};
+
 mod business_days;
 pub use business_days::nearest_business_day;
 pub use business_days::{

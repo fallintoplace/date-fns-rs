@@ -56,6 +56,9 @@ pub use iso::{format_iso_date, parse_iso_date};
 mod iso_week_date;
 pub use iso_week_date::{format_iso_week_date, parse_iso_week_date};
 
+mod iso_date_interval;
+pub use iso_date_interval::{format_iso_date_interval, parse_iso_date_interval};
+
 mod iso_basic_date;
 pub use iso_basic_date::{format_iso_basic_date, parse_iso_basic_date};
 

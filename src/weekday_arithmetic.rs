@@ -133,5 +133,4 @@ mod tests {
             assert_eq!(previous_or_same_weekday(edge, edge.weekday()), Some(edge));
         }
     }
-
 }

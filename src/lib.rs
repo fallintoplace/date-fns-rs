@@ -36,6 +36,9 @@ pub use calendar_week_difference::difference_in_calendar_weeks;
 mod weeks;
 pub use weeks::{end_of_iso_week, end_of_week, start_of_iso_week, start_of_week};
 
+mod week_comparisons;
+pub use week_comparisons::{is_same_iso_week, is_same_week};
+
 mod weekday_arithmetic;
 pub use weekday_arithmetic::{next_weekday, previous_weekday};
 

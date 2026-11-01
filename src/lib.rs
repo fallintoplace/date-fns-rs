@@ -117,7 +117,9 @@ mod iso_week_date;
 pub use iso_week_date::{format_iso_week_date, parse_iso_week_date};
 
 mod datetime_iso_interval;
-pub use datetime_iso_interval::{format_iso_local_datetime_interval, parse_iso_local_datetime_interval};
+pub use datetime_iso_interval::{
+    format_iso_local_datetime_interval, parse_iso_local_datetime_interval,
+};
 
 mod iso_date_interval;
 pub use iso_date_interval::{format_iso_date_interval, parse_iso_date_interval};

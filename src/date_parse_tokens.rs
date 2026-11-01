@@ -133,15 +133,11 @@ mod tests {
     #[test]
     fn parses_doubled_apostrophes_outside_quoted_literals() {
         let date = NaiveDate::from_ymd_opt(2024, 2, 29).unwrap();
-        assert_eq!(
-            parse_date_tokens("2024'02'29", "yyyy''MM''dd"),
-            Some(date)
-        );
+        assert_eq!(parse_date_tokens("2024'02'29", "yyyy''MM''dd"), Some(date));
         assert_eq!(
             parse_date_tokens("'' 2024-02-29", "'''' yyyy-MM-dd"),
             Some(date)
         );
         assert_eq!(parse_date_tokens("2024-02-29", "yyyy''MM''dd"), None);
     }
-
 }

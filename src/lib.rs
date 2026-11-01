@@ -39,6 +39,7 @@ pub use difference::{
 };
 
 mod calendar_week_difference;
+pub use calendar_week_difference::difference_in_calendar_iso_week_years;
 pub use calendar_week_difference::difference_in_calendar_weeks;
 
 mod weeks;

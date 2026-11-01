@@ -3,18 +3,12 @@
 use chrono::{NaiveDateTime, Weekday};
 
 /// Midnight at the start of the week containing the datetime.
-pub fn start_of_week_datetime(
-    value: NaiveDateTime,
-    week_starts_on: Weekday,
-) -> Option<NaiveDateTime> {
+pub fn start_of_week_datetime(value: NaiveDateTime, week_starts_on: Weekday) -> Option<NaiveDateTime> {
     crate::start_of_week(value.date(), week_starts_on)?.and_hms_opt(0, 0, 0)
 }
 
 /// Last representable nanosecond of the week containing the datetime.
-pub fn end_of_week_datetime(
-    value: NaiveDateTime,
-    week_starts_on: Weekday,
-) -> Option<NaiveDateTime> {
+pub fn end_of_week_datetime(value: NaiveDateTime, week_starts_on: Weekday) -> Option<NaiveDateTime> {
     crate::end_of_week(value.date(), week_starts_on)?
         .and_hms_nano_opt(23, 59, 59, 999_999_999)
 }

@@ -28,8 +28,14 @@ mod tests {
         let july = date(2024, 7, 1);
         assert_eq!(difference_in_calendar_half_years(july, june), 1);
         assert_eq!(difference_in_calendar_half_years(june, july), -1);
-        assert_eq!(difference_in_calendar_half_years(june, date(2024, 1, 1)), 0);
-        assert_eq!(difference_in_calendar_half_years(date(2025, 1, 1), june), 2);
+        assert_eq!(
+            difference_in_calendar_half_years(june, date(2024, 1, 1)),
+            0
+        );
+        assert_eq!(
+            difference_in_calendar_half_years(date(2025, 1, 1), june),
+            2
+        );
     }
 
     #[test]
@@ -38,7 +44,10 @@ mod tests {
             difference_in_calendar_half_years(date(0, 1, 1), date(-1, 12, 31)),
             1
         );
-        assert_eq!(difference_in_calendar_half_years(NaiveDate::MAX, NaiveDate::MAX), 0);
+        assert_eq!(
+            difference_in_calendar_half_years(NaiveDate::MAX, NaiveDate::MAX),
+            0
+        );
         assert!(difference_in_calendar_half_years(NaiveDate::MAX, NaiveDate::MIN) > 0);
     }
 }

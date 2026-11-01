@@ -37,11 +37,16 @@ mod tests {
 
     #[test]
     fn modifies_only_the_requested_component() {
-        let start = NaiveDate::from_ymd_opt(2024, 2, 29).unwrap()
-            .and_hms_nano_opt(12, 34, 56, 987_654_321).unwrap();
+        let start = NaiveDate::from_ymd_opt(2024, 2, 29)
+            .unwrap()
+            .and_hms_nano_opt(12, 34, 56, 987_654_321)
+            .unwrap();
         assert_eq!(set_hour_datetime(start, 5).unwrap().hour(), 5);
         assert_eq!(set_minute_datetime(start, 0).unwrap().second(), 56);
-        assert_eq!(set_second_datetime(start, 1).unwrap().nanosecond(), 987_654_321);
+        assert_eq!(
+            set_second_datetime(start, 1).unwrap().nanosecond(),
+            987_654_321
+        );
         let changed = set_millisecond_datetime(start, 123).unwrap();
         assert_eq!(changed.nanosecond(), 123_654_321);
         assert_eq!(get_millisecond_datetime(changed), 123);
@@ -50,7 +55,10 @@ mod tests {
 
     #[test]
     fn rejects_invalid_clock_fields() {
-        let start = NaiveDate::from_ymd_opt(2024, 1, 1).unwrap().and_hms_opt(0, 0, 0).unwrap();
+        let start = NaiveDate::from_ymd_opt(2024, 1, 1)
+            .unwrap()
+            .and_hms_opt(0, 0, 0)
+            .unwrap();
         assert_eq!(set_hour_datetime(start, 24), None);
         assert_eq!(set_minute_datetime(start, 60), None);
         assert_eq!(set_second_datetime(start, 60), None);

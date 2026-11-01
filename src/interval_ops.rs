@@ -38,6 +38,21 @@ pub fn interval_length_in_days(start: NaiveDate, end: NaiveDate) -> Option<i64> 
     (start <= end).then(|| difference_in_calendar_days(end, start) + 1)
 }
 
+/// Return whether one valid inclusive interval lies within another.
+///
+/// Returns None if either interval has reversed endpoints.
+pub fn is_interval_within_interval(
+    inner_start: NaiveDate,
+    inner_end: NaiveDate,
+    outer_start: NaiveDate,
+    outer_end: NaiveDate,
+) -> Option<bool> {
+    if inner_start > inner_end || outer_start > outer_end {
+        return None;
+    }
+    Some(inner_start >= outer_start && inner_end <= outer_end)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -83,5 +98,23 @@ mod tests {
             interval_length_in_days(NaiveDate::MAX, NaiveDate::MIN),
             None
         );
+    }
+    #[test]
+    fn tests_inclusive_interval_containment() {
+        let a = date(2024, 1, 1);
+        let b = date(2024, 1, 2);
+        let c = date(2024, 1, 3);
+        assert_eq!(is_interval_within_interval(b, c, a, c), Some(true));
+        assert_eq!(is_interval_within_interval(a, c, b, c), Some(false));
+        assert_eq!(is_interval_within_interval(a, c, a, c), Some(true));
+        assert_eq!(is_interval_within_interval(c, c, a, c), Some(true));
+    }
+
+    #[test]
+    fn rejects_reversed_intervals() {
+        let a = date(2024, 1, 1);
+        let b = date(2024, 1, 2);
+        assert_eq!(is_interval_within_interval(b, a, a, b), None);
+        assert_eq!(is_interval_within_interval(a, b, b, a), None);
     }
 }

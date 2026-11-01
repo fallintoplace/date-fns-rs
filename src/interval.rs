@@ -31,6 +31,17 @@ impl Iterator for DaysInInterval {
         };
         Some(current)
     }
+
+    fn nth(&mut self, n: usize) -> Option<Self::Item> {
+        if n >= self.len() {
+            self.next = None;
+            return None;
+        }
+
+        let current = self.next?;
+        self.next = current.checked_add_days(chrono::Days::new(n as u64));
+        self.next()
+    }
 }
 
 impl DoubleEndedIterator for DaysInInterval {
@@ -159,5 +170,22 @@ mod tests {
         assert_eq!(touching, Some(true));
         let separate = are_intervals_overlapping(first, first, middle, last);
         assert_eq!(separate, Some(false));
+    }
+    #[test]
+    fn nth_skips_without_repeated_iteration() {
+        let mut days = each_day_of_interval(date(2024, 1, 1), date(2024, 12, 31)).unwrap();
+        assert_eq!(days.nth(199), Some(date(2024, 7, 18)));
+        assert_eq!(days.len(), 166);
+        assert_eq!(days.next_back(), Some(date(2024, 12, 31)));
+        assert_eq!(days.len(), 165);
+        assert_eq!(days.nth(usize::MAX), None);
+        assert_eq!(days.next(), None);
+    }
+
+    #[test]
+    fn nth_exhausts_at_supported_date_limits() {
+        let mut days = each_day_of_interval(NaiveDate::MIN, NaiveDate::MAX).unwrap();
+        assert_eq!(days.nth(usize::MAX), None);
+        assert_eq!(days.size_hint(), (0, Some(0)));
     }
 }

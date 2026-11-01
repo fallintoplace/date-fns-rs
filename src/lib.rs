@@ -33,6 +33,7 @@ pub use decades::sub_decades;
 pub use decades::{end_of_decade, start_of_decade};
 
 mod difference;
+pub use difference::difference_in_calendar_decades;
 pub use difference::{
     difference_in_calendar_days, difference_in_calendar_months, difference_in_calendar_years,
 };

@@ -119,6 +119,7 @@ mod tests {
         assert_eq!(months.nth(usize::MAX), None);
         assert_eq!(months.size_hint(), (0, Some(0)));
     }
+
     #[test]
     fn iterates_months_from_either_end_without_duplicates() {
         let mut months =
@@ -135,6 +136,4 @@ mod tests {
         let mut extreme = each_month_of_interval(NaiveDate::MAX, NaiveDate::MAX).unwrap();
         assert_eq!(extreme.next_back(), Some(start_of_month(NaiveDate::MAX)));
         assert_eq!(extreme.next(), None);
-    }
-
-}
+    }}

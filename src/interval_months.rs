@@ -136,4 +136,5 @@ mod tests {
         let mut extreme = each_month_of_interval(NaiveDate::MAX, NaiveDate::MAX).unwrap();
         assert_eq!(extreme.next_back(), Some(start_of_month(NaiveDate::MAX)));
         assert_eq!(extreme.next(), None);
-    }}
+    }
+}

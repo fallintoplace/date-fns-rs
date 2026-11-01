@@ -41,6 +41,28 @@ pub fn end_of_fiscal_year(date: NaiveDate, first_month: u32) -> Option<NaiveDate
     Some(end_of_month(NaiveDate::from_ymd_opt(year, month, 1)?))
 }
 
+/// Count fiscal-year boundaries from right to left.
+///
+/// Supports fiscal years starting in any month from January through December.
+/// This calculation does not need to construct possibly out-of-range boundaries.
+pub fn difference_in_calendar_fiscal_years(
+    left: NaiveDate,
+    right: NaiveDate,
+    first_month: u32,
+) -> Option<i64> {
+    if !(1..=12).contains(&first_month) {
+        return None;
+    }
+    let label = |date: NaiveDate| {
+        if date.month() < first_month {
+            i64::from(date.year()) - 1
+        } else {
+            i64::from(date.year())
+        }
+    };
+    Some(label(left) - label(right))
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -85,5 +107,38 @@ mod tests {
         );
         assert_eq!(end_of_fiscal_year(NaiveDate::MAX, 1), Some(NaiveDate::MAX));
         assert_eq!(end_of_fiscal_year(NaiveDate::MAX, 2), None);
+    }
+    #[test]
+    fn fiscal_year_difference_counts_only_year_boundaries() {
+        let march = date(2024, 3, 31);
+        let april = date(2024, 4, 1);
+        assert_eq!(
+            difference_in_calendar_fiscal_years(april, march, 4),
+            Some(1)
+        );
+        assert_eq!(
+            difference_in_calendar_fiscal_years(march, april, 4),
+            Some(-1)
+        );
+        assert_eq!(
+            difference_in_calendar_fiscal_years(date(2025, 2, 1), april, 4),
+            Some(0)
+        );
+        assert_eq!(
+            difference_in_calendar_fiscal_years(date(2025, 1, 1), march, 1),
+            Some(1)
+        );
+    }
+
+    #[test]
+    fn fiscal_year_difference_validates_months_and_extreme_dates() {
+        let first = date(2024, 1, 1);
+        assert_eq!(difference_in_calendar_fiscal_years(first, first, 0), None);
+        assert_eq!(difference_in_calendar_fiscal_years(first, first, 13), None);
+        let wide = difference_in_calendar_fiscal_years(NaiveDate::MAX, NaiveDate::MIN, 4).unwrap();
+        assert_eq!(
+            difference_in_calendar_fiscal_years(NaiveDate::MIN, NaiveDate::MAX, 4),
+            Some(-wide)
+        );
     }
 }

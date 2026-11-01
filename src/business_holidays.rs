@@ -63,6 +63,24 @@ pub fn is_business_day_with_holidays(date: NaiveDate, holidays: &[NaiveDate]) ->
     is_business_day(date) && !holidays.contains(&date)
 }
 
+/// Find the next business date strictly after the input, skipping holidays.
+///
+/// Duplicated holidays and holidays on weekends have no additional effect.
+pub fn next_business_day_with_holidays(
+    date: NaiveDate,
+    holidays: &[NaiveDate],
+) -> Option<NaiveDate> {
+    add_business_days_with_holidays(date, 1, holidays)
+}
+
+/// Find the previous business date strictly before the input, skipping holidays.
+pub fn previous_business_day_with_holidays(
+    date: NaiveDate,
+    holidays: &[NaiveDate],
+) -> Option<NaiveDate> {
+    add_business_days_with_holidays(date, -1, holidays)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -140,4 +158,19 @@ mod tests {
             is_business_day_with_holidays(NaiveDate::MAX, &[]) == is_business_day(NaiveDate::MAX)
         );
     }
+    #[test]
+    fn navigates_over_consecutive_holidays_and_weekends() {
+        let friday = date(2024, 3, 1);
+        let monday = date(2024, 3, 4);
+        let tuesday = date(2024, 3, 5);
+        let holidays = [monday, monday, date(2024, 3, 2)];
+        assert_eq!(next_business_day_with_holidays(friday, &holidays), Some(tuesday));
+        assert_eq!(previous_business_day_with_holidays(tuesday, &holidays), Some(friday));
+        assert_eq!(next_business_day_with_holidays(monday, &holidays), Some(tuesday));
+        assert_eq!(previous_business_day_with_holidays(monday, &holidays), Some(friday));
+        assert_eq!(next_business_day_with_holidays(friday, &[]), Some(monday));
+        assert_eq!(next_business_day_with_holidays(NaiveDate::MAX, &[]), None);
+        assert_eq!(previous_business_day_with_holidays(NaiveDate::MIN, &[]), None);
+    }
+
 }

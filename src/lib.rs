@@ -123,6 +123,9 @@ pub use interval_merge::merge_intervals;
 mod interval_weeks;
 pub use interval_weeks::{each_week_of_interval, WeeksInInterval};
 
+mod interval_week_segments;
+pub use interval_week_segments::{each_week_segment_of_interval, WeekSegmentsInInterval};
+
 mod interval_months;
 pub use interval_months::{each_month_of_interval, MonthsInInterval};
 

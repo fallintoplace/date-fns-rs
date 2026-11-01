@@ -102,6 +102,7 @@ mod tests {
         assert_eq!(last.next(), None);
         assert_eq!(last.next(), None);
     }
+
     #[test]
     fn counts_and_skips_clipped_month_segments_directly() {
         let mut segments =
@@ -126,6 +127,4 @@ mod tests {
             each_month_segment_of_interval(NaiveDate::MIN, NaiveDate::MAX).unwrap();
         assert_eq!(extreme.nth(usize::MAX), None);
         assert_eq!(extreme.next(), None);
-    }
-
-}
+    }}

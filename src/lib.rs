@@ -141,6 +141,9 @@ pub use interval_year_segments::{each_year_segment_of_interval, YearSegmentsInIn
 mod interval_quarters;
 pub use interval_quarters::{each_quarter_of_interval, QuartersInInterval};
 
+mod interval_quarter_segments;
+pub use interval_quarter_segments::{each_quarter_segment_of_interval, QuarterSegmentsInInterval};
+
 mod interval_weekdays;
 pub use interval_weekdays::{each_weekday_of_interval, WeekdaysInInterval};
 

@@ -22,6 +22,13 @@ pub fn difference_in_calendar_weeks(
     week_index(left, week_starts_on) - week_index(right, week_starts_on)
 }
 
+/// Count ISO week-numbering year boundaries from right to left.
+///
+/// The ISO year may change before January 1 or after December 31.
+pub fn difference_in_calendar_iso_week_years(left: NaiveDate, right: NaiveDate) -> i64 {
+    i64::from(left.iso_week().year()) - i64::from(right.iso_week().year())
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -68,5 +75,30 @@ mod tests {
             assert!(forward > 0);
             assert_eq!(forward, -backward);
         }
+    }
+    #[test]
+    fn observes_iso_year_rollovers_in_december_and_january() {
+        assert_eq!(
+            difference_in_calendar_iso_week_years(date(2018, 12, 31), date(2018, 12, 30)),
+            1
+        );
+        assert_eq!(
+            difference_in_calendar_iso_week_years(date(2021, 1, 1), date(2020, 12, 31)),
+            0
+        );
+        assert_eq!(
+            difference_in_calendar_iso_week_years(date(2020, 1, 1), date(2019, 12, 29)),
+            1
+        );
+    }
+
+    #[test]
+    fn is_antisymmetric_at_date_limits() {
+        let count = difference_in_calendar_iso_week_years(NaiveDate::MAX, NaiveDate::MIN);
+        assert!(count > 0);
+        assert_eq!(
+            difference_in_calendar_iso_week_years(NaiveDate::MIN, NaiveDate::MAX),
+            -count
+        );
     }
 }

@@ -24,6 +24,20 @@ pub fn previous_weekday(date: NaiveDate, weekday: Weekday) -> Option<NaiveDate> 
     sub_days(date, if offset == 0 { 7 } else { offset })
 }
 
+/// Find the closest occurrence of a weekday, including the input date.
+///
+/// No tie is possible for a seven-day cycle.
+pub fn nearest_weekday(date: NaiveDate, weekday: Weekday) -> Option<NaiveDate> {
+    let current = date.weekday().num_days_from_monday();
+    let target = weekday.num_days_from_monday();
+    let forward = (target + 7 - current) % 7;
+    if forward <= 3 {
+        add_days(date, i64::from(forward))
+    } else {
+        sub_days(date, i64::from(7 - forward))
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -54,5 +68,29 @@ mod tests {
             previous_weekday(NaiveDate::MIN, NaiveDate::MIN.weekday()),
             None
         );
+    }
+    #[test]
+    fn chooses_nearest_weekday_in_either_direction() {
+        let monday = date(2024, 1, 1);
+        assert_eq!(nearest_weekday(monday, Weekday::Mon), Some(monday));
+        assert_eq!(
+            nearest_weekday(date(2024, 1, 4), Weekday::Mon),
+            Some(monday)
+        );
+        assert_eq!(
+            nearest_weekday(date(2024, 1, 5), Weekday::Mon),
+            Some(date(2024, 1, 8))
+        );
+        assert_eq!(
+            nearest_weekday(date(2024, 1, 7), Weekday::Mon),
+            Some(date(2024, 1, 8))
+        );
+    }
+
+    #[test]
+    fn identity_at_supported_date_limits() {
+        for edge in [NaiveDate::MIN, NaiveDate::MAX] {
+            assert_eq!(nearest_weekday(edge, edge.weekday()), Some(edge));
+        }
     }
 }

@@ -5,6 +5,7 @@ use chrono::NaiveDate;
 use crate::boundaries::{end_of_month, start_of_month};
 use crate::business_days::is_business_day;
 use crate::business_difference::difference_in_business_days;
+use crate::holiday_business_difference::difference_in_business_days_excluding_holidays;
 
 /// Count Monday-Friday dates in the date's month.
 ///
@@ -29,10 +30,7 @@ pub fn get_business_day_of_month(date: NaiveDate) -> Option<u32> {
 /// Count working days in a month after excluding caller-supplied holidays.
 ///
 /// Weekend dates and duplicate holiday entries are ignored.
-pub fn get_business_days_in_month_with_holidays(
-    date: NaiveDate,
-    holidays: &[NaiveDate],
-) -> u32 {
+pub fn get_business_days_in_month_with_holidays(date: NaiveDate, holidays: &[NaiveDate]) -> u32 {
     let first = start_of_month(date);
     let last = end_of_month(date);
     let initial = if is_business_day(first) && !holidays.contains(&first) {
@@ -40,9 +38,7 @@ pub fn get_business_days_in_month_with_holidays(
     } else {
         0
     };
-    let remaining = crate::holiday_business_difference::difference_in_business_days_excluding_holidays(
-        last, first, holidays,
-    );
+    let remaining = difference_in_business_days_excluding_holidays(last, first, holidays);
     (remaining + initial) as u32
 }
 
@@ -62,9 +58,7 @@ pub fn get_business_day_of_month_with_holidays(
     } else {
         0
     };
-    let remaining = crate::holiday_business_difference::difference_in_business_days_excluding_holidays(
-        date, first, holidays,
-    );
+    let remaining = difference_in_business_days_excluding_holidays(date, first, holidays);
     Some((remaining + initial) as u32)
 }
 

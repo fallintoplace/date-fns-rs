@@ -212,4 +212,5 @@ mod tests {
         let mut extreme = each_day_of_interval(NaiveDate::MIN, NaiveDate::MAX).unwrap();
         assert_eq!(extreme.nth_back(usize::MAX), None);
         assert_eq!(extreme.next(), None);
-    }}
+    }
+}

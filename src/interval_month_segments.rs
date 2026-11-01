@@ -108,23 +108,13 @@ mod tests {
         let mut segments =
             each_month_segment_of_interval(date(2024, 1, 30), date(2024, 5, 2)).unwrap();
         assert_eq!(segments.len(), 5);
-        assert_eq!(
-            segments.nth(2),
-            Some((date(2024, 3, 1), date(2024, 3, 31)))
-        );
+        assert_eq!(segments.nth(2), Some((date(2024, 3, 1), date(2024, 3, 31))));
         assert_eq!(segments.len(), 2);
-        assert_eq!(
-            segments.next(),
-            Some((date(2024, 4, 1), date(2024, 4, 30)))
-        );
-        assert_eq!(
-            segments.next(),
-            Some((date(2024, 5, 1), date(2024, 5, 2)))
-        );
+        assert_eq!(segments.next(), Some((date(2024, 4, 1), date(2024, 4, 30))));
+        assert_eq!(segments.next(), Some((date(2024, 5, 1), date(2024, 5, 2))));
         assert_eq!(segments.len(), 0);
 
-        let mut extreme =
-            each_month_segment_of_interval(NaiveDate::MIN, NaiveDate::MAX).unwrap();
+        let mut extreme = each_month_segment_of_interval(NaiveDate::MIN, NaiveDate::MAX).unwrap();
         assert_eq!(extreme.nth(usize::MAX), None);
         assert_eq!(extreme.next(), None);
     }

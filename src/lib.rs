@@ -152,6 +152,12 @@ pub use quarters::get_day_of_quarter;
 pub use quarters::get_days_in_quarter;
 pub use quarters::{end_of_quarter, get_quarter, start_of_quarter};
 
+mod datetime_epoch;
+pub use datetime_epoch::{
+    from_unix_timestamp_millis, from_unix_timestamp_seconds, to_unix_timestamp_millis,
+    to_unix_timestamp_seconds,
+};
+
 mod half_years;
 pub use half_years::{end_of_half_year, get_half_year, start_of_half_year};
 

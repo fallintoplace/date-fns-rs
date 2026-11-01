@@ -273,6 +273,9 @@ pub use interval_weekdays::{each_weekday_of_interval, WeekdaysInInterval};
 mod interval_business_days;
 pub use interval_business_days::{each_business_day_of_interval, BusinessDaysInInterval};
 
+mod datetime_hour_iterator;
+pub use datetime_hour_iterator::{each_nth_hour_of_datetime_interval, HoursInDatetimeInterval};
+
 mod datetime_minute_iterator;
 pub use datetime_minute_iterator::{
     each_nth_minute_of_datetime_interval, MinutesInDatetimeInterval,

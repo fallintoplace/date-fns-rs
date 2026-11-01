@@ -79,8 +79,7 @@ mod tests {
         assert!(each_nth_hour_of_datetime_interval(start, start, 0).is_none());
         assert!(each_nth_hour_of_datetime_interval(start, NaiveDateTime::MIN, 1).is_none());
         let mut it =
-            each_nth_hour_of_datetime_interval(NaiveDateTime::MAX, NaiveDateTime::MAX, 1)
-                .unwrap();
+            each_nth_hour_of_datetime_interval(NaiveDateTime::MAX, NaiveDateTime::MAX, 1).unwrap();
         assert_eq!(it.next(), Some(NaiveDateTime::MAX));
         assert_eq!(it.next(), None);
         assert_eq!(it.next(), None);

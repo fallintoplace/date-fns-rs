@@ -129,6 +129,9 @@ pub use calendar_predicates::{
     is_first_day_of_month, is_last_day_of_month, is_leap_day, is_same_quarter,
 };
 
+mod datetime_iso;
+pub use datetime_iso::{format_iso_local_datetime, parse_iso_local_datetime};
+
 mod half_year_predicates;
 pub use half_year_predicates::{
     is_first_day_of_half_year, is_last_day_of_half_year, is_same_half_year,

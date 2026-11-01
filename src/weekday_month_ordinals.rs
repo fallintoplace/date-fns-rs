@@ -38,8 +38,6 @@ mod tests {
     #[test]
     fn supports_extreme_dates() {
         assert!((1..=5).contains(&get_weekday_occurrence_in_month(NaiveDate::MIN)));
-        assert!(
-            (-5..=-1).contains(&get_weekday_occurrence_from_end_of_month(NaiveDate::MAX))
-        );
+        assert!((-5..=-1).contains(&get_weekday_occurrence_from_end_of_month(NaiveDate::MAX)));
     }
 }

@@ -175,6 +175,10 @@ pub use calendar_predicates::{
     is_first_day_of_month, is_last_day_of_month, is_leap_day, is_same_quarter,
 };
 
+mod iso_time;
+pub use chrono::NaiveTime;
+pub use iso_time::{format_iso_local_time, parse_iso_local_time};
+
 mod datetime_iso;
 pub use datetime_iso::{format_iso_local_datetime, parse_iso_local_datetime};
 

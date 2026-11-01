@@ -125,6 +125,13 @@ pub use iso_basic_date::{format_iso_basic_date, parse_iso_basic_date};
 mod metadata;
 pub use metadata::{get_day_of_year, get_days_in_month, get_days_in_year};
 
+mod datetime_differences;
+pub use datetime_differences::{
+    difference_in_hours_datetime, difference_in_microseconds_datetime,
+    difference_in_milliseconds_datetime, difference_in_minutes_datetime,
+    difference_in_seconds_datetime,
+};
+
 mod half_year_day_ordinals;
 pub use half_year_day_ordinals::{get_day_of_half_year, get_days_in_half_year};
 

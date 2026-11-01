@@ -5,28 +5,17 @@ use chrono::NaiveDateTime;
 /// Count signed hour boundaries between two naive datetimes.
 ///
 /// Unlike whole elapsed hours, 12:59 -> 13:00 crosses one hour boundary.
-pub fn difference_in_calendar_hours_datetime(
-    left: NaiveDateTime,
-    right: NaiveDateTime,
-) -> i64 {
-    left.and_utc().timestamp().div_euclid(3_600)
-        - right.and_utc().timestamp().div_euclid(3_600)
+pub fn difference_in_calendar_hours_datetime(left: NaiveDateTime, right: NaiveDateTime) -> i64 {
+    left.and_utc().timestamp().div_euclid(3_600) - right.and_utc().timestamp().div_euclid(3_600)
 }
 
 /// Count signed minute boundaries between two naive datetimes.
-pub fn difference_in_calendar_minutes_datetime(
-    left: NaiveDateTime,
-    right: NaiveDateTime,
-) -> i64 {
-    left.and_utc().timestamp().div_euclid(60)
-        - right.and_utc().timestamp().div_euclid(60)
+pub fn difference_in_calendar_minutes_datetime(left: NaiveDateTime, right: NaiveDateTime) -> i64 {
+    left.and_utc().timestamp().div_euclid(60) - right.and_utc().timestamp().div_euclid(60)
 }
 
 /// Count signed second boundaries between two naive datetimes.
-pub fn difference_in_calendar_seconds_datetime(
-    left: NaiveDateTime,
-    right: NaiveDateTime,
-) -> i64 {
+pub fn difference_in_calendar_seconds_datetime(left: NaiveDateTime, right: NaiveDateTime) -> i64 {
     left.and_utc().timestamp() - right.and_utc().timestamp()
 }
 
@@ -73,9 +62,6 @@ mod tests {
             difference_in_calendar_seconds_datetime(NaiveDateTime::MAX, NaiveDateTime::MAX),
             0
         );
-        assert!(difference_in_calendar_hours_datetime(
-            NaiveDateTime::MAX,
-            NaiveDateTime::MIN
-        ) > 0);
+        assert!(difference_in_calendar_hours_datetime(NaiveDateTime::MAX, NaiveDateTime::MIN) > 0);
     }
 }

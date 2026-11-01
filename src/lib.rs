@@ -154,6 +154,12 @@ pub use datetime_differences::{
     difference_in_seconds_datetime,
 };
 
+mod datetime_calendar_clock_differences;
+pub use datetime_calendar_clock_differences::{
+    difference_in_calendar_hours_datetime, difference_in_calendar_minutes_datetime,
+    difference_in_calendar_seconds_datetime,
+};
+
 pub use datetime_differences::difference_in_nanoseconds_datetime;
 
 mod half_year_day_ordinals;
@@ -477,12 +483,6 @@ pub use datetime_calendar_differences::{
     difference_in_calendar_days_datetime, difference_in_calendar_months_datetime,
     difference_in_calendar_quarters_datetime, difference_in_calendar_weeks_datetime,
     difference_in_calendar_years_datetime,
-};
-
-mod datetime_calendar_clock_differences;
-pub use datetime_calendar_clock_differences::{
-    difference_in_calendar_hours_datetime, difference_in_calendar_minutes_datetime,
-    difference_in_calendar_seconds_datetime,
 };
 
 mod datetime_elapsed_days;

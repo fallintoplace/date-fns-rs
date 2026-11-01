@@ -136,6 +136,9 @@ pub use iso_year::{format_iso_year, parse_iso_year};
 mod iso_week_date;
 pub use iso_week_date::{format_iso_week_date, parse_iso_week_date};
 
+mod iso_week_reduced;
+pub use iso_week_reduced::{format_iso_week, parse_iso_week};
+
 mod datetime_iso_interval;
 pub use datetime_iso_interval::{
     format_iso_local_datetime_interval, parse_iso_local_datetime_interval,

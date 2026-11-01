@@ -465,3 +465,10 @@ pub use datetime_calendar_boundaries::{
     end_of_month_datetime, end_of_quarter_datetime, end_of_year_datetime, start_of_month_datetime,
     start_of_quarter_datetime, start_of_year_datetime,
 };
+
+mod datetime_calendar_differences;
+pub use datetime_calendar_differences::{
+    difference_in_calendar_days_datetime, difference_in_calendar_months_datetime,
+    difference_in_calendar_quarters_datetime, difference_in_calendar_weeks_datetime,
+    difference_in_calendar_years_datetime,
+};

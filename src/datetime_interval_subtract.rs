@@ -66,7 +66,9 @@ mod tests {
         assert_eq!(
             subtract_datetime_intervals(stamp(0), stamp(2), stamp(0), stamp(1)),
             Some(vec![(
-                stamp(1).checked_add_signed(TimeDelta::nanoseconds(1)).unwrap(),
+                stamp(1)
+                    .checked_add_signed(TimeDelta::nanoseconds(1))
+                    .unwrap(),
                 stamp(2)
             )])
         );

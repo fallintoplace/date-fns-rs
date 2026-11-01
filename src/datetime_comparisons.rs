@@ -49,7 +49,10 @@ mod tests {
         assert!(is_same_month_datetime(first, second));
         assert!(is_same_year_datetime(first, second));
 
-        let next_day = NaiveDate::from_ymd_opt(2024, 3, 1).unwrap().and_hms_opt(0, 0, 0).unwrap();
+        let next_day = NaiveDate::from_ymd_opt(2024, 3, 1)
+            .unwrap()
+            .and_hms_opt(0, 0, 0)
+            .unwrap();
         assert!(!is_same_day_datetime(first, next_day));
         assert!(!is_same_month_datetime(first, next_day));
         assert!(is_same_year_datetime(first, next_day));

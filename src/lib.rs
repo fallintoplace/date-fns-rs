@@ -190,6 +190,11 @@ pub use interval_weekends::{each_weekend_of_interval, WeekendsInInterval};
 mod nth_weekday;
 pub use nth_weekday::nth_weekday_of_month;
 
+mod weekday_month_ordinals;
+pub use weekday_month_ordinals::{
+    get_weekday_occurrence_from_end_of_month, get_weekday_occurrence_in_month,
+};
+
 mod week_of_month;
 pub use week_of_month::get_week_of_month;
 

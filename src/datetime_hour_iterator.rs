@@ -76,12 +76,9 @@ mod tests {
         assert_eq!(iter.next(), Some(start));
         assert_eq!(iter.next(), None);
         assert_eq!(iter.next(), None);
-        let mut large = each_nth_hour_of_datetime_interval(
-            NaiveDateTime::MIN,
-            NaiveDateTime::MAX,
-            u32::MAX,
-        )
-        .unwrap();
+        let mut large =
+            each_nth_hour_of_datetime_interval(NaiveDateTime::MIN, NaiveDateTime::MAX, u32::MAX)
+                .unwrap();
         assert_eq!(large.next(), Some(NaiveDateTime::MIN));
     }
 }

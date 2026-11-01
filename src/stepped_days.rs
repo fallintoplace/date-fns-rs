@@ -140,8 +140,7 @@ mod tests {
 
     #[test]
     fn reverse_iteration_preserves_the_step_alignment() {
-        let mut dates = each_nth_day_of_interval(date(2024, 3, 1), date(2024, 3, 15), 3)
-            .unwrap();
+        let mut dates = each_nth_day_of_interval(date(2024, 3, 1), date(2024, 3, 15), 3).unwrap();
         assert_eq!(dates.len(), 5);
         assert_eq!(dates.next_back(), Some(date(2024, 3, 13)));
         assert_eq!(dates.len(), 4);
@@ -151,8 +150,8 @@ mod tests {
         assert_eq!(dates.next_back(), None);
         assert_eq!(dates.len(), 0);
 
-        let mut extreme = each_nth_day_of_interval(NaiveDate::MAX, NaiveDate::MAX, u64::MAX)
-            .unwrap();
+        let mut extreme =
+            each_nth_day_of_interval(NaiveDate::MAX, NaiveDate::MAX, u64::MAX).unwrap();
         assert_eq!(extreme.next_back(), Some(NaiveDate::MAX));
         assert_eq!(extreme.next_back(), None);
     }

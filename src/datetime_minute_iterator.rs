@@ -112,7 +112,10 @@ mod tests {
             .and_hms_nano_opt(0, 5, 30, 123_456_789)
             .unwrap();
         let mut samples = each_nth_minute_of_datetime_interval(first, last, 2).unwrap();
-        assert_eq!(samples.nth(2), first.checked_add_signed(TimeDelta::minutes(4)));
+        assert_eq!(
+            samples.nth(2),
+            first.checked_add_signed(TimeDelta::minutes(4))
+        );
         assert_eq!(samples.next(), Some(last));
         assert_eq!(samples.next(), None);
 

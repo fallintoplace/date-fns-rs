@@ -90,4 +90,37 @@ mod tests {
             1
         );
     }
+
+    #[test]
+    fn steps_across_midnight_and_a_leap_day() {
+        let first = NaiveDate::from_ymd_opt(2024, 2, 28)
+            .unwrap()
+            .and_hms_opt(23, 30, 0)
+            .unwrap();
+        let second = NaiveDate::from_ymd_opt(2024, 2, 29)
+            .unwrap()
+            .and_hms_opt(0, 30, 0)
+            .unwrap();
+        let third = second.checked_add_signed(TimeDelta::hours(1)).unwrap();
+        let end = second.checked_add_signed(TimeDelta::minutes(90)).unwrap();
+        let hours: Vec<_> = each_nth_hour_of_datetime_interval(first, end, 1)
+            .unwrap()
+            .collect();
+        assert_eq!(hours, vec![first, second, third]);
+    }
+
+    #[test]
+    fn rejects_invalid_steps_and_exhausts_at_supported_limits() {
+        let start = NaiveDateTime::MAX;
+        assert!(each_nth_hour_of_datetime_interval(start, start, 0).is_none());
+        assert!(each_nth_hour_of_datetime_interval(start, NaiveDateTime::MIN, 1).is_none());
+        let mut iter = each_nth_hour_of_datetime_interval(start, start, 1).unwrap();
+        assert_eq!(iter.next(), Some(start));
+        assert_eq!(iter.next(), None);
+        assert_eq!(iter.next(), None);
+        let mut large =
+            each_nth_hour_of_datetime_interval(NaiveDateTime::MIN, NaiveDateTime::MAX, u32::MAX)
+                .unwrap();
+        assert_eq!(large.next(), Some(NaiveDateTime::MIN));
+    }
 }

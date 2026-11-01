@@ -27,7 +27,10 @@ mod tests {
     #[test]
     fn chooses_earlier_midpoint_for_even_ranges() {
         let start = date(2024, 2, 28);
-        assert_eq!(interval_midpoint(start, date(2024, 3, 1)), Some(date(2024, 2, 29)));
+        assert_eq!(
+            interval_midpoint(start, date(2024, 3, 1)),
+            Some(date(2024, 2, 29))
+        );
         assert_eq!(interval_midpoint(start, date(2024, 2, 29)), Some(start));
         assert_eq!(interval_midpoint(start, start), Some(start));
         assert_eq!(interval_midpoint(date(2024, 3, 1), start), None);

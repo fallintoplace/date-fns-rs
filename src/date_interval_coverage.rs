@@ -38,17 +38,44 @@ mod tests {
 
     #[test]
     fn counts_inclusive_overlap_and_union_without_duplicates() {
-        assert_eq!(overlapping_days_in_intervals(date(1), date(3), date(3), date(5)), Some(1));
-        assert_eq!(overlapping_days_in_intervals(date(1), date(2), date(3), date(4)), Some(0));
-        assert_eq!(overlapping_days_in_intervals(date(2), date(1), date(1), date(2)), None);
-        assert_eq!(count_distinct_days_covered(&[(date(3), date(5)), (date(1), date(3)), (date(8), date(8))]), Some(6));
+        assert_eq!(
+            overlapping_days_in_intervals(date(1), date(3), date(3), date(5)),
+            Some(1)
+        );
+        assert_eq!(
+            overlapping_days_in_intervals(date(1), date(2), date(3), date(4)),
+            Some(0)
+        );
+        assert_eq!(
+            overlapping_days_in_intervals(date(2), date(1), date(1), date(2)),
+            None
+        );
+        assert_eq!(
+            count_distinct_days_covered(&[
+                (date(3), date(5)),
+                (date(1), date(3)),
+                (date(8), date(8))
+            ]),
+            Some(6)
+        );
         assert_eq!(count_distinct_days_covered(&[]), Some(0));
     }
 
     #[test]
     fn works_at_chrono_limits() {
-        assert_eq!(count_distinct_days_covered(&[(NaiveDate::MAX, NaiveDate::MAX)]), Some(1));
-        assert_eq!(overlapping_days_in_intervals(NaiveDate::MIN, NaiveDate::MAX, NaiveDate::MAX, NaiveDate::MAX), Some(1));
+        assert_eq!(
+            count_distinct_days_covered(&[(NaiveDate::MAX, NaiveDate::MAX)]),
+            Some(1)
+        );
+        assert_eq!(
+            overlapping_days_in_intervals(
+                NaiveDate::MIN,
+                NaiveDate::MAX,
+                NaiveDate::MAX,
+                NaiveDate::MAX
+            ),
+            Some(1)
+        );
         assert_eq!(count_distinct_days_covered(&[(date(5), date(4))]), None);
     }
 }

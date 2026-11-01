@@ -79,8 +79,8 @@ pub use iso::{format_iso_date, parse_iso_date};
 
 mod datetime_comparisons;
 pub use datetime_comparisons::{
-    is_same_day_datetime, is_same_hour_datetime, is_same_minute_datetime,
-    is_same_month_datetime, is_same_second_datetime, is_same_year_datetime,
+    is_same_day_datetime, is_same_hour_datetime, is_same_minute_datetime, is_same_month_datetime,
+    is_same_second_datetime, is_same_year_datetime,
 };
 
 mod iso_year;

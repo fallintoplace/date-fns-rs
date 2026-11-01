@@ -475,3 +475,9 @@ pub use datetime_calendar_differences::{
 
 mod datetime_elapsed_days;
 pub use datetime_elapsed_days::{difference_in_days_datetime, difference_in_weeks_datetime};
+
+mod datetime_business_arithmetic;
+pub use datetime_business_arithmetic::{
+    add_business_days_datetime, add_business_days_with_holidays_datetime,
+    sub_business_days_datetime, sub_business_days_with_holidays_datetime,
+};

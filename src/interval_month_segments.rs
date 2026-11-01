@@ -127,4 +127,5 @@ mod tests {
             each_month_segment_of_interval(NaiveDate::MIN, NaiveDate::MAX).unwrap();
         assert_eq!(extreme.nth(usize::MAX), None);
         assert_eq!(extreme.next(), None);
-    }}
+    }
+}

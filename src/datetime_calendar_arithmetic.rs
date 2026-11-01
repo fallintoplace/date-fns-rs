@@ -42,17 +42,38 @@ mod tests {
     use chrono::NaiveDate;
 
     fn dt(y: i32, m: u32, d: u32) -> NaiveDateTime {
-        NaiveDate::from_ymd_opt(y, m, d).unwrap().and_hms_milli_opt(23, 45, 56, 789).unwrap()
+        NaiveDate::from_ymd_opt(y, m, d)
+            .unwrap()
+            .and_hms_milli_opt(23, 45, 56, 789)
+            .unwrap()
     }
 
     #[test]
     fn clamps_dates_and_preserves_time() {
-        assert_eq!(add_months_datetime(dt(2024, 1, 31), 1), Some(dt(2024, 2, 29)));
-        assert_eq!(sub_months_datetime(dt(2024, 3, 31), 1), Some(dt(2024, 2, 29)));
-        assert_eq!(add_years_datetime(dt(2024, 2, 29), 1), Some(dt(2025, 2, 28)));
-        assert_eq!(sub_years_datetime(dt(2024, 2, 29), 1), Some(dt(2023, 2, 28)));
-        assert_eq!(add_quarters_datetime(dt(2024, 1, 31), 1), Some(dt(2024, 4, 30)));
-        assert_eq!(sub_quarters_datetime(dt(2024, 4, 30), 1), Some(dt(2024, 1, 30)));
+        assert_eq!(
+            add_months_datetime(dt(2024, 1, 31), 1),
+            Some(dt(2024, 2, 29))
+        );
+        assert_eq!(
+            sub_months_datetime(dt(2024, 3, 31), 1),
+            Some(dt(2024, 2, 29))
+        );
+        assert_eq!(
+            add_years_datetime(dt(2024, 2, 29), 1),
+            Some(dt(2025, 2, 28))
+        );
+        assert_eq!(
+            sub_years_datetime(dt(2024, 2, 29), 1),
+            Some(dt(2023, 2, 28))
+        );
+        assert_eq!(
+            add_quarters_datetime(dt(2024, 1, 31), 1),
+            Some(dt(2024, 4, 30))
+        );
+        assert_eq!(
+            sub_quarters_datetime(dt(2024, 4, 30), 1),
+            Some(dt(2024, 1, 30))
+        );
     }
 
     #[test]

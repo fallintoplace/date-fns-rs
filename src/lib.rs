@@ -252,6 +252,12 @@ pub use interval_month_segments::{each_month_segment_of_interval, MonthSegmentsI
 mod interval_years;
 pub use interval_years::{each_year_of_interval, YearsInInterval};
 
+mod datetime_rounding;
+pub use datetime_rounding::{
+    round_to_nearest_hour_datetime, round_to_nearest_minute_datetime,
+    round_to_nearest_second_datetime,
+};
+
 mod interval_year_segments;
 pub use interval_year_segments::{each_year_segment_of_interval, YearSegmentsInInterval};
 

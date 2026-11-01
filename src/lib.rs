@@ -14,8 +14,8 @@ mod datetime_arithmetic;
 pub use chrono::NaiveDateTime;
 pub use datetime_arithmetic::{
     add_hours_datetime, add_microseconds_datetime, add_milliseconds_datetime, add_minutes_datetime,
-    add_seconds_datetime, sub_hours_datetime, sub_microseconds_datetime,
-    sub_milliseconds_datetime, sub_minutes_datetime, sub_seconds_datetime,
+    add_seconds_datetime, sub_hours_datetime, sub_microseconds_datetime, sub_milliseconds_datetime,
+    sub_minutes_datetime, sub_seconds_datetime,
 };
 
 mod epoch_days;

@@ -135,12 +135,10 @@ mod tests {
         let first = date(2024, 1, 1);
         assert_eq!(difference_in_calendar_fiscal_years(first, first, 0), None);
         assert_eq!(difference_in_calendar_fiscal_years(first, first, 13), None);
-        let wide = difference_in_calendar_fiscal_years(NaiveDate::MAX, NaiveDate::MIN, 4)
-            .unwrap();
+        let wide = difference_in_calendar_fiscal_years(NaiveDate::MAX, NaiveDate::MIN, 4).unwrap();
         assert_eq!(
             difference_in_calendar_fiscal_years(NaiveDate::MIN, NaiveDate::MAX, 4),
             Some(-wide)
         );
     }
-
 }

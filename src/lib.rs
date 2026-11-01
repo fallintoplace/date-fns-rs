@@ -502,3 +502,9 @@ pub use interval_symmetric_difference::symmetric_difference_of_intervals;
 
 mod datetime_day_iterator;
 pub use datetime_day_iterator::{each_nth_day_of_datetime_interval, DaysInDatetimeInterval};
+
+mod datetime_week_year_boundaries;
+pub use datetime_week_year_boundaries::{
+    end_of_iso_week_year_datetime, end_of_week_year_datetime, start_of_iso_week_year_datetime,
+    start_of_week_year_datetime,
+};

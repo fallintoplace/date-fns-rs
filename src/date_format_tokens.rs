@@ -142,10 +142,7 @@ mod tests {
             Some("2024'02'29")
         );
         assert_eq!(format_date_tokens(date, "''").as_deref(), Some("'"));
-        assert_eq!(
-            format_date_tokens(date, "'it''s'").as_deref(),
-            Some("it's")
-        );
+        assert_eq!(format_date_tokens(date, "'it''s'").as_deref(), Some("it's"));
     }
 
     #[test]

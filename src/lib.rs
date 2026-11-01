@@ -46,9 +46,9 @@ pub use difference::{
 
 mod datetime_boundaries;
 pub use datetime_boundaries::{
-    end_of_day_datetime, end_of_hour_datetime, end_of_minute_datetime,
-    end_of_second_datetime, start_of_day_datetime, start_of_hour_datetime,
-    start_of_minute_datetime, start_of_second_datetime,
+    end_of_day_datetime, end_of_hour_datetime, end_of_minute_datetime, end_of_second_datetime,
+    start_of_day_datetime, start_of_hour_datetime, start_of_minute_datetime,
+    start_of_second_datetime,
 };
 
 mod calendar_week_difference;

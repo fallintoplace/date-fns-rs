@@ -32,7 +32,9 @@ pub fn parse_date_tokens(input: &str, pattern: &str) -> Option<NaiveDate> {
             while pi < pb.len() {
                 if pb[pi] == b'\'' {
                     if pb.get(pi + 1) == Some(&b'\'') {
-                        if !input[ii..].starts_with('\'') { return None; }
+                        if !input[ii..].starts_with('\'') {
+                            return None;
+                        }
                         ii += 1;
                         pi += 2;
                     } else {
@@ -42,38 +44,56 @@ pub fn parse_date_tokens(input: &str, pattern: &str) -> Option<NaiveDate> {
                     }
                 } else {
                     let ch = pattern[pi..].chars().next()?;
-                    if !input[ii..].starts_with(ch) { return None; }
+                    if !input[ii..].starts_with(ch) {
+                        return None;
+                    }
                     ii += ch.len_utf8();
                     pi += ch.len_utf8();
                 }
             }
-            if !closed { return None; }
+            if !closed {
+                return None;
+            }
             continue;
         }
         let rest = &pattern[pi..];
         if rest.starts_with("yyyy") {
-            if year.replace(digits(input, &mut ii, 4, 4)? as i32).is_some() { return None; }
+            if year.replace(digits(input, &mut ii, 4, 4)? as i32).is_some() {
+                return None;
+            }
             pi += 4;
         } else if rest.starts_with("MM") {
-            if month.replace(digits(input, &mut ii, 2, 2)?).is_some() { return None; }
+            if month.replace(digits(input, &mut ii, 2, 2)?).is_some() {
+                return None;
+            }
             pi += 2;
         } else if rest.starts_with('M') {
-            if month.replace(digits(input, &mut ii, 1, 2)?).is_some() { return None; }
+            if month.replace(digits(input, &mut ii, 1, 2)?).is_some() {
+                return None;
+            }
             pi += 1;
         } else if rest.starts_with("dd") {
-            if day.replace(digits(input, &mut ii, 2, 2)?).is_some() { return None; }
+            if day.replace(digits(input, &mut ii, 2, 2)?).is_some() {
+                return None;
+            }
             pi += 2;
         } else if rest.starts_with('d') {
-            if day.replace(digits(input, &mut ii, 1, 2)?).is_some() { return None; }
+            if day.replace(digits(input, &mut ii, 1, 2)?).is_some() {
+                return None;
+            }
             pi += 1;
         } else {
             let ch = rest.chars().next()?;
-            if ch.is_ascii_alphabetic() || !input[ii..].starts_with(ch) { return None; }
+            if ch.is_ascii_alphabetic() || !input[ii..].starts_with(ch) {
+                return None;
+            }
             ii += ch.len_utf8();
             pi += ch.len_utf8();
         }
     }
-    if ii != input.len() { return None; }
+    if ii != input.len() {
+        return None;
+    }
     NaiveDate::from_ymd_opt(year?, month?, day?)
 }
 
@@ -87,7 +107,10 @@ mod tests {
         assert_eq!(parse_date_tokens("2024-02-29", "yyyy-MM-dd"), Some(date));
         assert_eq!(parse_date_tokens("2/29/2024", "M/d/yyyy"), Some(date));
         assert_eq!(parse_date_tokens("29 Feb? 2024", "dd 'Feb?' yyyy"), None);
-        assert_eq!(parse_date_tokens("29 day 02 2024", "dd 'day' MM yyyy"), Some(date));
+        assert_eq!(
+            parse_date_tokens("29 day 02 2024", "dd 'day' MM yyyy"),
+            Some(date)
+        );
     }
 
     #[test]

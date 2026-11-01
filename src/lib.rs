@@ -14,6 +14,7 @@ mod epoch_days;
 pub use epoch_days::{from_epoch_day, to_epoch_day};
 
 mod months;
+pub use months::add_months_preserving_end_of_month;
 pub use months::{add_months, sub_months};
 
 mod years;

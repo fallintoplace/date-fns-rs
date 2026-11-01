@@ -224,6 +224,9 @@ pub use interval_ops::{clamp_to_interval, intersection_of_intervals, interval_le
 mod interval_gap;
 pub use interval_gap::gap_between_intervals;
 
+mod interval_subtract_many;
+pub use interval_subtract_many::subtract_multiple_intervals;
+
 mod interval_subtract;
 pub use interval_subtract::subtract_intervals;
 

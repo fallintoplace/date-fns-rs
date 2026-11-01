@@ -25,6 +25,16 @@ pub fn is_same_quarter(left: NaiveDate, right: NaiveDate) -> bool {
     left.year() == right.year() && get_quarter(left) == get_quarter(right)
 }
 
+/// Return whether the date is January 1.
+pub fn is_first_day_of_year(date: NaiveDate) -> bool {
+    date.month() == 1 && date.day() == 1
+}
+
+/// Return whether the date is December 31.
+pub fn is_last_day_of_year(date: NaiveDate) -> bool {
+    date.month() == 12 && date.day() == 31
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -56,5 +66,19 @@ mod tests {
         assert!(is_same_quarter(date(2024, 1, 1), date(2024, 3, 31)));
         assert!(!is_same_quarter(date(2024, 3, 31), date(2024, 4, 1)));
         assert!(!is_same_quarter(date(2024, 1, 1), date(2025, 1, 1)));
+    }
+    #[test]
+    fn identifies_first_and_last_days_of_year() {
+        assert!(is_first_day_of_year(date(2024, 1, 1)));
+        assert!(!is_first_day_of_year(date(2024, 1, 2)));
+        assert!(is_last_day_of_year(date(2024, 12, 31)));
+        assert!(!is_last_day_of_year(date(2024, 12, 30)));
+        assert!(!is_last_day_of_year(date(2024, 2, 29)));
+    }
+
+    #[test]
+    fn works_at_supported_date_limits() {
+        assert!(is_first_day_of_year(NaiveDate::MIN));
+        assert!(is_last_day_of_year(NaiveDate::MAX));
     }
 }

@@ -56,6 +56,13 @@ pub fn sub_business_days_with_holidays(
     add_business_days_with_holidays(date, days.checked_neg()?, holidays)
 }
 
+/// Return whether a date is a weekday and not a supplied holiday.
+///
+/// Duplicate entries and holidays falling on weekends do not affect the result.
+pub fn is_business_day_with_holidays(date: NaiveDate, holidays: &[NaiveDate]) -> bool {
+    is_business_day(date) && !holidays.contains(&date)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -119,4 +126,18 @@ mod tests {
         );
         assert_eq!(sub_business_days_with_holidays(friday, i64::MIN, &[]), None);
     }
+    #[test]
+    fn predicate_excludes_weekends_and_selected_holidays() {
+        let friday = date(2024, 3, 1);
+        let monday = date(2024, 3, 4);
+        let saturday = date(2024, 3, 2);
+        let holidays = [friday, friday, saturday];
+        assert!(!is_business_day_with_holidays(friday, &holidays));
+        assert!(!is_business_day_with_holidays(saturday, &holidays));
+        assert!(is_business_day_with_holidays(monday, &holidays));
+        assert!(is_business_day_with_holidays(friday, &[]));
+        assert!(is_business_day_with_holidays(NaiveDate::MAX, &[])
+            == is_business_day(NaiveDate::MAX));
+    }
+
 }

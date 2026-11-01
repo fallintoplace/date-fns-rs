@@ -56,7 +56,10 @@ mod tests {
 
         assert_eq!(add_business_days_datetime(friday, 1), Some(monday));
         assert_eq!(sub_business_days_datetime(monday, 1), Some(friday));
-        assert_eq!(add_business_days_datetime(friday, -1), Some(at(date(2024, 2, 29))));
+        assert_eq!(
+            add_business_days_datetime(friday, -1),
+            Some(at(date(2024, 2, 29)))
+        );
         assert_eq!(add_business_days_datetime(friday, 0), Some(friday));
         assert_eq!(
             add_business_days_with_holidays_datetime(friday, 1, &[date(2024, 3, 4)]),
@@ -72,7 +75,10 @@ mod tests {
     fn validates_large_offsets_without_losing_clock_time() {
         assert_eq!(add_business_days_datetime(NaiveDateTime::MAX, 1), None);
         assert_eq!(sub_business_days_datetime(NaiveDateTime::MIN, 1), None);
-        assert_eq!(sub_business_days_datetime(at(date(2024, 3, 1)), i64::MIN), None);
+        assert_eq!(
+            sub_business_days_datetime(at(date(2024, 3, 1)), i64::MIN),
+            None
+        );
         assert_eq!(
             add_business_days_with_holidays_datetime(NaiveDateTime::MAX, 1, &[]),
             None

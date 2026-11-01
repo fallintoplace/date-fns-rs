@@ -106,6 +106,7 @@ mod tests {
         assert_eq!(weeks.next(), None);
         assert_eq!(weeks.next(), None);
     }
+
     #[test]
     fn reports_exact_week_count_and_skips_directly() {
         let mut weeks =
@@ -123,6 +124,4 @@ mod tests {
                 .unwrap();
         assert_eq!(extreme.nth(usize::MAX), None);
         assert_eq!(extreme.next(), None);
-    }
-
-}
+    }}

@@ -479,6 +479,12 @@ pub use datetime_calendar_differences::{
     difference_in_calendar_years_datetime,
 };
 
+mod datetime_calendar_clock_differences;
+pub use datetime_calendar_clock_differences::{
+    difference_in_calendar_hours_datetime, difference_in_calendar_minutes_datetime,
+    difference_in_calendar_seconds_datetime,
+};
+
 mod datetime_elapsed_days;
 pub use datetime_elapsed_days::{difference_in_days_datetime, difference_in_weeks_datetime};
 

@@ -186,6 +186,7 @@ mod full_quarter_difference;
 pub use full_quarter_difference::difference_in_quarters;
 
 mod iso_week_setters;
+pub use iso_week_setters::set_iso_day_of_week;
 pub use iso_week_setters::{set_iso_week, set_iso_week_year};
 
 mod full_year_difference;

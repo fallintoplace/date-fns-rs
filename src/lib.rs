@@ -257,6 +257,9 @@ pub use interval_gap::gap_between_intervals;
 mod interval_subtract;
 pub use interval_subtract::subtract_intervals;
 
+mod datetime_interval_merge;
+pub use datetime_interval_merge::merge_datetime_intervals;
+
 mod interval_merge;
 pub use interval_merge::merge_intervals;
 

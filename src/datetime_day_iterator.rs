@@ -116,7 +116,10 @@ mod tests {
             .and_time(start.time());
         let mut days = each_nth_day_of_datetime_interval(start, last, 2).unwrap();
         assert_eq!(days.len(), 4);
-        assert_eq!(days.nth(2), Some(NaiveDate::from_ymd_opt(2024, 3, 2).unwrap().and_time(start.time())));
+        let skipped = NaiveDate::from_ymd_opt(2024, 3, 2)
+            .unwrap()
+            .and_time(start.time());
+        assert_eq!(days.nth(2), Some(skipped));
         assert_eq!(days.len(), 1);
         assert_eq!(days.next(), Some(last));
         assert_eq!(days.next(), None);

@@ -71,6 +71,9 @@ pub use calendar_quarter_difference::difference_in_calendar_quarters;
 mod quarters;
 pub use quarters::{end_of_quarter, get_quarter, start_of_quarter};
 
+mod half_years;
+pub use half_years::{end_of_half_year, get_half_year, start_of_half_year};
+
 mod fiscal_quarters;
 pub use fiscal_quarters::{end_of_fiscal_quarter, get_fiscal_quarter, start_of_fiscal_quarter};
 

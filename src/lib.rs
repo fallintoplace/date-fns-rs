@@ -18,6 +18,8 @@ pub use datetime_arithmetic::{
     sub_minutes_datetime, sub_seconds_datetime,
 };
 
+pub use datetime_arithmetic::{add_nanoseconds_datetime, sub_nanoseconds_datetime};
+
 mod epoch_days;
 pub use epoch_days::{from_epoch_day, to_epoch_day};
 

@@ -108,27 +108,42 @@ pub fn parse_date_tokens(input: &str, pattern: &str) -> Option<NaiveDate> {
         }
         let rest = &pattern[pi..];
         if rest.starts_with("MMMM") {
-            if month.replace(parse_month_name(input, &mut ii, true)?).is_some() {
+            if month
+                .replace(parse_month_name(input, &mut ii, true)?)
+                .is_some()
+            {
                 return None;
             }
             pi += 4;
         } else if rest.starts_with("MMM") {
-            if month.replace(parse_month_name(input, &mut ii, false)?).is_some() {
+            if month
+                .replace(parse_month_name(input, &mut ii, false)?)
+                .is_some()
+            {
                 return None;
             }
             pi += 3;
         } else if rest.starts_with("EEEE") {
-            if weekday.replace(parse_weekday_name(input, &mut ii, true)?).is_some() {
+            if weekday
+                .replace(parse_weekday_name(input, &mut ii, true)?)
+                .is_some()
+            {
                 return None;
             }
             pi += 4;
         } else if rest.starts_with("EEE") {
-            if weekday.replace(parse_weekday_name(input, &mut ii, false)?).is_some() {
+            if weekday
+                .replace(parse_weekday_name(input, &mut ii, false)?)
+                .is_some()
+            {
                 return None;
             }
             pi += 3;
         } else if rest.starts_with('E') {
-            if weekday.replace(parse_weekday_name(input, &mut ii, false)?).is_some() {
+            if weekday
+                .replace(parse_weekday_name(input, &mut ii, false)?)
+                .is_some()
+            {
                 return None;
             }
             pi += 1;
@@ -217,10 +232,7 @@ mod tests {
             parse_date_tokens("Thu Feb 29 2024", "E MMM dd yyyy"),
             Some(leap)
         );
-        assert_eq!(
-            parse_date_tokens("Feb 29 2024", "MMM dd yyyy"),
-            Some(leap)
-        );
+        assert_eq!(parse_date_tokens("Feb 29 2024", "MMM dd yyyy"), Some(leap));
     }
 
     #[test]
@@ -231,10 +243,7 @@ mod tests {
         );
         assert_eq!(parse_date_tokens("FEB 29 2024", "MMM dd yyyy"), None);
         assert_eq!(parse_date_tokens("Feb 29 2023", "MMM dd yyyy"), None);
-        assert_eq!(
-            parse_date_tokens("Feb 29 02 2024", "MMM dd MM yyyy"),
-            None
-        );
+        assert_eq!(parse_date_tokens("Feb 29 02 2024", "MMM dd MM yyyy"), None);
         assert_eq!(
             parse_date_tokens("Thu Thursday Feb 29 2024", "EEE EEEE MMM dd yyyy"),
             None

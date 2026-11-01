@@ -46,6 +46,21 @@ impl Iterator for SteppedDaysInInterval {
     }
 }
 
+impl DoubleEndedIterator for SteppedDaysInInterval {
+    fn next_back(&mut self) -> Option<Self::Item> {
+        let front = self.next?;
+        let remaining_days = (self.end - front).num_days() as u64;
+        let steps = remaining_days / self.step;
+        let last = front.checked_add_days(Days::new(steps * self.step))?;
+        if last == front {
+            self.next = None;
+        } else {
+            self.end = last.pred_opt()?;
+        }
+        Some(last)
+    }
+}
+
 impl ExactSizeIterator for SteppedDaysInInterval {}
 
 impl FusedIterator for SteppedDaysInInterval {}
@@ -121,5 +136,23 @@ mod tests {
         let mut dates = each_nth_day_of_interval(NaiveDate::MIN, NaiveDate::MAX, 7).unwrap();
         assert_eq!(dates.nth(usize::MAX), None);
         assert_eq!(dates.next(), None);
+    }
+
+    #[test]
+    fn reverse_iteration_preserves_the_step_alignment() {
+        let mut dates = each_nth_day_of_interval(date(2024, 3, 1), date(2024, 3, 15), 3).unwrap();
+        assert_eq!(dates.len(), 5);
+        assert_eq!(dates.next_back(), Some(date(2024, 3, 13)));
+        assert_eq!(dates.len(), 4);
+        assert_eq!(dates.next(), Some(date(2024, 3, 1)));
+        assert_eq!(dates.next_back(), Some(date(2024, 3, 10)));
+        assert_eq!(dates.nth(1), Some(date(2024, 3, 7)));
+        assert_eq!(dates.next_back(), None);
+        assert_eq!(dates.len(), 0);
+
+        let mut extreme =
+            each_nth_day_of_interval(NaiveDate::MAX, NaiveDate::MAX, u64::MAX).unwrap();
+        assert_eq!(extreme.next_back(), Some(NaiveDate::MAX));
+        assert_eq!(extreme.next_back(), None);
     }
 }

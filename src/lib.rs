@@ -93,6 +93,9 @@ pub use business_days::{
     add_business_days, is_business_day, next_business_day, previous_business_day, sub_business_days,
 };
 
+mod business_month_metadata;
+pub use business_month_metadata::{get_business_day_of_month, get_business_days_in_month};
+
 mod business_difference;
 pub use business_difference::difference_in_business_days;
 

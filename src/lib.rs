@@ -62,8 +62,8 @@ pub use iso_basic_date::{format_iso_basic_date, parse_iso_basic_date};
 mod metadata;
 pub use metadata::{get_day_of_year, get_days_in_month, get_days_in_year};
 
-mod half_year_metadata;
-pub use half_year_metadata::{get_day_of_half_year, get_days_in_half_year};
+mod half_year_day_ordinals;
+pub use half_year_day_ordinals::{get_day_of_half_year, get_days_in_half_year};
 
 mod iso_ordinal_date;
 pub use iso_ordinal_date::{format_iso_ordinal_date, parse_iso_ordinal_date};

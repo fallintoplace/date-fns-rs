@@ -94,6 +94,8 @@ mod weekday_arithmetic;
 pub use weekday_arithmetic::nearest_weekday;
 pub use weekday_arithmetic::{next_weekday, previous_weekday};
 
+pub use weekday_arithmetic::{next_or_same_weekday, previous_or_same_weekday};
+
 mod compare;
 pub use compare::max_date;
 pub use compare::min_date;

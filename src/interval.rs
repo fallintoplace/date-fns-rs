@@ -55,6 +55,7 @@ impl DoubleEndedIterator for DaysInInterval {
         }
         Some(back)
     }
+
     fn nth_back(&mut self, n: usize) -> Option<Self::Item> {
         if n >= self.len() {
             self.next = None;
@@ -197,6 +198,7 @@ mod tests {
         assert_eq!(days.nth(usize::MAX), None);
         assert_eq!(days.size_hint(), (0, Some(0)));
     }
+
     #[test]
     fn nth_back_skips_in_constant_time_and_updates_remaining_length() {
         let mut days = each_day_of_interval(date(2024, 3, 1), date(2024, 3, 10)).unwrap();
@@ -210,6 +212,4 @@ mod tests {
         let mut extreme = each_day_of_interval(NaiveDate::MIN, NaiveDate::MAX).unwrap();
         assert_eq!(extreme.nth_back(usize::MAX), None);
         assert_eq!(extreme.next(), None);
-    }
-
-}
+    }}

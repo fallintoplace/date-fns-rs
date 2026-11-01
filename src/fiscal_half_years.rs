@@ -57,10 +57,7 @@ mod tests {
             start_of_fiscal_half_year(january, 4),
             Some(date(2023, 10, 1))
         );
-        assert_eq!(
-            end_of_fiscal_half_year(january, 4),
-            Some(date(2024, 3, 31))
-        );
+        assert_eq!(end_of_fiscal_half_year(january, 4), Some(date(2024, 3, 31)));
         assert_eq!(get_fiscal_half_year(date(2024, 4, 1), 4), Some(1));
         assert_eq!(
             end_of_fiscal_half_year(date(2024, 4, 1), 4),

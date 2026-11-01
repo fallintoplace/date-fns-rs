@@ -121,5 +121,4 @@ mod tests {
             get_business_days_in_month(date(2024, 3, 1))
         );
     }
-
 }

@@ -132,6 +132,8 @@ pub use datetime_differences::{
     difference_in_seconds_datetime,
 };
 
+pub use datetime_differences::difference_in_nanoseconds_datetime;
+
 mod half_year_day_ordinals;
 pub use half_year_day_ordinals::{get_day_of_half_year, get_days_in_half_year};
 

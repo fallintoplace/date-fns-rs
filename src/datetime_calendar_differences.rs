@@ -51,7 +51,10 @@ mod tests {
         assert_eq!(difference_in_calendar_months_datetime(end, start), 1);
         assert_eq!(difference_in_calendar_quarters_datetime(end, start), 1);
         assert_eq!(difference_in_calendar_years_datetime(end, start), 1);
-        assert_eq!(difference_in_calendar_weeks_datetime(end, start, Weekday::Mon), 0);
+        assert_eq!(
+            difference_in_calendar_weeks_datetime(end, start, Weekday::Mon),
+            0
+        );
         let monday = dt(2024, 1, 8, 0, 0);
         let sunday = dt(2024, 1, 7, 23, 59);
         assert_eq!(

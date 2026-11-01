@@ -42,6 +42,26 @@ impl Iterator for WeekdaysInInterval {
     }
 }
 
+impl DoubleEndedIterator for WeekdaysInInterval {
+    fn next_back(&mut self) -> Option<Self::Item> {
+        let front = self.next?;
+        let end_weekday = i64::from(self.end.weekday().num_days_from_monday());
+        let target = i64::from(front.weekday().num_days_from_monday());
+        let offset = (end_weekday - target).rem_euclid(7) as u64;
+        let last = self.end.checked_sub_days(chrono::Days::new(offset))?;
+        if last < front {
+            self.next = None;
+            return None;
+        }
+        if last == front {
+            self.next = None;
+        } else {
+            self.end = last.pred_opt()?;
+        }
+        Some(last)
+    }
+}
+
 impl ExactSizeIterator for WeekdaysInInterval {}
 
 impl FusedIterator for WeekdaysInInterval {}
@@ -124,5 +144,25 @@ mod tests {
             each_weekday_of_interval(NaiveDate::MIN, NaiveDate::MAX, Weekday::Mon).unwrap();
         assert_eq!(dates.nth(usize::MAX), None);
         assert_eq!(dates.len(), 0);
+    }
+
+    #[test]
+    fn iterates_matching_weekdays_from_both_ends() {
+        let mut dates =
+            each_weekday_of_interval(date(2024, 2, 27), date(2024, 3, 19), Weekday::Tue).unwrap();
+        assert_eq!(dates.len(), 4);
+        assert_eq!(dates.next_back(), Some(date(2024, 3, 19)));
+        assert_eq!(dates.len(), 3);
+        assert_eq!(dates.next(), Some(date(2024, 2, 27)));
+        assert_eq!(dates.next_back(), Some(date(2024, 3, 12)));
+        assert_eq!(dates.next(), Some(date(2024, 3, 5)));
+        assert_eq!(dates.next_back(), None);
+        assert_eq!(dates.len(), 0);
+
+        let mut last =
+            each_weekday_of_interval(NaiveDate::MAX, NaiveDate::MAX, NaiveDate::MAX.weekday())
+                .unwrap();
+        assert_eq!(last.next_back(), Some(NaiveDate::MAX));
+        assert_eq!(last.next_back(), None);
     }
 }

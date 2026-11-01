@@ -37,7 +37,6 @@ pub fn format_date_tokens(date: NaiveDate, pattern: &str) -> Option<String> {
     let mut i = 0;
     let bytes = pattern.as_bytes();
     while i < bytes.len() {
-        // Two consecutive quotes outside a literal represent one apostrophe.
         if bytes[i] == b'\'' && bytes.get(i + 1) == Some(&b'\'') {
             result.push('\'');
             i += 2;
@@ -135,6 +134,26 @@ mod tests {
     }
 
     #[test]
+    fn rejects_unsupported_tokens_and_unclosed_literals() {
+        let day = NaiveDate::from_ymd_opt(2024, 1, 1).unwrap();
+        assert_eq!(format_date_tokens(day, "QQ"), None);
+        assert_eq!(format_date_tokens(day, "'unfinished"), None);
+        assert_eq!(format_date_tokens(NaiveDate::MAX, "yyyy"), None);
+    }
+    #[test]
+    fn formats_doubled_apostrophes_outside_quoted_literals() {
+        let date = NaiveDate::from_ymd_opt(2024, 2, 29).unwrap();
+        assert_eq!(
+            format_date_tokens(date, "yyyy''MM''dd").as_deref(),
+            Some("2024'02'29")
+        );
+        assert_eq!(
+            format_date_tokens(date, "'''' yyyy").as_deref(),
+            Some("'' 2024")
+        );
+    }
+
+    #[test]
     fn doubled_quote_formats_a_literal_apostrophe() {
         let date = NaiveDate::from_ymd_opt(2024, 2, 29).unwrap();
         assert_eq!(
@@ -143,13 +162,5 @@ mod tests {
         );
         assert_eq!(format_date_tokens(date, "''").as_deref(), Some("'"));
         assert_eq!(format_date_tokens(date, "'it''s'").as_deref(), Some("it's"));
-    }
-
-    #[test]
-    fn rejects_unsupported_tokens_and_unclosed_literals() {
-        let day = NaiveDate::from_ymd_opt(2024, 1, 1).unwrap();
-        assert_eq!(format_date_tokens(day, "QQ"), None);
-        assert_eq!(format_date_tokens(day, "'unfinished"), None);
-        assert_eq!(format_date_tokens(NaiveDate::MAX, "yyyy"), None);
     }
 }

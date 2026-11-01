@@ -6,8 +6,9 @@ use crate::boundaries::{end_of_month, start_of_month};
 use crate::business_days::is_business_day;
 use crate::business_difference::difference_in_business_days;
 
-/// Count Monday-Friday dates in the date's month, excluding holidays only if
-/// they fall on weekends (no regional holiday calendar is applied).
+/// Count Monday-Friday dates in the date's month.
+///
+/// Regional holidays are not excluded.
 pub fn get_business_days_in_month(date: NaiveDate) -> u32 {
     let first = start_of_month(date);
     let last = end_of_month(date);

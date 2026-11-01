@@ -361,6 +361,9 @@ pub use datetime_minute_iterator::{
 
 mod business_month_boundaries;
 pub use business_month_boundaries::{first_business_day_of_month, last_business_day_of_month};
+pub use business_month_boundaries::{
+    first_business_day_of_month_with_holidays, last_business_day_of_month_with_holidays,
+};
 
 mod interval_weekends;
 pub use interval_weekends::{each_weekend_of_interval, WeekendsInInterval};

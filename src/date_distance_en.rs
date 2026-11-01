@@ -46,7 +46,11 @@ pub fn format_date_distance_en(target: NaiveDate, reference: NaiveDate) -> Strin
     } else {
         ((days + 182) / 365, "year")
     };
-    let noun = if amount == 1 { unit.to_owned() } else { format!("{unit}s") };
+    let noun = if amount == 1 {
+        unit.to_owned()
+    } else {
+        format!("{unit}s")
+    };
     let label = format!("{amount} {noun}");
     if delta > 0 {
         format!("in {label}")
@@ -63,13 +67,34 @@ mod tests {
     fn distinguishes_exact_and_humanized_differences() {
         let origin = NaiveDate::from_ymd_opt(2024, 2, 28).unwrap();
         assert_eq!(format_date_distance_en(origin, origin), "today");
-        assert_eq!(format_date_distance_en(origin.succ_opt().unwrap(), origin), "tomorrow");
-        assert_eq!(format_date_distance_en(origin.pred_opt().unwrap(), origin), "yesterday");
+        assert_eq!(
+            format_date_distance_en(origin.succ_opt().unwrap(), origin),
+            "tomorrow"
+        );
+        assert_eq!(
+            format_date_distance_en(origin.pred_opt().unwrap(), origin),
+            "yesterday"
+        );
         let leap_span = NaiveDate::from_ymd_opt(2024, 3, 1).unwrap();
-        assert_eq!(format_date_distance_strict_days_en(leap_span, origin, true), "in 2 days");
-        assert_eq!(format_date_distance_strict_days_en(origin, leap_span, true), "2 days ago");
-        assert_eq!(format_date_distance_strict_days_en(origin, leap_span, false), "2 days");
-        assert_eq!(format_date_distance_en(crate::add_days(origin, 7).unwrap(), origin), "in 1 week");
-        assert_eq!(format_date_distance_en(crate::add_days(origin, 30).unwrap(), origin), "in 1 month");
+        assert_eq!(
+            format_date_distance_strict_days_en(leap_span, origin, true),
+            "in 2 days"
+        );
+        assert_eq!(
+            format_date_distance_strict_days_en(origin, leap_span, true),
+            "2 days ago"
+        );
+        assert_eq!(
+            format_date_distance_strict_days_en(origin, leap_span, false),
+            "2 days"
+        );
+        assert_eq!(
+            format_date_distance_en(crate::add_days(origin, 7).unwrap(), origin),
+            "in 1 week"
+        );
+        assert_eq!(
+            format_date_distance_en(crate::add_days(origin, 30).unwrap(), origin),
+            "in 1 month"
+        );
     }
 }

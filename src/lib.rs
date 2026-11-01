@@ -256,6 +256,9 @@ pub use datetime_fixed_offset::{assume_fixed_offset, convert_fixed_offset};
 mod closest_date;
 pub use closest_date::{closest_date_index_to, closest_date_to};
 
+mod closest_datetime;
+pub use closest_datetime::{closest_datetime_index_to, closest_datetime_to};
+
 mod interval_ops;
 pub use interval_ops::is_interval_within_interval;
 pub use interval_ops::{clamp_to_interval, intersection_of_intervals, interval_length_in_days};

@@ -58,6 +58,8 @@ mod tests {
             subtract_multiple_datetime_intervals(at(1), at(9), &excluded),
             Some(vec![
                 (at(1), at(2).checked_sub_signed(TimeDelta::nanoseconds(1)).unwrap()),
+                (at(6).checked_add_signed(TimeDelta::nanoseconds(1)).unwrap(),
+                 at(7).checked_sub_signed(TimeDelta::nanoseconds(1)).unwrap()),
                 (at(8).checked_add_signed(TimeDelta::nanoseconds(1)).unwrap(), at(9)),
             ])
         );

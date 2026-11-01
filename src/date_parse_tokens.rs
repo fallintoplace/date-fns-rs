@@ -1,8 +1,57 @@
 //! Strict parsing of date-only calendar patterns.
 //!
-//! Supported tokens: yyyy, MM, M, dd and d. English names and time parts are not parsed.
+//! Supported tokens: yyyy, MMMM, MMM, MM, M, dd, d, EEEE, EEE, E.
+//! English names are case-sensitive and time parts are not parsed.
 
-use chrono::NaiveDate;
+use chrono::{Datelike, NaiveDate};
+
+const MONTHS: [&str; 12] = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+];
+const WEEKDAYS: [&str; 7] = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+];
+
+fn parse_month_name(input: &str, at: &mut usize, full: bool) -> Option<u32> {
+    let remaining = input.get(*at..)?;
+    for (index, name) in MONTHS.iter().enumerate() {
+        let token = if full { *name } else { &name[..3] };
+        if remaining.starts_with(token) {
+            *at += token.len();
+            return Some(index as u32 + 1);
+        }
+    }
+    None
+}
+
+fn parse_weekday_name(input: &str, at: &mut usize, full: bool) -> Option<u32> {
+    let remaining = input.get(*at..)?;
+    for (index, name) in WEEKDAYS.iter().enumerate() {
+        let token = if full { *name } else { &name[..3] };
+        if remaining.starts_with(token) {
+            *at += token.len();
+            return Some(index as u32);
+        }
+    }
+    None
+}
 
 fn digits(input: &str, at: &mut usize, min: usize, max: usize) -> Option<u32> {
     let b = input.as_bytes();
@@ -24,9 +73,9 @@ pub fn parse_date_tokens(input: &str, pattern: &str) -> Option<NaiveDate> {
     let mut year = None;
     let mut month = None;
     let mut day = None;
+    let mut weekday = None;
     let pb = pattern.as_bytes();
     while pi < pb.len() {
-        // Two quotes outside a literal match one apostrophe in the input.
         if pb[pi] == b'\'' && pb.get(pi + 1) == Some(&b'\'') {
             if !input[ii..].starts_with('\'') {
                 return None;
@@ -66,7 +115,47 @@ pub fn parse_date_tokens(input: &str, pattern: &str) -> Option<NaiveDate> {
             continue;
         }
         let rest = &pattern[pi..];
-        if rest.starts_with("yyyy") {
+        if rest.starts_with("MMMM") {
+            if month
+                .replace(parse_month_name(input, &mut ii, true)?)
+                .is_some()
+            {
+                return None;
+            }
+            pi += 4;
+        } else if rest.starts_with("MMM") {
+            if month
+                .replace(parse_month_name(input, &mut ii, false)?)
+                .is_some()
+            {
+                return None;
+            }
+            pi += 3;
+        } else if rest.starts_with("EEEE") {
+            if weekday
+                .replace(parse_weekday_name(input, &mut ii, true)?)
+                .is_some()
+            {
+                return None;
+            }
+            pi += 4;
+        } else if rest.starts_with("EEE") {
+            if weekday
+                .replace(parse_weekday_name(input, &mut ii, false)?)
+                .is_some()
+            {
+                return None;
+            }
+            pi += 3;
+        } else if rest.starts_with('E') {
+            if weekday
+                .replace(parse_weekday_name(input, &mut ii, false)?)
+                .is_some()
+            {
+                return None;
+            }
+            pi += 1;
+        } else if rest.starts_with("yyyy") {
             if year.replace(digits(input, &mut ii, 4, 4)? as i32).is_some() {
                 return None;
             }
@@ -103,7 +192,11 @@ pub fn parse_date_tokens(input: &str, pattern: &str) -> Option<NaiveDate> {
     if ii != input.len() {
         return None;
     }
-    NaiveDate::from_ymd_opt(year?, month?, day?)
+    let parsed = NaiveDate::from_ymd_opt(year?, month?, day?)?;
+    if weekday.is_some_and(|day| parsed.weekday().num_days_from_sunday() != day) {
+        return None;
+    }
+    Some(parsed)
 }
 
 #[cfg(test)]
@@ -123,6 +216,60 @@ mod tests {
     }
 
     #[test]
+    fn rejects_invalid_dates_unfinished_inputs_and_unsupported_tokens() {
+        for input in ["2023-02-29", "2024-13-01", "2024-02-30", "2024-02-29 "] {
+            assert_eq!(parse_date_tokens(input, "yyyy-MM-dd"), None);
+        }
+        assert_eq!(parse_date_tokens("2024-02", "yyyy-MM-dd"), None);
+        assert_eq!(parse_date_tokens("2024-02-29", "yyyy-QQ-dd"), None);
+        assert_eq!(parse_date_tokens("2024-02-29", "yyyy-MM-MM"), None);
+    }
+
+    #[test]
+    fn parses_english_months_and_verifies_weekday_names() {
+        let leap = NaiveDate::from_ymd_opt(2024, 2, 29).unwrap();
+        assert_eq!(
+            parse_date_tokens("Thursday, February 29, 2024", "EEEE, MMMM d, yyyy"),
+            Some(leap)
+        );
+        assert_eq!(
+            parse_date_tokens("Thu, Feb 29 2024", "EEE, MMM dd yyyy"),
+            Some(leap)
+        );
+        assert_eq!(
+            parse_date_tokens("Thu Feb 29 2024", "E MMM dd yyyy"),
+            Some(leap)
+        );
+        assert_eq!(parse_date_tokens("Feb 29 2024", "MMM dd yyyy"), Some(leap));
+    }
+
+    #[test]
+    fn rejects_mismatched_weekdays_duplicate_fields_and_nonenglish_names() {
+        assert_eq!(
+            parse_date_tokens("Friday, February 29, 2024", "EEEE, MMMM d, yyyy"),
+            None
+        );
+        assert_eq!(parse_date_tokens("FEB 29 2024", "MMM dd yyyy"), None);
+        assert_eq!(parse_date_tokens("Feb 29 2023", "MMM dd yyyy"), None);
+        assert_eq!(parse_date_tokens("Feb 29 02 2024", "MMM dd MM yyyy"), None);
+        assert_eq!(
+            parse_date_tokens("Thu Thursday Feb 29 2024", "EEE EEEE MMM dd yyyy"),
+            None
+        );
+    }
+
+    #[test]
+    fn parses_doubled_apostrophes_outside_quoted_literals() {
+        let date = NaiveDate::from_ymd_opt(2024, 2, 29).unwrap();
+        assert_eq!(parse_date_tokens("2024'02'29", "yyyy''MM''dd"), Some(date));
+        assert_eq!(
+            parse_date_tokens("'' 2024-02-29", "'''' yyyy-MM-dd"),
+            Some(date)
+        );
+        assert_eq!(parse_date_tokens("2024-02-29", "yyyy''MM''dd"), None);
+    }
+
+    #[test]
     fn doubled_quote_matches_a_literal_apostrophe() {
         let date = NaiveDate::from_ymd_opt(2024, 2, 29).unwrap();
         assert_eq!(parse_date_tokens("2024'02'29", "yyyy''MM''dd"), Some(date));
@@ -131,15 +278,5 @@ mod tests {
             parse_date_tokens("2024 it's 02 29", "yyyy 'it''s' MM dd"),
             Some(date)
         );
-    }
-
-    #[test]
-    fn rejects_invalid_dates_unfinished_inputs_and_unsupported_tokens() {
-        for input in ["2023-02-29", "2024-13-01", "2024-02-30", "2024-02-29 "] {
-            assert_eq!(parse_date_tokens(input, "yyyy-MM-dd"), None);
-        }
-        assert_eq!(parse_date_tokens("2024-02", "yyyy-MM-dd"), None);
-        assert_eq!(parse_date_tokens("2024-02-29", "yyyy-QQ-dd"), None);
-        assert_eq!(parse_date_tokens("2024-02-29", "yyyy-MM-MM"), None);
     }
 }

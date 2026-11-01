@@ -135,4 +135,5 @@ mod tests {
             each_business_day_of_interval(NaiveDate::MIN, NaiveDate::MAX).unwrap();
         assert_eq!(extreme.nth(usize::MAX), None);
         assert_eq!(extreme.next(), None);
-    }}
+    }
+}

@@ -28,8 +28,22 @@ const WEEKDAYS: [&str; 7] = [
     "Saturday",
 ];
 
+fn english_ordinal(number: u32) -> String {
+    let suffix = if (11..=13).contains(&(number % 100)) {
+        "th"
+    } else {
+        match number % 10 {
+            1 => "st",
+            2 => "nd",
+            3 => "rd",
+            _ => "th",
+        }
+    };
+    format!("{number}{suffix}")
+}
+
 /// Format date-only calendar values using common date-fns tokens.
-/// Supported: yyyy, yy, MMMM, MMM, MM, M, dd, d, EEEE, EEE, E.
+/// Supported: yyyy, yy, MMMM, MMM, MM, M, Mo, dd, d, do, EEEE, EEE, E.
 /// Use single quotes to escape literal text, doubling a quote inside it.
 /// Unsupported tokens, unclosed quotes and years outside 0000-9999 return None.
 pub fn format_date_tokens(date: NaiveDate, pattern: &str) -> Option<String> {
@@ -63,7 +77,7 @@ pub fn format_date_tokens(date: NaiveDate, pattern: &str) -> Option<String> {
         }
         let rest = &pattern[i..];
         let token = [
-            "yyyy", "MMMM", "EEEE", "MMM", "EEE", "yy", "MM", "dd", "M", "d", "E",
+            "yyyy", "MMMM", "EEEE", "MMM", "EEE", "yy", "MM", "dd", "Mo", "do", "M", "d", "E",
         ]
         .iter()
         .find(|token| rest.starts_with(**token))
@@ -82,8 +96,10 @@ pub fn format_date_tokens(date: NaiveDate, pattern: &str) -> Option<String> {
                 "MMMM" => MONTHS[month].to_owned(),
                 "MMM" => MONTHS[month][..3].to_owned(),
                 "MM" => format!("{:02}", date.month()),
+                "Mo" => english_ordinal(date.month()),
                 "M" => date.month().to_string(),
                 "dd" => format!("{:02}", date.day()),
+                "do" => english_ordinal(date.day()),
                 "d" => date.day().to_string(),
                 "EEEE" => WEEKDAYS[weekday].to_owned(),
                 "EEE" | "E" => WEEKDAYS[weekday][..3].to_owned(),
@@ -135,4 +151,33 @@ mod tests {
         assert_eq!(format_date_tokens(day, "'unfinished"), None);
         assert_eq!(format_date_tokens(NaiveDate::MAX, "yyyy"), None);
     }
+    #[test]
+    fn formats_english_day_and_month_ordinals() {
+        let date = NaiveDate::from_ymd_opt(2024, 2, 29).unwrap();
+        assert_eq!(
+            format_date_tokens(date, "MMM do, yyyy").as_deref(),
+            Some("Feb 29th, 2024")
+        );
+        assert_eq!(
+            format_date_tokens(date, "'month' Mo, 'day' do").as_deref(),
+            Some("month 2nd, day 29th")
+        );
+        for (day, label) in [
+            (1, "1st"),
+            (2, "2nd"),
+            (3, "3rd"),
+            (4, "4th"),
+            (11, "11th"),
+            (12, "12th"),
+            (13, "13th"),
+            (21, "21st"),
+            (22, "22nd"),
+            (23, "23rd"),
+            (31, "31st"),
+        ] {
+            let day = NaiveDate::from_ymd_opt(2024, 1, day).unwrap();
+            assert_eq!(format_date_tokens(day, "do").as_deref(), Some(label));
+        }
+    }
+
 }

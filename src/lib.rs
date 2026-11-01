@@ -287,3 +287,6 @@ pub use monthly_weekday_occurrences::{
 
 mod holiday_business_difference;
 pub use holiday_business_difference::difference_in_business_days_excluding_holidays;
+
+mod half_year_intervals;
+pub use half_year_intervals::{each_half_year_of_interval, HalfYearsInInterval};

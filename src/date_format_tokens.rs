@@ -5,11 +5,27 @@
 use chrono::{Datelike, NaiveDate};
 
 const MONTHS: [&str; 12] = [
-    "January", "February", "March", "April", "May", "June",
-    "July", "August", "September", "October", "November", "December",
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
 ];
 const WEEKDAYS: [&str; 7] = [
-    "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday",
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
 ];
 
 /// Format date-only calendar values using common date-fns tokens.
@@ -46,14 +62,20 @@ pub fn format_date_tokens(date: NaiveDate, pattern: &str) -> Option<String> {
             continue;
         }
         let rest = &pattern[i..];
-        let token = ["yyyy", "MMMM", "EEEE", "MMM", "EEE", "yy", "MM", "dd", "M", "d", "E"]
-            .iter().find(|token| rest.starts_with(**token)).copied();
+        let token = [
+            "yyyy", "MMMM", "EEEE", "MMM", "EEE", "yy", "MM", "dd", "M", "d", "E",
+        ]
+        .iter()
+        .find(|token| rest.starts_with(**token))
+        .copied();
         if let Some(token) = token {
             let month = (date.month() - 1) as usize;
             let weekday = date.weekday().num_days_from_sunday() as usize;
             let value = match token {
                 "yyyy" => {
-                    if !(0..=9999).contains(&date.year()) { return None; }
+                    if !(0..=9999).contains(&date.year()) {
+                        return None;
+                    }
                     format!("{:04}", date.year())
                 }
                 "yy" => format!("{:02}", date.year().rem_euclid(100)),
@@ -88,10 +110,22 @@ mod tests {
     #[test]
     fn formats_common_date_tokens_and_quoted_text() {
         let day = NaiveDate::from_ymd_opt(2024, 2, 29).unwrap();
-        assert_eq!(format_date_tokens(day, "yyyy-MM-dd").as_deref(), Some("2024-02-29"));
-        assert_eq!(format_date_tokens(day, "EEEE, MMM d, yyyy").as_deref(), Some("Thursday, Feb 29, 2024"));
-        assert_eq!(format_date_tokens(day, "'day' dd 'o''clock'").as_deref(), Some("day 29 o'clock"));
-        assert_eq!(format_date_tokens(day, "M/d/yy").as_deref(), Some("2/29/24"));
+        assert_eq!(
+            format_date_tokens(day, "yyyy-MM-dd").as_deref(),
+            Some("2024-02-29")
+        );
+        assert_eq!(
+            format_date_tokens(day, "EEEE, MMM d, yyyy").as_deref(),
+            Some("Thursday, Feb 29, 2024")
+        );
+        assert_eq!(
+            format_date_tokens(day, "'day' dd 'o''clock'").as_deref(),
+            Some("day 29 o'clock")
+        );
+        assert_eq!(
+            format_date_tokens(day, "M/d/yy").as_deref(),
+            Some("2/29/24")
+        );
     }
 
     #[test]

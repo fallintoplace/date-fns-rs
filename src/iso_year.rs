@@ -32,7 +32,16 @@ mod tests {
 
     #[test]
     fn rejects_noncanonical_and_out_of_range_years() {
-        for bad in ["", "20", "20240", "+2024", "-001", "20a4", "２０２４", "2024 "] {
+        for bad in [
+            "",
+            "20",
+            "20240",
+            "+2024",
+            "-001",
+            "20a4",
+            "２０２４",
+            "2024 ",
+        ] {
             assert_eq!(parse_iso_year(bad), None);
         }
         assert_eq!(format_iso_year(-1), None);

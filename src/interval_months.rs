@@ -43,6 +43,18 @@ impl Iterator for MonthsInInterval {
 }
 
 impl DoubleEndedIterator for MonthsInInterval {
+    fn nth_back(&mut self, n: usize) -> Option<Self::Item> {
+        if n >= self.len() {
+            self.next = None;
+            return None;
+        }
+
+        let months = u32::try_from(n).ok()?;
+        let last = start_of_month(self.end);
+        self.end = last.checked_sub_months(Months::new(months))?;
+        self.next_back()
+    }
+
     fn next_back(&mut self) -> Option<Self::Item> {
         let front = self.next?;
         let last = start_of_month(self.end);
@@ -136,4 +148,19 @@ mod tests {
         assert_eq!(extreme.next_back(), Some(start_of_month(NaiveDate::MAX)));
         assert_eq!(extreme.next(), None);
     }
+    #[test]
+    fn skips_from_back_without_walking_months() {
+        let mut months = each_month_of_interval(date(2023, 12, 31), date(2024, 4, 2)).unwrap();
+        assert_eq!(months.nth_back(2), Some(date(2024, 2, 1)));
+        assert_eq!(months.len(), 2);
+        assert_eq!(months.next(), Some(date(2023, 12, 1)));
+        assert_eq!(months.next_back(), Some(date(2024, 1, 1)));
+        assert_eq!(months.next(), None);
+
+        let mut huge = each_month_of_interval(NaiveDate::MIN, NaiveDate::MAX).unwrap();
+        assert_eq!(huge.nth_back(usize::MAX), None);
+        assert_eq!(huge.len(), 0);
+        assert_eq!(huge.next_back(), None);
+    }
+
 }

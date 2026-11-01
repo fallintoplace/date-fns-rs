@@ -47,6 +47,7 @@ mod week_comparisons;
 pub use week_comparisons::{is_same_iso_week, is_same_week};
 
 mod weekday_arithmetic;
+pub use weekday_arithmetic::nearest_weekday;
 pub use weekday_arithmetic::{next_weekday, previous_weekday};
 
 mod compare;

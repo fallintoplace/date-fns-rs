@@ -52,9 +52,6 @@ mod tests {
         assert_eq!(sub_half_years(date(2024, 1, 1), i32::MIN), None);
         assert_eq!(add_half_years(NaiveDate::MAX, 1), None);
         assert_eq!(sub_half_years(NaiveDate::MIN, 1), None);
-        assert_eq!(
-            add_half_years(NaiveDate::MAX, 0),
-            Some(NaiveDate::MAX)
-        );
+        assert_eq!(add_half_years(NaiveDate::MAX, 0), Some(NaiveDate::MAX));
     }
 }

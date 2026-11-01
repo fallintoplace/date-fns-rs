@@ -206,7 +206,9 @@ mod interval_business_days;
 pub use interval_business_days::{each_business_day_of_interval, BusinessDaysInInterval};
 
 mod datetime_minute_iterator;
-pub use datetime_minute_iterator::{each_nth_minute_of_datetime_interval, MinutesInDatetimeInterval};
+pub use datetime_minute_iterator::{
+    each_nth_minute_of_datetime_interval, MinutesInDatetimeInterval,
+};
 
 mod business_month_boundaries;
 pub use business_month_boundaries::{first_business_day_of_month, last_business_day_of_month};

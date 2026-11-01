@@ -41,6 +41,25 @@ pub fn end_of_fiscal_half_year(date: NaiveDate, first_month: u32) -> Option<Naiv
     Some(end_of_month(NaiveDate::from_ymd_opt(year, last_month, 1)?))
 }
 
+/// Count fiscal half-year boundaries from right to left.
+///
+/// The fiscal year starts in first_month, which must be between 1 and 12.
+/// Uses integer month indices, including across negative calendar years.
+pub fn difference_in_calendar_fiscal_half_years(
+    left: NaiveDate,
+    right: NaiveDate,
+    first_month: u32,
+) -> Option<i64> {
+    if !(1..=12).contains(&first_month) {
+        return None;
+    }
+    let index = |date: NaiveDate| {
+        (i64::from(date.year()) * 12 + i64::from(date.month()) - i64::from(first_month))
+            .div_euclid(6)
+    };
+    Some(index(left) - index(right))
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -79,4 +98,45 @@ mod tests {
             Some(NaiveDate::MIN)
         );
     }
+    #[test]
+    fn fiscal_half_year_differences_follow_april_and_october() {
+        let march = date(2024, 3, 31);
+        let april = date(2024, 4, 1);
+        let september = date(2024, 9, 30);
+        let october = date(2024, 10, 1);
+        assert_eq!(
+            difference_in_calendar_fiscal_half_years(april, march, 4),
+            Some(1)
+        );
+        assert_eq!(
+            difference_in_calendar_fiscal_half_years(october, september, 4),
+            Some(1)
+        );
+        assert_eq!(
+            difference_in_calendar_fiscal_half_years(date(2025, 3, 31), october, 4),
+            Some(0)
+        );
+        assert_eq!(
+            difference_in_calendar_fiscal_half_years(march, october, 4),
+            Some(-2)
+        );
+    }
+
+    #[test]
+    fn fiscal_half_year_differences_validate_start_and_limits() {
+        let date = date(2024, 1, 1);
+        assert_eq!(difference_in_calendar_fiscal_half_years(date, date, 0), None);
+        assert_eq!(difference_in_calendar_fiscal_half_years(date, date, 13), None);
+        let wide = difference_in_calendar_fiscal_half_years(
+            NaiveDate::MAX,
+            NaiveDate::MIN,
+            7,
+        )
+        .unwrap();
+        assert_eq!(
+            difference_in_calendar_fiscal_half_years(NaiveDate::MIN, NaiveDate::MAX, 7),
+            Some(-wide)
+        );
+    }
+
 }

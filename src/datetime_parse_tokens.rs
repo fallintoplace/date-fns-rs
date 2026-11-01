@@ -5,10 +5,7 @@ use chrono::{NaiveDate, NaiveDateTime};
 fn digits(input: &str, index: &mut usize, min: usize, max: usize) -> Option<u32> {
     let bytes = input.as_bytes();
     let start = *index;
-    while *index < bytes.len()
-        && *index - start < max
-        && bytes[*index].is_ascii_digit()
-    {
+    while *index < bytes.len() && *index - start < max && bytes[*index].is_ascii_digit() {
         *index += 1;
     }
     if *index - start < min {

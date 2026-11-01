@@ -4,6 +4,7 @@ use chrono::NaiveDate;
 
 use crate::boundaries::{end_of_month, start_of_month};
 use crate::business_days::is_business_day;
+use crate::business_holidays::is_business_day_with_holidays;
 
 /// Return the first Monday-Friday date of the month containing date.
 pub fn first_business_day_of_month(date: NaiveDate) -> NaiveDate {
@@ -25,6 +26,46 @@ pub fn last_business_day_of_month(date: NaiveDate) -> NaiveDate {
             .expect("every month has a weekday before its end");
     }
     current
+}
+
+/// Find the first weekday that is not a supplied holiday in the date's month.
+///
+/// Returns None when every weekday of the month is excluded.
+pub fn first_business_day_of_month_with_holidays(
+    date: NaiveDate,
+    holidays: &[NaiveDate],
+) -> Option<NaiveDate> {
+    let mut current = start_of_month(date);
+    let last = end_of_month(date);
+    loop {
+        if is_business_day_with_holidays(current, holidays) {
+            return Some(current);
+        }
+        if current == last {
+            return None;
+        }
+        current = current.succ_opt()?;
+    }
+}
+
+/// Find the last weekday that is not a supplied holiday in the date's month.
+///
+/// Returns None when every weekday of the month is excluded.
+pub fn last_business_day_of_month_with_holidays(
+    date: NaiveDate,
+    holidays: &[NaiveDate],
+) -> Option<NaiveDate> {
+    let mut current = end_of_month(date);
+    let first = start_of_month(date);
+    loop {
+        if is_business_day_with_holidays(current, holidays) {
+            return Some(current);
+        }
+        if current == first {
+            return None;
+        }
+        current = current.pred_opt()?;
+    }
 }
 
 #[cfg(test)]
@@ -54,4 +95,39 @@ mod tests {
             assert!(is_business_day(last_business_day_of_month(edge)));
         }
     }
+    #[test]
+    fn holiday_aware_boundaries_can_skip_or_exhaust_the_month() {
+        let march = date(2024, 3, 15);
+        let holidays = [
+            date(2024, 3, 1),
+            date(2024, 3, 4),
+            date(2024, 3, 28),
+            date(2024, 3, 29),
+            date(2024, 3, 29),
+        ];
+        assert_eq!(
+            first_business_day_of_month_with_holidays(march, &holidays),
+            Some(date(2024, 3, 5))
+        );
+        assert_eq!(
+            last_business_day_of_month_with_holidays(march, &holidays),
+            Some(date(2024, 3, 27))
+        );
+
+        let all_weekdays: Vec<_> =
+            crate::each_business_day_of_interval(date(2024, 3, 1), date(2024, 3, 31))
+                .unwrap()
+                .collect();
+        assert_eq!(first_business_day_of_month_with_holidays(march, &all_weekdays), None);
+        assert_eq!(last_business_day_of_month_with_holidays(march, &all_weekdays), None);
+        assert_eq!(
+            first_business_day_of_month_with_holidays(march, &[]),
+            Some(first_business_day_of_month(march))
+        );
+        assert_eq!(
+            last_business_day_of_month_with_holidays(march, &[]),
+            Some(last_business_day_of_month(march))
+        );
+    }
+
 }

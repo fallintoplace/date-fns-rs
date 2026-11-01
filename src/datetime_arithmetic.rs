@@ -133,5 +133,4 @@ mod tests {
         assert_eq!(add_nanoseconds_datetime(NaiveDateTime::MAX, 1), None);
         assert_eq!(sub_nanoseconds_datetime(NaiveDateTime::MIN, 1), None);
     }
-
 }

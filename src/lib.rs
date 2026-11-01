@@ -10,6 +10,11 @@ pub use chrono::{NaiveDate, Weekday};
 mod arithmetic;
 pub use arithmetic::{add_days, add_weeks, sub_days, sub_weeks};
 
+mod datetime_second_iterator;
+pub use datetime_second_iterator::{
+    each_nth_second_of_datetime_interval, SecondsInDatetimeInterval,
+};
+
 mod datetime_arithmetic;
 pub use chrono::NaiveDateTime;
 pub use datetime_arithmetic::{

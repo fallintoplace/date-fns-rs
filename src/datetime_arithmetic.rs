@@ -52,6 +52,16 @@ pub fn sub_microseconds_datetime(value: NaiveDateTime, micros: i64) -> Option<Na
     value.checked_sub_signed(TimeDelta::microseconds(micros))
 }
 
+/// Shift a naive date-time by signed nanoseconds without wrapping.
+pub fn add_nanoseconds_datetime(value: NaiveDateTime, nanos: i64) -> Option<NaiveDateTime> {
+    value.checked_add_signed(TimeDelta::nanoseconds(nanos))
+}
+
+/// Subtract signed nanoseconds without wrapping at date-time limits.
+pub fn sub_nanoseconds_datetime(value: NaiveDateTime, nanos: i64) -> Option<NaiveDateTime> {
+    value.checked_sub_signed(TimeDelta::nanoseconds(nanos))
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -108,5 +118,19 @@ mod tests {
             sub_minutes_datetime(dt(2024, 1, 1, 0, 0, 0), i64::MIN),
             None
         );
+    }
+    #[test]
+    fn nanosecond_arithmetic_carries_across_midnight() {
+        let last = NaiveDate::from_ymd_opt(2024, 2, 29)
+            .unwrap()
+            .and_hms_nano_opt(23, 59, 59, 999_999_999)
+            .unwrap();
+        let next = dt(2024, 3, 1, 0, 0, 0);
+        assert_eq!(add_nanoseconds_datetime(last, 1), Some(next));
+        assert_eq!(sub_nanoseconds_datetime(next, 1), Some(last));
+        assert_eq!(add_nanoseconds_datetime(next, -1), Some(last));
+        assert_eq!(sub_nanoseconds_datetime(last, -1), Some(next));
+        assert_eq!(add_nanoseconds_datetime(NaiveDateTime::MAX, 1), None);
+        assert_eq!(sub_nanoseconds_datetime(NaiveDateTime::MIN, 1), None);
     }
 }

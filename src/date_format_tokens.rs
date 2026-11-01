@@ -198,4 +198,15 @@ mod tests {
             Some("'' 2024")
         );
     }
+
+    #[test]
+    fn doubled_quote_formats_a_literal_apostrophe() {
+        let date = NaiveDate::from_ymd_opt(2024, 2, 29).unwrap();
+        assert_eq!(
+            format_date_tokens(date, "yyyy''MM''dd").as_deref(),
+            Some("2024'02'29")
+        );
+        assert_eq!(format_date_tokens(date, "''").as_deref(), Some("'"));
+        assert_eq!(format_date_tokens(date, "'it''s'").as_deref(), Some("it's"));
+    }
 }

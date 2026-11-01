@@ -292,6 +292,9 @@ pub use weekday_month_ordinals::{
     get_weekday_occurrence_from_end_of_month, get_weekday_occurrence_in_month,
 };
 
+mod iso_expanded_years;
+pub use iso_expanded_years::{format_iso_date_extended, parse_iso_date_extended};
+
 mod week_of_month;
 pub use week_of_month::get_week_of_month;
 

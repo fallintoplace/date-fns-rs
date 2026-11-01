@@ -472,3 +472,6 @@ pub use datetime_calendar_differences::{
     difference_in_calendar_quarters_datetime, difference_in_calendar_weeks_datetime,
     difference_in_calendar_years_datetime,
 };
+
+mod datetime_elapsed_days;
+pub use datetime_elapsed_days::{difference_in_days_datetime, difference_in_weeks_datetime};

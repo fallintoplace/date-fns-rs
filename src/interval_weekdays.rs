@@ -164,4 +164,5 @@ mod tests {
                 .unwrap();
         assert_eq!(last.next_back(), Some(NaiveDate::MAX));
         assert_eq!(last.next_back(), None);
-    }}
+    }
+}

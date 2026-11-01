@@ -10,10 +10,8 @@ pub use chrono::{NaiveDate, Weekday};
 mod arithmetic;
 pub use arithmetic::{add_days, add_weeks, sub_days, sub_weeks};
 
-mod datetime_nanoseconds;
-pub use datetime_nanoseconds::{
-    add_nanoseconds_datetime, difference_in_nanoseconds_datetime, sub_nanoseconds_datetime,
-};
+mod datetime_second_iterator;
+pub use datetime_second_iterator::{each_nth_second_of_datetime_interval, SecondsInDatetimeInterval};
 
 mod datetime_arithmetic;
 pub use chrono::NaiveDateTime;

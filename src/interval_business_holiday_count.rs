@@ -32,27 +32,13 @@ mod tests {
 
     #[test]
     fn ignores_duplicates_weekends_and_outside_holidays() {
-        let holidays = [
-            day(2, 29),
-            day(2, 29),
-            day(3, 2),
-            day(3, 4),
-            day(3, 12),
-        ];
+        let holidays = [day(2, 29), day(2, 29), day(3, 2), day(3, 4), day(3, 12)];
         assert_eq!(
-            count_business_days_in_interval_excluding_holidays(
-                day(2, 28),
-                day(3, 5),
-                &holidays
-            ),
+            count_business_days_in_interval_excluding_holidays(day(2, 28), day(3, 5), &holidays),
             Some(3)
         );
         assert_eq!(
-            count_business_days_in_interval_excluding_holidays(
-                day(3, 2),
-                day(3, 3),
-                &holidays
-            ),
+            count_business_days_in_interval_excluding_holidays(day(3, 2), day(3, 3), &holidays),
             Some(0)
         );
     }
@@ -60,20 +46,12 @@ mod tests {
     #[test]
     fn validates_ranges_and_handles_supported_boundaries() {
         assert_eq!(
-            count_business_days_in_interval_excluding_holidays(
-                day(3, 2),
-                day(3, 1),
-                &[]
-            ),
+            count_business_days_in_interval_excluding_holidays(day(3, 2), day(3, 1), &[]),
             None
         );
         let on_edge = i64::from(crate::is_business_day(NaiveDate::MAX));
         assert_eq!(
-            count_business_days_in_interval_excluding_holidays(
-                NaiveDate::MAX,
-                NaiveDate::MAX,
-                &[]
-            ),
+            count_business_days_in_interval_excluding_holidays(NaiveDate::MAX, NaiveDate::MAX, &[]),
             Some(on_edge)
         );
         assert_eq!(

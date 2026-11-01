@@ -47,11 +47,7 @@ mod tests {
 
     #[test]
     fn subtracts_unsorted_overlapping_exclusions_without_gaps() {
-        let excluded = [
-            (date(8), date(9)),
-            (date(4), date(5)),
-            (date(2), date(4)),
-        ];
+        let excluded = [(date(8), date(9)), (date(4), date(5)), (date(2), date(4))];
         assert_eq!(
             subtract_multiple_intervals(date(1), date(10), &excluded),
             Some(vec![
@@ -77,7 +73,10 @@ mod tests {
             subtract_multiple_intervals(
                 NaiveDate::MIN,
                 NaiveDate::MAX,
-                &[(NaiveDate::MIN, NaiveDate::MIN), (NaiveDate::MAX, NaiveDate::MAX)]
+                &[
+                    (NaiveDate::MIN, NaiveDate::MIN),
+                    (NaiveDate::MAX, NaiveDate::MAX)
+                ]
             ),
             Some(vec![(
                 NaiveDate::MIN.succ_opt().unwrap(),

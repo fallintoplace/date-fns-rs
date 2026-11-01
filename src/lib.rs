@@ -74,6 +74,9 @@ pub use datetime_boundaries::{
     start_of_second_datetime,
 };
 
+mod datetime_ceil_minute;
+pub use datetime_ceil_minute::ceil_to_minute_step_datetime;
+
 mod calendar_week_difference;
 pub use calendar_week_difference::difference_in_calendar_iso_week_years;
 pub use calendar_week_difference::difference_in_calendar_weeks;

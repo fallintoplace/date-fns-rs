@@ -65,6 +65,9 @@ pub use metadata::{get_day_of_year, get_days_in_month, get_days_in_year};
 mod iso_ordinal_date;
 pub use iso_ordinal_date::{format_iso_ordinal_date, parse_iso_ordinal_date};
 
+mod iso_month_day;
+pub use iso_month_day::{format_iso_month_day, parse_iso_month_day};
+
 mod calendar_quarter_difference;
 pub use calendar_quarter_difference::difference_in_calendar_quarters;
 

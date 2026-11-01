@@ -398,3 +398,9 @@ pub use interval_split::split_interval_after;
 
 mod date_interval_coverage;
 pub use date_interval_coverage::{count_distinct_days_covered, overlapping_days_in_intervals};
+
+mod datetime_business_arithmetic;
+pub use datetime_business_arithmetic::{
+    add_business_days_datetime, add_business_days_with_holidays_datetime,
+    sub_business_days_datetime, sub_business_days_with_holidays_datetime,
+};

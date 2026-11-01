@@ -42,6 +42,41 @@ impl Iterator for WeeksInInterval {
     }
 }
 
+impl DoubleEndedIterator for WeeksInInterval {
+    fn nth_back(&mut self, n: usize) -> Option<Self::Item> {
+        if n >= self.len() {
+            self.next = None;
+            return None;
+        }
+
+        let first = self.next?;
+        let offset = (i64::from(self.end.weekday().num_days_from_monday())
+            - i64::from(first.weekday().num_days_from_monday()))
+        .rem_euclid(7);
+        let days = i64::try_from(n).ok()?.checked_mul(7)?.checked_add(offset)?;
+        self.end = crate::arithmetic::sub_days(self.end, days)?;
+        self.next_back()
+    }
+
+    fn next_back(&mut self) -> Option<Self::Item> {
+        let first = self.next?;
+        let offset = (i64::from(self.end.weekday().num_days_from_monday())
+            - i64::from(first.weekday().num_days_from_monday()))
+        .rem_euclid(7);
+        let last = crate::arithmetic::sub_days(self.end, offset)?;
+        if last < first {
+            self.next = None;
+            return None;
+        }
+        if last == first {
+            self.next = None;
+        } else {
+            self.end = last.pred_opt()?;
+        }
+        Some(last)
+    }
+}
+
 impl ExactSizeIterator for WeeksInInterval {}
 
 impl FusedIterator for WeeksInInterval {}
@@ -125,4 +160,24 @@ mod tests {
         assert_eq!(extreme.nth(usize::MAX), None);
         assert_eq!(extreme.next(), None);
     }
+    #[test]
+    fn reverse_week_iteration_tracks_remaining_count() {
+        let mut weeks =
+            each_week_of_interval(date(2024, 3, 1), date(2024, 4, 3), Weekday::Mon).unwrap();
+        assert_eq!(weeks.len(), 6);
+        assert_eq!(weeks.next_back(), Some(date(2024, 4, 1)));
+        assert_eq!(weeks.next(), Some(date(2024, 2, 26)));
+        assert_eq!(weeks.nth_back(1), Some(date(2024, 3, 18)));
+        assert_eq!(weeks.len(), 2);
+        assert_eq!(weeks.next(), Some(date(2024, 3, 4)));
+        assert_eq!(weeks.next_back(), Some(date(2024, 3, 11)));
+        assert_eq!(weeks.next(), None);
+
+        let mut huge =
+            each_week_of_interval(NaiveDate::MIN, NaiveDate::MAX, NaiveDate::MIN.weekday())
+                .unwrap();
+        assert_eq!(huge.nth_back(usize::MAX), None);
+        assert_eq!(huge.len(), 0);
+    }
+
 }

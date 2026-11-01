@@ -121,4 +121,5 @@ mod tests {
                 .unwrap();
         assert_eq!(extreme.nth(usize::MAX), None);
         assert_eq!(extreme.next(), None);
-    }}
+    }
+}

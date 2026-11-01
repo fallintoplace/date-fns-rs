@@ -121,6 +121,9 @@ mod tests {
         assert_eq!(format_datetime_tokens(value, "yyyy-QQ"), None);
         assert_eq!(format_datetime_tokens(value, "'unfinished"), None);
         assert_eq!(format_datetime_tokens(NaiveDateTime::MAX, "yyyy"), None);
-        assert_eq!(format_datetime_tokens(value, "HH:mm:ss"), Some("00:00:00".to_owned()));
+        assert_eq!(
+            format_datetime_tokens(value, "HH:mm:ss"),
+            Some("00:00:00".to_owned())
+        );
     }
 }

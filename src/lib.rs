@@ -44,6 +44,9 @@ pub use years::{add_years, sub_years};
 
 mod datetime_calendar_arithmetic;
 pub use datetime_calendar_arithmetic::{
+    add_months_preserving_end_of_month_datetime, add_years_preserving_end_of_month_datetime,
+};
+pub use datetime_calendar_arithmetic::{
     add_months_datetime, add_quarters_datetime, add_years_datetime, sub_months_datetime,
     sub_quarters_datetime, sub_years_datetime,
 };

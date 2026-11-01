@@ -116,8 +116,7 @@ mod tests {
 
     #[test]
     fn counts_and_skips_business_days_without_traversal() {
-        let mut days =
-            each_business_day_of_interval(date(2024, 3, 1), date(2024, 3, 11)).unwrap();
+        let mut days = each_business_day_of_interval(date(2024, 3, 1), date(2024, 3, 11)).unwrap();
         assert_eq!(days.len(), 7);
         assert_eq!(days.nth(2), Some(date(2024, 3, 5)));
         assert_eq!(days.len(), 4);
@@ -131,8 +130,7 @@ mod tests {
         assert_eq!(weekend.len(), 0);
         assert_eq!(weekend.nth(0), None);
 
-        let mut extreme =
-            each_business_day_of_interval(NaiveDate::MIN, NaiveDate::MAX).unwrap();
+        let mut extreme = each_business_day_of_interval(NaiveDate::MIN, NaiveDate::MAX).unwrap();
         assert_eq!(extreme.nth(usize::MAX), None);
         assert_eq!(extreme.next(), None);
     }

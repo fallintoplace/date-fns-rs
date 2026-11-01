@@ -3,18 +3,12 @@
 use chrono::{NaiveDate, NaiveDateTime};
 
 /// Add signed Monday-Friday days while preserving the exact time of day.
-pub fn add_business_days_datetime(
-    value: NaiveDateTime,
-    days: i64,
-) -> Option<NaiveDateTime> {
+pub fn add_business_days_datetime(value: NaiveDateTime, days: i64) -> Option<NaiveDateTime> {
     Some(crate::add_business_days(value.date(), days)?.and_time(value.time()))
 }
 
 /// Subtract signed Monday-Friday days while preserving the exact time of day.
-pub fn sub_business_days_datetime(
-    value: NaiveDateTime,
-    days: i64,
-) -> Option<NaiveDateTime> {
+pub fn sub_business_days_datetime(value: NaiveDateTime, days: i64) -> Option<NaiveDateTime> {
     Some(crate::sub_business_days(value.date(), days)?.and_time(value.time()))
 }
 

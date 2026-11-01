@@ -232,6 +232,10 @@ pub use business_difference::difference_in_business_days;
 mod business_year_metadata;
 pub use business_year_metadata::{get_business_day_of_year, get_business_days_in_year};
 
+pub use business_year_metadata::{
+    get_business_day_of_year_with_holidays, get_business_days_in_year_with_holidays,
+};
+
 mod datetime_fixed_offset;
 pub use datetime_fixed_offset::{assume_fixed_offset, convert_fixed_offset};
 

@@ -398,3 +398,9 @@ pub use interval_split::split_interval_after;
 
 mod date_interval_coverage;
 pub use date_interval_coverage::{count_distinct_days_covered, overlapping_days_in_intervals};
+
+mod datetime_calendar_boundaries;
+pub use datetime_calendar_boundaries::{
+    end_of_month_datetime, end_of_quarter_datetime, end_of_year_datetime, start_of_month_datetime,
+    start_of_quarter_datetime, start_of_year_datetime,
+};

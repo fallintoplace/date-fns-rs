@@ -105,6 +105,49 @@ mod tests {
         }
         assert_eq!(format_iso_basic_local_datetime(NaiveDateTime::MAX), None);
     }
+}
+
+#[cfg(test)]
+mod additional_tests {
+    use super::*;
+    use chrono::NaiveDate;
+
+    #[test]
+    fn round_trips_leap_days_and_precise_times() {
+        let value = NaiveDate::from_ymd_opt(2024, 2, 29)
+            .unwrap()
+            .and_hms_nano_opt(23, 59, 58, 123_000_009)
+            .unwrap();
+        let text = "20240229T235958.123000009";
+        assert_eq!(parse_iso_basic_local_datetime(text), Some(value));
+        assert_eq!(
+            format_iso_basic_local_datetime(value).as_deref(),
+            Some(text)
+        );
+        assert_eq!(
+            parse_iso_basic_local_datetime("20240229T000000"),
+            Some(value.date().and_hms_opt(0, 0, 0).unwrap())
+        );
+    }
+
+    #[test]
+    fn rejects_bad_dates_offsets_and_noncanonical_clocks() {
+        for text in [
+            "20230229T000000",
+            "20240229T240000",
+            "20240229T235960",
+            "2024-02-29T235959",
+            "20240229T23:59:59",
+            "20240229t235959",
+            "20240229T235959Z",
+            "20240229T235959.",
+            "20240229T235959.1234567890",
+            "20240229T235959 ",
+        ] {
+            assert_eq!(parse_iso_basic_local_datetime(text), None, "{text}");
+        }
+        assert_eq!(format_iso_basic_local_datetime(NaiveDateTime::MAX), None);
+    }
 
     #[test]
     fn round_trips_leap_days_and_fractional_seconds() {

@@ -16,6 +16,26 @@ pub struct YearsInInterval {
 impl Iterator for YearsInInterval {
     type Item = NaiveDate;
 
+    fn size_hint(&self) -> (usize, Option<usize>) {
+        use chrono::Datelike;
+
+        let remaining = self.next.map_or(0, |next| {
+            (i64::from(self.end.year()) - i64::from(next.year()) + 1) as usize
+        });
+        (remaining, Some(remaining))
+    }
+
+    fn nth(&mut self, n: usize) -> Option<Self::Item> {
+        if n >= self.len() {
+            self.next = None;
+            return None;
+        }
+
+        let months = u32::try_from(n).ok()?.checked_mul(12)?;
+        self.next = self.next?.checked_add_months(Months::new(months));
+        self.next()
+    }
+
     fn next(&mut self) -> Option<Self::Item> {
         let current = self.next?;
         self.next = current
@@ -24,6 +44,8 @@ impl Iterator for YearsInInterval {
         Some(current)
     }
 }
+
+impl ExactSizeIterator for YearsInInterval {}
 
 impl FusedIterator for YearsInInterval {}
 
@@ -69,6 +91,22 @@ mod tests {
         let mut years = each_year_of_interval(NaiveDate::MAX, NaiveDate::MAX).unwrap();
         assert_eq!(years.next(), Some(start_of_year(NaiveDate::MAX)));
         assert_eq!(years.next(), None);
+        assert_eq!(years.next(), None);
+    }
+    #[test]
+    fn skips_year_starts_and_reports_exact_remaining_count() {
+        let mut years = each_year_of_interval(date(2022, 12, 31), date(2025, 1, 2)).unwrap();
+        assert_eq!(years.len(), 4);
+        assert_eq!(years.nth(2), Some(date(2024, 1, 1)));
+        assert_eq!(years.len(), 1);
+        assert_eq!(years.next(), Some(date(2025, 1, 1)));
+        assert_eq!(years.len(), 0);
+    }
+
+    #[test]
+    fn exhausts_impossible_nth_calls_at_range_limits() {
+        let mut years = each_year_of_interval(NaiveDate::MIN, NaiveDate::MAX).unwrap();
+        assert_eq!(years.nth(usize::MAX), None);
         assert_eq!(years.next(), None);
     }
 }

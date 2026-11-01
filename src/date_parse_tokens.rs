@@ -53,7 +53,6 @@ fn parse_weekday_name(input: &str, at: &mut usize, full: bool) -> Option<u32> {
     None
 }
 
-
 fn digits(input: &str, at: &mut usize, min: usize, max: usize) -> Option<u32> {
     let b = input.as_bytes();
     let begin = *at;
@@ -109,42 +108,27 @@ pub fn parse_date_tokens(input: &str, pattern: &str) -> Option<NaiveDate> {
         }
         let rest = &pattern[pi..];
         if rest.starts_with("MMMM") {
-            if month
-                .replace(parse_month_name(input, &mut ii, true)?)
-                .is_some()
-            {
+            if month.replace(parse_month_name(input, &mut ii, true)?).is_some() {
                 return None;
             }
             pi += 4;
         } else if rest.starts_with("MMM") {
-            if month
-                .replace(parse_month_name(input, &mut ii, false)?)
-                .is_some()
-            {
+            if month.replace(parse_month_name(input, &mut ii, false)?).is_some() {
                 return None;
             }
             pi += 3;
         } else if rest.starts_with("EEEE") {
-            if weekday
-                .replace(parse_weekday_name(input, &mut ii, true)?)
-                .is_some()
-            {
+            if weekday.replace(parse_weekday_name(input, &mut ii, true)?).is_some() {
                 return None;
             }
             pi += 4;
         } else if rest.starts_with("EEE") {
-            if weekday
-                .replace(parse_weekday_name(input, &mut ii, false)?)
-                .is_some()
-            {
+            if weekday.replace(parse_weekday_name(input, &mut ii, false)?).is_some() {
                 return None;
             }
             pi += 3;
         } else if rest.starts_with('E') {
-            if weekday
-                .replace(parse_weekday_name(input, &mut ii, false)?)
-                .is_some()
-            {
+            if weekday.replace(parse_weekday_name(input, &mut ii, false)?).is_some() {
                 return None;
             }
             pi += 1;
@@ -217,6 +201,7 @@ mod tests {
         assert_eq!(parse_date_tokens("2024-02-29", "yyyy-QQ-dd"), None);
         assert_eq!(parse_date_tokens("2024-02-29", "yyyy-MM-MM"), None);
     }
+
     #[test]
     fn parses_english_months_and_verifies_weekday_names() {
         let leap = NaiveDate::from_ymd_opt(2024, 2, 29).unwrap();
@@ -255,5 +240,4 @@ mod tests {
             None
         );
     }
-
 }

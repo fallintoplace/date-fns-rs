@@ -60,7 +60,7 @@ mod tests {
             .and_hms_opt(0, 30, 0)
             .unwrap();
         let third = second.checked_add_signed(TimeDelta::hours(1)).unwrap();
-        let end = second.checked_add_signed(TimeDelta::hours(2)).unwrap();
+        let end = second.checked_add_signed(TimeDelta::minutes(90)).unwrap();
         let hours: Vec<_> = each_nth_hour_of_datetime_interval(first, end, 1)
             .unwrap()
             .collect();

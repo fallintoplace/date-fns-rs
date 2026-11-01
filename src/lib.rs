@@ -388,6 +388,9 @@ pub use set_month::set_month;
 mod date_parse_tokens;
 pub use date_parse_tokens::parse_date_tokens;
 
+mod datetime_parse_tokens;
+pub use datetime_parse_tokens::parse_datetime_tokens;
+
 mod set_year;
 pub use set_year::set_year;
 

@@ -50,8 +50,14 @@ mod tests {
         assert_eq!(
             symmetric_difference_of_datetime_intervals(at(1), at(4), at(2), at(3)),
             Some(vec![
-                (at(1), at(2).checked_sub_signed(TimeDelta::nanoseconds(1)).unwrap()),
-                (at(3).checked_add_signed(TimeDelta::nanoseconds(1)).unwrap(), at(4)),
+                (
+                    at(1),
+                    at(2).checked_sub_signed(TimeDelta::nanoseconds(1)).unwrap()
+                ),
+                (
+                    at(3).checked_add_signed(TimeDelta::nanoseconds(1)).unwrap(),
+                    at(4)
+                ),
             ])
         );
         assert_eq!(

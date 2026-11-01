@@ -38,6 +38,28 @@ pub fn nearest_weekday(date: NaiveDate, weekday: Weekday) -> Option<NaiveDate> {
     }
 }
 
+/// Find the next occurrence of a weekday, including the starting date.
+///
+/// Returns None only if moving forward would exceed the supported date range.
+pub fn next_or_same_weekday(date: NaiveDate, weekday: Weekday) -> Option<NaiveDate> {
+    if date.weekday() == weekday {
+        Some(date)
+    } else {
+        next_weekday(date, weekday)
+    }
+}
+
+/// Find the previous occurrence of a weekday, including the starting date.
+///
+/// Returns None only if moving backward would exceed the supported date range.
+pub fn previous_or_same_weekday(date: NaiveDate, weekday: Weekday) -> Option<NaiveDate> {
+    if date.weekday() == weekday {
+        Some(date)
+    } else {
+        previous_weekday(date, weekday)
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -93,4 +115,23 @@ mod tests {
             assert_eq!(nearest_weekday(edge, edge.weekday()), Some(edge));
         }
     }
+    #[test]
+    fn inclusive_weekday_navigation_keeps_matching_dates() {
+        let monday = date(2024, 1, 1);
+        assert_eq!(next_or_same_weekday(monday, Weekday::Mon), Some(monday));
+        assert_eq!(previous_or_same_weekday(monday, Weekday::Mon), Some(monday));
+        assert_eq!(
+            next_or_same_weekday(monday, Weekday::Fri),
+            Some(date(2024, 1, 5))
+        );
+        assert_eq!(
+            previous_or_same_weekday(monday, Weekday::Fri),
+            Some(date(2023, 12, 29))
+        );
+        for edge in [NaiveDate::MIN, NaiveDate::MAX] {
+            assert_eq!(next_or_same_weekday(edge, edge.weekday()), Some(edge));
+            assert_eq!(previous_or_same_weekday(edge, edge.weekday()), Some(edge));
+        }
+    }
+
 }

@@ -37,6 +37,11 @@ pub fn format_date_tokens(date: NaiveDate, pattern: &str) -> Option<String> {
     let mut i = 0;
     let bytes = pattern.as_bytes();
     while i < bytes.len() {
+        if bytes[i] == b'\'' && bytes.get(i + 1) == Some(&b'\'') {
+            result.push('\'');
+            i += 2;
+            continue;
+        }
         if bytes[i] == b'\'' {
             i += 1;
             let mut closed = false;
@@ -135,4 +140,17 @@ mod tests {
         assert_eq!(format_date_tokens(day, "'unfinished"), None);
         assert_eq!(format_date_tokens(NaiveDate::MAX, "yyyy"), None);
     }
+    #[test]
+    fn formats_doubled_apostrophes_outside_quoted_literals() {
+        let date = NaiveDate::from_ymd_opt(2024, 2, 29).unwrap();
+        assert_eq!(
+            format_date_tokens(date, "yyyy''MM''dd").as_deref(),
+            Some("2024'02'29")
+        );
+        assert_eq!(
+            format_date_tokens(date, "'''' yyyy").as_deref(),
+            Some("'' 2024")
+        );
+    }
+
 }

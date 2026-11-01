@@ -38,7 +38,12 @@ mod tests {
         assert_eq!(before_epoch.and_utc().timestamp_subsec_micros(), 999_999);
         assert_eq!(
             from_unix_timestamp_micros(0),
-            Some(NaiveDate::from_ymd_opt(1970, 1, 1).unwrap().and_hms_opt(0, 0, 0).unwrap())
+            Some(
+                NaiveDate::from_ymd_opt(1970, 1, 1)
+                    .unwrap()
+                    .and_hms_opt(0, 0, 0)
+                    .unwrap()
+            )
         );
     }
 

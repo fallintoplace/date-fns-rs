@@ -10,6 +10,14 @@ pub use chrono::{NaiveDate, Weekday};
 mod arithmetic;
 pub use arithmetic::{add_days, add_weeks, sub_days, sub_weeks};
 
+mod datetime_arithmetic;
+pub use chrono::NaiveDateTime;
+pub use datetime_arithmetic::{
+    add_hours_datetime, add_microseconds_datetime, add_milliseconds_datetime, add_minutes_datetime,
+    add_seconds_datetime, sub_hours_datetime, sub_microseconds_datetime,
+    sub_milliseconds_datetime, sub_minutes_datetime, sub_seconds_datetime,
+};
+
 mod epoch_days;
 pub use epoch_days::{from_epoch_day, to_epoch_day};
 

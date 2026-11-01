@@ -316,6 +316,11 @@ pub use interval_quarter_segments::{each_quarter_segment_of_interval, QuarterSeg
 mod interval_weekdays;
 pub use interval_weekdays::{each_weekday_of_interval, WeekdaysInInterval};
 
+mod interval_business_holidays;
+pub use interval_business_holidays::{
+    each_business_day_of_interval_excluding_holidays, HolidayBusinessDaysInInterval,
+};
+
 mod interval_business_days;
 pub use interval_business_days::{each_business_day_of_interval, BusinessDaysInInterval};
 

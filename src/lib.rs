@@ -63,6 +63,12 @@ pub use compare::max_date;
 pub use compare::min_date;
 pub use compare::{is_after, is_before, is_same_day, is_same_month, is_same_year, is_weekend};
 
+mod datetime_components;
+pub use datetime_components::{
+    get_millisecond_datetime, set_hour_datetime, set_millisecond_datetime,
+    set_minute_datetime, set_second_datetime,
+};
+
 mod interval;
 pub use interval::{
     are_intervals_overlapping, each_day_of_interval, is_within_interval, DaysInInterval,

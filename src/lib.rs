@@ -227,6 +227,9 @@ pub use interval_gap::gap_between_intervals;
 mod interval_subtract;
 pub use interval_subtract::subtract_intervals;
 
+mod interval_symmetric_difference;
+pub use interval_symmetric_difference::symmetric_difference_of_intervals;
+
 mod interval_merge;
 pub use interval_merge::merge_intervals;
 

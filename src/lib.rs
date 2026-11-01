@@ -13,6 +13,9 @@ pub use arithmetic::{add_days, add_weeks, sub_days, sub_weeks};
 mod epoch_days;
 pub use epoch_days::{from_epoch_day, to_epoch_day};
 
+mod interval_midpoint;
+pub use interval_midpoint::interval_midpoint;
+
 mod months;
 pub use months::add_months_preserving_end_of_month;
 pub use months::{add_months, sub_months};

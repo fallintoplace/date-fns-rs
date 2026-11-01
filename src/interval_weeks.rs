@@ -17,12 +17,32 @@ pub struct WeeksInInterval {
 impl Iterator for WeeksInInterval {
     type Item = NaiveDate;
 
+    fn size_hint(&self) -> (usize, Option<usize>) {
+        let remaining = self.next.map_or(0, |next| {
+            (crate::difference::difference_in_calendar_days(self.end, next) / 7 + 1) as usize
+        });
+        (remaining, Some(remaining))
+    }
+
+    fn nth(&mut self, n: usize) -> Option<Self::Item> {
+        if n >= self.len() {
+            self.next = None;
+            return None;
+        }
+
+        let offset = i64::try_from(n).ok()?.checked_mul(7)?;
+        self.next = add_days(self.next?, offset);
+        self.next()
+    }
+
     fn next(&mut self) -> Option<Self::Item> {
         let current = self.next?;
         self.next = add_days(current, 7).filter(|next| *next <= self.end);
         Some(current)
     }
 }
+
+impl ExactSizeIterator for WeeksInInterval {}
 
 impl FusedIterator for WeeksInInterval {}
 
@@ -85,5 +105,24 @@ mod tests {
         assert_eq!(weeks.next(), Some(NaiveDate::MAX));
         assert_eq!(weeks.next(), None);
         assert_eq!(weeks.next(), None);
+    }
+
+    #[test]
+    fn reports_exact_week_count_and_skips_directly() {
+        let mut weeks =
+            each_week_of_interval(date(2024, 3, 1), date(2024, 4, 3), Weekday::Mon).unwrap();
+        assert_eq!(weeks.len(), 6);
+        assert_eq!(weeks.nth(3), Some(date(2024, 3, 18)));
+        assert_eq!(weeks.len(), 2);
+        assert_eq!(weeks.next(), Some(date(2024, 3, 25)));
+        assert_eq!(weeks.next(), Some(date(2024, 4, 1)));
+        assert_eq!(weeks.next(), None);
+        assert_eq!(weeks.len(), 0);
+
+        let mut extreme =
+            each_week_of_interval(NaiveDate::MIN, NaiveDate::MAX, NaiveDate::MIN.weekday())
+                .unwrap();
+        assert_eq!(extreme.nth(usize::MAX), None);
+        assert_eq!(extreme.next(), None);
     }
 }

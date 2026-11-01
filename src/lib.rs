@@ -102,6 +102,9 @@ pub use closest_date::{closest_date_index_to, closest_date_to};
 mod interval_ops;
 pub use interval_ops::{clamp_to_interval, intersection_of_intervals, interval_length_in_days};
 
+mod interval_gap;
+pub use interval_gap::gap_between_intervals;
+
 mod interval_subtract;
 pub use interval_subtract::subtract_intervals;
 

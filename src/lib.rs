@@ -205,6 +205,8 @@ pub use business_days::{
 mod business_holidays;
 pub use business_holidays::{add_business_days_with_holidays, sub_business_days_with_holidays};
 
+pub use business_holidays::is_business_day_with_holidays;
+
 mod business_difference;
 pub use business_difference::difference_in_business_days;
 

@@ -16,6 +16,9 @@ pub use epoch_days::{from_epoch_day, to_epoch_day};
 mod months;
 pub use months::{add_months, sub_months};
 
+mod half_year_arithmetic;
+pub use half_year_arithmetic::{add_half_years, sub_half_years};
+
 mod years;
 pub use years::{add_years, sub_years};
 

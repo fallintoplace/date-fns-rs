@@ -23,9 +23,7 @@ pub fn parse_iso_local_datetime(input: &str) -> Option<NaiveDateTime> {
     let nano = if b.len() == 8 {
         0
     } else {
-        if b.len() < 10 || b.len() > 18 || b[8] != b'.'
-            || !b[9..].iter().all(u8::is_ascii_digit)
-        {
+        if b.len() < 10 || b.len() > 18 || b[8] != b'.' || !b[9..].iter().all(u8::is_ascii_digit) {
             return None;
         }
         let fraction = &clock[9..];
@@ -54,7 +52,12 @@ pub fn format_iso_local_datetime(value: NaiveDateTime) -> Option<String> {
         }
         format!(".{fraction}")
     };
-    Some(format!("{date}T{:02}:{:02}:{:02}{suffix}", value.hour(), value.minute(), value.second()))
+    Some(format!(
+        "{date}T{:02}:{:02}:{:02}{suffix}",
+        value.hour(),
+        value.minute(),
+        value.second()
+    ))
 }
 
 #[cfg(test)]
@@ -64,20 +67,38 @@ mod tests {
 
     #[test]
     fn round_trips_fractional_leap_day_date_times() {
-        let value = NaiveDate::from_ymd_opt(2024, 2, 29).unwrap()
-            .and_hms_nano_opt(23, 59, 58, 120_000_001).unwrap();
+        let value = NaiveDate::from_ymd_opt(2024, 2, 29)
+            .unwrap()
+            .and_hms_nano_opt(23, 59, 58, 120_000_001)
+            .unwrap();
         let text = "2024-02-29T23:59:58.120000001";
         assert_eq!(format_iso_local_datetime(value).as_deref(), Some(text));
         assert_eq!(parse_iso_local_datetime(text), Some(value));
-        assert_eq!(parse_iso_local_datetime("2024-02-29T00:00:00"), Some(value.date().and_hms_opt(0, 0, 0).unwrap()));
-        assert_eq!(parse_iso_local_datetime("2024-02-29T12:12:12.1").unwrap().nanosecond(), 100_000_000);
+        assert_eq!(
+            parse_iso_local_datetime("2024-02-29T00:00:00"),
+            Some(value.date().and_hms_opt(0, 0, 0).unwrap())
+        );
+        assert_eq!(
+            parse_iso_local_datetime("2024-02-29T12:12:12.1")
+                .unwrap()
+                .nanosecond(),
+            100_000_000
+        );
     }
 
     #[test]
     fn rejects_noncanonical_and_offset_inputs() {
-        for input in ["2024-02-30T00:00:00", "2024-02-29T24:00:00", "2024-02-29T12:00:60",
-            "2024-02-29 00:00:00", "2024-02-29T00:00:00Z", "2024-02-29T00:00:00+01:00",
-            "2024-02-29T00:00:00.", "2024-02-29T00:00:00.1234567890", "2024-02-29T00:00:00 "] {
+        for input in [
+            "2024-02-30T00:00:00",
+            "2024-02-29T24:00:00",
+            "2024-02-29T12:00:60",
+            "2024-02-29 00:00:00",
+            "2024-02-29T00:00:00Z",
+            "2024-02-29T00:00:00+01:00",
+            "2024-02-29T00:00:00.",
+            "2024-02-29T00:00:00.1234567890",
+            "2024-02-29T00:00:00 ",
+        ] {
             assert_eq!(parse_iso_local_datetime(input), None);
         }
         assert_eq!(format_iso_local_datetime(NaiveDateTime::MAX), None);

@@ -14,8 +14,8 @@ pub fn count_distinct_nanoseconds_covered(
         let from = start.and_utc();
         let to = end.and_utc();
         let seconds = i128::from(to.timestamp()) - i128::from(from.timestamp());
-        let subsecond = i128::from(to.timestamp_subsec_nanos())
-            - i128::from(from.timestamp_subsec_nanos());
+        let subsecond =
+            i128::from(to.timestamp_subsec_nanos()) - i128::from(from.timestamp_subsec_nanos());
         let inclusive = seconds * 1_000_000_000 + subsecond + 1;
         total = total.checked_add(inclusive)?;
     }
@@ -37,11 +37,7 @@ mod tests {
     #[test]
     fn counts_union_without_double_counting_overlap() {
         assert_eq!(
-            count_distinct_nanoseconds_covered(&[
-                (at(2), at(4)),
-                (at(0), at(2)),
-                (at(4), at(4)),
-            ]),
+            count_distinct_nanoseconds_covered(&[(at(2), at(4)), (at(0), at(2)), (at(4), at(4)),]),
             Some(5)
         );
         assert_eq!(
@@ -55,11 +51,8 @@ mod tests {
     fn validates_reversed_ranges_and_supports_large_results() {
         assert_eq!(count_distinct_nanoseconds_covered(&[(at(2), at(1))]), None);
         assert_eq!(
-            count_distinct_nanoseconds_covered(&[(
-                NaiveDateTime::MIN,
-                NaiveDateTime::MAX
-            )])
-            .is_some_and(|count| count > i128::from(i64::MAX)),
+            count_distinct_nanoseconds_covered(&[(NaiveDateTime::MIN, NaiveDateTime::MAX)])
+                .is_some_and(|count| count > i128::from(i64::MAX)),
             true
         );
     }

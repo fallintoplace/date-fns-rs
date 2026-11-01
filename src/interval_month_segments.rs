@@ -16,6 +16,26 @@ pub struct MonthSegmentsInInterval {
 impl Iterator for MonthSegmentsInInterval {
     type Item = (NaiveDate, NaiveDate);
 
+    fn size_hint(&self) -> (usize, Option<usize>) {
+        let remaining = self.next.map_or(0, |next| {
+            (crate::difference::difference_in_calendar_months(self.end, next) + 1) as usize
+        });
+        (remaining, Some(remaining))
+    }
+
+    fn nth(&mut self, n: usize) -> Option<Self::Item> {
+        if n >= self.len() {
+            self.next = None;
+            return None;
+        }
+
+        if n > 0 {
+            let first = crate::boundaries::start_of_month(self.next?);
+            self.next = first.checked_add_months(chrono::Months::new(n as u32));
+        }
+        self.next()
+    }
+
     fn next(&mut self) -> Option<Self::Item> {
         let start = self.next?;
         let end = end_of_month(start).min(self.end);
@@ -23,6 +43,8 @@ impl Iterator for MonthSegmentsInInterval {
         Some((start, end))
     }
 }
+
+impl ExactSizeIterator for MonthSegmentsInInterval {}
 
 impl FusedIterator for MonthSegmentsInInterval {}
 
@@ -79,5 +101,21 @@ mod tests {
         assert_eq!(last.next(), Some((NaiveDate::MAX, NaiveDate::MAX)));
         assert_eq!(last.next(), None);
         assert_eq!(last.next(), None);
+    }
+
+    #[test]
+    fn counts_and_skips_clipped_month_segments_directly() {
+        let mut segments =
+            each_month_segment_of_interval(date(2024, 1, 30), date(2024, 5, 2)).unwrap();
+        assert_eq!(segments.len(), 5);
+        assert_eq!(segments.nth(2), Some((date(2024, 3, 1), date(2024, 3, 31))));
+        assert_eq!(segments.len(), 2);
+        assert_eq!(segments.next(), Some((date(2024, 4, 1), date(2024, 4, 30))));
+        assert_eq!(segments.next(), Some((date(2024, 5, 1), date(2024, 5, 2))));
+        assert_eq!(segments.len(), 0);
+
+        let mut extreme = each_month_segment_of_interval(NaiveDate::MIN, NaiveDate::MAX).unwrap();
+        assert_eq!(extreme.nth(usize::MAX), None);
+        assert_eq!(extreme.next(), None);
     }
 }

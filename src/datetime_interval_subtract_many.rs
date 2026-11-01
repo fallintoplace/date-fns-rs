@@ -57,10 +57,18 @@ mod tests {
         assert_eq!(
             subtract_multiple_datetime_intervals(at(1), at(9), &excluded),
             Some(vec![
-                (at(1), at(2).checked_sub_signed(TimeDelta::nanoseconds(1)).unwrap()),
-                (at(6).checked_add_signed(TimeDelta::nanoseconds(1)).unwrap(),
-                 at(7).checked_sub_signed(TimeDelta::nanoseconds(1)).unwrap()),
-                (at(8).checked_add_signed(TimeDelta::nanoseconds(1)).unwrap(), at(9)),
+                (
+                    at(1),
+                    at(2).checked_sub_signed(TimeDelta::nanoseconds(1)).unwrap()
+                ),
+                (
+                    at(6).checked_add_signed(TimeDelta::nanoseconds(1)).unwrap(),
+                    at(7).checked_sub_signed(TimeDelta::nanoseconds(1)).unwrap()
+                ),
+                (
+                    at(8).checked_add_signed(TimeDelta::nanoseconds(1)).unwrap(),
+                    at(9)
+                ),
             ])
         );
         assert_eq!(
@@ -71,7 +79,10 @@ mod tests {
 
     #[test]
     fn rejects_invalid_input_and_handles_full_exclusion() {
-        assert_eq!(subtract_multiple_datetime_intervals(at(3), at(2), &[]), None);
+        assert_eq!(
+            subtract_multiple_datetime_intervals(at(3), at(2), &[]),
+            None
+        );
         assert_eq!(
             subtract_multiple_datetime_intervals(at(1), at(9), &[(at(5), at(4))]),
             None
@@ -88,12 +99,18 @@ mod tests {
             subtract_multiple_datetime_intervals(
                 NaiveDateTime::MIN,
                 NaiveDateTime::MAX,
-                &[(NaiveDateTime::MIN, NaiveDateTime::MIN),
-                  (NaiveDateTime::MAX, NaiveDateTime::MAX)],
+                &[
+                    (NaiveDateTime::MIN, NaiveDateTime::MIN),
+                    (NaiveDateTime::MAX, NaiveDateTime::MAX)
+                ],
             ),
             Some(vec![(
-                NaiveDateTime::MIN.checked_add_signed(TimeDelta::nanoseconds(1)).unwrap(),
-                NaiveDateTime::MAX.checked_sub_signed(TimeDelta::nanoseconds(1)).unwrap(),
+                NaiveDateTime::MIN
+                    .checked_add_signed(TimeDelta::nanoseconds(1))
+                    .unwrap(),
+                NaiveDateTime::MAX
+                    .checked_sub_signed(TimeDelta::nanoseconds(1))
+                    .unwrap(),
             )])
         );
     }

@@ -45,6 +45,19 @@ impl Iterator for YearsInInterval {
     }
 }
 
+impl DoubleEndedIterator for YearsInInterval {
+    fn next_back(&mut self) -> Option<Self::Item> {
+        let front = self.next?;
+        let last = start_of_year(self.end);
+        if last == front {
+            self.next = None;
+        } else {
+            self.end = last.pred_opt()?;
+        }
+        Some(last)
+    }
+}
+
 impl ExactSizeIterator for YearsInInterval {}
 
 impl FusedIterator for YearsInInterval {}
@@ -109,4 +122,22 @@ mod tests {
         assert_eq!(years.nth(usize::MAX), None);
         assert_eq!(years.next(), None);
     }
+    #[test]
+    fn supports_reverse_and_interleaved_year_traversal() {
+        let mut years =
+            each_year_of_interval(date(2021, 12, 31), date(2025, 1, 2)).unwrap();
+        assert_eq!(years.len(), 5);
+        assert_eq!(years.next_back(), Some(date(2025, 1, 1)));
+        assert_eq!(years.next(), Some(date(2021, 1, 1)));
+        assert_eq!(years.next_back(), Some(date(2024, 1, 1)));
+        assert_eq!(years.next(), Some(date(2022, 1, 1)));
+        assert_eq!(years.next_back(), Some(date(2023, 1, 1)));
+        assert_eq!(years.next(), None);
+        assert_eq!(years.len(), 0);
+
+        let mut edge = each_year_of_interval(NaiveDate::MAX, NaiveDate::MAX).unwrap();
+        assert_eq!(edge.next_back(), Some(start_of_year(NaiveDate::MAX)));
+        assert_eq!(edge.next_back(), None);
+    }
+
 }

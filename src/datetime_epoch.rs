@@ -1,7 +1,6 @@
 //! Explicit UTC Unix timestamps for naive date-times.
 
-use chrono::{DateTime, NaiveDateTime, Utc}
-;
+use chrono::{DateTime, NaiveDateTime, Utc};
 
 /// Count whole Unix seconds, assuming the naive input represents UTC.
 pub fn to_unix_timestamp_seconds(value: NaiveDateTime) -> i64 {

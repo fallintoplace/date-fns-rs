@@ -175,6 +175,13 @@ pub use interval_subtract::subtract_intervals;
 mod interval_merge;
 pub use interval_merge::merge_intervals;
 
+mod datetime_intervals;
+pub use datetime_intervals::{
+    are_datetime_intervals_overlapping, clamp_datetime_to_interval,
+    datetime_interval_duration_millis, intersection_of_datetime_intervals,
+    is_within_datetime_interval,
+};
+
 mod interval_weeks;
 pub use interval_weeks::{each_week_of_interval, WeeksInInterval};
 

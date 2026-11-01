@@ -43,6 +43,19 @@ impl Iterator for QuartersInInterval {
     }
 }
 
+impl DoubleEndedIterator for QuartersInInterval {
+    fn next_back(&mut self) -> Option<Self::Item> {
+        let front = self.next?;
+        let last = start_of_quarter(self.end);
+        if last == front {
+            self.next = None;
+        } else {
+            self.end = last.pred_opt()?;
+        }
+        Some(last)
+    }
+}
+
 impl ExactSizeIterator for QuartersInInterval {}
 
 impl FusedIterator for QuartersInInterval {}
@@ -114,5 +127,23 @@ mod tests {
         let mut quarters = each_quarter_of_interval(NaiveDate::MIN, NaiveDate::MAX).unwrap();
         assert_eq!(quarters.nth(usize::MAX), None);
         assert_eq!(quarters.size_hint(), (0, Some(0)));
+    }
+
+    #[test]
+    fn traverses_quarter_starts_from_both_ends() {
+        let mut quarters =
+            each_quarter_of_interval(date(2023, 12, 31), date(2024, 10, 15)).unwrap();
+        assert_eq!(quarters.len(), 5);
+        assert_eq!(quarters.next_back(), Some(date(2024, 10, 1)));
+        assert_eq!(quarters.next(), Some(date(2023, 10, 1)));
+        assert_eq!(quarters.next_back(), Some(date(2024, 7, 1)));
+        assert_eq!(quarters.next(), Some(date(2024, 1, 1)));
+        assert_eq!(quarters.next_back(), Some(date(2024, 4, 1)));
+        assert_eq!(quarters.next_back(), None);
+        assert_eq!(quarters.len(), 0);
+
+        let mut edge = each_quarter_of_interval(NaiveDate::MAX, NaiveDate::MAX).unwrap();
+        assert_eq!(edge.next_back(), Some(start_of_quarter(NaiveDate::MAX)));
+        assert_eq!(edge.next(), None);
     }
 }

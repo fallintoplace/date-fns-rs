@@ -59,7 +59,13 @@ mod tests {
         ] {
             assert_eq!(parse_iso_date_interval(invalid), None);
         }
-        assert_eq!(format_iso_date_interval(NaiveDate::MAX, NaiveDate::MAX), None);
-        assert_eq!(format_iso_date_interval(date(2024, 3, 1), date(2024, 2, 29)), None);
+        assert_eq!(
+            format_iso_date_interval(NaiveDate::MAX, NaiveDate::MAX),
+            None
+        );
+        assert_eq!(
+            format_iso_date_interval(date(2024, 3, 1), date(2024, 2, 29)),
+            None
+        );
     }
 }

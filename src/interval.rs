@@ -55,6 +55,15 @@ impl DoubleEndedIterator for DaysInInterval {
         }
         Some(back)
     }
+    fn nth_back(&mut self, n: usize) -> Option<Self::Item> {
+        if n >= self.len() {
+            self.next = None;
+            return None;
+        }
+
+        self.end = self.end.checked_sub_days(chrono::Days::new(n as u64))?;
+        self.next_back()
+    }
 }
 
 impl ExactSizeIterator for DaysInInterval {}
@@ -188,4 +197,19 @@ mod tests {
         assert_eq!(days.nth(usize::MAX), None);
         assert_eq!(days.size_hint(), (0, Some(0)));
     }
+    #[test]
+    fn nth_back_skips_in_constant_time_and_updates_remaining_length() {
+        let mut days = each_day_of_interval(date(2024, 3, 1), date(2024, 3, 10)).unwrap();
+        assert_eq!(days.nth_back(2), Some(date(2024, 3, 8)));
+        assert_eq!(days.len(), 7);
+        assert_eq!(days.next(), Some(date(2024, 3, 1)));
+        assert_eq!(days.next_back(), Some(date(2024, 3, 7)));
+        assert_eq!(days.nth_back(usize::MAX), None);
+        assert_eq!(days.len(), 0);
+
+        let mut extreme = each_day_of_interval(NaiveDate::MIN, NaiveDate::MAX).unwrap();
+        assert_eq!(extreme.nth_back(usize::MAX), None);
+        assert_eq!(extreme.next(), None);
+    }
+
 }

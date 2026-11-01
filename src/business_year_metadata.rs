@@ -5,6 +5,7 @@ use chrono::NaiveDate;
 use crate::boundaries::{end_of_year, start_of_year};
 use crate::business_days::is_business_day;
 use crate::business_difference::difference_in_business_days;
+use crate::holiday_business_difference::difference_in_business_days_excluding_holidays;
 
 /// Count Monday-Friday dates in the calendar year, without regional holidays.
 pub fn get_business_days_in_year(date: NaiveDate) -> u32 {
@@ -27,10 +28,7 @@ pub fn get_business_day_of_year(date: NaiveDate) -> Option<u32> {
 /// Count weekdays in the calendar year after excluding provided holidays.
 ///
 /// Duplicate holidays and weekend holidays are ignored.
-pub fn get_business_days_in_year_with_holidays(
-    date: NaiveDate,
-    holidays: &[NaiveDate],
-) -> u32 {
+pub fn get_business_days_in_year_with_holidays(date: NaiveDate, holidays: &[NaiveDate]) -> u32 {
     let first = start_of_year(date);
     let last = end_of_year(date);
     let initial = if is_business_day(first) && !holidays.contains(&first) {
@@ -38,9 +36,7 @@ pub fn get_business_days_in_year_with_holidays(
     } else {
         0
     };
-    let remaining = crate::holiday_business_difference::difference_in_business_days_excluding_holidays(
-        last, first, holidays,
-    );
+    let remaining = difference_in_business_days_excluding_holidays(last, first, holidays);
     (remaining + initial) as u32
 }
 
@@ -60,9 +56,7 @@ pub fn get_business_day_of_year_with_holidays(
     } else {
         0
     };
-    let remaining = crate::holiday_business_difference::difference_in_business_days_excluding_holidays(
-        date, first, holidays,
-    );
+    let remaining = difference_in_business_days_excluding_holidays(date, first, holidays);
     Some((remaining + initial) as u32)
 }
 

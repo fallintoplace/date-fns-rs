@@ -96,6 +96,9 @@ pub use business_days::{
 mod business_difference;
 pub use business_difference::difference_in_business_days;
 
+mod business_year_metadata;
+pub use business_year_metadata::{get_business_day_of_year, get_business_days_in_year};
+
 mod closest_date;
 pub use closest_date::{closest_date_index_to, closest_date_to};
 

@@ -398,3 +398,9 @@ pub use interval_split::split_interval_after;
 
 mod date_interval_coverage;
 pub use date_interval_coverage::{count_distinct_days_covered, overlapping_days_in_intervals};
+
+mod datetime_checked_setters;
+pub use datetime_checked_setters::{
+    set_day_of_month_datetime, set_day_of_week_datetime, set_day_of_year_datetime,
+    set_month_datetime, set_quarter_datetime, set_year_datetime,
+};

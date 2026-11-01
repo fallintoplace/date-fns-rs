@@ -145,4 +145,5 @@ mod tests {
         let mut edge = each_quarter_of_interval(NaiveDate::MAX, NaiveDate::MAX).unwrap();
         assert_eq!(edge.next_back(), Some(start_of_quarter(NaiveDate::MAX)));
         assert_eq!(edge.next(), None);
-    }}
+    }
+}

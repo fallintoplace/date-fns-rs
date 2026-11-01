@@ -48,8 +48,8 @@ mod tests {
     #[test]
     fn stays_within_supported_dates_at_chrono_limits() {
         for edge in [NaiveDate::MIN, NaiveDate::MAX] {
-            assert!(first_business_day_of_month(edge) <= edge);
-            assert!(last_business_day_of_month(edge) >= edge);
+            assert!(first_business_day_of_month(edge) >= start_of_month(edge));
+            assert!(last_business_day_of_month(edge) <= end_of_month(edge));
             assert!(is_business_day(first_business_day_of_month(edge)));
             assert!(is_business_day(last_business_day_of_month(edge)));
         }

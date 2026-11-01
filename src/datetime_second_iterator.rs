@@ -91,10 +91,7 @@ mod tests {
             .unwrap();
         let end = start.checked_add_signed(TimeDelta::seconds(10)).unwrap();
         let mut it = each_nth_second_of_datetime_interval(start, end, 2).unwrap();
-        assert_eq!(
-            it.nth(3),
-            start.checked_add_signed(TimeDelta::seconds(6))
-        );
+        assert_eq!(it.nth(3), start.checked_add_signed(TimeDelta::seconds(6)));
         assert_eq!(it.next(), start.checked_add_signed(TimeDelta::seconds(8)));
         assert_eq!(it.nth(2), None);
         assert_eq!(it.next(), None);

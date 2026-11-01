@@ -398,3 +398,10 @@ pub use interval_split::split_interval_after;
 
 mod date_interval_coverage;
 pub use date_interval_coverage::{count_distinct_days_covered, overlapping_days_in_intervals};
+
+mod datetime_calendar_differences;
+pub use datetime_calendar_differences::{
+    difference_in_calendar_days_datetime, difference_in_calendar_months_datetime,
+    difference_in_calendar_quarters_datetime, difference_in_calendar_weeks_datetime,
+    difference_in_calendar_years_datetime,
+};

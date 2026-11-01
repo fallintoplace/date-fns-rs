@@ -17,8 +17,7 @@ pub fn end_of_week_datetime(
     value: NaiveDateTime,
     week_starts_on: Weekday,
 ) -> Option<NaiveDateTime> {
-    crate::end_of_week(value.date(), week_starts_on)?
-        .and_hms_nano_opt(23, 59, 59, 999_999_999)
+    crate::end_of_week(value.date(), week_starts_on)?.and_hms_nano_opt(23, 59, 59, 999_999_999)
 }
 
 #[cfg(test)]

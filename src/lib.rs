@@ -273,3 +273,6 @@ pub use set_quarter::set_quarter;
 
 mod weekday_occurrence_count;
 pub use weekday_occurrence_count::count_weekday_occurrences;
+
+mod interval_day_counts;
+pub use interval_day_counts::{count_business_days_in_interval, count_weekend_days_in_interval};

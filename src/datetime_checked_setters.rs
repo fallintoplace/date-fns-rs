@@ -37,7 +37,10 @@ pub fn set_day_of_week_datetime(
     index: u32,
     week_starts_on: Weekday,
 ) -> Option<NaiveDateTime> {
-    with_date(value, crate::set_day_of_week(value.date(), index, week_starts_on))
+    with_date(
+        value,
+        crate::set_day_of_week(value.date(), index, week_starts_on),
+    )
 }
 
 #[cfg(test)]
@@ -62,8 +65,14 @@ mod tests {
             set_quarter_datetime(at(date(2024, 1, 31)), 2),
             Some(at(date(2024, 4, 30)))
         );
-        assert_eq!(set_day_of_month_datetime(leap, 1), Some(at(date(2024, 2, 1))));
-        assert_eq!(set_day_of_year_datetime(leap, 366), Some(at(date(2024, 12, 31))));
+        assert_eq!(
+            set_day_of_month_datetime(leap, 1),
+            Some(at(date(2024, 2, 1)))
+        );
+        assert_eq!(
+            set_day_of_year_datetime(leap, 366),
+            Some(at(date(2024, 12, 31)))
+        );
         assert_eq!(
             set_day_of_week_datetime(at(date(2024, 1, 1)), 0, Weekday::Sun),
             Some(at(date(2023, 12, 31)))

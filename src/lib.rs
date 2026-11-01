@@ -280,6 +280,9 @@ pub use interval_day_counts::{count_business_days_in_interval, count_weekend_day
 mod calendar_week_setters;
 pub use calendar_week_setters::{set_week, set_week_year};
 
+mod date_relative_en;
+pub use date_relative_en::format_relative_calendar_date_en;
+
 mod monthly_weekday_occurrences;
 pub use monthly_weekday_occurrences::{
     each_nth_weekday_of_month_in_interval, MonthlyWeekdayOccurrences,

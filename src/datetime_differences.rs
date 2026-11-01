@@ -37,20 +37,35 @@ mod tests {
 
     #[test]
     fn respects_elapsed_units_and_sign() {
-        let start = NaiveDate::from_ymd_opt(2024, 2, 29).unwrap().and_hms_opt(23, 30, 0).unwrap();
-        let end = NaiveDate::from_ymd_opt(2024, 3, 1).unwrap().and_hms_milli_opt(0, 30, 1, 500).unwrap();
+        let start = NaiveDate::from_ymd_opt(2024, 2, 29)
+            .unwrap()
+            .and_hms_opt(23, 30, 0)
+            .unwrap();
+        let end = NaiveDate::from_ymd_opt(2024, 3, 1)
+            .unwrap()
+            .and_hms_milli_opt(0, 30, 1, 500)
+            .unwrap();
         assert_eq!(difference_in_hours_datetime(end, start), 1);
         assert_eq!(difference_in_minutes_datetime(end, start), 60);
         assert_eq!(difference_in_seconds_datetime(end, start), 3_601);
         assert_eq!(difference_in_milliseconds_datetime(end, start), 3_601_500);
         assert_eq!(difference_in_milliseconds_datetime(start, end), -3_601_500);
-        assert_eq!(difference_in_microseconds_datetime(end, start), Some(3_601_500_000));
+        assert_eq!(
+            difference_in_microseconds_datetime(end, start),
+            Some(3_601_500_000)
+        );
         assert_eq!(difference_in_hours_datetime(start, end), -1);
     }
 
     #[test]
     fn large_microsecond_differences_are_checked() {
-        assert_eq!(difference_in_microseconds_datetime(NaiveDateTime::MAX, NaiveDateTime::MIN), None);
-        assert_eq!(difference_in_milliseconds_datetime(NaiveDateTime::MAX, NaiveDateTime::MAX), 0);
+        assert_eq!(
+            difference_in_microseconds_datetime(NaiveDateTime::MAX, NaiveDateTime::MIN),
+            None
+        );
+        assert_eq!(
+            difference_in_milliseconds_datetime(NaiveDateTime::MAX, NaiveDateTime::MAX),
+            0
+        );
     }
 }

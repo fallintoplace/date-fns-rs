@@ -481,3 +481,9 @@ pub use datetime_business_arithmetic::{
     add_business_days_datetime, add_business_days_with_holidays_datetime,
     sub_business_days_datetime, sub_business_days_with_holidays_datetime,
 };
+
+mod datetime_checked_setters;
+pub use datetime_checked_setters::{
+    set_day_of_month_datetime, set_day_of_week_datetime, set_day_of_year_datetime,
+    set_month_datetime, set_quarter_datetime, set_year_datetime,
+};

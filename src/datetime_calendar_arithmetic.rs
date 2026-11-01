@@ -43,10 +43,7 @@ pub fn add_months_preserving_end_of_month_datetime(
     value: NaiveDateTime,
     months: i32,
 ) -> Option<NaiveDateTime> {
-    at_same_time(
-        value,
-        crate::add_months_preserving_end_of_month(value.date(), months),
-    )
+    at_same_time(value, crate::add_months_preserving_end_of_month(value.date(), months))
 }
 
 /// Add years while retaining the source's end-of-month position.
@@ -56,10 +53,7 @@ pub fn add_years_preserving_end_of_month_datetime(
     value: NaiveDateTime,
     years: i32,
 ) -> Option<NaiveDateTime> {
-    at_same_time(
-        value,
-        crate::add_years_preserving_end_of_month(value.date(), years),
-    )
+    at_same_time(value, crate::add_years_preserving_end_of_month(value.date(), years))
 }
 
 #[cfg(test)]

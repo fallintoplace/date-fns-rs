@@ -159,14 +159,10 @@ mod tests {
         .iter()
         .enumerate()
         {
-            counts[i] = count_weekday_occurrences_in_interval(
-                NaiveDate::MIN,
-                NaiveDate::MAX,
-                *weekday,
-            )
-            .unwrap();
+            counts[i] =
+                count_weekday_occurrences_in_interval(NaiveDate::MIN, NaiveDate::MAX, *weekday)
+                    .unwrap();
         }
         counts
     }
-
 }

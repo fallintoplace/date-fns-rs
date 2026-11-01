@@ -27,10 +27,7 @@ pub fn set_day_of_month_datetime(value: NaiveDateTime, day: u32) -> Option<Naive
 }
 
 /// Replace the 1-based day of the year; invalid ordinals return None.
-pub fn set_day_of_year_datetime(
-    value: NaiveDateTime,
-    ordinal: u32,
-) -> Option<NaiveDateTime> {
+pub fn set_day_of_year_datetime(value: NaiveDateTime, ordinal: u32) -> Option<NaiveDateTime> {
     with_date(value, crate::set_day_of_year(value.date(), ordinal))
 }
 
@@ -46,6 +43,7 @@ pub fn set_day_of_week_datetime(
 #[cfg(test)]
 mod tests {
     use super::*;
+    use chrono::Datelike;
 
     fn date(y: i32, m: u32, d: u32) -> NaiveDate {
         NaiveDate::from_ymd_opt(y, m, d).unwrap()

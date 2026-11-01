@@ -270,3 +270,6 @@ pub use centuries::{end_of_century, start_of_century};
 
 mod set_quarter;
 pub use set_quarter::set_quarter;
+
+mod weekday_occurrence_count;
+pub use weekday_occurrence_count::count_weekday_occurrences;

@@ -26,7 +26,11 @@ mod tests {
         let parsed = parse_rfc3339_datetime(original).unwrap();
         assert_eq!(parsed.offset().local_minus_utc(), 19_800);
         assert_eq!(format_rfc3339_datetime(parsed).as_deref(), Some(original));
-        assert_eq!(format_rfc3339_datetime(parse_rfc3339_datetime("2024-01-01T00:00:00Z").unwrap()).as_deref(), Some("2024-01-01T00:00:00Z"));
+        assert_eq!(
+            format_rfc3339_datetime(parse_rfc3339_datetime("2024-01-01T00:00:00Z").unwrap())
+                .as_deref(),
+            Some("2024-01-01T00:00:00Z")
+        );
     }
 
     #[test]

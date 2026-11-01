@@ -30,6 +30,14 @@ pub fn difference_in_microseconds_datetime(
     left.signed_duration_since(right).num_microseconds()
 }
 
+/// Signed nanoseconds from right to left, or None when the i64 range is exceeded.
+pub fn difference_in_nanoseconds_datetime(
+    left: NaiveDateTime,
+    right: NaiveDateTime,
+) -> Option<i64> {
+    left.signed_duration_since(right).num_nanoseconds()
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -68,4 +76,32 @@ mod tests {
             0
         );
     }
+    #[test]
+    fn nanosecond_difference_is_signed_and_checked() {
+        let first = NaiveDate::from_ymd_opt(2024, 2, 29)
+            .unwrap()
+            .and_hms_nano_opt(23, 59, 59, 900_000_000)
+            .unwrap();
+        let second = NaiveDate::from_ymd_opt(2024, 3, 1)
+            .unwrap()
+            .and_hms_nano_opt(0, 0, 0, 100_000_001)
+            .unwrap();
+        assert_eq!(
+            difference_in_nanoseconds_datetime(second, first),
+            Some(200_000_001)
+        );
+        assert_eq!(
+            difference_in_nanoseconds_datetime(first, second),
+            Some(-200_000_001)
+        );
+        assert_eq!(
+            difference_in_nanoseconds_datetime(NaiveDateTime::MAX, NaiveDateTime::MIN),
+            None
+        );
+        assert_eq!(
+            difference_in_nanoseconds_datetime(first, first),
+            Some(0)
+        );
+    }
+
 }

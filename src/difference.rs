@@ -24,6 +24,13 @@ pub fn difference_in_calendar_years(left: NaiveDate, right: NaiveDate) -> i64 {
     i64::from(left.year()) - i64::from(right.year())
 }
 
+/// Count calendar-decade boundaries from right to left.
+///
+/// Years -10 through -1 form one decade, followed by years 0 through 9.
+pub fn difference_in_calendar_decades(left: NaiveDate, right: NaiveDate) -> i64 {
+    i64::from(left.year().div_euclid(10)) - i64::from(right.year().div_euclid(10))
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -63,5 +70,30 @@ mod tests {
         let months = difference_in_calendar_months(NaiveDate::MAX, NaiveDate::MIN);
         let reversed_months = difference_in_calendar_months(NaiveDate::MIN, NaiveDate::MAX);
         assert_eq!(reversed_months, -months);
+    }
+    #[test]
+    fn counts_decade_boundaries_not_elapsed_years() {
+        assert_eq!(
+            difference_in_calendar_decades(date(2020, 1, 1), date(2019, 12, 31)),
+            1
+        );
+        assert_eq!(
+            difference_in_calendar_decades(date(2019, 12, 31), date(2010, 1, 1)),
+            0
+        );
+        assert_eq!(
+            difference_in_calendar_decades(date(0, 1, 1), date(-1, 12, 31)),
+            1
+        );
+    }
+
+    #[test]
+    fn supports_reversed_and_extreme_dates() {
+        let count = difference_in_calendar_decades(NaiveDate::MAX, NaiveDate::MIN);
+        assert!(count > 0);
+        assert_eq!(
+            difference_in_calendar_decades(NaiveDate::MIN, NaiveDate::MAX),
+            -count
+        );
     }
 }

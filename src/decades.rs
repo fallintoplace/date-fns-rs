@@ -19,6 +19,16 @@ pub fn end_of_decade(date: NaiveDate) -> Option<NaiveDate> {
     NaiveDate::from_ymd_opt(first_year + 9, 12, 31)
 }
 
+/// Add signed decades with leap-day clamping.
+pub fn add_decades(date: NaiveDate, decades: i32) -> Option<NaiveDate> {
+    crate::years::add_years(date, decades.checked_mul(10)?)
+}
+
+/// Subtract signed decades with leap-day clamping.
+pub fn sub_decades(date: NaiveDate, decades: i32) -> Option<NaiveDate> {
+    crate::years::sub_years(date, decades.checked_mul(10)?)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -49,5 +59,19 @@ mod tests {
         let _ = start_of_decade(NaiveDate::MIN);
         let _ = end_of_decade(NaiveDate::MAX);
         assert!(start_of_decade(NaiveDate::MAX) <= Some(NaiveDate::MAX));
+    }
+    #[test]
+    fn shifts_decades_in_both_directions() {
+        assert_eq!(add_decades(date(2024, 2, 29), 1), Some(date(2034, 2, 28)));
+        assert_eq!(sub_decades(date(2024, 1, 1), 2), Some(date(2004, 1, 1)));
+        assert_eq!(add_decades(date(2024, 1, 1), -2), Some(date(2004, 1, 1)));
+    }
+
+    #[test]
+    fn rejects_large_offsets_and_range_overflow() {
+        assert_eq!(add_decades(NaiveDate::MAX, 1), None);
+        assert_eq!(sub_decades(NaiveDate::MIN, 1), None);
+        assert_eq!(add_decades(date(2024, 1, 1), i32::MAX), None);
+        assert_eq!(sub_decades(date(2024, 1, 1), i32::MIN), None);
     }
 }

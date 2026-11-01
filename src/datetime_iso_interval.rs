@@ -6,9 +6,7 @@ use chrono::NaiveDateTime;
 ///
 /// The pair must be ordered. Neither offset-aware nor abbreviated inputs
 /// are accepted, and no time zone is inferred.
-pub fn parse_iso_local_datetime_interval(
-    input: &str,
-) -> Option<(NaiveDateTime, NaiveDateTime)> {
+pub fn parse_iso_local_datetime_interval(input: &str) -> Option<(NaiveDateTime, NaiveDateTime)> {
     let (left, right) = input.split_once('/')?;
     let start = crate::parse_iso_local_datetime(left)?;
     let end = crate::parse_iso_local_datetime(right)?;
@@ -54,9 +52,7 @@ mod tests {
             Some(text)
         );
         assert_eq!(
-            parse_iso_local_datetime_interval(
-                "2024-02-29T00:00:00/2024-02-29T00:00:00"
-            ),
+            parse_iso_local_datetime_interval("2024-02-29T00:00:00/2024-02-29T00:00:00"),
             Some((
                 start.date().and_hms_opt(0, 0, 0).unwrap(),
                 start.date().and_hms_opt(0, 0, 0).unwrap()
@@ -70,7 +66,9 @@ mod tests {
             .unwrap()
             .and_hms_opt(0, 0, 0)
             .unwrap();
-        let earlier = later.checked_sub_signed(chrono::TimeDelta::seconds(1)).unwrap();
+        let earlier = later
+            .checked_sub_signed(chrono::TimeDelta::seconds(1))
+            .unwrap();
         assert_eq!(format_iso_local_datetime_interval(later, earlier), None);
         for text in [
             "2024-03-01T00:00:00/2024-02-29T23:59:59",

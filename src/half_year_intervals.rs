@@ -28,10 +28,7 @@ impl FusedIterator for HalfYearsInInterval {}
 /// Iterate half-year starts for half-years that intersect [start, end].
 ///
 /// The first returned start may precede start. Reversed intervals return None.
-pub fn each_half_year_of_interval(
-    start: NaiveDate,
-    end: NaiveDate,
-) -> Option<HalfYearsInInterval> {
+pub fn each_half_year_of_interval(start: NaiveDate, end: NaiveDate) -> Option<HalfYearsInInterval> {
     if start > end {
         return None;
     }

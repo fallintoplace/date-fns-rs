@@ -125,18 +125,19 @@ mod tests {
     #[test]
     fn fiscal_half_year_differences_validate_start_and_limits() {
         let date = date(2024, 1, 1);
-        assert_eq!(difference_in_calendar_fiscal_half_years(date, date, 0), None);
-        assert_eq!(difference_in_calendar_fiscal_half_years(date, date, 13), None);
-        let wide = difference_in_calendar_fiscal_half_years(
-            NaiveDate::MAX,
-            NaiveDate::MIN,
-            7,
-        )
-        .unwrap();
+        assert_eq!(
+            difference_in_calendar_fiscal_half_years(date, date, 0),
+            None
+        );
+        assert_eq!(
+            difference_in_calendar_fiscal_half_years(date, date, 13),
+            None
+        );
+        let wide =
+            difference_in_calendar_fiscal_half_years(NaiveDate::MAX, NaiveDate::MIN, 7).unwrap();
         assert_eq!(
             difference_in_calendar_fiscal_half_years(NaiveDate::MIN, NaiveDate::MAX, 7),
             Some(-wide)
         );
     }
-
 }

@@ -49,6 +49,25 @@ pub fn end_of_fiscal_quarter(date: NaiveDate, first_month: u32) -> Option<NaiveD
     Some(end_of_month(last_month_start))
 }
 
+/// Count fiscal-quarter boundaries from right to left.
+///
+/// The fiscal year starts in `first_month`, which must be 1 through 12.
+pub fn difference_in_calendar_fiscal_quarters(
+    left: NaiveDate,
+    right: NaiveDate,
+    first_month: u32,
+) -> Option<i64> {
+    if !(1..=12).contains(&first_month) {
+        return None;
+    }
+
+    let index = |date: NaiveDate| {
+        (i64::from(date.year()) * 12 + i64::from(date.month()) - i64::from(first_month))
+            .div_euclid(3)
+    };
+    Some(index(left) - index(right))
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -96,5 +115,29 @@ mod tests {
             end_of_fiscal_quarter(NaiveDate::MAX, 1),
             Some(NaiveDate::MAX)
         );
+    }
+    #[test]
+    fn respects_configured_fiscal_quarter_boundaries() {
+        let a = date(2024, 4, 1);
+        let b = date(2024, 3, 31);
+        assert_eq!(difference_in_calendar_fiscal_quarters(a, b, 4), Some(1));
+        assert_eq!(difference_in_calendar_fiscal_quarters(a, b, 2), Some(0));
+        assert_eq!(
+            difference_in_calendar_fiscal_quarters(date(2024, 2, 1), date(2024, 1, 31), 2),
+            Some(1)
+        );
+    }
+
+    #[test]
+    fn validates_months_and_signed_order() {
+        let a = date(2024, 6, 15);
+        let b = date(2023, 12, 31);
+        let count = difference_in_calendar_fiscal_quarters(a, b, 4).unwrap();
+        assert_eq!(
+            difference_in_calendar_fiscal_quarters(b, a, 4),
+            Some(-count)
+        );
+        assert_eq!(difference_in_calendar_fiscal_quarters(a, b, 0), None);
+        assert_eq!(difference_in_calendar_fiscal_quarters(a, b, 13), None);
     }
 }

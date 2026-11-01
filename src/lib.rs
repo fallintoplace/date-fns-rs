@@ -187,6 +187,9 @@ pub use interval_weekdays::{each_weekday_of_interval, WeekdaysInInterval};
 mod interval_business_days;
 pub use interval_business_days::{each_business_day_of_interval, BusinessDaysInInterval};
 
+mod business_month_boundaries;
+pub use business_month_boundaries::{first_business_day_of_month, last_business_day_of_month};
+
 mod interval_weekends;
 pub use interval_weekends::{each_weekend_of_interval, WeekendsInInterval};
 

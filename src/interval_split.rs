@@ -14,7 +14,10 @@ pub fn split_interval_after(
     if start > end || cut < start || cut > end {
         return None;
     }
-    let right = cut.succ_opt().filter(|next| *next <= end).map(|next| (next, end));
+    let right = cut
+        .succ_opt()
+        .filter(|next| *next <= end)
+        .map(|next| (next, end));
     Some(((start, cut), right))
 }
 
@@ -35,7 +38,10 @@ mod tests {
             split_interval_after(start, end, leap_day),
             Some(((start, leap_day), Some((end, end))))
         );
-        assert_eq!(split_interval_after(start, end, end), Some(((start, end), None)));
+        assert_eq!(
+            split_interval_after(start, end, end),
+            Some(((start, end), None))
+        );
     }
 
     #[test]

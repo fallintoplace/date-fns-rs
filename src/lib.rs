@@ -293,3 +293,8 @@ pub use half_year_intervals::{each_half_year_of_interval, HalfYearsInInterval};
 
 mod fiscal_month_number;
 pub use fiscal_month_number::get_fiscal_month;
+
+mod fiscal_half_years;
+pub use fiscal_half_years::{
+    end_of_fiscal_half_year, get_fiscal_half_year, start_of_fiscal_half_year,
+};

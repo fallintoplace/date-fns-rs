@@ -21,6 +21,25 @@ pub fn split_interval_after(
     Some(((start, cut), right))
 }
 
+/// Split an inclusive date interval before a cut, keeping cut in the right part.
+///
+/// The left part is None when cut equals start. Reversed ranges and cuts
+/// outside the inclusive interval return None.
+pub fn split_interval_before(
+    start: NaiveDate,
+    end: NaiveDate,
+    cut: NaiveDate,
+) -> Option<(Option<(NaiveDate, NaiveDate)>, (NaiveDate, NaiveDate))> {
+    if start > end || cut < start || cut > end {
+        return None;
+    }
+    let left = cut
+        .pred_opt()
+        .filter(|previous| *previous >= start)
+        .map(|previous| (start, previous));
+    Some((left, (cut, end)))
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -56,4 +75,23 @@ mod tests {
             Some(((NaiveDate::MAX, NaiveDate::MAX), None))
         );
     }
+    #[test]
+    fn splits_before_leap_day_and_handles_both_empty_edges() {
+        let start = date(2024, 2, 28);
+        let cut = date(2024, 2, 29);
+        let end = date(2024, 3, 1);
+        assert_eq!(
+            split_interval_before(start, end, cut),
+            Some((Some((start, start)), (cut, end)))
+        );
+        assert_eq!(split_interval_before(start, end, start), Some((None, (start, end))));
+        assert_eq!(split_interval_before(start, end, end), Some((Some((start, cut)), (end, end))));
+        assert_eq!(
+            split_interval_before(NaiveDate::MIN, NaiveDate::MIN, NaiveDate::MIN),
+            Some((None, (NaiveDate::MIN, NaiveDate::MIN)))
+        );
+        assert_eq!(split_interval_before(end, start, cut), None);
+        assert_eq!(split_interval_before(start, end, date(2024, 2, 27)), None);
+    }
+
 }

@@ -78,6 +78,19 @@ pub fn previous_business_day(date: NaiveDate) -> Option<NaiveDate> {
     add_business_days(date, -1)
 }
 
+/// Return the nearest Monday-Friday date, including the input if possible.
+///
+/// Saturday moves to Friday; Sunday moves to Monday.
+pub fn nearest_business_day(date: NaiveDate) -> Option<NaiveDate> {
+    use chrono::{Datelike, Weekday};
+
+    match date.weekday() {
+        Weekday::Sat => date.pred_opt(),
+        Weekday::Sun => date.succ_opt(),
+        _ => Some(date),
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -115,5 +128,26 @@ mod tests {
         assert_eq!(add_business_days(NaiveDate::MIN, -1), None);
         assert_eq!(add_business_days(date(2024, 3, 1), i64::MIN), None);
         assert_eq!(sub_business_days(date(2024, 3, 1), i64::MIN), None);
+    }
+    #[test]
+    fn adjusts_weekends_to_the_nearest_workday() {
+        assert_eq!(
+            nearest_business_day(date(2024, 3, 2)),
+            Some(date(2024, 3, 1))
+        );
+        assert_eq!(
+            nearest_business_day(date(2024, 3, 3)),
+            Some(date(2024, 3, 4))
+        );
+        let monday = date(2024, 3, 4);
+        assert_eq!(nearest_business_day(monday), Some(monday));
+    }
+
+    #[test]
+    fn never_returns_a_weekend() {
+        for day in 1..=7 {
+            let adjusted = nearest_business_day(date(2024, 3, day)).unwrap();
+            assert!(is_business_day(adjusted));
+        }
     }
 }

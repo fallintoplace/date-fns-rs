@@ -18,8 +18,7 @@ pub fn merge_datetime_intervals(
     let mut merged: Vec<(NaiveDateTime, NaiveDateTime)> = Vec::with_capacity(sorted.len());
     for (start, end) in sorted {
         if let Some(previous) = merged.last_mut() {
-            let adjacent =
-                previous.1.checked_add_signed(TimeDelta::nanoseconds(1)) == Some(start);
+            let adjacent = previous.1.checked_add_signed(TimeDelta::nanoseconds(1)) == Some(start);
             if start <= previous.1 || adjacent {
                 previous.1 = previous.1.max(end);
                 continue;
@@ -61,14 +60,8 @@ mod tests {
     fn preserves_gaps_and_checks_invalid_ranges() {
         assert_eq!(merge_datetime_intervals(&[]), Some(vec![]));
         assert_eq!(
-            merge_datetime_intervals(&[
-                (stamp(2, 0), stamp(2, 0)),
-                (stamp(0, 0), stamp(0, 0))
-            ]),
-            Some(vec![
-                (stamp(0, 0), stamp(0, 0)),
-                (stamp(2, 0), stamp(2, 0))
-            ])
+            merge_datetime_intervals(&[(stamp(2, 0), stamp(2, 0)), (stamp(0, 0), stamp(0, 0))]),
+            Some(vec![(stamp(0, 0), stamp(0, 0)), (stamp(2, 0), stamp(2, 0))])
         );
         assert_eq!(
             merge_datetime_intervals(&[(stamp(2, 0), stamp(1, 0))]),

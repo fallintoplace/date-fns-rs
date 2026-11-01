@@ -24,11 +24,26 @@ mod tests {
 
     #[test]
     fn shifts_half_years_and_clamps_february() {
-        assert_eq!(add_half_years(date(2024, 1, 31), 1), Some(date(2024, 7, 31)));
-        assert_eq!(add_half_years(date(2023, 8, 31), 1), Some(date(2024, 2, 29)));
-        assert_eq!(sub_half_years(date(2024, 8, 31), 1), Some(date(2024, 2, 29)));
-        assert_eq!(add_half_years(date(2024, 8, 31), -1), Some(date(2024, 2, 29)));
-        assert_eq!(sub_half_years(date(2024, 8, 31), -1), Some(date(2025, 2, 28)));
+        assert_eq!(
+            add_half_years(date(2024, 1, 31), 1),
+            Some(date(2024, 7, 31))
+        );
+        assert_eq!(
+            add_half_years(date(2023, 8, 31), 1),
+            Some(date(2024, 2, 29))
+        );
+        assert_eq!(
+            sub_half_years(date(2024, 8, 31), 1),
+            Some(date(2024, 2, 29))
+        );
+        assert_eq!(
+            add_half_years(date(2024, 8, 31), -1),
+            Some(date(2024, 2, 29))
+        );
+        assert_eq!(
+            sub_half_years(date(2024, 8, 31), -1),
+            Some(date(2025, 2, 28))
+        );
     }
 
     #[test]
@@ -37,6 +52,9 @@ mod tests {
         assert_eq!(sub_half_years(date(2024, 1, 1), i32::MIN), None);
         assert_eq!(add_half_years(NaiveDate::MAX, 1), None);
         assert_eq!(sub_half_years(NaiveDate::MIN, 1), None);
-        assert_eq!(add_half_years(NaiveDate::MAX, 0), Some(NaiveDate::MAX));
+        assert_eq!(
+            add_half_years(NaiveDate::MAX, 0),
+            Some(NaiveDate::MAX)
+        );
     }
 }

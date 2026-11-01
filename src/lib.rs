@@ -401,6 +401,6 @@ pub use date_interval_coverage::{count_distinct_days_covered, overlapping_days_i
 
 mod datetime_week_year_boundaries;
 pub use datetime_week_year_boundaries::{
-    end_of_iso_week_year_datetime, end_of_week_year_datetime,
-    start_of_iso_week_year_datetime, start_of_week_year_datetime,
+    end_of_iso_week_year_datetime, end_of_week_year_datetime, start_of_iso_week_year_datetime,
+    start_of_week_year_datetime,
 };

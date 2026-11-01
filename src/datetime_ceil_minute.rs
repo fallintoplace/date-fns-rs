@@ -50,7 +50,10 @@ mod tests {
     #[test]
     fn validates_steps_and_checks_datetime_overflow() {
         assert_eq!(ceil_to_minute_step_datetime(NaiveDateTime::MIN, 0), None);
-        assert_eq!(ceil_to_minute_step_datetime(NaiveDateTime::MIN, 1_441), None);
+        assert_eq!(
+            ceil_to_minute_step_datetime(NaiveDateTime::MIN, 1_441),
+            None
+        );
         assert_eq!(
             ceil_to_minute_step_datetime(NaiveDateTime::MIN, 15),
             Some(NaiveDateTime::MIN)

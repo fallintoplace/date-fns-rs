@@ -145,6 +145,7 @@ mod tests {
         assert_eq!(dates.nth(usize::MAX), None);
         assert_eq!(dates.len(), 0);
     }
+
     #[test]
     fn iterates_matching_weekdays_from_both_ends() {
         let mut dates =
@@ -163,6 +164,4 @@ mod tests {
                 .unwrap();
         assert_eq!(last.next_back(), Some(NaiveDate::MAX));
         assert_eq!(last.next_back(), None);
-    }
-
-}
+    }}

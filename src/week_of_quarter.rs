@@ -10,9 +10,8 @@ use crate::quarters::start_of_quarter;
 /// is independent of whether a week overlaps a neighboring quarter.
 pub fn get_week_of_quarter(date: NaiveDate, week_starts_on: Weekday) -> u32 {
     let first = start_of_quarter(date);
-    let offset = (first.weekday().num_days_from_monday() + 7
-        - week_starts_on.num_days_from_monday())
-        % 7;
+    let offset =
+        (first.weekday().num_days_from_monday() + 7 - week_starts_on.num_days_from_monday()) % 7;
     (date.ordinal() - first.ordinal() + offset) / 7 + 1
 }
 

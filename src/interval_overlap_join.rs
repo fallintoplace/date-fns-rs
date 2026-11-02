@@ -46,9 +46,7 @@ pub fn join_overlapping_date_intervals(
             });
         }
     }
-    events.sort_unstable_by_key(|event| {
-        (event.day, !event.opening, event.side, event.index)
-    });
+    events.sort_unstable_by_key(|event| (event.day, !event.opening, event.side, event.index));
 
     let mut active_left = BTreeSet::new();
     let mut active_right = BTreeSet::new();
@@ -149,7 +147,10 @@ mod tests {
         assert_eq!(
             join_overlapping_date_intervals(
                 &[(NaiveDate::MIN, NaiveDate::MAX)],
-                &[(NaiveDate::MIN, NaiveDate::MIN), (NaiveDate::MAX, NaiveDate::MAX)]
+                &[
+                    (NaiveDate::MIN, NaiveDate::MIN),
+                    (NaiveDate::MAX, NaiveDate::MAX)
+                ]
             ),
             Some(vec![(0, 0), (0, 1)])
         );

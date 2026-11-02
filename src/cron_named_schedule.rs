@@ -75,7 +75,10 @@ pub fn parse_cron_schedule_named(text: &str) -> Option<CronSchedule> {
     }
     let months = normalize_field(fields[3], &MONTHS)?;
     let weekdays = normalize_field(fields[4], &WEEKDAYS)?;
-    let numeric = format!("{} {} {} {} {}", fields[0], fields[1], fields[2], months, weekdays);
+    let numeric = format!(
+        "{} {} {} {} {}",
+        fields[0], fields[1], fields[2], months, weekdays
+    );
     crate::parse_cron_schedule(&numeric)
 }
 

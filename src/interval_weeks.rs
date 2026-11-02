@@ -179,5 +179,4 @@ mod tests {
         assert_eq!(huge.nth_back(usize::MAX), None);
         assert_eq!(huge.len(), 0);
     }
-
 }

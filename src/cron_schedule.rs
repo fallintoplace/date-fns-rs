@@ -47,11 +47,7 @@ fn parse_field(text: &str, min: u32, max: u32, sunday_alias: bool) -> Option<(u6
             return None;
         }
         for value in (first..=last).step_by(step as usize) {
-            let bit = if sunday_alias && value == 7 {
-                0
-            } else {
-                value
-            };
+            let bit = if sunday_alias && value == 7 { 0 } else { value };
             mask |= 1_u64 << bit;
         }
     }
@@ -93,8 +89,7 @@ impl CronSchedule {
             return false;
         }
         let matches_month_day = self.month_days & (1_u64 << date.day()) != 0;
-        let matches_weekday =
-            self.weekdays & (1_u64 << date.weekday().num_days_from_sunday()) != 0;
+        let matches_weekday = self.weekdays & (1_u64 << date.weekday().num_days_from_sunday()) != 0;
         match (self.every_month_day, self.every_weekday) {
             (true, true) => true,
             (true, false) => matches_weekday,
@@ -120,11 +115,7 @@ impl CronSchedule {
     /// `search_days` further calendar days. This explicit bound avoids
     /// infinite loops for impossible expressions such as February 31.
     /// Calendar days are skipped without iterating individual minutes.
-    pub fn next_after(
-        &self,
-        after: NaiveDateTime,
-        search_days: u32,
-    ) -> Option<NaiveDateTime> {
+    pub fn next_after(&self, after: NaiveDateTime, search_days: u32) -> Option<NaiveDateTime> {
         let mut day = after.date();
         for _ in 0..=search_days {
             if self.matches_date(day) {
@@ -216,11 +207,21 @@ mod tests {
     #[test]
     fn rejects_malformed_or_unsupported_cron_syntax() {
         for expression in [
-            "", "* * * *", "* * * * * *", "*/0 * * * *",
-            "60 * * * *", "0 24 * * *", "0 0 32 * *",
-            "0 0 * 13 *", "0 0 * * 8", "0 0 * * MON",
-            "0 0 * * 5-1", "0 0 * * 1,,2", "@daily",
-            "0 0 * * 1/0", "0 0 * * 1-2-3",
+            "",
+            "* * * *",
+            "* * * * * *",
+            "*/0 * * * *",
+            "60 * * * *",
+            "0 24 * * *",
+            "0 0 32 * *",
+            "0 0 * 13 *",
+            "0 0 * * 8",
+            "0 0 * * MON",
+            "0 0 * * 5-1",
+            "0 0 * * 1,,2",
+            "@daily",
+            "0 0 * * 1/0",
+            "0 0 * * 1-2-3",
         ] {
             assert!(parse_cron_schedule(expression).is_none(), "{expression}");
         }

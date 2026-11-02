@@ -800,6 +800,10 @@ mod ical_date_list;
 pub use ical_date_list::{format_ical_date_list, parse_ical_date_list};
 
 mod ical_floating_datetime;
+mod ical_floating_datetime_list;
+pub use ical_floating_datetime_list::{
+    format_ical_floating_datetime_list, parse_ical_floating_datetime_list,
+};
 pub use ical_floating_datetime::{format_ical_datetime_floating, parse_ical_datetime_floating};
 
 mod ical_utc_offset;

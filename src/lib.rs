@@ -335,6 +335,11 @@ mod half_year_predicates;
 pub use half_year_predicates::{
     is_first_day_of_half_year, is_last_day_of_half_year, is_same_half_year,
 };
+mod relative_calendar_period_predicates;
+pub use relative_calendar_period_predicates::{
+    is_next_calendar_month, is_next_calendar_quarter, is_next_calendar_year,
+    is_previous_calendar_month, is_previous_calendar_quarter, is_previous_calendar_year,
+};
 
 mod quarter_arithmetic;
 pub use quarter_arithmetic::{add_quarters, sub_quarters};

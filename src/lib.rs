@@ -114,6 +114,9 @@ pub use calendar_week_difference::difference_in_calendar_weeks;
 mod datetime_week_boundaries;
 pub use datetime_week_boundaries::{end_of_week_datetime, start_of_week_datetime};
 
+mod convert_days_weeks;
+pub use convert_days_weeks::{days_to_weeks, weeks_to_days};
+
 mod weeks;
 pub use weeks::{end_of_iso_week, end_of_week, start_of_iso_week, start_of_week};
 

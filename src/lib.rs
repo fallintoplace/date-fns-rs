@@ -612,6 +612,11 @@ pub use set_day_of_year::set_day_of_year;
 mod iso_basic_ordinal_date;
 pub use iso_basic_ordinal_date::{format_iso_basic_ordinal_date, parse_iso_basic_ordinal_date};
 
+mod datetime_iso_basic_week;
+pub use datetime_iso_basic_week::{
+    format_iso_basic_week_local_datetime, parse_iso_basic_week_local_datetime,
+};
+
 mod iso_basic_week_date;
 pub use iso_basic_week_date::{format_iso_basic_week_date, parse_iso_basic_week_date};
 

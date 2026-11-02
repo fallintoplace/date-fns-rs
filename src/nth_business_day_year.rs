@@ -52,7 +52,10 @@ mod tests {
         assert_eq!(nth_business_day_of_year(year, 1), Some(date(2024, 1, 1)));
         assert_eq!(nth_business_day_of_year(year, 5), Some(date(2024, 1, 5)));
         assert_eq!(nth_business_day_of_year(year, 6), Some(date(2024, 1, 8)));
-        assert_eq!(nth_business_day_of_year(date(2023, 7, 4), 1), Some(date(2023, 1, 2)));
+        assert_eq!(
+            nth_business_day_of_year(date(2023, 7, 4), 1),
+            Some(date(2023, 1, 2))
+        );
         assert_eq!(nth_business_day_of_year(year, 0), None);
         assert_eq!(nth_business_day_of_year(year, 366), None);
     }

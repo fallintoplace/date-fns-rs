@@ -243,6 +243,11 @@ pub use iso_calendar_duration::{
 mod iso_month_day;
 pub use iso_month_day::{format_iso_month_day, parse_iso_month_day};
 
+mod weekday_quarter_ordinals;
+pub use weekday_quarter_ordinals::{
+    get_weekday_occurrence_from_end_of_quarter, get_weekday_occurrence_in_quarter,
+};
+
 mod calendar_quarter_difference;
 pub use calendar_quarter_difference::difference_in_calendar_quarters;
 

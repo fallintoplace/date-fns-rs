@@ -115,6 +115,7 @@ mod tests {
         assert_eq!(end_of_fiscal_year(NaiveDate::MAX, 1), Some(NaiveDate::MAX));
         assert_eq!(end_of_fiscal_year(NaiveDate::MAX, 2), None);
     }
+
     #[test]
     fn fiscal_year_difference_counts_only_year_boundaries() {
         let march = date(2024, 3, 31);
@@ -148,6 +149,7 @@ mod tests {
             Some(-wide)
         );
     }
+
     #[test]
     fn fiscal_year_label_is_available_when_start_date_is_out_of_range() {
         let first = NaiveDate::MIN;
@@ -156,5 +158,4 @@ mod tests {
         assert_eq!(get_fiscal_year(first, 0), None);
         assert_eq!(get_fiscal_year(first, 13), None);
     }
-
 }

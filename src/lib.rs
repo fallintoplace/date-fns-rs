@@ -784,3 +784,6 @@ pub use actual_actual_isda::actual_actual_isda_year_fraction;
 
 mod business_date_adjustment;
 pub use business_date_adjustment::{adjust_business_date, BusinessDayAdjustment};
+
+mod thirty_e_360_isda;
+pub use thirty_e_360_isda::thirty_e_360_isda_day_count;

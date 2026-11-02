@@ -3,12 +3,27 @@
 use chrono::{Datelike, NaiveDateTime, Timelike};
 
 const MONTHS: [&str; 12] = [
-    "January", "February", "March", "April", "May", "June",
-    "July", "August", "September", "October", "November", "December",
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
 ];
 const WEEKDAYS: [&str; 7] = [
-    "Sunday", "Monday", "Tuesday", "Wednesday",
-    "Thursday", "Friday", "Saturday",
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
 ];
 
 /// Format a naive datetime with numeric date and clock tokens.
@@ -55,8 +70,8 @@ pub fn format_datetime_tokens(value: NaiveDateTime, pattern: &str) -> Option<Str
 
         let rest = &pattern[i..];
         let token = [
-            "yyyy", "MMMM", "EEEE", "MMM", "EEE", "SSS", "yy", "hh", "MM", "dd", "HH", "mm",
-            "ss", "M", "d", "H", "h", "m", "s", "a",
+            "yyyy", "MMMM", "EEEE", "MMM", "EEE", "SSS", "yy", "hh", "MM", "dd", "HH", "mm", "ss",
+            "M", "d", "H", "h", "m", "s", "a",
         ]
         .iter()
         .find(|token| rest.starts_with(**token))
@@ -73,12 +88,8 @@ pub fn format_datetime_tokens(value: NaiveDateTime, pattern: &str) -> Option<Str
                 "yy" => format!("{:02}", value.year().rem_euclid(100)),
                 "MMMM" => MONTHS[(value.month() - 1) as usize].to_owned(),
                 "MMM" => MONTHS[(value.month() - 1) as usize][..3].to_owned(),
-                "EEEE" => {
-                    WEEKDAYS[value.weekday().num_days_from_sunday() as usize].to_owned()
-                }
-                "EEE" => {
-                    WEEKDAYS[value.weekday().num_days_from_sunday() as usize][..3].to_owned()
-                }
+                "EEEE" => WEEKDAYS[value.weekday().num_days_from_sunday() as usize].to_owned(),
+                "EEE" => WEEKDAYS[value.weekday().num_days_from_sunday() as usize][..3].to_owned(),
                 "MM" => format!("{:02}", value.month()),
                 "M" => value.month().to_string(),
                 "dd" => format!("{:02}", value.day()),
@@ -169,9 +180,14 @@ mod tests {
             Some("3:05 PM")
         );
         let midnight = morning.with_hour(0).unwrap();
-        assert_eq!(format_datetime_tokens(midnight, "hh a").as_deref(), Some("12 AM"));
+        assert_eq!(
+            format_datetime_tokens(midnight, "hh a").as_deref(),
+            Some("12 AM")
+        );
         let noon = morning.with_hour(12).unwrap();
-        assert_eq!(format_datetime_tokens(noon, "hh a").as_deref(), Some("12 PM"));
+        assert_eq!(
+            format_datetime_tokens(noon, "hh a").as_deref(),
+            Some("12 PM")
+        );
     }
-
 }

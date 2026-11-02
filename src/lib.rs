@@ -544,6 +544,9 @@ pub use monthly_day_recurrence::{
     each_day_of_month_in_interval, MonthDayPolicy, MonthlyDayRecurrences,
 };
 
+mod nth_weekday_quarter;
+pub use nth_weekday_quarter::nth_weekday_of_quarter;
+
 mod nth_weekday;
 mod nth_weekday_year;
 pub use nth_weekday::nth_weekday_of_month;

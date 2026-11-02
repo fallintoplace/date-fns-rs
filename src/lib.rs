@@ -540,6 +540,9 @@ pub use interval_subtract_many::subtract_multiple_intervals;
 mod datetime_interval_subtract_many;
 pub use datetime_interval_subtract_many::subtract_multiple_datetime_intervals;
 
+mod datetime_interval_set_difference;
+pub use datetime_interval_set_difference::subtract_datetime_interval_sets;
+
 mod interval_symmetric_difference;
 pub use interval_symmetric_difference::symmetric_difference_of_intervals;
 

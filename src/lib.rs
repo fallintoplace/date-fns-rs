@@ -200,6 +200,8 @@ mod iso_basic_date;
 
 mod ical_daily_rrule;
 pub use ical_daily_rrule::{each_ical_daily_rrule, parse_ical_daily_rrule, IcalDailyRRule};
+mod ical_recurrence_set;
+pub use ical_recurrence_set::combine_ical_date_recurrences;
 
 mod ical;
 pub use ical::{

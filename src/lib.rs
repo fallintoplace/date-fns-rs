@@ -537,6 +537,9 @@ pub use business_month_metadata::{
 mod interval_split;
 pub use interval_split::{split_interval_after, split_interval_before};
 
+mod date_coverage_index;
+pub use date_coverage_index::DateCoverageIndex;
+
 mod date_interval_coverage;
 pub use date_interval_coverage::{count_distinct_days_covered, overlapping_days_in_intervals};
 

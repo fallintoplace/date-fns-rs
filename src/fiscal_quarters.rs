@@ -68,6 +68,18 @@ pub fn difference_in_calendar_fiscal_quarters(
     Some(index(left) - index(right))
 }
 
+
+/// Check whether two dates belong to the same fiscal quarter.
+///
+/// Returns None when first_month is not between 1 and 12.
+pub fn is_same_fiscal_quarter(
+    left: NaiveDate,
+    right: NaiveDate,
+    first_month: u32,
+) -> Option<bool> {
+    Some(difference_in_calendar_fiscal_quarters(left, right, first_month)? == 0)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -140,4 +152,28 @@ mod tests {
         assert_eq!(difference_in_calendar_fiscal_quarters(a, b, 0), None);
         assert_eq!(difference_in_calendar_fiscal_quarters(a, b, 13), None);
     }
+    #[test]
+    fn fiscal_quarter_equality_handles_non_january_start() {
+        assert_eq!(
+            is_same_fiscal_quarter(date(2024, 2, 1), date(2024, 4, 30), 2),
+            Some(true)
+        );
+        assert_eq!(
+            is_same_fiscal_quarter(date(2024, 4, 30), date(2024, 5, 1), 2),
+            Some(false)
+        );
+        assert_eq!(
+            is_same_fiscal_quarter(date(2023, 11, 1), date(2024, 1, 31), 2),
+            Some(true)
+        );
+        assert_eq!(
+            is_same_fiscal_quarter(date(2024, 1, 1), date(2024, 1, 1), 13),
+            None
+        );
+        assert_eq!(
+            is_same_fiscal_quarter(NaiveDate::MAX, NaiveDate::MAX, 2),
+            Some(true)
+        );
+    }
+
 }

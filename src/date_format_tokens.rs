@@ -82,6 +82,9 @@ pub fn format_date_tokens(date: NaiveDate, pattern: &str) -> Option<String> {
             continue;
         }
         let rest = &pattern[i..];
+        if rest.starts_with("QQQQQ") {
+            return None;
+        }
         let token = [
             "yyyy", "QQQQ", "MMMM", "EEEE", "QQQ", "MMM", "EEE", "yy", "QQ", "Qo", "MM",
             "dd", "Mo", "do", "Q", "M", "d", "E",
@@ -140,10 +143,14 @@ mod tests {
     fn formats_quarters_with_date_fns_tokens() {
         let first = NaiveDate::from_ymd_opt(2024, 1, 31).unwrap();
         let last = NaiveDate::from_ymd_opt(2024, 12, 31).unwrap();
-        assert_eq!(format_date_tokens(first, "Q QQ Qo QQQ QQQQ").as_deref(),
-            Some("1 01 1st Q1 1st quarter"));
-        assert_eq!(format_date_tokens(last, "Q QQ Qo QQQ QQQQ").as_deref(),
-            Some("4 04 4th Q4 4th quarter"));
+        assert_eq!(
+            format_date_tokens(first, "Q QQ Qo QQQ QQQQ").as_deref(),
+            Some("1 01 1st Q1 1st quarter")
+        );
+        assert_eq!(
+            format_date_tokens(last, "Q QQ Qo QQQ QQQQ").as_deref(),
+            Some("4 04 4th Q4 4th quarter")
+        );
         assert_eq!(format_date_tokens(first, "'Q' Q"), Some("Q 1".to_string()));
         assert_eq!(format_date_tokens(first, "QQQQQ"), None);
     }
@@ -172,7 +179,7 @@ mod tests {
     #[test]
     fn rejects_unsupported_tokens_and_unclosed_literals() {
         let day = NaiveDate::from_ymd_opt(2024, 1, 1).unwrap();
-        assert_eq!(format_date_tokens(day, "QQ"), None);
+        assert_eq!(format_date_tokens(day, "PP"), None);
         assert_eq!(format_date_tokens(day, "'unfinished"), None);
         assert_eq!(format_date_tokens(NaiveDate::MAX, "yyyy"), None);
     }

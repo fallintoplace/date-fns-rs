@@ -93,6 +93,11 @@ pub use weeks::{end_of_iso_week, end_of_week, start_of_iso_week, start_of_week};
 mod week_comparisons;
 pub use week_comparisons::{is_same_iso_week, is_same_week};
 
+mod week_boundary_predicates;
+pub use week_boundary_predicates::{
+    is_first_day_of_iso_week, is_first_day_of_week, is_last_day_of_iso_week, is_last_day_of_week,
+};
+
 mod weekday_arithmetic;
 pub use weekday_arithmetic::nearest_weekday;
 pub use weekday_arithmetic::{next_weekday, previous_weekday};

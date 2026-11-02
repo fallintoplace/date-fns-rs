@@ -266,6 +266,9 @@ pub use datetime_fiscal_quarter_boundaries::{
 };
 
 mod retail_445_calendar;
+
+mod retail_calendar_patterns;
+pub use retail_calendar_patterns::{RetailCalendar, RetailPeriodPosition, RetailQuarterPattern};
 pub use retail_445_calendar::{Retail445Calendar, Retail445Position};
 
 mod fiscal_years;

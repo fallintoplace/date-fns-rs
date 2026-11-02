@@ -28,7 +28,10 @@ mod tests {
         let value = date.and_hms_nano_opt(12, 34, 56, 100_000_001).unwrap();
         let text = "2024-060T12:34:56.100000001";
         assert_eq!(parse_iso_ordinal_local_datetime(text), Some(value));
-        assert_eq!(format_iso_ordinal_local_datetime(value).as_deref(), Some(text));
+        assert_eq!(
+            format_iso_ordinal_local_datetime(value).as_deref(),
+            Some(text)
+        );
         assert_eq!(
             parse_iso_ordinal_local_datetime("2023-060T00:00:00"),
             NaiveDate::from_ymd_opt(2023, 3, 1)

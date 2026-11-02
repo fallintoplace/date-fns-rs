@@ -745,3 +745,6 @@ mod datetime_coverage_index;
 mod datetime_interval_set;
 pub use datetime_coverage_index::DatetimeCoverageIndex;
 pub use datetime_interval_set::DatetimeIntervalSet;
+
+mod ical_period_utc;
+pub use ical_period_utc::{format_ical_period_utc, parse_ical_period_utc};

@@ -138,6 +138,42 @@ impl CronSchedule {
         }
         None
     }
+
+    /// Find the previous scheduled minute strictly before `before`.
+    ///
+    /// Examines the starting date and at most `search_days` earlier dates.
+    /// Scans matching clock values in descending order, without visiting
+    /// unrelated minutes or assuming a time zone.
+    pub fn previous_before(
+        &self,
+        before: NaiveDateTime,
+        search_days: u32,
+    ) -> Option<NaiveDateTime> {
+        let mut day = before.date();
+        for offset in 0..=search_days {
+            if self.matches_date(day) {
+                for hour in (0..24).rev() {
+                    if self.hours & (1_u64 << hour) == 0 {
+                        continue;
+                    }
+                    for minute in (0..60).rev() {
+                        if self.minutes & (1_u64 << minute) == 0 {
+                            continue;
+                        }
+                        let candidate = day.and_hms_opt(hour, minute, 0)?;
+                        if candidate < before {
+                            return Some(candidate);
+                        }
+                    }
+                }
+            }
+            if offset == search_days {
+                break;
+            }
+            day = day.pred_opt()?;
+        }
+        None
+    }
 }
 
 #[cfg(test)]
@@ -200,6 +236,40 @@ mod tests {
             parse_cron_schedule("* * * * *")
                 .unwrap()
                 .next_after(NaiveDateTime::MAX, 0),
+            None
+        );
+    }
+
+    #[test]
+    fn finds_previous_minutes_across_weekends_and_year_boundaries() {
+        let workdays = parse_cron_schedule("0,30 9-10 * * 1-5").unwrap();
+        assert_eq!(
+            workdays.previous_before(stamp(2024, 3, 4, 9, 0), 3),
+            Some(stamp(2024, 3, 1, 10, 30))
+        );
+        assert_eq!(
+            workdays.previous_before(stamp(2024, 3, 4, 9, 31), 0),
+            Some(stamp(2024, 3, 4, 9, 30))
+        );
+        assert_eq!(workdays.previous_before(stamp(2024, 3, 4, 9, 0), 0), None);
+        let midnight = parse_cron_schedule("0 0 1 1 *").unwrap();
+        assert_eq!(
+            midnight.previous_before(stamp(2026, 1, 1, 0, 0), 366),
+            Some(stamp(2025, 1, 1, 0, 0))
+        );
+    }
+
+    #[test]
+    fn reverse_search_rejects_impossible_matches_and_date_underflow() {
+        let impossible = parse_cron_schedule("0 0 31 2 *").unwrap();
+        assert_eq!(
+            impossible.previous_before(stamp(2024, 3, 1, 0, 0), 366),
+            None
+        );
+        assert_eq!(
+            parse_cron_schedule("* * * * *")
+                .unwrap()
+                .previous_before(NaiveDateTime::MIN, 0),
             None
         );
     }

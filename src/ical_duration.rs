@@ -33,17 +33,14 @@ mod tests {
         assert_eq!(parse_ical_duration("-PT15M"), Some(-900_000_000_000));
         assert_eq!(format_ical_duration(0).as_deref(), Some("PT0S"));
         let value = parse_ical_duration("-P2DT3H4M5S").unwrap();
-        assert_eq!(
-            format_ical_duration(value).as_deref(),
-            Some("-P2DT3H4M5S")
-        );
+        assert_eq!(format_ical_duration(value).as_deref(), Some("-P2DT3H4M5S"));
     }
 
     #[test]
     fn rejects_fractional_and_calendar_dependent_fields() {
         for invalid in [
-            "", "P", "P1Y", "P1M", "PT1.5S", "P1W2D", "PT", "PT1S ",
-            "P-1D", "PT1M1H", "P1DT", "P1W1W",
+            "", "P", "P1Y", "P1M", "PT1.5S", "P1W2D", "PT", "PT1S ", "P-1D", "PT1M1H", "P1DT",
+            "P1W1W",
         ] {
             assert_eq!(parse_ical_duration(invalid), None, "{invalid}");
         }

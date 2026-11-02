@@ -833,6 +833,8 @@ mod ical_utc_datetime_list;
 pub use ical_utc_datetime_list::{format_ical_utc_datetime_list, parse_ical_utc_datetime_list};
 
 mod ical_period_utc;
+mod ical_period_list;
+pub use ical_period_list::{format_ical_period_list, parse_ical_period_list};
 pub use ical_period_utc::{format_ical_period_utc, parse_ical_period_utc};
 
 mod datetime_rfc2822;

@@ -69,11 +69,7 @@ mod tests {
     #[test]
     fn splits_overlaps_and_coalesces_equal_depth() {
         assert_eq!(
-            interval_overlap_depth(&[
-                (date(1), date(4)),
-                (date(3), date(6)),
-                (date(6), date(7))
-            ]),
+            interval_overlap_depth(&[(date(1), date(4)), (date(3), date(6)), (date(6), date(7))]),
             Some(vec![
                 (date(1), date(2), 1),
                 (date(3), date(4), 2),

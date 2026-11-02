@@ -262,6 +262,9 @@ pub use datetime_epoch_bucketing::{
     ceil_datetime_to_epoch_step, floor_datetime_to_epoch_step, round_datetime_to_epoch_step,
 };
 
+mod convert_minutes_milliseconds;
+pub use convert_minutes_milliseconds::{milliseconds_to_minutes, minutes_to_milliseconds};
+
 mod datetime_epoch_nanos;
 pub use datetime_epoch_nanos::{from_unix_timestamp_nanos, to_unix_timestamp_nanos};
 

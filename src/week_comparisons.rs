@@ -22,7 +22,6 @@ pub fn is_same_iso_week(left: NaiveDate, right: NaiveDate) -> bool {
     is_same_week(left, right, Weekday::Mon)
 }
 
-
 /// Check whether two dates belong to the same ISO week-numbering year.
 ///
 /// The ISO year may start in December or end in January.
@@ -64,6 +63,7 @@ mod tests {
         assert!(is_same_iso_week(NaiveDate::MAX, NaiveDate::MAX));
         assert!(!is_same_week(NaiveDate::MIN, NaiveDate::MAX, Weekday::Mon));
     }
+
     #[test]
     fn compares_iso_years_instead_of_calendar_years() {
         assert!(is_same_iso_week_year(date(2020, 12, 31), date(2021, 1, 3)));
@@ -72,5 +72,4 @@ mod tests {
         assert!(is_same_iso_week_year(NaiveDate::MIN, NaiveDate::MIN));
         assert!(is_same_iso_week_year(NaiveDate::MAX, NaiveDate::MAX));
     }
-
 }

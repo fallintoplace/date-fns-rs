@@ -64,9 +64,8 @@ impl IndexedHolidayCalendar {
             return Some(date);
         }
         let amount = offset.unsigned_abs();
-        let to_date = |ordinal: i64| {
-            NaiveDate::from_num_days_from_ce_opt(i32::try_from(ordinal).ok()?)
-        };
+        let to_date =
+            |ordinal: i64| NaiveDate::from_num_days_from_ce_opt(i32::try_from(ordinal).ok()?);
         if offset > 0 {
             let first = date.succ_opt()?;
             let mut lo = i64::from(first.num_days_from_ce());
@@ -121,10 +120,7 @@ mod tests {
             date(2024, 3, 4),
             date(2024, 3, 2),
         ]);
-        assert_eq!(
-            calendar.holidays(),
-            &[date(2024, 3, 4), date(2024, 3, 7)]
-        );
+        assert_eq!(calendar.holidays(), &[date(2024, 3, 4), date(2024, 3, 7)]);
         assert!(!calendar.is_business_day(date(2024, 3, 4)));
         assert!(!calendar.is_business_day(date(2024, 3, 2)));
         assert!(calendar.is_business_day(date(2024, 3, 5)));

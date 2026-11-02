@@ -36,7 +36,10 @@ mod tests {
         let input = "20240229T235958Z,20240301T000000Z";
         let values = parse_ical_utc_datetime_list(input).unwrap();
         assert_eq!(values.len(), 2);
-        assert_eq!(format_ical_utc_datetime_list(&values).as_deref(), Some(input));
+        assert_eq!(
+            format_ical_utc_datetime_list(&values).as_deref(),
+            Some(input)
+        );
     }
 
     #[test]

@@ -42,7 +42,6 @@ pub fn max_date(dates: &[NaiveDate]) -> Option<NaiveDate> {
     dates.iter().copied().max()
 }
 
-
 /// Compare dates in ascending order using -1, 0, or 1.
 pub fn compare_asc(left: NaiveDate, right: NaiveDate) -> i8 {
     match left.cmp(&right) {
@@ -93,6 +92,7 @@ mod tests {
         assert!(is_weekend(date(2024, 6, 2)));
         assert!(!is_weekend(date(2024, 6, 3)));
     }
+
     #[test]
     fn finds_extrema_without_modifying_candidates() {
         let input = [date(2024, 2, 29), date(2023, 12, 31), date(2025, 1, 1)];
@@ -111,6 +111,7 @@ mod tests {
             Some(NaiveDate::MAX)
         );
     }
+
     #[test]
     fn signed_comparisons_cover_earlier_equal_and_later_dates() {
         let earlier = date(2024, 2, 28);
@@ -123,5 +124,4 @@ mod tests {
         assert_eq!(compare_desc(earlier, earlier), 0);
         assert_eq!(compare_asc(NaiveDate::MIN, NaiveDate::MAX), -1);
     }
-
 }

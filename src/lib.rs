@@ -790,3 +790,6 @@ pub use thirty_e_360_isda::thirty_e_360_isda_day_count;
 
 mod iso_year_quarter;
 pub use iso_year_quarter::{format_iso_year_quarter, parse_iso_year_quarter};
+
+mod ical_duration;
+pub use ical_duration::{format_ical_duration, parse_ical_duration};

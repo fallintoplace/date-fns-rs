@@ -440,6 +440,9 @@ pub use iso_basic_week_date::{format_iso_basic_week_date, parse_iso_basic_week_d
 mod iso_year_month;
 pub use iso_year_month::{format_iso_year_month, parse_iso_year_month};
 
+mod annual_date_recurrence;
+pub use annual_date_recurrence::{each_annual_date_in_interval, AnnualDateRecurrences, LeapDayPolicy};
+
 mod date_distance_en;
 pub use date_distance_en::{format_date_distance_en, format_date_distance_strict_days_en};
 

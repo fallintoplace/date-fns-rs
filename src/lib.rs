@@ -62,6 +62,11 @@ pub use decades::add_decades;
 pub use decades::sub_decades;
 pub use decades::{end_of_decade, start_of_decade};
 
+mod decade_comparisons;
+pub use decade_comparisons::{
+    difference_in_calendar_decades_with_offset, is_same_decade, is_same_decade_with_offset,
+};
+
 mod difference;
 pub use difference::difference_in_calendar_decades;
 pub use difference::{

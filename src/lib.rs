@@ -317,6 +317,11 @@ pub use interval_ops::{clamp_to_interval, intersection_of_intervals, interval_le
 mod interval_gap;
 pub use interval_gap::gap_between_intervals;
 
+mod datetime_interval_partition;
+pub use datetime_interval_partition::{
+    gap_between_datetime_intervals, split_datetime_interval_after, split_datetime_interval_before,
+};
+
 mod datetime_interval_subtract;
 pub use datetime_interval_subtract::subtract_datetime_intervals;
 

@@ -30,8 +30,14 @@ mod tests {
         let monday = date(2024, 1, 1);
         assert_eq!(add_iso_week_years(monday, 1), Some(date(2024, 12, 30)));
         assert_eq!(sub_iso_week_years(monday, 1), Some(date(2023, 1, 2)));
-        assert_eq!(add_iso_week_years(monday, -1), sub_iso_week_years(monday, 1));
-        assert_eq!(sub_iso_week_years(monday, -1), add_iso_week_years(monday, 1));
+        assert_eq!(
+            add_iso_week_years(monday, -1),
+            sub_iso_week_years(monday, 1)
+        );
+        assert_eq!(
+            sub_iso_week_years(monday, -1),
+            add_iso_week_years(monday, 1)
+        );
         assert_eq!(add_iso_week_years(monday, 0), Some(monday));
     }
 

@@ -402,6 +402,9 @@ pub use datetime_interval_partition::{
     gap_between_datetime_intervals, split_datetime_interval_after, split_datetime_interval_before,
 };
 
+mod datetime_coalesce_gaps;
+pub use datetime_coalesce_gaps::coalesce_datetime_intervals_with_gap;
+
 mod datetime_interval_set_difference;
 pub use datetime_interval_set_difference::subtract_datetime_interval_sets;
 
@@ -428,7 +431,9 @@ mod datetime_overlapping_days;
 pub use datetime_overlapping_days::overlapping_elapsed_days_datetime_intervals;
 
 mod datetime_overlap_depth;
+mod datetime_overlap_join;
 pub use datetime_overlap_depth::datetime_overlap_depth;
+pub use datetime_overlap_join::join_overlapping_datetime_intervals;
 
 mod datetime_interval_symmetric_difference;
 pub use datetime_interval_symmetric_difference::symmetric_difference_of_datetime_intervals;
@@ -441,6 +446,9 @@ pub use interval_week_segments::{each_week_segment_of_interval, WeekSegmentsInIn
 
 mod interval_months;
 pub use interval_months::{each_month_of_interval, MonthsInInterval};
+
+mod datetime_intersect_many;
+pub use datetime_intersect_many::intersect_many_datetime_interval_sets;
 
 mod interval_intersect_many;
 
@@ -466,6 +474,9 @@ pub use datetime_floor_minute::floor_to_minute_step_datetime;
 mod distinct_source_coverage;
 pub use distinct_source_coverage::coverage_by_distinct_sources;
 
+mod interval_coalesce_gaps;
+pub use interval_coalesce_gaps::coalesce_date_intervals_with_gap;
+
 mod interval_year_segments;
 pub use interval_year_segments::{each_year_segment_of_interval, YearSegmentsInInterval};
 
@@ -475,7 +486,9 @@ pub use interval_quarters::{each_quarter_of_interval, QuartersInInterval};
 mod interval_quarter_segments;
 pub use interval_quarter_segments::{each_quarter_segment_of_interval, QuarterSegmentsInInterval};
 
+mod date_slot_packing;
 mod interval_weekdays;
+pub use date_slot_packing::pack_date_slots;
 pub use interval_weekdays::{each_weekday_of_interval, WeekdaysInInterval};
 
 mod interval_business_holidays;
@@ -512,7 +525,9 @@ pub use monthly_day_recurrence::{
 };
 
 mod nth_weekday;
+mod nth_weekday_year;
 pub use nth_weekday::nth_weekday_of_month;
+pub use nth_weekday_year::nth_weekday_of_year;
 
 mod weekday_month_ordinals;
 pub use weekday_month_ordinals::{
@@ -628,6 +643,9 @@ pub use monthly_weekday_occurrences::{
     each_nth_weekday_of_month_in_interval, MonthlyWeekdayOccurrences,
 };
 
+mod nth_business_day_month;
+pub use nth_business_day_month::nth_business_day_of_month;
+
 mod indexed_holiday_calendar;
 pub use indexed_holiday_calendar::IndexedHolidayCalendar;
 
@@ -656,6 +674,9 @@ pub use business_month_metadata::{get_business_day_of_month, get_business_days_i
 pub use business_month_metadata::{
     get_business_day_of_month_with_holidays, get_business_days_in_month_with_holidays,
 };
+
+mod interval_scheduling;
+pub use interval_scheduling::select_max_nonoverlapping_date_intervals;
 
 mod interval_split;
 pub use interval_split::{split_interval_after, split_interval_before};
@@ -745,6 +766,63 @@ mod datetime_coverage_index;
 mod datetime_interval_set;
 pub use datetime_coverage_index::DatetimeCoverageIndex;
 pub use datetime_interval_set::DatetimeIntervalSet;
+
+mod ical_floating_datetime;
+pub use ical_floating_datetime::{format_ical_datetime_floating, parse_ical_datetime_floating};
+
+mod ical_utc_offset;
+pub use ical_utc_offset::{format_ical_utc_offset, parse_ical_utc_offset};
+
+mod ical_text;
+pub use ical_text::{escape_ical_text, unescape_ical_text};
+
+mod gregorian_easter;
+pub use gregorian_easter::gregorian_easter_sunday;
+
+mod actual_actual_isda;
+pub use actual_actual_isda::actual_actual_isda_year_fraction;
+
+mod business_date_adjustment;
+pub use business_date_adjustment::{adjust_business_date, BusinessDayAdjustment};
+
+mod thirty_e_360_isda;
+pub use thirty_e_360_isda::thirty_e_360_isda_day_count;
+
+mod iso_year_quarter;
+pub use iso_year_quarter::{format_iso_year_quarter, parse_iso_year_quarter};
+
+mod ical_duration;
+pub use ical_duration::{format_ical_duration, parse_ical_duration};
+
+mod ical_period_utc;
+pub use ical_period_utc::{format_ical_period_utc, parse_ical_period_utc};
+
+mod datetime_rfc2822;
+pub use datetime_rfc2822::{format_rfc2822_datetime, parse_rfc2822_datetime};
+
+mod datetime_epoch_i128_nanos;
+pub use datetime_epoch_i128_nanos::{from_unix_timestamp_nanos_i128, to_unix_timestamp_nanos_i128};
+
+mod cron_reverse_occurrences;
+pub use cron_reverse_occurrences::{each_previous_cron_minute_between, CronReverseOccurrences};
+
+mod settlement_date;
+pub use settlement_date::settlement_date;
+
+mod ical_folding;
+pub use ical_folding::{fold_ical_content_line, unfold_ical_content_lines};
+
+mod datetime_midpoint;
+pub use datetime_midpoint::datetime_interval_midpoint;
+
+mod iso_repeating_dates;
+pub use iso_repeating_dates::{parse_iso_repeating_date_interval, IsoRepeatedDateOccurrences};
+
+mod business_252;
+pub use business_252::business_252_year_fraction;
+
+mod workweek_holidays;
+pub use workweek_holidays::{add_workdays_with_holidays, count_workdays_with_holidays};
 
 mod ical_weekly_rrule;
 pub use ical_weekly_rrule::{each_ical_weekly_rrule, parse_ical_weekly_rrule, IcalWeeklyRRule};

@@ -125,6 +125,9 @@ pub use interval::{
     are_intervals_overlapping, each_day_of_interval, is_within_interval, DaysInInterval,
 };
 
+mod interval_overlap_depth;
+pub use interval_overlap_depth::interval_overlap_depth;
+
 mod interval_adjacency;
 pub use interval_adjacency::are_intervals_adjacent;
 

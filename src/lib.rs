@@ -443,7 +443,10 @@ mod interval_months;
 pub use interval_months::{each_month_of_interval, MonthsInInterval};
 
 mod interval_intersect_many;
+
+mod interval_overlap_join;
 pub use interval_intersect_many::intersect_many_date_interval_sets;
+pub use interval_overlap_join::join_overlapping_date_intervals;
 
 mod interval_month_segments;
 pub use interval_month_segments::{each_month_segment_of_interval, MonthSegmentsInInterval};

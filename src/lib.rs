@@ -787,3 +787,6 @@ pub use business_date_adjustment::{adjust_business_date, BusinessDayAdjustment};
 
 mod thirty_e_360_isda;
 pub use thirty_e_360_isda::thirty_e_360_isda_day_count;
+
+mod iso_year_quarter;
+pub use iso_year_quarter::{format_iso_year_quarter, parse_iso_year_quarter};

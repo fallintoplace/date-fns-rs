@@ -168,6 +168,9 @@ pub use datetime_comparisons::{
 mod iso_year;
 pub use iso_year::{format_iso_year, parse_iso_year};
 
+mod datetime_iso_week;
+pub use datetime_iso_week::{format_iso_week_local_datetime, parse_iso_week_local_datetime};
+
 mod iso_week_date;
 pub use iso_week_date::{format_iso_week_date, parse_iso_week_date};
 

@@ -61,6 +61,7 @@ mod tests {
             NaiveDate::MIN.weekday() == Weekday::Mon
         );
     }
+
     #[test]
     fn valid_target_near_minimum_date_skips_out_of_range_week_start() {
         let first = NaiveDate::MIN;
@@ -80,5 +81,4 @@ mod tests {
             first.succ_opt()
         );
     }
-
 }

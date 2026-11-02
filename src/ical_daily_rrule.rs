@@ -100,10 +100,15 @@ mod tests {
     #[test]
     fn rejects_unsupported_and_ambiguous_rules() {
         for input in [
-            "", "FREQ=WEEKLY", "INTERVAL=2", "FREQ=DAILY;INTERVAL=0",
-            "FREQ=DAILY;COUNT=0", "FREQ=DAILY;COUNT=-2",
+            "",
+            "FREQ=WEEKLY",
+            "INTERVAL=2",
+            "FREQ=DAILY;INTERVAL=0",
+            "FREQ=DAILY;COUNT=0",
+            "FREQ=DAILY;COUNT=-2",
             "FREQ=DAILY;INTERVAL=1;INTERVAL=2",
-            "FREQ=DAILY;FREQ=DAILY", "FREQ=DAILY;BYDAY=MO",
+            "FREQ=DAILY;FREQ=DAILY",
+            "FREQ=DAILY;BYDAY=MO",
             "FREQ=DAILY;COUNT=1;UNTIL=20240301",
         ] {
             assert!(parse_ical_daily_rrule(input).is_none(), "{input}");

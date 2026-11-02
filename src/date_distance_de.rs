@@ -67,25 +67,46 @@ mod tests {
         let origin = date(2024, 2, 29);
         assert_eq!(format_date_distance_de(origin, origin), "heute");
         assert_eq!(format_date_distance_de(date(2024, 3, 1), origin), "morgen");
-        assert_eq!(format_date_distance_de(date(2024, 2, 28), origin), "gestern");
+        assert_eq!(
+            format_date_distance_de(date(2024, 2, 28), origin),
+            "gestern"
+        );
     }
 
     #[test]
     fn uses_german_suffix_cases_for_exact_days() {
         let origin = date(2024, 2, 28);
         let target = date(2024, 3, 1);
-        assert_eq!(format_date_distance_strict_days_de(target, origin, false), "2 Tage");
-        assert_eq!(format_date_distance_strict_days_de(target, origin, true), "in 2 Tagen");
-        assert_eq!(format_date_distance_strict_days_de(origin, target, true), "vor 2 Tagen");
-        assert_eq!(format_date_distance_strict_days_de(origin, origin, true), "0 Tage");
+        assert_eq!(
+            format_date_distance_strict_days_de(target, origin, false),
+            "2 Tage"
+        );
+        assert_eq!(
+            format_date_distance_strict_days_de(target, origin, true),
+            "in 2 Tagen"
+        );
+        assert_eq!(
+            format_date_distance_strict_days_de(origin, target, true),
+            "vor 2 Tagen"
+        );
+        assert_eq!(
+            format_date_distance_strict_days_de(origin, origin, true),
+            "0 Tage"
+        );
     }
 
     #[test]
     fn formats_week_month_and_year_distances() {
         let day = date(2024, 1, 1);
         assert_eq!(format_date_distance_de(date(2024, 1, 8), day), "in 1 Woche");
-        assert_eq!(format_date_distance_de(date(2024, 1, 31), day), "in 1 Monat");
+        assert_eq!(
+            format_date_distance_de(date(2024, 1, 31), day),
+            "in 1 Monat"
+        );
         assert_eq!(format_date_distance_de(date(2025, 1, 1), day), "in 1 Jahr");
-        assert_eq!(format_date_distance_de(day, date(2024, 1, 15)), "vor 2 Wochen");
+        assert_eq!(
+            format_date_distance_de(day, date(2024, 1, 15)),
+            "vor 2 Wochen"
+        );
     }
 }

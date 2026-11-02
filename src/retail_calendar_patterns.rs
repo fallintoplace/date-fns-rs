@@ -43,11 +43,7 @@ pub struct RetailCalendar {
 }
 
 impl RetailCalendar {
-    pub fn new(
-        year_start: NaiveDate,
-        weeks: u8,
-        pattern: RetailQuarterPattern,
-    ) -> Option<Self> {
+    pub fn new(year_start: NaiveDate, weeks: u8, pattern: RetailQuarterPattern) -> Option<Self> {
         Some(Self {
             base: Retail445Calendar::new(year_start, weeks)?,
             pattern,
@@ -179,10 +175,7 @@ mod tests {
             assert_eq!(position.quarter, 4);
             assert_eq!(position.period, 12);
             assert_eq!(position.week_of_year, 53);
-            assert_eq!(
-                calendar.date_for_week_day(53, 7),
-                Some(last)
-            );
+            assert_eq!(calendar.date_for_week_day(53, 7), Some(last));
         }
     }
 

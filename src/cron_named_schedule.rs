@@ -3,14 +3,28 @@
 use crate::CronSchedule;
 
 const MONTHS: [(&str, &str); 12] = [
-    ("JAN", "1"), ("FEB", "2"), ("MAR", "3"), ("APR", "4"),
-    ("MAY", "5"), ("JUN", "6"), ("JUL", "7"), ("AUG", "8"),
-    ("SEP", "9"), ("OCT", "10"), ("NOV", "11"), ("DEC", "12"),
+    ("JAN", "1"),
+    ("FEB", "2"),
+    ("MAR", "3"),
+    ("APR", "4"),
+    ("MAY", "5"),
+    ("JUN", "6"),
+    ("JUL", "7"),
+    ("AUG", "8"),
+    ("SEP", "9"),
+    ("OCT", "10"),
+    ("NOV", "11"),
+    ("DEC", "12"),
 ];
 
 const WEEKDAYS: [(&str, &str); 7] = [
-    ("SUN", "7"), ("MON", "1"), ("TUE", "2"), ("WED", "3"),
-    ("THU", "4"), ("FRI", "5"), ("SAT", "6"),
+    ("SUN", "7"),
+    ("MON", "1"),
+    ("TUE", "2"),
+    ("WED", "3"),
+    ("THU", "4"),
+    ("FRI", "5"),
+    ("SAT", "6"),
 ];
 
 fn normalize_field(input: &str, names: &[(&str, &str)]) -> Option<String> {
@@ -33,7 +47,8 @@ fn normalize_field(input: &str, names: &[(&str, &str)]) -> Option<String> {
                 return None;
             }
             let token = &input[start..cursor];
-            let (_, number) = names.iter()
+            let (_, number) = names
+                .iter()
                 .find(|(alias, _)| alias.eq_ignore_ascii_case(token))?;
             output.push_str(number);
         } else if bytes[cursor].is_ascii_digit()
@@ -60,10 +75,7 @@ pub fn parse_cron_schedule_named(text: &str) -> Option<CronSchedule> {
     }
     let months = normalize_field(fields[3], &MONTHS)?;
     let weekdays = normalize_field(fields[4], &WEEKDAYS)?;
-    let numeric = format!(
-        "{} {} {} {} {}",
-        fields[0], fields[1], fields[2], months, weekdays
-    );
+    let numeric = format!("{} {} {} {} {}", fields[0], fields[1], fields[2], months, weekdays);
     crate::parse_cron_schedule(&numeric)
 }
 
@@ -73,7 +85,10 @@ mod tests {
     use chrono::NaiveDate;
 
     fn stamp(y: i32, m: u32, d: u32) -> chrono::NaiveDateTime {
-        NaiveDate::from_ymd_opt(y, m, d).unwrap().and_hms_opt(9, 0, 0).unwrap()
+        NaiveDate::from_ymd_opt(y, m, d)
+            .unwrap()
+            .and_hms_opt(9, 0, 0)
+            .unwrap()
     }
 
     #[test]

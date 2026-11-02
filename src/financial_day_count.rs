@@ -259,7 +259,10 @@ mod thirty_e_plus_tests {
     fn uses_a_360_day_year_and_does_not_change_other_conventions() {
         let start = date(2024, 1, 30);
         let end = date(2024, 1, 31);
-        assert_eq!(financial_year_fraction(start, end, DayCountConvention::ThirtyEPlus360), 1.0 / 360.0);
+        assert_eq!(
+            financial_year_fraction(start, end, DayCountConvention::ThirtyEPlus360),
+            1.0 / 360.0
+        );
         assert_eq!(financial_day_count(start, end, DayCountConvention::ThirtyE360), 0);
     }
 }

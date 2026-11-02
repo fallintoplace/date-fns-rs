@@ -82,14 +82,10 @@ mod tests {
     #[test]
     fn yields_previous_minutes_with_exclusive_upper_bound() {
         let schedule = crate::parse_cron_schedule("0,30 9-10 * * 1-5").unwrap();
-        let dates: Vec<_> = each_previous_cron_minute_between(
-            &schedule,
-            stamp(1, 9, 0),
-            stamp(4, 9, 31),
-            3,
-        )
-        .unwrap()
-        .collect();
+        let dates: Vec<_> =
+            each_previous_cron_minute_between(&schedule, stamp(1, 9, 0), stamp(4, 9, 31), 3)
+                .unwrap()
+                .collect();
         assert_eq!(
             dates,
             vec![stamp(4, 9, 30), stamp(4, 9, 0), stamp(1, 10, 30)]

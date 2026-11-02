@@ -678,6 +678,9 @@ pub use business_month_metadata::{
 mod interval_scheduling;
 pub use interval_scheduling::select_max_nonoverlapping_date_intervals;
 
+mod weighted_date_scheduling;
+pub use weighted_date_scheduling::select_max_weight_date_intervals;
+
 mod interval_split;
 pub use interval_split::{split_interval_after, split_interval_before};
 
@@ -826,6 +829,3 @@ pub use workweek_holidays::{add_workdays_with_holidays, count_workdays_with_holi
 
 mod ical_weekly_rrule;
 pub use ical_weekly_rrule::{each_ical_weekly_rrule, parse_ical_weekly_rrule, IcalWeeklyRRule};
-
-mod weighted_date_scheduling;
-pub use weighted_date_scheduling::select_max_weight_date_intervals;

@@ -42,8 +42,12 @@ mod tests {
     #[test]
     fn rejects_floating_datetimes_bad_delimiters_and_fractional_output() {
         for input in [
-            "", "20240229T235958Z,", "20240229T235958Z,,20240301T000000Z",
-            "20240229T235958", "20240230T235958Z", "20240229T235958+0100",
+            "",
+            "20240229T235958Z,",
+            "20240229T235958Z,,20240301T000000Z",
+            "20240229T235958",
+            "20240230T235958Z",
+            "20240229T235958+0100",
         ] {
             assert!(parse_ical_utc_datetime_list(input).is_none(), "{input}");
         }

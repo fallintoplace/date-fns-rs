@@ -19,7 +19,7 @@ pub use datetime_second_iterator::{
 };
 
 mod convert_hours_minutes;
-pub use convert_hours_minutes::{minutes_to_hours, hours_to_minutes};
+pub use convert_hours_minutes::{hours_to_minutes, minutes_to_hours};
 
 mod datetime_arithmetic;
 pub use chrono::NaiveDateTime;

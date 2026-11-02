@@ -745,3 +745,6 @@ mod datetime_coverage_index;
 mod datetime_interval_set;
 pub use datetime_coverage_index::DatetimeCoverageIndex;
 pub use datetime_interval_set::DatetimeIntervalSet;
+
+mod business_date_adjustment;
+pub use business_date_adjustment::{adjust_business_date, BusinessDayAdjustment};

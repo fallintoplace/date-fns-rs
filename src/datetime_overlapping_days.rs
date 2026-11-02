@@ -42,8 +42,14 @@ mod tests {
         let a = dt(2024, 2, 28, 0, 0);
         let b = dt(2024, 3, 1, 0, 0);
         let c = dt(2024, 3, 1, 0, 1);
-        assert_eq!(overlapping_elapsed_days_datetime_intervals(a, c, a, b), Some(2));
-        assert_eq!(overlapping_elapsed_days_datetime_intervals(a, c, a, c), Some(3));
+        assert_eq!(
+            overlapping_elapsed_days_datetime_intervals(a, c, a, b),
+            Some(2)
+        );
+        assert_eq!(
+            overlapping_elapsed_days_datetime_intervals(a, c, a, c),
+            Some(3)
+        );
         assert_eq!(
             overlapping_elapsed_days_datetime_intervals(
                 dt(2024, 2, 29, 23, 59),
@@ -60,10 +66,22 @@ mod tests {
         let a = dt(2024, 1, 1, 0, 0);
         let b = dt(2024, 1, 2, 0, 0);
         let c = dt(2024, 1, 3, 0, 0);
-        assert_eq!(overlapping_elapsed_days_datetime_intervals(a, b, b, c), Some(0));
-        assert_eq!(overlapping_elapsed_days_datetime_intervals(a, a, a, b), Some(0));
-        assert_eq!(overlapping_elapsed_days_datetime_intervals(b, a, a, b), None);
-        assert_eq!(overlapping_elapsed_days_datetime_intervals(a, b, c, b), None);
+        assert_eq!(
+            overlapping_elapsed_days_datetime_intervals(a, b, b, c),
+            Some(0)
+        );
+        assert_eq!(
+            overlapping_elapsed_days_datetime_intervals(a, a, a, b),
+            Some(0)
+        );
+        assert_eq!(
+            overlapping_elapsed_days_datetime_intervals(b, a, a, b),
+            None
+        );
+        assert_eq!(
+            overlapping_elapsed_days_datetime_intervals(a, b, c, b),
+            None
+        );
     }
 
     #[test]
@@ -72,8 +90,9 @@ mod tests {
             NaiveDateTime::MIN,
             NaiveDateTime::MAX,
             NaiveDateTime::MIN,
-            NaiveDateTime::MAX
-        ).unwrap();
+            NaiveDateTime::MAX,
+        )
+        .unwrap();
         assert!(count > 0);
     }
 }

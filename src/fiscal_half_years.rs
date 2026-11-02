@@ -60,7 +60,6 @@ pub fn difference_in_calendar_fiscal_half_years(
     Some(index(left) - index(right))
 }
 
-
 /// Check whether two dates belong to the same fiscal half-year.
 ///
 /// Returns None when first_month is not between 1 and 12.
@@ -110,6 +109,7 @@ mod tests {
             Some(NaiveDate::MIN)
         );
     }
+
     #[test]
     fn fiscal_half_year_differences_follow_april_and_october() {
         let march = date(2024, 3, 31);
@@ -152,6 +152,7 @@ mod tests {
             Some(-wide)
         );
     }
+
     #[test]
     fn fiscal_half_year_equality_spans_calendar_years() {
         assert_eq!(
@@ -171,5 +172,4 @@ mod tests {
             Some(true)
         );
     }
-
 }

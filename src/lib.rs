@@ -657,6 +657,9 @@ pub use business_month_metadata::{
     get_business_day_of_month_with_holidays, get_business_days_in_month_with_holidays,
 };
 
+mod interval_scheduling;
+pub use interval_scheduling::select_max_nonoverlapping_date_intervals;
+
 mod interval_split;
 pub use interval_split::{split_interval_after, split_interval_before};
 

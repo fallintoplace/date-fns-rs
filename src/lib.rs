@@ -297,6 +297,9 @@ pub use interval_subtract::subtract_intervals;
 mod datetime_interval_merge;
 pub use datetime_interval_merge::merge_datetime_intervals;
 
+mod interval_set_intersection;
+pub use interval_set_intersection::intersect_interval_sets;
+
 mod interval_merge;
 pub use interval_merge::merge_intervals;
 
@@ -553,6 +556,3 @@ pub use datetime_week_year_boundaries::{
 };
 
 pub use datetime_week_boundaries::{end_of_iso_week_datetime, start_of_iso_week_datetime};
-
-mod interval_set_intersection;
-pub use interval_set_intersection::intersect_interval_sets;

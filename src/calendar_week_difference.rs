@@ -29,6 +29,13 @@ pub fn difference_in_calendar_iso_week_years(left: NaiveDate, right: NaiveDate) 
     i64::from(left.iso_week().year()) - i64::from(right.iso_week().year())
 }
 
+/// Count Monday-based ISO calendar week boundaries from right to left.
+///
+/// Partial weeks count as boundaries rather than seven elapsed days.
+pub fn difference_in_calendar_iso_weeks(left: NaiveDate, right: NaiveDate) -> i64 {
+    difference_in_calendar_weeks(left, right, Weekday::Mon)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -99,6 +106,24 @@ mod tests {
         assert_eq!(
             difference_in_calendar_iso_week_years(NaiveDate::MIN, NaiveDate::MAX),
             -count
+        );
+    }
+}
+
+#[cfg(test)]
+mod iso_week_boundary_tests {
+    use super::*;
+
+    #[test]
+    fn counts_iso_mondays_across_years() {
+        let sunday = NaiveDate::from_ymd_opt(2023, 12, 31).unwrap();
+        let monday = NaiveDate::from_ymd_opt(2024, 1, 1).unwrap();
+        assert_eq!(difference_in_calendar_iso_weeks(monday, sunday), 1);
+        assert_eq!(difference_in_calendar_iso_weeks(sunday, monday), -1);
+        assert_eq!(difference_in_calendar_iso_weeks(monday, monday), 0);
+        assert_eq!(
+            difference_in_calendar_iso_weeks(NaiveDate::MAX, NaiveDate::MIN),
+            difference_in_calendar_weeks(NaiveDate::MAX, NaiveDate::MIN, Weekday::Mon)
         );
     }
 }

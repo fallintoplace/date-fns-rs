@@ -600,6 +600,9 @@ pub use interval_complement::complement_date_intervals;
 mod date_interval_coverage;
 pub use date_interval_coverage::{count_distinct_days_covered, overlapping_days_in_intervals};
 
+mod mutable_datetime_interval_set;
+pub use mutable_datetime_interval_set::MutableDatetimeIntervalSet;
+
 mod datetime_interval_coverage;
 pub use datetime_interval_coverage::count_distinct_nanoseconds_covered;
 

@@ -477,7 +477,9 @@ pub use interval_quarters::{each_quarter_of_interval, QuartersInInterval};
 mod interval_quarter_segments;
 pub use interval_quarter_segments::{each_quarter_segment_of_interval, QuarterSegmentsInInterval};
 
+mod date_slot_packing;
 mod interval_weekdays;
+pub use date_slot_packing::pack_date_slots;
 pub use interval_weekdays::{each_weekday_of_interval, WeekdaysInInterval};
 
 mod interval_business_holidays;

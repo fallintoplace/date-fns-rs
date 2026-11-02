@@ -29,7 +29,8 @@ const WEEKDAYS: [&str; 7] = [
 /// Format a naive datetime with numeric date and clock tokens.
 ///
 /// Supported: yyyy, yy, MMMM, MMM, MM, M, dd, d, EEEE, EEE, HH, H,
-/// hh, h, mm, m, ss, s, SSS and a (uppercase AM/PM).\n/// SSS truncates nanoseconds to whole milliseconds. Literal text uses single
+/// hh, h, mm, m, ss, s, S through SSSSSSSSS, and a (uppercase AM/PM).
+/// Fractional seconds use the requested number of digits (1 through 9). Literal text uses single
 /// quotes, doubled to escape an apostrophe. Unsupported alphabetic tokens,
 /// unclosed quotes and yyyy years outside 0000-9999 return None.
 pub fn format_datetime_tokens(value: NaiveDateTime, pattern: &str) -> Option<String> {
@@ -69,8 +70,18 @@ pub fn format_datetime_tokens(value: NaiveDateTime, pattern: &str) -> Option<Str
         }
 
         let rest = &pattern[i..];
+        if rest.starts_with('S') {
+            let width = rest.bytes().take_while(|c| *c == b'S').count();
+            if width > 9 || value.nanosecond() >= 1_000_000_000 {
+                return None;
+            }
+            let fraction = format!("{:09}", value.nanosecond());
+            result.push_str(&fraction[..width]);
+            i += width;
+            continue;
+        }
         let token = [
-            "yyyy", "MMMM", "EEEE", "MMM", "EEE", "SSS", "yy", "hh", "MM", "dd", "HH", "mm", "ss",
+            "yyyy", "MMMM", "EEEE", "MMM", "EEE", "yy", "hh", "MM", "dd", "HH", "mm", "ss",
             "M", "d", "H", "h", "m", "s", "a",
         ]
         .iter()
@@ -103,7 +114,6 @@ pub fn format_datetime_tokens(value: NaiveDateTime, pattern: &str) -> Option<Str
                 "m" => value.minute().to_string(),
                 "ss" => format!("{:02}", value.second()),
                 "s" => value.second().to_string(),
-                "SSS" => format!("{:03}", value.nanosecond() / 1_000_000),
                 _ => return None,
             };
             result.push_str(&formatted);
@@ -124,6 +134,26 @@ pub fn format_datetime_tokens(value: NaiveDateTime, pattern: &str) -> Option<Str
 mod tests {
     use super::*;
     use chrono::NaiveDate;
+
+    #[test]
+    fn formats_fractional_seconds_at_requested_precision() {
+        let value = NaiveDate::from_ymd_opt(2024, 2, 29)
+            .unwrap()
+            .and_hms_nano_opt(12, 34, 56, 123_456_789)
+            .unwrap();
+        for (pattern, expected) in [
+            ("S", "1"),
+            ("SS", "12"),
+            ("SSS", "123"),
+            ("SSSSSS", "123456"),
+            ("SSSSSSSSS", "123456789"),
+        ] {
+            assert_eq!(format_datetime_tokens(value, pattern).as_deref(), Some(expected));
+        }
+        assert_eq!(format_datetime_tokens(value, "SSSSSSSSSS"), None);
+        let zero = value.with_nanosecond(0).unwrap();
+        assert_eq!(format_datetime_tokens(zero, "SSS").as_deref(), Some("000"));
+    }
 
     #[test]
     fn prints_fixed_and_variable_width_fields() {

@@ -63,12 +63,38 @@ pub fn difference_in_calendar_fiscal_years(
     Some(label(left) - label(right))
 }
 
+
+/// Check whether two dates belong to the same fiscal year.
+///
+/// The fiscal year starts in first_month (1 through 12).
+pub fn is_same_fiscal_year(left: NaiveDate, right: NaiveDate, first_month: u32) -> Option<bool> {
+    difference_in_calendar_fiscal_years(left, right, first_month)
+        .map(|difference| difference == 0)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
 
     fn date(y: i32, m: u32, d: u32) -> NaiveDate {
         NaiveDate::from_ymd_opt(y, m, d).unwrap()
+    }
+
+    #[test]
+    fn compares_fiscal_years_across_new_year() {
+        assert_eq!(
+            is_same_fiscal_year(date(2024, 4, 1), date(2025, 3, 31), 4),
+            Some(true)
+        );
+        assert_eq!(
+            is_same_fiscal_year(date(2024, 3, 31), date(2024, 4, 1), 4),
+            Some(false)
+        );
+        assert_eq!(
+            is_same_fiscal_year(date(2023, 12, 31), date(2024, 1, 1), 1),
+            Some(false)
+        );
+        assert_eq!(is_same_fiscal_year(date(2024, 1, 1), date(2024, 1, 1), 0), None);
     }
 
     #[test]

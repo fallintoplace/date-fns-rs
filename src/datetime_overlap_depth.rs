@@ -123,7 +123,7 @@ mod tests {
             for n in 0..=10 {
                 let expected = ranges
                     .iter()
-                    .filter(|(a, b)| *a <= &date(n) && &date(n) <= *b)
+                    .filter(|(a, b)| *a <= date(n) && date(n) <= *b)
                     .count();
                 let actual = result
                     .iter()

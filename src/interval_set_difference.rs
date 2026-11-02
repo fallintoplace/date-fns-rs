@@ -81,7 +81,9 @@ mod tests {
                         )
                         .unwrap();
                         for n in 1..=7 {
-                            let actual = result.iter().any(|(lo, hi)| *lo <= d_date(n) && d_date(n) <= *hi);
+                            let actual = result
+                                .iter()
+                                .any(|(lo, hi)| *lo <= d_date(n) && d_date(n) <= *hi);
                             assert_eq!(actual, (a <= n && n <= b) && !(c <= n && n <= d));
                         }
                     }
@@ -102,7 +104,10 @@ mod tests {
         assert_eq!(
             subtract_interval_sets(
                 &[(NaiveDate::MIN, NaiveDate::MAX)],
-                &[(NaiveDate::MIN, NaiveDate::MIN), (NaiveDate::MAX, NaiveDate::MAX)]
+                &[
+                    (NaiveDate::MIN, NaiveDate::MIN),
+                    (NaiveDate::MAX, NaiveDate::MAX)
+                ]
             ),
             Some(vec![(
                 NaiveDate::MIN.succ_opt().unwrap(),

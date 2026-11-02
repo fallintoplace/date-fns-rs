@@ -1,6 +1,6 @@
 //! Strict parsing of date-only calendar patterns.
 //!
-//! Supported tokens: yyyy, MMMM, MMM, MM, M, dd, d, EEEE, EEE, E.
+//! Supported tokens: yyyy, MMMM, MMM, MM, M, Mo, dd, d, do, EEEE, EEE, E.
 //! English names are case-sensitive and time parts are not parsed.
 
 use chrono::{Datelike, NaiveDate};
@@ -63,6 +63,25 @@ fn digits(input: &str, at: &mut usize, min: usize, max: usize) -> Option<u32> {
         return None;
     }
     input[begin..*at].parse().ok()
+}
+
+fn english_ordinal(input: &str, at: &mut usize) -> Option<u32> {
+    let number = digits(input, at, 1, 2)?;
+    let suffix = if (11..=13).contains(&(number % 100)) {
+        "th"
+    } else {
+        match number % 10 {
+            1 => "st",
+            2 => "nd",
+            3 => "rd",
+            _ => "th",
+        }
+    };
+    if !input.get(*at..)?.starts_with(suffix) {
+        return None;
+    }
+    *at += suffix.len();
+    Some(number)
 }
 
 /// Parse a complete date using the documented numeric date-fns style tokens.
@@ -160,6 +179,11 @@ pub fn parse_date_tokens(input: &str, pattern: &str) -> Option<NaiveDate> {
                 return None;
             }
             pi += 4;
+        } else if rest.starts_with("Mo") {
+            if month.replace(english_ordinal(input, &mut ii)?).is_some() {
+                return None;
+            }
+            pi += 2;
         } else if rest.starts_with("MM") {
             if month.replace(digits(input, &mut ii, 2, 2)?).is_some() {
                 return None;
@@ -170,6 +194,11 @@ pub fn parse_date_tokens(input: &str, pattern: &str) -> Option<NaiveDate> {
                 return None;
             }
             pi += 1;
+        } else if rest.starts_with("do") {
+            if day.replace(english_ordinal(input, &mut ii)?).is_some() {
+                return None;
+            }
+            pi += 2;
         } else if rest.starts_with("dd") {
             if day.replace(digits(input, &mut ii, 2, 2)?).is_some() {
                 return None;
@@ -254,6 +283,54 @@ mod tests {
         assert_eq!(parse_date_tokens("Feb 29 02 2024", "MMM dd MM yyyy"), None);
         assert_eq!(
             parse_date_tokens("Thu Thursday Feb 29 2024", "EEE EEEE MMM dd yyyy"),
+            None
+        );
+    }
+
+    #[test]
+    fn parses_ordinal_day_and_month_tokens_emitted_by_formatter() {
+        let leap = NaiveDate::from_ymd_opt(2024, 2, 29).unwrap();
+        assert_eq!(
+            parse_date_tokens("February 29th, 2024", "MMMM do, yyyy"),
+            Some(leap)
+        );
+        assert_eq!(parse_date_tokens("2nd/29th/2024", "Mo/do/yyyy"), Some(leap));
+        for (day, ordinal) in [
+            (1, "1st"),
+            (2, "2nd"),
+            (3, "3rd"),
+            (4, "4th"),
+            (11, "11th"),
+            (12, "12th"),
+            (13, "13th"),
+            (21, "21st"),
+            (22, "22nd"),
+            (23, "23rd"),
+            (31, "31st"),
+        ] {
+            let date = NaiveDate::from_ymd_opt(2024, 1, day).unwrap();
+            assert_eq!(
+                parse_date_tokens(&format!("Jan {ordinal}, 2024"), "MMM do, yyyy"),
+                Some(date)
+            );
+            let formatted = crate::format_date_tokens(date, "Mo/do/yyyy").unwrap();
+            assert_eq!(parse_date_tokens(&formatted, "Mo/do/yyyy"), Some(date));
+        }
+    }
+
+    #[test]
+    fn ordinal_parser_rejects_wrong_suffixes_and_duplicate_fields() {
+        for text in [
+            "Feb 11st 2024",
+            "Feb 2th 2024",
+            "Feb 30th 2024",
+            "Feb 29TH 2024",
+        ] {
+            assert_eq!(parse_date_tokens(text, "MMM do yyyy"), None, "{text}");
+        }
+        assert_eq!(parse_date_tokens("2rd/29th/2024", "Mo/do/yyyy"), None);
+        assert_eq!(
+            parse_date_tokens("Feb 29th 29 2024", "MMM do dd yyyy"),
             None
         );
     }

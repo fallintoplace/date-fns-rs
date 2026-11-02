@@ -91,10 +91,7 @@ mod tests {
             coverage_by_distinct_sources(&intervals, 3),
             Some(vec![(date(4), date(5))])
         );
-        assert_eq!(
-            coverage_by_distinct_sources(&intervals, 4),
-            Some(vec![])
-        );
+        assert_eq!(coverage_by_distinct_sources(&intervals, 4), Some(vec![]));
     }
 
     #[test]

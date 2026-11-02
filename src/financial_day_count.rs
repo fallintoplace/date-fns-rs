@@ -44,11 +44,7 @@ fn is_last_day_of_february(date: NaiveDate) -> bool {
     date.month() == 2 && crate::end_of_month(date) == date
 }
 
-fn forward_day_count(
-    start: NaiveDate,
-    end: NaiveDate,
-    convention: DayCountConvention,
-) -> i64 {
+fn forward_day_count(start: NaiveDate, end: NaiveDate, convention: DayCountConvention) -> i64 {
     use DayCountConvention::{Actual360, Actual365Fixed, Thirty360US, ThirtyE360};
 
     match convention {
@@ -113,7 +109,10 @@ mod tests {
     fn counts_actual_days_across_leap_day_and_epoch() {
         let first = date(2024, 2, 28);
         let last = date(2024, 3, 1);
-        assert_eq!(financial_day_count(first, last, DayCountConvention::Actual360), 2);
+        assert_eq!(
+            financial_day_count(first, last, DayCountConvention::Actual360),
+            2
+        );
         assert_eq!(
             financial_day_count(first, last, DayCountConvention::Actual365Fixed),
             2

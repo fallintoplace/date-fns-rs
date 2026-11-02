@@ -89,7 +89,10 @@ pub fn parse_iso_calendar_duration(text: &str) -> Option<IsoCalendarDuration> {
 /// Format an ISO calendar duration with zero represented as `P0D`.
 ///
 /// The sign is retained for nonzero values and suppressed for zero.
-pub fn format_iso_calendar_duration(value: IsoCalendarDuration) -> String {
+pub fn format_iso_calendar_duration(value: IsoCalendarDuration) -> Option<String> {
+    if value.weeks != 0 && (value.years != 0 || value.months != 0 || value.days != 0) {
+        return None;
+    }
     let mut text = String::new();
     let nonzero = value.years != 0 || value.months != 0 || value.weeks != 0 || value.days != 0;
     if value.negative && nonzero {
@@ -113,7 +116,7 @@ pub fn format_iso_calendar_duration(value: IsoCalendarDuration) -> String {
             text.push_str("0D");
         }
     }
-    text
+    Some(text)
 }
 
 /// Apply a calendar-relative period using checked, month-clamping arithmetic.
@@ -189,11 +192,11 @@ mod tests {
     fn round_trips_canonical_signed_periods() {
         for input in ["P0D", "P1Y", "P2M", "P3W", "P1Y2M3D", "-P2Y4M1D"] {
             let parsed = parse_iso_calendar_duration(input).unwrap();
-            assert_eq!(format_iso_calendar_duration(parsed), input);
+            assert_eq!(format_iso_calendar_duration(parsed).as_deref(), Some(input));
         }
         assert_eq!(
             format_iso_calendar_duration(parse_iso_calendar_duration("-P0D").unwrap()),
-            "P0D"
+            Some("P0D".to_string())
         );
     }
 
@@ -209,6 +212,19 @@ mod tests {
         assert_eq!(apply_iso_calendar_duration(date(2024, 1, 1), big), None);
         let one_day = parse_iso_calendar_duration("P1D").unwrap();
         assert_eq!(apply_iso_calendar_duration(NaiveDate::MAX, one_day), None);
+    }
+
+    #[test]
+    fn rejects_mixed_week_components_from_public_structs() {
+        let invalid = IsoCalendarDuration {
+            negative: false,
+            years: 1,
+            months: 0,
+            weeks: 1,
+            days: 0,
+        };
+        assert_eq!(format_iso_calendar_duration(invalid), None);
+        assert_eq!(apply_iso_calendar_duration(date(2024, 1, 1), invalid), None);
     }
 
     #[test]

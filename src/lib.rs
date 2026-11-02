@@ -640,6 +640,8 @@ mod financial_day_count;
 pub use financial_day_count::{financial_day_count, financial_year_fraction, DayCountConvention};
 
 mod interval_day_counts;
+mod interval_leap_days;
+pub use interval_leap_days::count_leap_days_in_interval;
 pub use interval_day_counts::{count_business_days_in_interval, count_weekend_days_in_interval};
 
 mod interval_business_holiday_count;

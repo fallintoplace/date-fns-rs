@@ -835,7 +835,9 @@ pub use ical_utc_datetime_list::{format_ical_utc_datetime_list, parse_ical_utc_d
 mod ical_period_utc;
 pub use ical_period_utc::{format_ical_period_utc, parse_ical_period_utc};
 mod ical_period_duration_utc;
-pub use ical_period_duration_utc::{format_ical_period_duration_utc, parse_ical_period_duration_utc};
+pub use ical_period_duration_utc::{
+    format_ical_period_duration_utc, parse_ical_period_duration_utc,
+};
 
 mod datetime_rfc2822;
 pub use datetime_rfc2822::{format_rfc2822_datetime, parse_rfc2822_datetime};

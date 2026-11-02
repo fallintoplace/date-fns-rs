@@ -65,7 +65,6 @@ fn digits(input: &str, at: &mut usize, min: usize, max: usize) -> Option<u32> {
     input[begin..*at].parse().ok()
 }
 
-
 fn english_ordinal(input: &str, at: &mut usize) -> Option<u32> {
     let number = digits(input, at, 1, 2)?;
     let suffix = if (11..=13).contains(&(number % 100)) {
@@ -288,7 +287,6 @@ mod tests {
         );
     }
 
-
     #[test]
     fn parses_ordinal_day_and_month_tokens_emitted_by_formatter() {
         let leap = NaiveDate::from_ymd_opt(2024, 2, 29).unwrap();
@@ -296,10 +294,7 @@ mod tests {
             parse_date_tokens("February 29th, 2024", "MMMM do, yyyy"),
             Some(leap)
         );
-        assert_eq!(
-            parse_date_tokens("2nd/29th/2024", "Mo/do/yyyy"),
-            Some(leap)
-        );
+        assert_eq!(parse_date_tokens("2nd/29th/2024", "Mo/do/yyyy"), Some(leap));
         for (day, ordinal) in [
             (1, "1st"),
             (2, "2nd"),
@@ -325,11 +320,19 @@ mod tests {
 
     #[test]
     fn ordinal_parser_rejects_wrong_suffixes_and_duplicate_fields() {
-        for text in ["Feb 11st 2024", "Feb 2th 2024", "Feb 30th 2024", "Feb 29TH 2024"] {
+        for text in [
+            "Feb 11st 2024",
+            "Feb 2th 2024",
+            "Feb 30th 2024",
+            "Feb 29TH 2024",
+        ] {
             assert_eq!(parse_date_tokens(text, "MMM do yyyy"), None, "{text}");
         }
         assert_eq!(parse_date_tokens("2rd/29th/2024", "Mo/do/yyyy"), None);
-        assert_eq!(parse_date_tokens("Feb 29th 29 2024", "MMM do dd yyyy"), None);
+        assert_eq!(
+            parse_date_tokens("Feb 29th 29 2024", "MMM do dd yyyy"),
+            None
+        );
     }
 
     #[test]

@@ -553,3 +553,6 @@ pub use datetime_week_year_boundaries::{
 };
 
 pub use datetime_week_boundaries::{end_of_iso_week_datetime, start_of_iso_week_datetime};
+
+mod mutable_date_interval_set;
+pub use mutable_date_interval_set::MutableDateIntervalSet;

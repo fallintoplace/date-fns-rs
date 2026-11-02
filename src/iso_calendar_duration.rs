@@ -131,10 +131,7 @@ pub fn apply_iso_calendar_duration(
         return None;
     }
 
-    let months = period
-        .years
-        .checked_mul(12)?
-        .checked_add(period.months)?;
+    let months = period.years.checked_mul(12)?.checked_add(period.months)?;
     let signed_months = i32::try_from(months).ok()?;
     let signed_months = if period.negative {
         -signed_months
@@ -203,8 +200,19 @@ mod tests {
     #[test]
     fn rejects_invalid_order_mixed_weeks_and_overflow() {
         for value in [
-            "", "P", "PT1H", "P1.5D", "P1W2D", "P0W0D", "P1D1M",
-            "P1Y1Y", "P-1D", "P1Q", "+P1D", "P1", "P4294967296D",
+            "",
+            "P",
+            "PT1H",
+            "P1.5D",
+            "P1W2D",
+            "P0W0D",
+            "P1D1M",
+            "P1Y1Y",
+            "P-1D",
+            "P1Q",
+            "+P1D",
+            "P1",
+            "P4294967296D",
         ] {
             assert!(parse_iso_calendar_duration(value).is_none(), "{value}");
         }
@@ -230,7 +238,13 @@ mod tests {
     #[test]
     fn supports_zero_at_chrono_extremes() {
         let zero = parse_iso_calendar_duration("P0D").unwrap();
-        assert_eq!(apply_iso_calendar_duration(NaiveDate::MAX, zero), Some(NaiveDate::MAX));
-        assert_eq!(apply_iso_calendar_duration(NaiveDate::MIN, zero), Some(NaiveDate::MIN));
+        assert_eq!(
+            apply_iso_calendar_duration(NaiveDate::MAX, zero),
+            Some(NaiveDate::MAX)
+        );
+        assert_eq!(
+            apply_iso_calendar_duration(NaiveDate::MIN, zero),
+            Some(NaiveDate::MIN)
+        );
     }
 }

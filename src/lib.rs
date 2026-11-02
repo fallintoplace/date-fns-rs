@@ -798,6 +798,8 @@ pub use datetime_interval_set::DatetimeIntervalSet;
 
 mod ical_date_list;
 pub use ical_date_list::{format_ical_date_list, parse_ical_date_list};
+mod ical_period_list_utc;
+pub use ical_period_list_utc::{format_ical_period_list_utc, parse_ical_period_list_utc};
 
 mod ical_floating_datetime;
 pub use ical_floating_datetime::{format_ical_datetime_floating, parse_ical_datetime_floating};

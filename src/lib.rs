@@ -553,3 +553,6 @@ pub use datetime_week_year_boundaries::{
 };
 
 pub use datetime_week_boundaries::{end_of_iso_week_datetime, start_of_iso_week_datetime};
+
+mod datetime_day_segments;
+pub use datetime_day_segments::{each_day_segment_of_datetime_interval, DatetimeDaySegments};

@@ -307,6 +307,9 @@ mod iso_weeks;
 pub use iso_weeks::get_iso_day_of_year;
 pub use iso_weeks::{get_iso_week, get_iso_week_year, get_iso_weeks_in_year};
 
+mod cron_schedule;
+pub use cron_schedule::{parse_cron_schedule, CronSchedule};
+
 mod iso_week_year_boundaries;
 pub use iso_week_year_boundaries::{end_of_iso_week_year, start_of_iso_week_year};
 

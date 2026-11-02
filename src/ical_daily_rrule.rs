@@ -51,9 +51,10 @@ pub fn each_ical_daily_rrule(
     if start > end {
         return None;
     }
-    let step = Days::new(u64::from(rule.interval_days));
     Some(
-        std::iter::successors(Some(start), move |date| date.checked_add_days(step))
+        std::iter::successors(Some(start), move |date| {
+            date.checked_add_days(Days::new(u64::from(rule.interval_days)))
+        })
             .take_while(move |date| *date <= end)
             .take(rule.count.unwrap_or(usize::MAX)),
     )

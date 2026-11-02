@@ -1,6 +1,6 @@
 //! Bounded RFC 5545 weekly recurrence subset without time-zone inference.
 
-use chrono::NaiveDate;
+use chrono::{Datelike, NaiveDate};
 
 /// A weekly iCalendar rule with BYDAY selection and an optional COUNT cap.
 ///
@@ -75,13 +75,17 @@ pub fn parse_ical_weekly_rrule(input: &str) -> Option<IcalWeeklyRRule> {
 
 /// Enumerate a weekly rule within an inclusive bounded date interval.
 ///
-/// DTSTART is the anchor for alternating weeks. COUNT limits occurrences
-/// inside this requested window, not globally before the window.
+/// DTSTART is the anchor for alternating weeks and the first occurrence.
+/// A DTSTART whose weekday is absent from BYDAY is rejected because RFC 5545
+/// defines the resulting recurrence set as unspecified.
 pub fn each_ical_weekly_rrule(
     rule: IcalWeeklyRRule,
     start: NaiveDate,
     end: NaiveDate,
 ) -> Option<impl Iterator<Item = NaiveDate>> {
+    if rule.weekday_mask & (1_u8 << start.weekday().num_days_from_monday()) == 0 {
+        return None;
+    }
     let dates = crate::each_selected_weekday_in_interval(
         start,
         end,
@@ -106,12 +110,20 @@ mod tests {
         ).unwrap();
         let days: Vec<_> = each_ical_weekly_rrule(
             rule,
-            date(2024, 3, 1),
+            date(2024, 3, 4),
             date(2024, 3, 31),
         ).unwrap().collect();
         assert_eq!(
             days,
-            vec![date(2024, 3, 11), date(2024, 3, 13), date(2024, 3, 25)]
+            vec![date(2024, 3, 4), date(2024, 3, 6), date(2024, 3, 18)]
+        );
+    }
+
+    #[test]
+    fn rejects_dtstart_not_in_weekday_rule() {
+        let rule = parse_ical_weekly_rrule("FREQ=WEEKLY;BYDAY=MO").unwrap();
+        assert!(
+            each_ical_weekly_rrule(rule, date(2024, 3, 1), date(2024, 3, 31)).is_none()
         );
     }
 

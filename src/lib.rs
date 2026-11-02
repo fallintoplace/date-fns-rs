@@ -288,6 +288,9 @@ pub use interval_ops::{clamp_to_interval, intersection_of_intervals, interval_le
 mod interval_gap;
 pub use interval_gap::gap_between_intervals;
 
+mod datetime_interval_set;
+pub use datetime_interval_set::DatetimeIntervalSet;
+
 mod datetime_interval_subtract;
 pub use datetime_interval_subtract::subtract_datetime_intervals;
 
@@ -553,6 +556,3 @@ pub use datetime_week_year_boundaries::{
 };
 
 pub use datetime_week_boundaries::{end_of_iso_week_datetime, start_of_iso_week_datetime};
-
-mod datetime_interval_set;
-pub use datetime_interval_set::DatetimeIntervalSet;

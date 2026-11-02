@@ -6,11 +6,7 @@ use chrono::{Datelike, Days, NaiveDate, Weekday};
 ///
 /// For example, -1 gives the last occurrence in December. Zero and
 /// occurrences outside the calendar year return None.
-pub fn nth_weekday_of_year(
-    year: i32,
-    weekday: Weekday,
-    occurrence: i16,
-) -> Option<NaiveDate> {
+pub fn nth_weekday_of_year(year: i32, weekday: Weekday, occurrence: i16) -> Option<NaiveDate> {
     if occurrence == 0 {
         return None;
     }
@@ -62,9 +58,6 @@ mod tests {
         assert_eq!(nth_weekday_of_year(2024, Weekday::Sun, 0), None);
         assert_eq!(nth_weekday_of_year(2024, Weekday::Sun, -54), None);
         assert_eq!(nth_weekday_of_year(i32::MAX, Weekday::Sun, 1), None);
-        assert_eq!(
-            nth_weekday_of_year(2024, Weekday::Mon, i16::MIN),
-            None
-        );
+        assert_eq!(nth_weekday_of_year(2024, Weekday::Mon, i16::MIN), None);
     }
 }

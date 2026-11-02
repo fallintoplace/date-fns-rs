@@ -118,8 +118,14 @@ mod tests {
             crate::each_business_day_of_interval(date(2024, 3, 1), date(2024, 3, 31))
                 .unwrap()
                 .collect();
-        assert_eq!(first_business_day_of_month_with_holidays(march, &all_weekdays), None);
-        assert_eq!(last_business_day_of_month_with_holidays(march, &all_weekdays), None);
+        assert_eq!(
+            first_business_day_of_month_with_holidays(march, &all_weekdays),
+            None
+        );
+        assert_eq!(
+            last_business_day_of_month_with_holidays(march, &all_weekdays),
+            None
+        );
         assert_eq!(
             first_business_day_of_month_with_holidays(march, &[]),
             Some(first_business_day_of_month(march))
@@ -129,5 +135,4 @@ mod tests {
             Some(last_business_day_of_month(march))
         );
     }
-
 }

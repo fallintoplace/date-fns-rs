@@ -480,6 +480,9 @@ mod date_slot_packing;
 pub use date_slot_packing::pack_date_slots;
 pub use interval_weekdays::{each_weekday_of_interval, WeekdaysInInterval};
 
+mod date_slot_packing;
+pub use date_slot_packing::pack_date_slots;
+
 mod interval_business_holidays;
 pub use interval_business_holidays::{
     each_business_day_of_interval_excluding_holidays, HolidayBusinessDaysInInterval,

@@ -107,7 +107,7 @@ mod tests {
             for day in 1..=10 {
                 let expected = ranges
                     .iter()
-                    .filter(|(a, b)| *a <= &date(day) && &date(day) <= *b)
+                    .filter(|(a, b)| *a <= date(day) && date(day) <= *b)
                     .count();
                 let actual = segments
                     .iter()

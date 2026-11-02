@@ -431,6 +431,9 @@ pub use interval_business_holidays::{
 mod interval_business_days;
 pub use interval_business_days::{each_business_day_of_interval, BusinessDaysInInterval};
 
+mod datetime_slot_packing;
+pub use datetime_slot_packing::pack_datetime_slots;
+
 mod datetime_hour_iterator;
 pub use datetime_hour_iterator::{each_nth_hour_of_datetime_interval, HoursInDatetimeInterval};
 

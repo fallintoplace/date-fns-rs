@@ -646,6 +646,9 @@ pub use monthly_weekday_occurrences::{
 mod nth_business_day_month;
 pub use nth_business_day_month::nth_business_day_of_month;
 
+mod nth_business_day_quarter;
+pub use nth_business_day_quarter::nth_business_day_of_quarter;
+
 mod indexed_holiday_calendar;
 pub use indexed_holiday_calendar::IndexedHolidayCalendar;
 
@@ -826,6 +829,3 @@ pub use workweek_holidays::{add_workdays_with_holidays, count_workdays_with_holi
 
 mod ical_weekly_rrule;
 pub use ical_weekly_rrule::{each_ical_weekly_rrule, parse_ical_weekly_rrule, IcalWeeklyRRule};
-
-mod nth_business_day_quarter;
-pub use nth_business_day_quarter::nth_business_day_of_quarter;

@@ -446,6 +446,9 @@ pub use date_distance_en::{format_date_distance_en, format_date_distance_strict_
 mod centuries;
 pub use centuries::{end_of_century, start_of_century};
 
+mod century_comparisons;
+pub use century_comparisons::{difference_in_calendar_centuries, is_same_century};
+
 mod set_quarter;
 pub use set_quarter::set_quarter;
 

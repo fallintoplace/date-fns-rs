@@ -44,8 +44,13 @@ mod tests {
     #[test]
     fn rejects_empty_elements_invalid_dates_and_out_of_range_years() {
         for input in [
-            "", "20240229,", ",20240229", "20240229,,20240301",
-            "20240230", "2024-02-29", "20240229,20240301 ",
+            "",
+            "20240229,",
+            ",20240229",
+            "20240229,,20240301",
+            "20240230",
+            "2024-02-29",
+            "20240229,20240301 ",
         ] {
             assert!(parse_ical_date_list(input).is_none(), "{input}");
         }

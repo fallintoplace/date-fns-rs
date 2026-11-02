@@ -745,3 +745,6 @@ mod datetime_coverage_index;
 mod datetime_interval_set;
 pub use datetime_coverage_index::DatetimeCoverageIndex;
 pub use datetime_interval_set::DatetimeIntervalSet;
+
+mod iso_year_quarter;
+pub use iso_year_quarter::{format_iso_year_quarter, parse_iso_year_quarter};

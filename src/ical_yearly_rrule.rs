@@ -74,6 +74,7 @@ pub fn each_ical_yearly_rrule(
         .filter_map(move |year| {
             NaiveDate::from_ymd_opt(i32::try_from(year).ok()?, rule.month, rule.month_day)
         })
+        .take_while(move |date| *date <= end)
         .take(rule.count.unwrap_or(usize::MAX)),
     )
 }
@@ -114,6 +115,20 @@ mod tests {
             vec![date(2024, 2, 29), date(2028, 2, 29), date(2032, 2, 29)]
         );
         assert!(each_ical_yearly_rrule(rule, date(2024, 3, 1), date(2032, 2, 29)).is_none());
+    }
+
+    #[test]
+    fn excludes_occurrences_after_the_end_day_in_same_year() {
+        let rule = parse_ical_yearly_rrule(
+            "FREQ=YEARLY;BYMONTH=12;BYMONTHDAY=31",
+        )
+        .unwrap();
+        assert_eq!(
+            each_ical_yearly_rrule(rule, date(2024, 12, 31), date(2026, 6, 1))
+                .unwrap()
+                .collect::<Vec<_>>(),
+            vec![date(2024, 12, 31), date(2025, 12, 31)]
+        );
     }
 
     #[test]

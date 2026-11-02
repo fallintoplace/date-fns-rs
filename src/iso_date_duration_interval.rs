@@ -80,7 +80,10 @@ mod tests {
         assert_eq!(encoded, "2024-01-31/P1Y2M3D");
         assert_eq!(
             parse_iso_date_duration_interval(&encoded),
-            Some((start, crate::apply_iso_calendar_duration(start, period).unwrap()))
+            Some((
+                start,
+                crate::apply_iso_calendar_duration(start, period).unwrap()
+            ))
         );
     }
 
@@ -97,10 +100,19 @@ mod tests {
             assert_eq!(parse_iso_date_duration_interval(text), None, "{text}");
         }
         let negative = crate::parse_iso_calendar_duration("-P1M").unwrap();
-        assert_eq!(format_iso_date_duration_interval(date(2024, 3, 1), negative), None);
+        assert_eq!(
+            format_iso_date_duration_interval(date(2024, 3, 1), negative),
+            None
+        );
         let huge = crate::parse_iso_calendar_duration("P4294967295Y").unwrap();
-        assert_eq!(format_iso_date_duration_interval(date(2024, 3, 1), huge), None);
+        assert_eq!(
+            format_iso_date_duration_interval(date(2024, 3, 1), huge),
+            None
+        );
         let day = crate::parse_iso_calendar_duration("P1D").unwrap();
-        assert_eq!(format_iso_date_duration_interval(date(9999, 12, 31), day), None);
+        assert_eq!(
+            format_iso_date_duration_interval(date(9999, 12, 31), day),
+            None
+        );
     }
 }

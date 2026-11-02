@@ -15,9 +15,8 @@ pub fn coalesce_date_intervals_with_gap(
     let mut result: Vec<(NaiveDate, NaiveDate)> = Vec::with_capacity(normalized.len());
     for (first, last) in normalized {
         if let Some(previous) = result.last_mut() {
-            let uncovered = i64::from(first.num_days_from_ce())
-                - i64::from(previous.1.num_days_from_ce())
-                - 1;
+            let uncovered =
+                i64::from(first.num_days_from_ce()) - i64::from(previous.1.num_days_from_ce()) - 1;
             if u64::try_from(uncovered).ok()? <= max_gap_days {
                 previous.1 = last;
                 continue;
@@ -61,10 +60,16 @@ mod tests {
     #[test]
     fn validates_ranges_and_supports_calendar_extremes() {
         assert_eq!(coalesce_date_intervals_with_gap(&[], 3), Some(vec![]));
-        assert_eq!(coalesce_date_intervals_with_gap(&[(day(3), day(2))], 9), None);
+        assert_eq!(
+            coalesce_date_intervals_with_gap(&[(day(3), day(2))], 9),
+            None
+        );
         assert_eq!(
             coalesce_date_intervals_with_gap(
-                &[(NaiveDate::MIN, NaiveDate::MIN), (NaiveDate::MAX, NaiveDate::MAX)],
+                &[
+                    (NaiveDate::MIN, NaiveDate::MIN),
+                    (NaiveDate::MAX, NaiveDate::MAX)
+                ],
                 u64::MAX
             ),
             Some(vec![(NaiveDate::MIN, NaiveDate::MAX)])

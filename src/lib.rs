@@ -232,7 +232,9 @@ mod half_year_day_ordinals;
 pub use half_year_day_ordinals::{get_day_of_half_year, get_days_in_half_year};
 
 mod datetime_iso_ordinal;
-pub use datetime_iso_ordinal::{format_iso_ordinal_local_datetime, parse_iso_ordinal_local_datetime};
+pub use datetime_iso_ordinal::{
+    format_iso_ordinal_local_datetime, parse_iso_ordinal_local_datetime,
+};
 
 mod iso_ordinal_date;
 pub use iso_ordinal_date::{format_iso_ordinal_date, parse_iso_ordinal_date};

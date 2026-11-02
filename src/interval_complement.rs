@@ -89,11 +89,7 @@ mod tests {
         let second = NaiveDate::MIN.succ_opt().unwrap();
         let before_last = NaiveDate::MAX.pred_opt().unwrap();
         assert_eq!(
-            complement_date_intervals(
-                NaiveDate::MIN,
-                NaiveDate::MAX,
-                &[(second, before_last)]
-            ),
+            complement_date_intervals(NaiveDate::MIN, NaiveDate::MAX, &[(second, before_last)]),
             Some(vec![
                 (NaiveDate::MIN, NaiveDate::MIN),
                 (NaiveDate::MAX, NaiveDate::MAX),

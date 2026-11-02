@@ -471,6 +471,9 @@ pub use monthly_weekday_occurrences::{
     each_nth_weekday_of_month_in_interval, MonthlyWeekdayOccurrences,
 };
 
+mod monthly_day_recurrence;
+pub use monthly_day_recurrence::{each_day_of_month_in_interval, MonthDayPolicy, MonthlyDayRecurrences};
+
 mod holiday_business_difference;
 pub use holiday_business_difference::difference_in_business_days_excluding_holidays;
 

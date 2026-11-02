@@ -836,5 +836,8 @@ pub use business_252::business_252_year_fraction;
 mod workweek_holidays;
 pub use workweek_holidays::{add_workdays_with_holidays, count_workdays_with_holidays};
 
+mod ical_yearly_rrule;
+pub use ical_yearly_rrule::{each_ical_yearly_rrule, parse_ical_yearly_rrule, IcalYearlyRRule};
+
 mod ical_weekly_rrule;
 pub use ical_weekly_rrule::{each_ical_weekly_rrule, parse_ical_weekly_rrule, IcalWeeklyRRule};

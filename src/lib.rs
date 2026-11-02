@@ -779,6 +779,9 @@ pub use ical_text::{escape_ical_text, unescape_ical_text};
 mod gregorian_easter;
 pub use gregorian_easter::gregorian_easter_sunday;
 
+mod orthodox_easter;
+pub use orthodox_easter::orthodox_easter_sunday;
+
 mod actual_actual_isda;
 pub use actual_actual_isda::actual_actual_isda_year_fraction;
 
@@ -826,6 +829,3 @@ pub use workweek_holidays::{add_workdays_with_holidays, count_workdays_with_holi
 
 mod ical_weekly_rrule;
 pub use ical_weekly_rrule::{each_ical_weekly_rrule, parse_ical_weekly_rrule, IcalWeeklyRRule};
-
-mod orthodox_easter;
-pub use orthodox_easter::orthodox_easter_sunday;

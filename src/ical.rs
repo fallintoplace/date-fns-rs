@@ -55,10 +55,7 @@ mod tests {
             Some("20240229T235958Z")
         );
         assert_eq!(
-            format_ical_datetime_utc(
-                day.and_hms_opt(0, 0, 0).unwrap().and_utc()
-            )
-            .as_deref(),
+            format_ical_datetime_utc(day.and_hms_opt(0, 0, 0).unwrap().and_utc()).as_deref(),
             Some("20240229T000000Z")
         );
     }

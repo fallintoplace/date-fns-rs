@@ -78,7 +78,10 @@ mod tests {
     #[test]
     fn rejects_reversed_ranges_and_negative_thresholds() {
         assert_eq!(coalesce_datetime_intervals_with_gap(&[], -1), None);
-        assert_eq!(coalesce_datetime_intervals_with_gap(&[(tick(3), tick(1))], 2), None);
+        assert_eq!(
+            coalesce_datetime_intervals_with_gap(&[(tick(3), tick(1))], 2),
+            None
+        );
         assert_eq!(coalesce_datetime_intervals_with_gap(&[], 0), Some(vec![]));
         assert_eq!(
             coalesce_datetime_intervals_with_gap(

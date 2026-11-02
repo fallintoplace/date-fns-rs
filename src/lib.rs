@@ -204,6 +204,12 @@ pub use half_year_day_ordinals::{get_day_of_half_year, get_days_in_half_year};
 mod iso_ordinal_date;
 pub use iso_ordinal_date::{format_iso_ordinal_date, parse_iso_ordinal_date};
 
+mod iso_calendar_duration;
+pub use iso_calendar_duration::{
+    apply_iso_calendar_duration, format_iso_calendar_duration, parse_iso_calendar_duration,
+    IsoCalendarDuration,
+};
+
 mod iso_month_day;
 pub use iso_month_day::{format_iso_month_day, parse_iso_month_day};
 
@@ -300,6 +306,9 @@ pub use quarter_arithmetic::{add_quarters, sub_quarters};
 mod iso_weeks;
 pub use iso_weeks::get_iso_day_of_year;
 pub use iso_weeks::{get_iso_week, get_iso_week_year, get_iso_weeks_in_year};
+
+mod cron_schedule;
+pub use cron_schedule::{parse_cron_schedule, CronSchedule};
 
 mod iso_week_year_boundaries;
 pub use iso_week_year_boundaries::{end_of_iso_week_year, start_of_iso_week_year};
@@ -430,6 +439,9 @@ pub use interval_business_holidays::{
 
 mod interval_business_days;
 pub use interval_business_days::{each_business_day_of_interval, BusinessDaysInInterval};
+
+mod datetime_slot_packing;
+pub use datetime_slot_packing::pack_datetime_slots;
 
 mod datetime_hour_iterator;
 pub use datetime_hour_iterator::{each_nth_hour_of_datetime_interval, HoursInDatetimeInterval};
@@ -600,6 +612,9 @@ pub use interval_complement::complement_date_intervals;
 mod date_interval_coverage;
 pub use date_interval_coverage::{count_distinct_days_covered, overlapping_days_in_intervals};
 
+mod mutable_datetime_interval_set;
+pub use mutable_datetime_interval_set::MutableDatetimeIntervalSet;
+
 mod datetime_interval_coverage;
 pub use datetime_interval_coverage::count_distinct_nanoseconds_covered;
 
@@ -671,6 +686,3 @@ pub use date_interval_set::DateIntervalSet;
 
 mod datetime_interval_set;
 pub use datetime_interval_set::DatetimeIntervalSet;
-
-mod cron_schedule;
-pub use cron_schedule::{parse_cron_schedule, CronSchedule};

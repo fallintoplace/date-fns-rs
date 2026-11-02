@@ -79,13 +79,12 @@ mod tests {
             for b in a..=6 {
                 for c in 1..=6 {
                     for d in c..=6 {
-                        let output = subtract_datetime_interval_sets(
-                            &[(at(a), at(b))],
-                            &[(at(c), at(d))],
-                        )
-                        .unwrap();
+                        let output =
+                            subtract_datetime_interval_sets(&[(at(a), at(b))], &[(at(c), at(d))])
+                                .unwrap();
                         for n in 1..=6 {
-                            let contains = output.iter().any(|(lo, hi)| *lo <= at(n) && at(n) <= *hi);
+                            let contains =
+                                output.iter().any(|(lo, hi)| *lo <= at(n) && at(n) <= *hi);
                             assert_eq!(contains, (a <= n && n <= b) && !(c <= n && n <= d));
                         }
                     }
@@ -97,8 +96,14 @@ mod tests {
     #[test]
     fn validates_inputs_and_preserves_extreme_endpoints() {
         assert_eq!(subtract_datetime_interval_sets(&[], &[]), Some(vec![]));
-        assert_eq!(subtract_datetime_interval_sets(&[(at(4), at(2))], &[]), None);
-        assert_eq!(subtract_datetime_interval_sets(&[], &[(at(4), at(2))]), None);
+        assert_eq!(
+            subtract_datetime_interval_sets(&[(at(4), at(2))], &[]),
+            None
+        );
+        assert_eq!(
+            subtract_datetime_interval_sets(&[], &[(at(4), at(2))]),
+            None
+        );
         let nano = TimeDelta::nanoseconds(1);
         assert_eq!(
             subtract_datetime_interval_sets(

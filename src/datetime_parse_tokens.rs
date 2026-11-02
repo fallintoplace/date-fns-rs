@@ -1,6 +1,32 @@
 //! Strict numeric token parsing for naive datetimes without time zone guessing.
 
-use chrono::{NaiveDate, NaiveDateTime};
+use chrono::{Datelike, NaiveDate, NaiveDateTime};
+
+const MONTHS: [&str; 12] = [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December",
+];
+const WEEKDAYS: [&str; 7] = [
+    "Sunday", "Monday", "Tuesday", "Wednesday",
+    "Thursday", "Friday", "Saturday",
+];
+
+fn parse_english_name(
+    input: &str,
+    at: &mut usize,
+    names: &[&str],
+    full: bool,
+) -> Option<u32> {
+    let remaining = input.get(*at..)?;
+    for (index, name) in names.iter().enumerate() {
+        let token = if full { *name } else { &name[..3] };
+        if remaining.starts_with(token) {
+            *at += token.len();
+            return Some(index as u32);
+        }
+    }
+    None
+}
 
 fn digits(input: &str, index: &mut usize, min: usize, max: usize) -> Option<u32> {
     let bytes = input.as_bytes();
@@ -16,8 +42,9 @@ fn digits(input: &str, index: &mut usize, min: usize, max: usize) -> Option<u32>
 
 /// Parse a full date and optional clock fields from numeric date-fns style tokens.
 ///
-/// Supported: yyyy, MM, M, dd, d, HH, H, mm, m, ss, s, SSS.
-/// Date fields are required. Unspecified clock fields default to zero.
+/// Supported: yyyy, MMMM, MMM, MM, M, dd, d, EEEE, EEE, HH, H,
+/// hh, h, mm, m, ss, s, SSS and uppercase AM/PM using a.
+/// Date fields are required. A twelve-hour clock requires an AM/PM field.\n/// Unspecified clock fields default to zero.
 /// Doubled single quotes represent literal apostrophes. Unsupported tokens,
 /// duplicate fields, invalid dates or clock values, and trailing data fail.
 pub fn parse_datetime_tokens(input: &str, pattern: &str) -> Option<NaiveDateTime> {
@@ -30,6 +57,9 @@ pub fn parse_datetime_tokens(input: &str, pattern: &str) -> Option<NaiveDateTime
     let mut minute = None;
     let mut second = None;
     let mut millisecond = None;
+    let mut weekday = None;
+    let mut pm = None;
+    let mut twelve_hour = false;
     let bytes = pattern.as_bytes();
 
     while pi < bytes.len() {
@@ -73,8 +103,43 @@ pub fn parse_datetime_tokens(input: &str, pattern: &str) -> Option<NaiveDateTime
         }
 
         let rest = &pattern[pi..];
+        if rest.starts_with("MMMM") || rest.starts_with("MMM") {
+            let full = rest.starts_with("MMMM");
+            let parsed = parse_english_name(input, &mut ii, &MONTHS, full)? + 1;
+            if month.replace(parsed).is_some() {
+                return None;
+            }
+            pi += if full { 4 } else { 3 };
+            continue;
+        }
+        if rest.starts_with("EEEE") || rest.starts_with("EEE") {
+            let full = rest.starts_with("EEEE");
+            let parsed = parse_english_name(input, &mut ii, &WEEKDAYS, full)?;
+            if weekday.replace(parsed).is_some() {
+                return None;
+            }
+            pi += if full { 4 } else { 3 };
+            continue;
+        }
+        if rest.starts_with('a') {
+            if pm.is_some() {
+                return None;
+            }
+            if input[ii..].starts_with("AM") {
+                pm = Some(false);
+                ii += 2;
+            } else if input[ii..].starts_with("PM") {
+                pm = Some(true);
+                ii += 2;
+            } else {
+                return None;
+            }
+            pi += 1;
+            continue;
+        }
         let token = [
-            "yyyy", "SSS", "MM", "dd", "HH", "mm", "ss", "M", "d", "H", "m", "s",
+            "yyyy", "SSS", "hh", "MM", "dd", "HH", "mm", "ss", "M", "d", "H", "h", "m",
+            "s",
         ]
         .iter()
         .find(|token| rest.starts_with(**token))
@@ -83,7 +148,7 @@ pub fn parse_datetime_tokens(input: &str, pattern: &str) -> Option<NaiveDateTime
             let (min, max) = match token {
                 "yyyy" => (4, 4),
                 "SSS" => (3, 3),
-                "MM" | "dd" | "HH" | "mm" | "ss" => (2, 2),
+                "MM" | "dd" | "HH" | "hh" | "mm" | "ss" => (2, 2),
                 _ => (1, 2),
             };
             let parsed = digits(input, &mut ii, min, max)?;
@@ -91,7 +156,7 @@ pub fn parse_datetime_tokens(input: &str, pattern: &str) -> Option<NaiveDateTime
                 "yyyy" => &mut year,
                 "MM" | "M" => &mut month,
                 "dd" | "d" => &mut day,
-                "HH" | "H" => &mut hour,
+                "HH" | "H" | "hh" | "h" => &mut hour,
                 "mm" | "m" => &mut minute,
                 "ss" | "s" => &mut second,
                 "SSS" => &mut millisecond,
@@ -99,6 +164,9 @@ pub fn parse_datetime_tokens(input: &str, pattern: &str) -> Option<NaiveDateTime
             };
             if target.replace(parsed).is_some() {
                 return None;
+            }
+            if matches!(token, "hh" | "h") {
+                twelve_hour = true;
             }
             pi += token.len();
         } else {
@@ -115,8 +183,23 @@ pub fn parse_datetime_tokens(input: &str, pattern: &str) -> Option<NaiveDateTime
         return None;
     }
     let date = NaiveDate::from_ymd_opt(year? as i32, month?, day?)?;
+    if weekday.is_some_and(|name| date.weekday().num_days_from_sunday() != name) {
+        return None;
+    }
+    let parsed_hour = if twelve_hour {
+        let hour = hour?;
+        if !(1..=12).contains(&hour) {
+            return None;
+        }
+        (hour % 12) + if pm? { 12 } else { 0 }
+    } else {
+        if pm.is_some() {
+            return None;
+        }
+        hour.unwrap_or(0)
+    };
     date.and_hms_milli_opt(
-        hour.unwrap_or(0),
+        parsed_hour,
         minute.unwrap_or(0),
         second.unwrap_or(0),
         millisecond.unwrap_or(0),
@@ -171,4 +254,63 @@ mod tests {
         assert_eq!(parse_datetime_tokens("23:59", "HH:mm"), None);
         assert_eq!(parse_datetime_tokens("2024-02-29", "'unfinished"), None);
     }
+    #[test]
+    fn parses_english_months_weekdays_and_meridiems() {
+        let morning = NaiveDate::from_ymd_opt(2024, 2, 29)
+            .unwrap()
+            .and_hms_opt(9, 5, 0)
+            .unwrap();
+        assert_eq!(
+            parse_datetime_tokens("Thu, February 29, 2024 9:05 AM", "EEE, MMMM d, yyyy h:mm a"),
+            Some(morning)
+        );
+        assert_eq!(
+            parse_datetime_tokens("Thursday Feb 29 2024 09:05 AM", "EEEE MMM dd yyyy hh:mm a"),
+            Some(morning)
+        );
+        assert_eq!(
+            parse_datetime_tokens("Feb 29, 2024 9:05 PM", "MMM dd, yyyy h:mm a"),
+            Some(morning.with_hour(21).unwrap())
+        );
+        assert_eq!(
+            parse_datetime_tokens("Feb 29, 2024 12:05 AM", "MMM dd, yyyy h:mm a"),
+            Some(morning.with_hour(0).unwrap())
+        );
+        assert_eq!(
+            parse_datetime_tokens("Feb 29, 2024 12:05 PM", "MMM dd, yyyy h:mm a"),
+            Some(morning.with_hour(12).unwrap())
+        );
+    }
+
+    #[test]
+    fn rejects_conflicting_clock_fields_and_weekdays() {
+        for input in [
+            "Friday, February 29, 2024 9:05 AM",
+            "Thu, February 29, 2024 0:05 AM",
+            "Thu, February 29, 2024 13:05 PM",
+            "Thu, February 29, 2024 9:05 am",
+        ] {
+            assert_eq!(
+                parse_datetime_tokens(input, "EEE, MMMM d, yyyy h:mm a"),
+                None
+            );
+        }
+        assert_eq!(
+            parse_datetime_tokens("2024-02-29 9:05", "yyyy-MM-dd h:mm"),
+            None
+        );
+        assert_eq!(
+            parse_datetime_tokens("2024-02-29 09:05 PM", "yyyy-MM-dd HH:mm a"),
+            None
+        );
+        assert_eq!(
+            parse_datetime_tokens("2024-02-29 09:05", "yyyy-MM-dd hh:mm"),
+            None
+        );
+        assert_eq!(
+            parse_datetime_tokens("2024-02-29 February", "yyyy-MM-dd MMMM"),
+            None
+        );
+    }
+
 }

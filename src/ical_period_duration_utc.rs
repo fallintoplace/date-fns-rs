@@ -25,10 +25,7 @@ pub fn parse_ical_period_duration_utc(input: &str) -> Option<(DateTime<Utc>, i12
 }
 
 /// Format a UTC start/duration PERIOD without truncating fractional seconds.
-pub fn format_ical_period_duration_utc(
-    start: DateTime<Utc>,
-    nanoseconds: i128,
-) -> Option<String> {
+pub fn format_ical_period_duration_utc(start: DateTime<Utc>, nanoseconds: i128) -> Option<String> {
     checked_end(start, nanoseconds)?;
     Some(format!(
         "{}/{}",
@@ -47,7 +44,10 @@ mod tests {
         let text = "20240229T120000Z/P1DT2H";
         let (start, duration) = parse_ical_period_duration_utc(text).unwrap();
         assert_eq!(duration, 93_600_000_000_000);
-        assert_eq!(format_ical_period_duration_utc(start, duration).as_deref(), Some(text));
+        assert_eq!(
+            format_ical_period_duration_utc(start, duration).as_deref(),
+            Some(text)
+        );
     }
 
     #[test]

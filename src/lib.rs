@@ -226,6 +226,12 @@ pub use fiscal_years::{end_of_fiscal_year, get_fiscal_year, start_of_fiscal_year
 pub use fiscal_years::difference_in_calendar_fiscal_years;
 
 mod calendar_predicates;
+
+mod calendar_boundary_predicates;
+pub use calendar_boundary_predicates::{
+    is_first_day_of_fiscal_half_year, is_first_day_of_quarter, is_last_day_of_fiscal_half_year,
+    is_last_day_of_quarter,
+};
 pub use calendar_predicates::is_first_day_of_year;
 pub use calendar_predicates::is_last_day_of_year;
 pub use calendar_predicates::{

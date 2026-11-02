@@ -514,7 +514,9 @@ pub use monthly_day_recurrence::{
 };
 
 mod nth_weekday;
+mod nth_weekday_year;
 pub use nth_weekday::nth_weekday_of_month;
+pub use nth_weekday_year::nth_weekday_of_year;
 
 mod weekday_month_ordinals;
 pub use weekday_month_ordinals::{

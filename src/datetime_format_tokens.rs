@@ -2,10 +2,34 @@
 
 use chrono::{Datelike, NaiveDateTime, Timelike};
 
+const MONTHS: [&str; 12] = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+];
+const WEEKDAYS: [&str; 7] = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+];
+
 /// Format a naive datetime with numeric date and clock tokens.
 ///
-/// Supported: yyyy, MM, M, dd, d, HH, H, mm, m, ss, s, SSS.
-/// SSS truncates nanoseconds to whole milliseconds. Literal text uses single
+/// Supported: yyyy, yy, MMMM, MMM, MM, M, dd, d, EEEE, EEE, HH, H,
+/// hh, h, mm, m, ss, s, SSS and a (uppercase AM/PM).\n/// SSS truncates nanoseconds to whole milliseconds. Literal text uses single
 /// quotes, doubled to escape an apostrophe. Unsupported alphabetic tokens,
 /// unclosed quotes and yyyy years outside 0000-9999 return None.
 pub fn format_datetime_tokens(value: NaiveDateTime, pattern: &str) -> Option<String> {
@@ -46,7 +70,8 @@ pub fn format_datetime_tokens(value: NaiveDateTime, pattern: &str) -> Option<Str
 
         let rest = &pattern[i..];
         let token = [
-            "yyyy", "SSS", "MM", "dd", "HH", "mm", "ss", "M", "d", "H", "m", "s",
+            "yyyy", "MMMM", "EEEE", "MMM", "EEE", "SSS", "yy", "hh", "MM", "dd", "HH", "mm", "ss",
+            "M", "d", "H", "h", "m", "s", "a",
         ]
         .iter()
         .find(|token| rest.starts_with(**token))
@@ -60,12 +85,20 @@ pub fn format_datetime_tokens(value: NaiveDateTime, pattern: &str) -> Option<Str
                     }
                     format!("{:04}", value.year())
                 }
+                "yy" => format!("{:02}", value.year().rem_euclid(100)),
+                "MMMM" => MONTHS[(value.month() - 1) as usize].to_owned(),
+                "MMM" => MONTHS[(value.month() - 1) as usize][..3].to_owned(),
+                "EEEE" => WEEKDAYS[value.weekday().num_days_from_sunday() as usize].to_owned(),
+                "EEE" => WEEKDAYS[value.weekday().num_days_from_sunday() as usize][..3].to_owned(),
                 "MM" => format!("{:02}", value.month()),
                 "M" => value.month().to_string(),
                 "dd" => format!("{:02}", value.day()),
                 "d" => value.day().to_string(),
                 "HH" => format!("{:02}", value.hour()),
                 "H" => value.hour().to_string(),
+                "hh" => format!("{:02}", (value.hour() + 11) % 12 + 1),
+                "h" => ((value.hour() + 11) % 12 + 1).to_string(),
+                "a" => if value.hour() < 12 { "AM" } else { "PM" }.to_owned(),
                 "mm" => format!("{:02}", value.minute()),
                 "m" => value.minute().to_string(),
                 "ss" => format!("{:02}", value.second()),
@@ -124,6 +157,37 @@ mod tests {
         assert_eq!(
             format_datetime_tokens(value, "HH:mm:ss"),
             Some("00:00:00".to_owned())
+        );
+    }
+    #[test]
+    fn formats_months_weekdays_and_twelve_hour_clocks() {
+        let morning = NaiveDate::from_ymd_opt(2024, 2, 29)
+            .unwrap()
+            .and_hms_opt(9, 5, 0)
+            .unwrap();
+        assert_eq!(
+            format_datetime_tokens(morning, "EEE, MMMM d, yyyy h:mm a").as_deref(),
+            Some("Thu, February 29, 2024 9:05 AM")
+        );
+        assert_eq!(
+            format_datetime_tokens(morning, "EEEE MMM dd yy hh:mm a").as_deref(),
+            Some("Thursday Feb 29 24 09:05 AM")
+        );
+
+        let afternoon = morning.with_hour(15).unwrap();
+        assert_eq!(
+            format_datetime_tokens(afternoon, "h:mm a").as_deref(),
+            Some("3:05 PM")
+        );
+        let midnight = morning.with_hour(0).unwrap();
+        assert_eq!(
+            format_datetime_tokens(midnight, "hh a").as_deref(),
+            Some("12 AM")
+        );
+        let noon = morning.with_hour(12).unwrap();
+        assert_eq!(
+            format_datetime_tokens(noon, "hh a").as_deref(),
+            Some("12 PM")
         );
     }
 }

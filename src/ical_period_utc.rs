@@ -14,10 +14,7 @@ pub fn parse_ical_period_utc(input: &str) -> Option<(DateTime<Utc>, DateTime<Utc
 }
 
 /// Format an explicit UTC start/end PERIOD without precision loss.
-pub fn format_ical_period_utc(
-    start: DateTime<Utc>,
-    end: DateTime<Utc>,
-) -> Option<String> {
+pub fn format_ical_period_utc(start: DateTime<Utc>, end: DateTime<Utc>) -> Option<String> {
     if start >= end {
         return None;
     }

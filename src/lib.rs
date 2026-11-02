@@ -331,6 +331,9 @@ pub use datetime_rounding::{
     round_to_nearest_second_datetime,
 };
 
+mod datetime_epoch_bucketing;
+pub use datetime_epoch_bucketing::{ceil_datetime_to_epoch_step, floor_datetime_to_epoch_step, round_datetime_to_epoch_step};
+
 mod datetime_floor_minute;
 pub use datetime_floor_minute::floor_to_minute_step_datetime;
 

@@ -202,10 +202,7 @@ mod tests {
         let empty = DatetimeCoverageIndex::new(&[]).unwrap();
         assert_eq!(empty.first_on_or_after(at(1)), None);
         assert_eq!(empty.last_on_or_before(at(1)), None);
-        let full = DatetimeCoverageIndex::new(&[
-            (NaiveDateTime::MIN, NaiveDateTime::MAX),
-        ])
-        .unwrap();
+        let full = DatetimeCoverageIndex::new(&[(NaiveDateTime::MIN, NaiveDateTime::MAX)]).unwrap();
         assert_eq!(full.first_on_or_after(NaiveDateTime::MAX), Some(NaiveDateTime::MAX));
         assert_eq!(full.last_on_or_before(NaiveDateTime::MIN), Some(NaiveDateTime::MIN));
     }

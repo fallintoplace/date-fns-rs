@@ -769,3 +769,6 @@ pub use datetime_interval_set::DatetimeIntervalSet;
 
 mod ical_floating_datetime;
 pub use ical_floating_datetime::{format_ical_datetime_floating, parse_ical_datetime_floating};
+
+mod ical_utc_offset;
+pub use ical_utc_offset::{format_ical_utc_offset, parse_ical_utc_offset};

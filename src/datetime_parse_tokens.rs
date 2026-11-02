@@ -218,6 +218,7 @@ pub fn parse_datetime_tokens(input: &str, pattern: &str) -> Option<NaiveDateTime
 #[cfg(test)]
 mod tests {
     use super::*;
+    use chrono::Timelike;
 
     #[test]
     fn parses_leap_days_and_fractional_clock_values() {

@@ -119,10 +119,7 @@ mod tests {
                     let expected = first.iter().any(|(a, b)| *a <= value && value <= *b)
                         && second.iter().any(|(a, b)| *a <= value && value <= *b);
                     let actual = result.iter().any(|(a, b)| *a <= value && value <= *b);
-                    assert_eq!(
-                        actual, expected,
-                        "{first_mask}, {second_mask}, {tick}"
-                    );
+                    assert_eq!(actual, expected, "{first_mask}, {second_mask}, {tick}");
                 }
             }
         }

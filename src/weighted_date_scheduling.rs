@@ -62,7 +62,10 @@ mod tests {
             (date(4), date(10), 7),
             (date(11), date(11), -10),
         ];
-        assert_eq!(select_max_weight_date_intervals(&ranges), Some(vec![1, 2]));
+        assert_eq!(
+            select_max_weight_date_intervals(&ranges),
+            Some(vec![1, 2])
+        );
     }
 
     #[test]
@@ -75,9 +78,12 @@ mod tests {
             (date(8), date(8), -3),
         ];
         for input in 0..32_u32 {
-            let ranges: Vec<_> = candidates.iter().enumerate()
+            let ranges: Vec<_> = candidates
+                .iter()
+                .enumerate()
                 .filter(|(i, _)| input & (1 << i) != 0)
-                .map(|(_, &item)| item).collect();
+                .map(|(_, &item)| item)
+                .collect();
             let selected = select_max_weight_date_intervals(&ranges).unwrap();
             for pair in selected.windows(2) {
                 assert!(ranges[pair[0]].1 < ranges[pair[1]].0);
@@ -86,11 +92,13 @@ mod tests {
             let mut expected = 0_i128;
             for mask in 0..(1_usize << ranges.len()) {
                 let indices: Vec<_> = (0..ranges.len())
-                    .filter(|&i| mask & (1 << i) != 0).collect();
+                    .filter(|&i| mask & (1 << i) != 0)
+                    .collect();
                 let disjoint = indices.iter().enumerate().all(|(k, &i)| {
-                    indices.iter().skip(k + 1).all(|&j| {
-                        ranges[i].1 < ranges[j].0 || ranges[j].1 < ranges[i].0
-                    })
+                    indices
+                        .iter()
+                        .skip(k + 1)
+                        .all(|&j| ranges[i].1 < ranges[j].0 || ranges[j].1 < ranges[i].0)
                 });
                 if disjoint {
                     expected = expected.max(indices.iter().map(|&i| i128::from(ranges[i].2)).sum());
@@ -103,14 +111,24 @@ mod tests {
     #[test]
     fn handles_empty_negative_ties_and_invalid_ranges() {
         assert_eq!(select_max_weight_date_intervals(&[]), Some(vec![]));
-        assert_eq!(select_max_weight_date_intervals(&[(date(1), date(1), -1)]), Some(vec![]));
-        assert_eq!(select_max_weight_date_intervals(&[
-            (date(1), date(1), 5), (date(1), date(1), 5)
-        ]), Some(vec![0]));
-        assert_eq!(select_max_weight_date_intervals(&[(date(2), date(1), 3)]), None);
-        assert_eq!(select_max_weight_date_intervals(&[
-            (NaiveDate::MAX, NaiveDate::MAX, i64::MAX),
-            (NaiveDate::MIN, NaiveDate::MIN, i64::MAX),
-        ]), Some(vec![1, 0]));
+        assert_eq!(
+            select_max_weight_date_intervals(&[(date(1), date(1), -1)]),
+            Some(vec![])
+        );
+        assert_eq!(
+            select_max_weight_date_intervals(&[(date(1), date(1), 5), (date(1), date(1), 5)]),
+            Some(vec![0])
+        );
+        assert_eq!(
+            select_max_weight_date_intervals(&[(date(2), date(1), 3)]),
+            None
+        );
+        assert_eq!(
+            select_max_weight_date_intervals(&[
+                (NaiveDate::MAX, NaiveDate::MAX, i64::MAX),
+                (NaiveDate::MIN, NaiveDate::MIN, i64::MAX),
+            ]),
+            Some(vec![1, 0])
+        );
     }
 }

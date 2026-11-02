@@ -1,6 +1,7 @@
 //! Strict parsing of date-only calendar patterns.
 //!
-//! Supported tokens: yyyy, MMMM, MMM, MM, M, Mo, dd, d, do, EEEE, EEE, E.
+//! Supported tokens: yyyy, QQQQ, QQQ, QQ, Qo, Q, MMMM, MMM, MM, M, Mo,
+//! dd, d, do, EEEE, EEE, E.
 //! English names are case-sensitive and time parts are not parsed.
 
 use chrono::{Datelike, NaiveDate};
@@ -91,6 +92,7 @@ pub fn parse_date_tokens(input: &str, pattern: &str) -> Option<NaiveDate> {
     let mut ii = 0;
     let mut year = None;
     let mut month = None;
+    let mut quarter = None;
     let mut day = None;
     let mut weekday = None;
     let pb = pattern.as_bytes();
@@ -134,7 +136,41 @@ pub fn parse_date_tokens(input: &str, pattern: &str) -> Option<NaiveDate> {
             continue;
         }
         let rest = &pattern[pi..];
-        if rest.starts_with("MMMM") {
+        if rest.starts_with("QQQQ") {
+            let parsed = english_ordinal(input, &mut ii)?;
+            if !input.get(ii..)?.starts_with(" quarter") {
+                return None;
+            }
+            ii += " quarter".len();
+            if quarter.replace(parsed).is_some() {
+                return None;
+            }
+            pi += 4;
+        } else if rest.starts_with("QQQ") {
+            if !input.get(ii..)?.starts_with('Q') {
+                return None;
+            }
+            ii += 1;
+            if quarter.replace(digits(input, &mut ii, 1, 1)?).is_some() {
+                return None;
+            }
+            pi += 3;
+        } else if rest.starts_with("QQ") {
+            if quarter.replace(digits(input, &mut ii, 2, 2)?).is_some() {
+                return None;
+            }
+            pi += 2;
+        } else if rest.starts_with("Qo") {
+            if quarter.replace(english_ordinal(input, &mut ii)?).is_some() {
+                return None;
+            }
+            pi += 2;
+        } else if rest.starts_with('Q') {
+            if quarter.replace(digits(input, &mut ii, 1, 1)?).is_some() {
+                return None;
+            }
+            pi += 1;
+        } else if rest.starts_with("MMMM") {
             if month
                 .replace(parse_month_name(input, &mut ii, true)?)
                 .is_some()
@@ -221,7 +257,20 @@ pub fn parse_date_tokens(input: &str, pattern: &str) -> Option<NaiveDate> {
     if ii != input.len() {
         return None;
     }
-    let parsed = NaiveDate::from_ymd_opt(year?, month?, day?)?;
+    if quarter.is_some_and(|q| !(1..=4).contains(&q)) {
+        return None;
+    }
+    // A quarter alone selects its first day; a month still requires a day.
+    let month = match (month, quarter, day) {
+        (Some(m), _, Some(_)) => m,
+        (None, Some(q), None) => (q - 1) * 3 + 1,
+        _ => return None,
+    };
+    let day = day.unwrap_or(1);
+    if quarter.is_some_and(|q| (month - 1) / 3 + 1 != q) {
+        return None;
+    }
+    let parsed = NaiveDate::from_ymd_opt(year?, month, day)?;
     if weekday.is_some_and(|day| parsed.weekday().num_days_from_sunday() != day) {
         return None;
     }
@@ -231,6 +280,36 @@ pub fn parse_date_tokens(input: &str, pattern: &str) -> Option<NaiveDate> {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn parses_quarter_tokens_and_checks_month_consistency() {
+        let april = NaiveDate::from_ymd_opt(2024, 4, 1).unwrap();
+        for (input, pattern) in [
+            ("2024 Q2", "yyyy QQQ"),
+            ("2024-02", "yyyy-QQ"),
+            ("2024 2nd", "yyyy Qo"),
+            ("2024 2nd quarter", "yyyy QQQQ"),
+            ("2024 2", "yyyy Q"),
+        ] {
+            assert_eq!(parse_date_tokens(input, pattern), Some(april));
+        }
+        let leap = NaiveDate::from_ymd_opt(2024, 2, 29).unwrap();
+        assert_eq!(
+            parse_date_tokens("2024-02-29 Q1", "yyyy-MM-dd QQQ"),
+            Some(leap)
+        );
+        assert_eq!(parse_date_tokens("2024-02-29 Q2", "yyyy-MM-dd QQQ"), None);
+    }
+
+    #[test]
+    fn rejects_invalid_quarters_and_partial_dates() {
+        for text in ["2024 Q0", "2024 Q5", "2024 Q22"] {
+            assert_eq!(parse_date_tokens(text, "yyyy QQQ"), None);
+        }
+        assert_eq!(parse_date_tokens("2024 2th quarter", "yyyy QQQQ"), None);
+        assert_eq!(parse_date_tokens("2024-02-29", "yyyy-QQ-dd"), None);
+        assert_eq!(parse_date_tokens("2024 Q1 Q2", "yyyy QQQ QQQ"), None);
+    }
 
     #[test]
     fn parses_leap_days_and_multiple_field_orders() {

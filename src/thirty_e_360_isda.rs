@@ -8,6 +8,9 @@ use chrono::{Datelike, NaiveDate};
 /// final maturity date keeps its actual February day. Reversed endpoints
 /// negate the forward count.
 pub fn thirty_e_360_isda_day_count(start: NaiveDate, end: NaiveDate, end_is_maturity: bool) -> i64 {
+    if start == end {
+        return 0;
+    }
     if start > end {
         return -thirty_e_360_isda_day_count(end, start, end_is_maturity);
     }
@@ -43,6 +46,8 @@ mod tests {
         let end = date(2024, 2, 29);
         assert_eq!(thirty_e_360_isda_day_count(start, end, false), 360);
         assert_eq!(thirty_e_360_isda_day_count(start, end, true), 359);
+        assert_eq!(thirty_e_360_isda_day_count(start, start, true), 0);
+        assert_eq!(thirty_e_360_isda_day_count(end, end, true), 0);
         assert_eq!(
             thirty_e_360_isda_day_count(date(2024, 1, 31), end, false),
             30

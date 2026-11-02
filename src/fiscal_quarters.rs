@@ -68,7 +68,6 @@ pub fn difference_in_calendar_fiscal_quarters(
     Some(index(left) - index(right))
 }
 
-
 /// Check whether two dates belong to the same fiscal quarter.
 ///
 /// Returns None when first_month is not between 1 and 12.
@@ -128,6 +127,7 @@ mod tests {
             Some(NaiveDate::MAX)
         );
     }
+
     #[test]
     fn respects_configured_fiscal_quarter_boundaries() {
         let a = date(2024, 4, 1);
@@ -152,6 +152,7 @@ mod tests {
         assert_eq!(difference_in_calendar_fiscal_quarters(a, b, 0), None);
         assert_eq!(difference_in_calendar_fiscal_quarters(a, b, 13), None);
     }
+
     #[test]
     fn fiscal_quarter_equality_handles_non_january_start() {
         assert_eq!(
@@ -175,5 +176,4 @@ mod tests {
             Some(true)
         );
     }
-
 }

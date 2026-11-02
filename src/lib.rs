@@ -109,7 +109,7 @@ pub use weekly_mask_recurrence::{each_selected_weekday_in_interval, WeeklyMaskRe
 
 mod calendar_week_difference;
 pub use calendar_week_difference::difference_in_calendar_iso_week_years;
-pub use calendar_week_difference::difference_in_calendar_weeks;
+pub use calendar_week_difference::{difference_in_calendar_iso_weeks, difference_in_calendar_weeks};
 
 mod datetime_week_boundaries;
 pub use datetime_week_boundaries::{end_of_week_datetime, start_of_week_datetime};

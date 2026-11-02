@@ -162,5 +162,4 @@ mod tests {
         assert_eq!(huge.len(), 0);
         assert_eq!(huge.next_back(), None);
     }
-
 }

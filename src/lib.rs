@@ -652,6 +652,8 @@ pub use calendar_week_setters::{set_week, set_week_year};
 
 mod date_relative_en;
 pub use date_relative_en::format_relative_calendar_date_en;
+mod relative_day_predicates;
+pub use relative_day_predicates::{is_today, is_tomorrow, is_yesterday};
 
 mod monthly_set_position_recurrence;
 pub use monthly_set_position_recurrence::{

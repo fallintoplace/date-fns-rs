@@ -25,7 +25,14 @@ pub fn start_of_fiscal_year(date: NaiveDate, first_month: u32) -> Option<NaiveDa
 /// For example, March 2024 belongs to fiscal year 2023 when the fiscal
 /// year starts in April.
 pub fn get_fiscal_year(date: NaiveDate, first_month: u32) -> Option<i32> {
-    Some(start_of_fiscal_year(date, first_month)?.year())
+    if !(1..=12).contains(&first_month) {
+        return None;
+    }
+    if date.month() < first_month {
+        date.year().checked_sub(1)
+    } else {
+        Some(date.year())
+    }
 }
 
 /// Find the last inclusive calendar day of the date's fiscal year.
@@ -141,4 +148,13 @@ mod tests {
             Some(-wide)
         );
     }
+    #[test]
+    fn fiscal_year_label_is_available_when_start_date_is_out_of_range() {
+        let first = NaiveDate::MIN;
+        assert_eq!(start_of_fiscal_year(first, 2), None);
+        assert_eq!(get_fiscal_year(first, 2), first.year().checked_sub(1));
+        assert_eq!(get_fiscal_year(first, 0), None);
+        assert_eq!(get_fiscal_year(first, 13), None);
+    }
+
 }

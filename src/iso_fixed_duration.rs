@@ -182,11 +182,13 @@ mod tests {
         );
         assert_eq!(
             parse_iso_fixed_duration("-P2DT3H4M5.000000006S"),
-            Some(-((2 * NANOS_PER_DAY
-                + 3 * NANOS_PER_HOUR
-                + 4 * NANOS_PER_MINUTE
-                + 5 * NANOS_PER_SECOND
-                + 6) as i128))
+            Some(
+                -((2 * NANOS_PER_DAY
+                    + 3 * NANOS_PER_HOUR
+                    + 4 * NANOS_PER_MINUTE
+                    + 5 * NANOS_PER_SECOND
+                    + 6) as i128)
+            )
         );
         assert_eq!(parse_iso_fixed_duration("PT.5S"), None);
         assert_eq!(parse_iso_fixed_duration("PT0.5S"), Some(500_000_000));
@@ -195,10 +197,28 @@ mod tests {
     #[test]
     fn rejects_invalid_ambiguous_and_noncanonical_fields() {
         for invalid in [
-            "", "P", "PT", "P1DT", "P1M", "P1Y", "P1W2D", "P1WT2H",
-            "P1D1D", "PT2H1H", "PT1M2H", "PT1S2M", "PT1.5H",
-            "PT1.1234567890S", "PT1.S", "PT1,1S", "PT1Sgarbage",
-            "P-1D", "+PT1S", "P1DT2D", "P1W1W", "P1DTT1H",
+            "",
+            "P",
+            "PT",
+            "P1DT",
+            "P1M",
+            "P1Y",
+            "P1W2D",
+            "P1WT2H",
+            "P1D1D",
+            "PT2H1H",
+            "PT1M2H",
+            "PT1S2M",
+            "PT1.5H",
+            "PT1.1234567890S",
+            "PT1.S",
+            "PT1,1S",
+            "PT1Sgarbage",
+            "P-1D",
+            "+PT1S",
+            "P1DT2D",
+            "P1W1W",
+            "P1DTT1H",
         ] {
             assert_eq!(parse_iso_fixed_duration(invalid), None, "{invalid}");
         }

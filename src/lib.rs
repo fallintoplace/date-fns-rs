@@ -527,6 +527,12 @@ pub use datetime_minute_iterator::{
     each_nth_minute_of_datetime_interval, MinutesInDatetimeInterval,
 };
 
+mod business_quarter_boundaries;
+pub use business_quarter_boundaries::{
+    first_business_day_of_quarter, first_business_day_of_quarter_with_holidays,
+    last_business_day_of_quarter, last_business_day_of_quarter_with_holidays,
+};
+
 mod business_month_boundaries;
 pub use business_month_boundaries::{first_business_day_of_month, last_business_day_of_month};
 pub use business_month_boundaries::{

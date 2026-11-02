@@ -334,6 +334,9 @@ pub use iso_weeks::{get_iso_week, get_iso_week_year, get_iso_weeks_in_year};
 
 mod cron_schedule;
 
+mod cron_named_schedule;
+pub use cron_named_schedule::parse_cron_schedule_named;
+
 mod cron_occurrences;
 pub use cron_occurrences::{each_cron_minute_between, CronOccurrences};
 pub use cron_schedule::{parse_cron_schedule, CronSchedule};
@@ -826,6 +829,3 @@ pub use workweek_holidays::{add_workdays_with_holidays, count_workdays_with_holi
 
 mod ical_weekly_rrule;
 pub use ical_weekly_rrule::{each_ical_weekly_rrule, parse_ical_weekly_rrule, IcalWeeklyRRule};
-
-mod cron_named_schedule;
-pub use cron_named_schedule::parse_cron_schedule_named;

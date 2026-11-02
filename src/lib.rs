@@ -596,3 +596,6 @@ pub use century_arithmetic::{add_centuries, sub_centuries};
 
 mod interval_set_intersection;
 pub use interval_set_intersection::intersect_interval_sets;
+
+mod datetime_interval_set_intersection;
+pub use datetime_interval_set_intersection::intersect_datetime_interval_sets;

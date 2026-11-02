@@ -38,7 +38,9 @@ mod tests {
             .unwrap()
             .and_hms_nano_opt(12, 0, 0, 0)
             .unwrap();
-        let end = start.checked_add_signed(chrono::TimeDelta::nanoseconds(3)).unwrap();
+        let end = start
+            .checked_add_signed(chrono::TimeDelta::nanoseconds(3))
+            .unwrap();
         assert_eq!(
             datetime_interval_midpoint(start, end),
             start.checked_add_signed(chrono::TimeDelta::nanoseconds(1))
@@ -49,10 +51,7 @@ mod tests {
 
     #[test]
     fn handles_full_datetime_range_without_overflow() {
-        let midpoint = datetime_interval_midpoint(
-            NaiveDateTime::MIN,
-            NaiveDateTime::MAX,
-        ).unwrap();
+        let midpoint = datetime_interval_midpoint(NaiveDateTime::MIN, NaiveDateTime::MAX).unwrap();
         assert!(midpoint > NaiveDateTime::MIN);
         assert!(midpoint < NaiveDateTime::MAX);
     }

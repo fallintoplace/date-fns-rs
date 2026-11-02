@@ -716,5 +716,7 @@ pub use mutable_date_interval_set::MutableDateIntervalSet;
 mod date_interval_set;
 pub use date_interval_set::DateIntervalSet;
 
+mod datetime_coverage_index;
 mod datetime_interval_set;
+pub use datetime_coverage_index::DatetimeCoverageIndex;
 pub use datetime_interval_set::DatetimeIntervalSet;

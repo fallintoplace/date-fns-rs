@@ -806,6 +806,8 @@ mod ical_utc_offset;
 pub use ical_utc_offset::{format_ical_utc_offset, parse_ical_utc_offset};
 
 mod ical_text;
+mod ical_parameter_encoding;
+pub use ical_parameter_encoding::{decode_ical_parameter_value, encode_ical_parameter_value};
 pub use ical_text::{escape_ical_text, unescape_ical_text};
 
 mod gregorian_easter;

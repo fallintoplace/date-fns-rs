@@ -66,7 +66,10 @@ mod tests {
             unfold_ical_content_lines(physical).as_deref(),
             Some("SUMMARY:HelloWorld\r\nDESCRIPTION:Moretext")
         );
-        assert_eq!(fold_ical_content_line("SUMMARY:Hello"), Some("SUMMARY:Hello".to_owned()));
+        assert_eq!(
+            fold_ical_content_line("SUMMARY:Hello"),
+            Some("SUMMARY:Hello".to_owned())
+        );
     }
 
     #[test]

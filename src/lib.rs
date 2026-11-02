@@ -745,3 +745,6 @@ mod datetime_coverage_index;
 mod datetime_interval_set;
 pub use datetime_coverage_index::DatetimeCoverageIndex;
 pub use datetime_interval_set::DatetimeIntervalSet;
+
+mod datetime_rfc2822;
+pub use datetime_rfc2822::{format_rfc2822_datetime, parse_rfc2822_datetime};

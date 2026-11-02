@@ -553,3 +553,6 @@ pub use datetime_week_year_boundaries::{
 };
 
 pub use datetime_week_boundaries::{end_of_iso_week_datetime, start_of_iso_week_datetime};
+
+mod century_arithmetic;
+pub use century_arithmetic::{add_centuries, sub_centuries};

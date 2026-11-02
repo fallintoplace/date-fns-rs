@@ -812,6 +812,8 @@ mod gregorian_easter;
 pub use gregorian_easter::gregorian_easter_sunday;
 
 mod orthodox_easter;
+mod easter_monday;
+pub use easter_monday::{gregorian_easter_monday, orthodox_easter_monday};
 pub use orthodox_easter::orthodox_easter_sunday;
 
 mod actual_actual_isda;

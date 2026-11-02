@@ -1,7 +1,7 @@
 //! Select the nth business day of a Gregorian calendar quarter.
 
-use std::collections::BTreeSet;
 use chrono::{Datelike, NaiveDate};
+use std::collections::BTreeSet;
 
 /// Return the nth Monday-Friday date in a calendar quarter.
 ///
@@ -50,18 +50,39 @@ mod tests {
 
     #[test]
     fn selects_quarter_end_workdays_and_excludes_duplicates() {
-        assert_eq!(nth_business_day_of_quarter(2024, 1, 1, &[]), Some(date(2024, 1, 1)));
-        assert_eq!(nth_business_day_of_quarter(2024, 1, -1, &[]), Some(date(2024, 3, 29)));
+        assert_eq!(
+            nth_business_day_of_quarter(2024, 1, 1, &[]),
+            Some(date(2024, 1, 1))
+        );
+        assert_eq!(
+            nth_business_day_of_quarter(2024, 1, -1, &[]),
+            Some(date(2024, 3, 29))
+        );
         let holidays = [date(2024, 1, 1), date(2024, 3, 29), date(2024, 3, 29)];
-        assert_eq!(nth_business_day_of_quarter(2024, 1, 1, &holidays), Some(date(2024, 1, 2)));
-        assert_eq!(nth_business_day_of_quarter(2024, 1, -1, &holidays), Some(date(2024, 3, 28)));
+        assert_eq!(
+            nth_business_day_of_quarter(2024, 1, 1, &holidays),
+            Some(date(2024, 1, 2))
+        );
+        assert_eq!(
+            nth_business_day_of_quarter(2024, 1, -1, &holidays),
+            Some(date(2024, 3, 28))
+        );
     }
 
     #[test]
     fn handles_cross_month_and_year_end_quarters() {
-        assert_eq!(nth_business_day_of_quarter(2024, 2, 1, &[]), Some(date(2024, 4, 1)));
-        assert_eq!(nth_business_day_of_quarter(2024, 4, -1, &[]), Some(date(2024, 12, 31)));
-        assert_eq!(nth_business_day_of_quarter(2023, 4, -1, &[]), Some(date(2023, 12, 29)));
+        assert_eq!(
+            nth_business_day_of_quarter(2024, 2, 1, &[]),
+            Some(date(2024, 4, 1))
+        );
+        assert_eq!(
+            nth_business_day_of_quarter(2024, 4, -1, &[]),
+            Some(date(2024, 12, 31))
+        );
+        assert_eq!(
+            nth_business_day_of_quarter(2023, 4, -1, &[]),
+            Some(date(2023, 12, 29))
+        );
     }
 
     #[test]

@@ -81,14 +81,10 @@ mod tests {
 
     #[test]
     fn selects_two_weekly_days_with_alternating_weeks() {
-        let actual: Vec<_> = each_selected_weekday_in_interval(
-            date(2024, 3, 6),
-            date(2024, 3, 31),
-            0b0001_0101,
-            2,
-        )
-        .unwrap()
-        .collect();
+        let actual: Vec<_> =
+            each_selected_weekday_in_interval(date(2024, 3, 6), date(2024, 3, 31), 0b0001_0101, 2)
+                .unwrap()
+                .collect();
         assert_eq!(
             actual,
             vec![
@@ -105,8 +101,8 @@ mod tests {
     fn matches_day_by_day_reference_across_leap_year() {
         let start = date(2024, 2, 28);
         let end = date(2024, 5, 17);
-        let monday = i64::from(start.num_days_from_ce())
-            - i64::from(start.weekday().num_days_from_monday());
+        let monday =
+            i64::from(start.num_days_from_ce()) - i64::from(start.weekday().num_days_from_monday());
         for mask in [1, 0b0101_0101, 0b0111_1111] {
             for step in [1_u32, 2, 3, 7] {
                 let expected: Vec<_> = crate::each_day_of_interval(start, end)
@@ -134,13 +130,8 @@ mod tests {
         assert!(each_selected_weekday_in_interval(start, date(2024, 2, 1), 1, 1).is_none());
         for boundary in [NaiveDate::MIN, NaiveDate::MAX] {
             let mask = 1_u8 << boundary.weekday().num_days_from_monday();
-            let mut recurrences = each_selected_weekday_in_interval(
-                boundary,
-                boundary,
-                mask,
-                u32::MAX,
-            )
-            .unwrap();
+            let mut recurrences =
+                each_selected_weekday_in_interval(boundary, boundary, mask, u32::MAX).unwrap();
             assert_eq!(recurrences.next(), Some(boundary));
             assert_eq!(recurrences.next(), None);
             assert_eq!(recurrences.next(), None);

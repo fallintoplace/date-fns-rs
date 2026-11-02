@@ -256,6 +256,9 @@ pub use business_days::{
     add_business_days, is_business_day, next_business_day, previous_business_day, sub_business_days,
 };
 
+mod indexed_holiday_calendar;
+pub use indexed_holiday_calendar::IndexedHolidayCalendar;
+
 mod business_holidays;
 pub use business_holidays::{add_business_days_with_holidays, sub_business_days_with_holidays};
 
@@ -553,6 +556,3 @@ pub use datetime_week_year_boundaries::{
 };
 
 pub use datetime_week_boundaries::{end_of_iso_week_datetime, start_of_iso_week_datetime};
-
-mod indexed_holiday_calendar;
-pub use indexed_holiday_calendar::IndexedHolidayCalendar;

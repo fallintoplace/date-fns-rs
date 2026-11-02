@@ -45,8 +45,7 @@ mod tests {
             actual_actual_isda_year_fraction(date(2024, 1, 1), date(2025, 1, 1)),
             1.0
         );
-        let fraction =
-            actual_actual_isda_year_fraction(date(2023, 7, 1), date(2024, 7, 1));
+        let fraction = actual_actual_isda_year_fraction(date(2023, 7, 1), date(2024, 7, 1));
         let expected = 184.0 / 365.0 + 182.0 / 366.0;
         assert!((fraction - expected).abs() < 1e-12);
     }
@@ -58,6 +57,9 @@ mod tests {
         let forward = actual_actual_isda_year_fraction(left, right);
         assert!((forward + actual_actual_isda_year_fraction(right, left)).abs() < 1e-12);
         assert_eq!(actual_actual_isda_year_fraction(left, left), 0.0);
-        assert!(actual_actual_isda_year_fraction(NaiveDate::MAX.pred_opt().unwrap(), NaiveDate::MAX) > 0.0);
+        assert!(
+            actual_actual_isda_year_fraction(NaiveDate::MAX.pred_opt().unwrap(), NaiveDate::MAX)
+                > 0.0
+        );
     }
 }

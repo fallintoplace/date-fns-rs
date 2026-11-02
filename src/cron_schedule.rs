@@ -144,7 +144,11 @@ impl CronSchedule {
     /// Examines the starting date and at most `search_days` earlier dates.
     /// Scans matching clock values in descending order, without visiting
     /// unrelated minutes or assuming a time zone.
-    pub fn previous_before(&self, before: NaiveDateTime, search_days: u32) -> Option<NaiveDateTime> {
+    pub fn previous_before(
+        &self,
+        before: NaiveDateTime,
+        search_days: u32,
+    ) -> Option<NaiveDateTime> {
         let mut day = before.date();
         for offset in 0..=search_days {
             if self.matches_date(day) {
@@ -170,7 +174,6 @@ impl CronSchedule {
         }
         None
     }
-
 }
 
 #[cfg(test)]
@@ -237,7 +240,6 @@ mod tests {
         );
     }
 
-
     #[test]
     fn finds_previous_minutes_across_weekends_and_year_boundaries() {
         let workdays = parse_cron_schedule("0,30 9-10 * * 1-5").unwrap();
@@ -249,10 +251,7 @@ mod tests {
             workdays.previous_before(stamp(2024, 3, 4, 9, 31), 0),
             Some(stamp(2024, 3, 4, 9, 30))
         );
-        assert_eq!(
-            workdays.previous_before(stamp(2024, 3, 4, 9, 0), 0),
-            None
-        );
+        assert_eq!(workdays.previous_before(stamp(2024, 3, 4, 9, 0), 0), None);
         let midnight = parse_cron_schedule("0 0 1 1 *").unwrap();
         assert_eq!(
             midnight.previous_before(stamp(2026, 1, 1, 0, 0), 366),

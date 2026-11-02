@@ -206,6 +206,9 @@ pub use datetime_epoch::{
 mod half_years;
 pub use half_years::{end_of_half_year, get_half_year, start_of_half_year};
 
+mod datetime_half_year_boundaries;
+pub use datetime_half_year_boundaries::{end_of_half_year_datetime, start_of_half_year_datetime};
+
 mod fiscal_quarters;
 pub use fiscal_quarters::difference_in_calendar_fiscal_quarters;
 pub use fiscal_quarters::{end_of_fiscal_quarter, get_fiscal_quarter, start_of_fiscal_quarter};

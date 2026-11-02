@@ -13,7 +13,9 @@ pub struct IcalContentLine<'a> {
 
 fn valid_name(name: &str) -> bool {
     name.as_bytes().first().is_some_and(u8::is_ascii_alphabetic)
-        && name.bytes().all(|byte| byte.is_ascii_alphanumeric() || byte == b'-')
+        && name
+            .bytes()
+            .all(|byte| byte.is_ascii_alphanumeric() || byte == b'-')
 }
 
 fn split_unquoted(text: &str) -> Option<Vec<&str>> {
@@ -99,10 +101,7 @@ mod tests {
         assert_eq!(parsed.name, "ATTENDEE");
         assert_eq!(
             parsed.parameters,
-            vec![
-                ("CN", r#""Doe; Jane: Team""#),
-                ("ROLE", "REQ-PARTICIPANT")
-            ]
+            vec![("CN", r#""Doe; Jane: Team""#), ("ROLE", "REQ-PARTICIPANT")]
         );
         assert_eq!(parsed.value, "mailto:jane@example.org");
     }

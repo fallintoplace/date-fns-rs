@@ -55,8 +55,14 @@ mod tests {
 
     #[test]
     fn differs_from_gregorian_easter_in_2024_but_agrees_in_2025() {
-        assert_ne!(orthodox_easter_sunday(2024), crate::gregorian_easter_sunday(2024));
-        assert_eq!(orthodox_easter_sunday(2025), crate::gregorian_easter_sunday(2025));
+        assert_ne!(
+            orthodox_easter_sunday(2024),
+            crate::gregorian_easter_sunday(2024)
+        );
+        assert_eq!(
+            orthodox_easter_sunday(2025),
+            crate::gregorian_easter_sunday(2025)
+        );
     }
 
     #[test]

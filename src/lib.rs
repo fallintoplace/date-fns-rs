@@ -255,7 +255,7 @@ pub use quarters::get_days_in_quarter;
 pub use quarters::{end_of_quarter, get_quarter, start_of_quarter};
 
 mod convert_hours_milliseconds;
-pub use convert_hours_milliseconds::{milliseconds_to_hours, hours_to_milliseconds};
+pub use convert_hours_milliseconds::{hours_to_milliseconds, milliseconds_to_hours};
 
 mod datetime_epoch_micros;
 pub use datetime_epoch_micros::{from_unix_timestamp_micros, to_unix_timestamp_micros};

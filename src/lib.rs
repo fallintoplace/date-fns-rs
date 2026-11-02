@@ -177,6 +177,9 @@ pub use datetime_iso_interval::{
 mod iso_date_interval;
 pub use iso_date_interval::{format_iso_date_interval, parse_iso_date_interval};
 
+mod datetime_json;
+pub use datetime_json::parse_json_datetime_utc;
+
 mod datetime_iso_basic;
 pub use datetime_iso_basic::{format_iso_basic_local_datetime, parse_iso_basic_local_datetime};
 

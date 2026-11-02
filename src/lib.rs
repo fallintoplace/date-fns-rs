@@ -210,6 +210,11 @@ mod fiscal_quarters;
 pub use fiscal_quarters::difference_in_calendar_fiscal_quarters;
 pub use fiscal_quarters::{end_of_fiscal_quarter, get_fiscal_quarter, start_of_fiscal_quarter};
 
+mod datetime_fiscal_quarter_boundaries;
+pub use datetime_fiscal_quarter_boundaries::{
+    end_of_fiscal_quarter_datetime, start_of_fiscal_quarter_datetime,
+};
+
 mod fiscal_years;
 pub use fiscal_years::{end_of_fiscal_year, get_fiscal_year, start_of_fiscal_year};
 

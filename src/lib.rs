@@ -770,6 +770,9 @@ mod datetime_interval_set;
 pub use datetime_coverage_index::DatetimeCoverageIndex;
 pub use datetime_interval_set::DatetimeIntervalSet;
 
+mod ical_date_list;
+pub use ical_date_list::{format_ical_date_list, parse_ical_date_list};
+
 mod ical_floating_datetime;
 pub use ical_floating_datetime::{format_ical_datetime_floating, parse_ical_datetime_floating};
 

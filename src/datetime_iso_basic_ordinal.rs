@@ -7,7 +7,9 @@ use chrono::NaiveDateTime;
 /// Accepts fractional seconds up to nanosecond precision, but no zone offsets.
 pub fn parse_iso_basic_ordinal_local_datetime(input: &str) -> Option<NaiveDateTime> {
     let (day, time) = input.split_once('T')?;
-    Some(crate::parse_iso_basic_ordinal_date(day)?.and_time(crate::parse_iso_basic_local_time(time)?))
+    let date = crate::parse_iso_basic_ordinal_date(day)?;
+    let clock = crate::parse_iso_basic_local_time(time)?;
+    Some(date.and_time(clock))
 }
 
 /// Format a local datetime as YYYYDDDTHHMMSS with optional nanoseconds.

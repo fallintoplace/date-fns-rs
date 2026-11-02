@@ -396,6 +396,9 @@ pub use datetime_intervals::{
     is_within_datetime_interval,
 };
 
+mod datetime_overlapping_days;
+pub use datetime_overlapping_days::overlapping_elapsed_days_datetime_intervals;
+
 mod datetime_overlap_depth;
 pub use datetime_overlap_depth::datetime_overlap_depth;
 

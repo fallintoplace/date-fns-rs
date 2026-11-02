@@ -68,6 +68,10 @@ mod tests {
             ),
             Some(vec![
                 (at(1), at(2).checked_sub_signed(nano).unwrap()),
+                (
+                    at(2).checked_add_signed(nano).unwrap(),
+                    at(3).checked_sub_signed(nano).unwrap()
+                ),
                 (at(8).checked_add_signed(nano).unwrap(), at(9))
             ])
         );

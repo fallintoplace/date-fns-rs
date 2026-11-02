@@ -46,7 +46,11 @@ pub fn parse_ical_yearly_rrule(input: &str) -> Option<IcalYearlyRRule> {
     }
     let month = month?;
     let month_day = month_day?;
-    (frequency && month <= 12 && month_day <= 31).then_some(IcalYearlyRRule {
+    (frequency
+        && month <= 12
+        && month_day <= 31
+        && NaiveDate::from_ymd_opt(2000, month, month_day).is_some())
+    .then_some(IcalYearlyRRule {
         month,
         month_day,
         interval_years: interval.unwrap_or(1),
@@ -133,6 +137,8 @@ mod tests {
             "FREQ=YEARLY;BYMONTH=0;BYMONTHDAY=1",
             "FREQ=YEARLY;BYMONTH=13;BYMONTHDAY=1",
             "FREQ=YEARLY;BYMONTH=1;BYMONTHDAY=32",
+            "FREQ=YEARLY;BYMONTH=2;BYMONTHDAY=30",
+            "FREQ=YEARLY;BYMONTH=4;BYMONTHDAY=31",
             "FREQ=YEARLY;BYMONTH=1;BYMONTHDAY=1;COUNT=0",
             "FREQ=YEARLY;BYMONTH=1;BYMONTHDAY=1;INTERVAL=0",
             "FREQ=YEARLY;BYMONTH=1;BYMONTHDAY=1;BYMONTH=2",

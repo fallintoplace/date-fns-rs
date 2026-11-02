@@ -181,15 +181,11 @@ mod formatting_tests {
     #[test]
     fn round_trips_quoted_parameter_delimiters_and_unicode() {
         let parameters = [("CN", r#""Doe; Jane: Zürich""#), ("ROLE", "REQ-PARTICIPANT")];
-        let text = format_ical_content_line(
-            "ATTENDEE",
-            &parameters,
-            "mailto:jane@example.org",
-        )
-        .unwrap();
+        let text = format_ical_content_line("ATTENDEE", &parameters, "mailto:jane@example.org")
+            .unwrap();
         let parsed = parse_ical_content_line(&text).unwrap();
         assert_eq!(parsed.name, "ATTENDEE");
-        assert_eq!(parsed.parameters.as_slice(), parameters);
+        assert_eq!(parsed.parameters.as_slice(), parameters.as_slice());
         assert_eq!(parsed.value, "mailto:jane@example.org");
         assert_eq!(
             format_ical_content_line("X-CUSTOM", &[], "").as_deref(),

@@ -91,7 +91,9 @@ mod tests {
                         return None;
                     }
                     let open = (first..=last).all(|n| {
-                        !blocked.iter().any(|(lo, hi)| *lo <= day(n) && day(n) <= *hi)
+                        !blocked
+                            .iter()
+                            .any(|(lo, hi)| *lo <= day(n) && day(n) <= *hi)
                     });
                     open.then_some((day(first), day(last)))
                 });

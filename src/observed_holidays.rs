@@ -36,9 +36,7 @@ pub fn observed_holidays(
         let weekday = original.weekday();
         let observed = match (policy, weekday) {
             (HolidayObservance::None, _) => None,
-            (_, Weekday::Mon | Weekday::Tue | Weekday::Wed | Weekday::Thu | Weekday::Fri) => {
-                None
-            }
+            (_, Weekday::Mon | Weekday::Tue | Weekday::Wed | Weekday::Thu | Weekday::Fri) => None,
             (HolidayObservance::NearestWeekday, Weekday::Sat) => {
                 Some(original.checked_sub_days(Days::new(1))?)
             }
@@ -94,10 +92,7 @@ mod tests {
             ])
         );
         assert_eq!(
-            observed_holidays(
-                &[christmas, boxing_day],
-                HolidayObservance::FollowingMonday
-            ),
+            observed_holidays(&[christmas, boxing_day], HolidayObservance::FollowingMonday),
             Some(vec![christmas, boxing_day, date(2021, 12, 27)])
         );
         assert_eq!(
@@ -108,11 +103,7 @@ mod tests {
 
     #[test]
     fn next_free_policy_avoids_observed_date_collisions() {
-        let original = [
-            date(2021, 12, 25),
-            date(2021, 12, 26),
-            date(2021, 12, 27),
-        ];
+        let original = [date(2021, 12, 25), date(2021, 12, 26), date(2021, 12, 27)];
         assert_eq!(
             observed_holidays(&original, HolidayObservance::FollowingFreeWeekday),
             Some(vec![

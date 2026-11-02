@@ -814,3 +814,6 @@ pub use ical_folding::{fold_ical_content_line, unfold_ical_content_lines};
 
 mod datetime_midpoint;
 pub use datetime_midpoint::datetime_interval_midpoint;
+
+mod iso_repeating_dates;
+pub use iso_repeating_dates::{parse_iso_repeating_date_interval, IsoRepeatedDateOccurrences};

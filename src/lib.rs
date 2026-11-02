@@ -543,6 +543,9 @@ pub use datetime_interval_subtract_many::subtract_multiple_datetime_intervals;
 mod interval_symmetric_difference;
 pub use interval_symmetric_difference::symmetric_difference_of_intervals;
 
+mod datetime_day_segments;
+pub use datetime_day_segments::{each_day_segment_of_datetime_interval, DatetimeDaySegments};
+
 mod datetime_day_iterator;
 pub use datetime_day_iterator::{each_nth_day_of_datetime_interval, DaysInDatetimeInterval};
 
@@ -553,6 +556,3 @@ pub use datetime_week_year_boundaries::{
 };
 
 pub use datetime_week_boundaries::{end_of_iso_week_datetime, start_of_iso_week_datetime};
-
-mod datetime_day_segments;
-pub use datetime_day_segments::{each_day_segment_of_datetime_interval, DatetimeDaySegments};

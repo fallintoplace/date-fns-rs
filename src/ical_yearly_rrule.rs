@@ -89,10 +89,7 @@ mod tests {
 
     #[test]
     fn leap_day_occurrences_skip_non_leap_years() {
-        let rule = parse_ical_yearly_rrule(
-            "FREQ=YEARLY;BYMONTH=2;BYMONTHDAY=29;COUNT=3",
-        )
-        .unwrap();
+        let rule = parse_ical_yearly_rrule("FREQ=YEARLY;BYMONTH=2;BYMONTHDAY=29;COUNT=3").unwrap();
         let dates: Vec<_> = each_ical_yearly_rrule(rule, date(2024, 2, 29), date(2035, 12, 31))
             .unwrap()
             .collect();
@@ -119,10 +116,7 @@ mod tests {
 
     #[test]
     fn excludes_occurrences_after_the_end_day_in_same_year() {
-        let rule = parse_ical_yearly_rrule(
-            "FREQ=YEARLY;BYMONTH=12;BYMONTHDAY=31",
-        )
-        .unwrap();
+        let rule = parse_ical_yearly_rrule("FREQ=YEARLY;BYMONTH=12;BYMONTHDAY=31").unwrap();
         assert_eq!(
             each_ical_yearly_rrule(rule, date(2024, 12, 31), date(2026, 6, 1))
                 .unwrap()
@@ -134,7 +128,8 @@ mod tests {
     #[test]
     fn rejects_invalid_or_unsupported_rules() {
         for input in [
-            "FREQ=YEARLY;BYMONTH=2", "FREQ=YEARLY;BYMONTHDAY=1",
+            "FREQ=YEARLY;BYMONTH=2",
+            "FREQ=YEARLY;BYMONTHDAY=1",
             "FREQ=YEARLY;BYMONTH=0;BYMONTHDAY=1",
             "FREQ=YEARLY;BYMONTH=13;BYMONTHDAY=1",
             "FREQ=YEARLY;BYMONTH=1;BYMONTHDAY=32",

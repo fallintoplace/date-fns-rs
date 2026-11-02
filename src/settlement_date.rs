@@ -19,11 +19,7 @@ pub fn settlement_date(
             crate::next_business_day_with_holidays(trade_date, holidays)
         }
     } else {
-        crate::add_business_days_with_holidays(
-            trade_date,
-            i64::from(lag_business_days),
-            holidays,
-        )
+        crate::add_business_days_with_holidays(trade_date, i64::from(lag_business_days), holidays)
     }
 }
 
@@ -53,7 +49,10 @@ mod tests {
     fn rolls_t_plus_zero_and_handles_chrono_bounds() {
         let sunday = date(2024, 3, 3);
         assert_eq!(settlement_date(sunday, 0, &[]), Some(date(2024, 3, 4)));
-        assert_eq!(settlement_date(date(2024, 3, 4), 0, &[]), Some(date(2024, 3, 4)));
+        assert_eq!(
+            settlement_date(date(2024, 3, 4), 0, &[]),
+            Some(date(2024, 3, 4))
+        );
         assert_eq!(settlement_date(NaiveDate::MAX, 1, &[]), None);
     }
 }

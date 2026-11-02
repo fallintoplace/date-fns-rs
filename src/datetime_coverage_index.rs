@@ -93,6 +93,26 @@ impl DatetimeCoverageIndex {
         before.checked_add(to_nanos(value)?.checked_sub(to_nanos(start)?)?)
     }
 
+    /// Find the earliest covered timestamp on or after the query in O(log n).
+    ///
+    /// Leap-second representations are rejected, matching rank and select.
+    pub fn first_on_or_after(&self, value: NaiveDateTime) -> Option<NaiveDateTime> {
+        to_nanos(value)?;
+        let pos = self.intervals.partition_point(|&(_, end)| end < value);
+        let &(start, _) = self.intervals.get(pos)?;
+        Some(start.max(value))
+    }
+
+    /// Find the latest covered timestamp on or before the query in O(log n).
+    ///
+    /// Leap-second representations are rejected, matching rank and select.
+    pub fn last_on_or_before(&self, value: NaiveDateTime) -> Option<NaiveDateTime> {
+        to_nanos(value)?;
+        let pos = self.intervals.partition_point(|&(start, _)| start <= value);
+        let &(_, end) = self.intervals.get(pos.checked_sub(1)?)?;
+        Some(end.min(value))
+    }
+
     /// Count covered nanosecond ticks strictly before the query timestamp.
     pub fn count_before(&self, value: NaiveDateTime) -> Option<i128> {
         let point = to_nanos(value)?;
@@ -168,6 +188,26 @@ mod tests {
                 );
             }
         }
+    }
+
+    #[test]
+    fn seeks_nearest_covered_ticks_across_gaps() {
+        let index = DatetimeCoverageIndex::new(&[(at(1), at(3)), (at(7), at(9))]).unwrap();
+        assert_eq!(index.first_on_or_after(at(2)), Some(at(2)));
+        assert_eq!(index.first_on_or_after(at(5)), Some(at(7)));
+        assert_eq!(index.first_on_or_after(at(10)), None);
+        assert_eq!(index.last_on_or_before(at(2)), Some(at(2)));
+        assert_eq!(index.last_on_or_before(at(5)), Some(at(3)));
+        assert_eq!(index.last_on_or_before(at(0)), None);
+        let empty = DatetimeCoverageIndex::new(&[]).unwrap();
+        assert_eq!(empty.first_on_or_after(at(1)), None);
+        assert_eq!(empty.last_on_or_before(at(1)), None);
+        let full = DatetimeCoverageIndex::new(&[
+            (NaiveDateTime::MIN, NaiveDateTime::MAX),
+        ])
+        .unwrap();
+        assert_eq!(full.first_on_or_after(NaiveDateTime::MAX), Some(NaiveDateTime::MAX));
+        assert_eq!(full.last_on_or_before(NaiveDateTime::MIN), Some(NaiveDateTime::MIN));
     }
 
     #[test]

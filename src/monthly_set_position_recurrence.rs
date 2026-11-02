@@ -92,7 +92,9 @@ pub fn each_monthly_weekday_set_position(
         || weekday_mask == 0
         || weekday_mask & !0x7f != 0
         || positions.is_empty()
-        || positions.iter().any(|position| *position == 0 || position.unsigned_abs() > 31)
+        || positions
+            .iter()
+            .any(|position| *position == 0 || position.unsigned_abs() > 31)
     {
         return None;
     }
@@ -180,21 +182,14 @@ mod tests {
                 each_monthly_weekday_set_position(start, end, mask, &positions, step).is_none()
             );
         }
-        assert!(
-            each_monthly_weekday_set_position(end, start, 1, &[1], 1).is_none()
-        );
+        assert!(each_monthly_weekday_set_position(end, start, 1, &[1], 1).is_none());
     }
 
     #[test]
     fn is_fused_at_chrono_limits_and_skips_missing_positions() {
-        let mut empty = each_monthly_weekday_set_position(
-            date(2024, 2, 1),
-            date(2024, 2, 29),
-            1,
-            &[5],
-            1,
-        )
-        .unwrap();
+        let mut empty =
+            each_monthly_weekday_set_position(date(2024, 2, 1), date(2024, 2, 29), 1, &[5], 1)
+                .unwrap();
         assert_eq!(empty.next(), None);
         assert_eq!(empty.next(), None);
         let mut edge = each_monthly_weekday_set_position(

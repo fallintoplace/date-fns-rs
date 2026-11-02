@@ -172,11 +172,7 @@ mod tests {
 
     #[test]
     fn seeks_nearest_covered_dates_across_gaps() {
-        let index = DateCoverageIndex::new(&[
-            (day(1), day(3)),
-            (day(7), day(9)),
-        ])
-        .unwrap();
+        let index = DateCoverageIndex::new(&[(day(1), day(3)), (day(7), day(9))]).unwrap();
         assert_eq!(index.first_on_or_after(day(2)), Some(day(2)));
         assert_eq!(index.first_on_or_after(day(5)), Some(day(7)));
         assert_eq!(index.first_on_or_after(day(10)), None);
@@ -185,10 +181,7 @@ mod tests {
         let empty = DateCoverageIndex::new(&[]).unwrap();
         assert_eq!(empty.first_on_or_after(day(1)), None);
         assert_eq!(empty.last_on_or_before(day(1)), None);
-        let full = DateCoverageIndex::new(&[
-            (NaiveDate::MIN, NaiveDate::MAX),
-        ])
-        .unwrap();
+        let full = DateCoverageIndex::new(&[(NaiveDate::MIN, NaiveDate::MAX)]).unwrap();
         assert_eq!(full.first_on_or_after(NaiveDate::MAX), Some(NaiveDate::MAX));
         assert_eq!(full.last_on_or_before(NaiveDate::MIN), Some(NaiveDate::MIN));
     }

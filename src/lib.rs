@@ -293,6 +293,7 @@ pub use retail_445_calendar::{Retail445Calendar, Retail445Position};
 pub use retail_calendar_patterns::{RetailCalendar, RetailPeriodPosition, RetailQuarterPattern};
 
 mod fiscal_years;
+pub use fiscal_years::is_same_fiscal_year;
 pub use fiscal_years::{end_of_fiscal_year, get_fiscal_year, start_of_fiscal_year};
 
 mod datetime_fiscal_year_boundaries;

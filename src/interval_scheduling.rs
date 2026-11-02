@@ -79,9 +79,11 @@ mod tests {
                     .filter(|(i, _)| mask & (1 << i) != 0)
                     .map(|(_, range)| *range)
                     .collect();
-                if chosen.iter().enumerate().all(|(i, &(a, b))| {
-                    chosen.iter().skip(i + 1).all(|&(c, d)| b < c || d < a)
-                }) {
+                if chosen
+                    .iter()
+                    .enumerate()
+                    .all(|(i, &(a, b))| chosen.iter().skip(i + 1).all(|&(c, d)| b < c || d < a))
+                {
                     best = best.max(chosen.len());
                 }
             }

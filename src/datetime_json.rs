@@ -15,8 +15,7 @@ pub fn parse_json_datetime_utc(input: &str) -> Option<NaiveDateTime> {
     let bytes = input.as_bytes();
     if bytes.len() >= 5 {
         let len = bytes.len();
-        if matches!(bytes[len - 5], b'+' | b'-')
-            && bytes[len - 4..].iter().all(u8::is_ascii_digit)
+        if matches!(bytes[len - 5], b'+' | b'-') && bytes[len - 4..].iter().all(u8::is_ascii_digit)
         {
             let mut fixed = input[..len - 2].to_owned();
             fixed.push(':');
@@ -88,7 +87,7 @@ mod tests {
             "2024-02-29T00:00:00Z ",
             "2024-02-29 00:00:00 ",
             "2024-02-29T00:00:00.1234567890",
-            ""
+            "",
         ] {
             assert_eq!(parse_json_datetime_utc(input), None);
         }

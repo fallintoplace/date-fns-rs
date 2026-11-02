@@ -781,3 +781,6 @@ pub use gregorian_easter::gregorian_easter_sunday;
 
 mod actual_actual_isda;
 pub use actual_actual_isda::actual_actual_isda_year_fraction;
+
+mod business_date_adjustment;
+pub use business_date_adjustment::{adjust_business_date, BusinessDayAdjustment};

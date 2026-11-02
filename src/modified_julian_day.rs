@@ -45,7 +45,10 @@ mod tests {
             NaiveDate::MIN,
             NaiveDate::MAX,
         ] {
-            assert_eq!(from_modified_julian_day(to_modified_julian_day(value)), Some(value));
+            assert_eq!(
+                from_modified_julian_day(to_modified_julian_day(value)),
+                Some(value)
+            );
         }
     }
 
@@ -53,7 +56,13 @@ mod tests {
     fn rejects_unrepresentable_day_numbers() {
         assert_eq!(from_modified_julian_day(i64::MAX), None);
         assert_eq!(from_modified_julian_day(i64::MIN), None);
-        assert_eq!(from_modified_julian_day(to_modified_julian_day(NaiveDate::MIN) - 1), None);
-        assert_eq!(from_modified_julian_day(to_modified_julian_day(NaiveDate::MAX) + 1), None);
+        assert_eq!(
+            from_modified_julian_day(to_modified_julian_day(NaiveDate::MIN) - 1),
+            None
+        );
+        assert_eq!(
+            from_modified_julian_day(to_modified_julian_day(NaiveDate::MAX) + 1),
+            None
+        );
     }
 }

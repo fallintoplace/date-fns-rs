@@ -81,7 +81,11 @@ pub fn parse_ical_content_line(input: &str) -> Option<IcalContentLine<'_>> {
         }
         parameters.push((param_name, param_value));
     }
-    Some(IcalContentLine { name, parameters, value })
+    Some(IcalContentLine {
+        name,
+        parameters,
+        value,
+    })
 }
 
 #[cfg(test)]
@@ -95,7 +99,10 @@ mod tests {
         assert_eq!(parsed.name, "ATTENDEE");
         assert_eq!(
             parsed.parameters,
-            vec![("CN", r#""Doe; Jane: Team""#), ("ROLE", "REQ-PARTICIPANT")]
+            vec![
+                ("CN", r#""Doe; Jane: Team""#),
+                ("ROLE", "REQ-PARTICIPANT")
+            ]
         );
         assert_eq!(parsed.value, "mailto:jane@example.org");
     }
@@ -113,7 +120,8 @@ mod tests {
         );
         assert_eq!(
             parse_ical_content_line("DTSTART;TZID=Europe/Berlin:20241103T090000")
-                .unwrap().parameters,
+                .unwrap()
+                .parameters,
             vec![("TZID", "Europe/Berlin")]
         );
         assert_eq!(parse_ical_content_line("X-CUSTOM:").unwrap().value, "");

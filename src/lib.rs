@@ -175,6 +175,11 @@ pub use datetime_iso_interval::{
 };
 
 mod iso_date_interval;
+
+mod iso_date_duration_interval;
+pub use iso_date_duration_interval::{
+    format_iso_date_duration_interval, parse_iso_date_duration_interval,
+};
 pub use iso_date_interval::{format_iso_date_interval, parse_iso_date_interval};
 
 mod datetime_json;

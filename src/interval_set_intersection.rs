@@ -85,14 +85,8 @@ mod tests {
             intersect_interval_sets(&[(date(1), date(3))], &[(date(5), date(7))]),
             Some(vec![])
         );
-        assert_eq!(
-            intersect_interval_sets(&[(date(3), date(1))], &[]),
-            None
-        );
-        assert_eq!(
-            intersect_interval_sets(&[], &[(date(3), date(1))]),
-            None
-        );
+        assert_eq!(intersect_interval_sets(&[(date(3), date(1))], &[]), None);
+        assert_eq!(intersect_interval_sets(&[], &[(date(3), date(1))]), None);
     }
 
     #[test]

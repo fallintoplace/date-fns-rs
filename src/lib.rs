@@ -820,3 +820,6 @@ pub use iso_repeating_dates::{parse_iso_repeating_date_interval, IsoRepeatedDate
 
 mod business_252;
 pub use business_252::business_252_year_fraction;
+
+mod workweek_holidays;
+pub use workweek_holidays::{add_workdays_with_holidays, count_workdays_with_holidays};

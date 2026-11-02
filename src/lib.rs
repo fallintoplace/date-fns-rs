@@ -336,6 +336,9 @@ pub use half_year_predicates::{
     is_first_day_of_half_year, is_last_day_of_half_year, is_same_half_year,
 };
 
+mod convert_quarters_years;
+pub use convert_quarters_years::{quarters_to_years, years_to_quarters};
+
 mod quarter_arithmetic;
 pub use quarter_arithmetic::{add_quarters, sub_quarters};
 

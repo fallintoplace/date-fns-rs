@@ -442,6 +442,9 @@ pub use interval_week_segments::{each_week_segment_of_interval, WeekSegmentsInIn
 mod interval_months;
 pub use interval_months::{each_month_of_interval, MonthsInInterval};
 
+mod datetime_intersect_many;
+pub use datetime_intersect_many::intersect_many_datetime_interval_sets;
+
 mod interval_intersect_many;
 
 mod interval_overlap_join;

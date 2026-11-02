@@ -105,10 +105,8 @@ mod tests {
 
     #[test]
     fn applies_interval_before_skipping_invalid_years() {
-        let rule = parse_ical_yearly_rrule(
-            "FREQ=YEARLY;BYMONTH=2;BYMONTHDAY=29;INTERVAL=2",
-        )
-        .unwrap();
+        let rule =
+            parse_ical_yearly_rrule("FREQ=YEARLY;BYMONTH=2;BYMONTHDAY=29;INTERVAL=2").unwrap();
         assert_eq!(
             each_ical_yearly_rrule(rule, date(2024, 2, 29), date(2032, 2, 29))
                 .unwrap()

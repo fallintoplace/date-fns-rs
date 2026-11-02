@@ -420,6 +420,11 @@ pub use business_month_boundaries::{
 mod interval_weekends;
 pub use interval_weekends::{each_weekend_of_interval, WeekendsInInterval};
 
+mod monthly_day_recurrence;
+pub use monthly_day_recurrence::{
+    each_day_of_month_in_interval, MonthDayPolicy, MonthlyDayRecurrences,
+};
+
 mod nth_weekday;
 pub use nth_weekday::nth_weekday_of_month;
 

@@ -772,3 +772,6 @@ pub use ical_floating_datetime::{format_ical_datetime_floating, parse_ical_datet
 
 mod ical_utc_offset;
 pub use ical_utc_offset::{format_ical_utc_offset, parse_ical_utc_offset};
+
+mod ical_text;
+pub use ical_text::{escape_ical_text, unescape_ical_text};

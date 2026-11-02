@@ -506,6 +506,9 @@ pub use date_interval_coverage::{count_distinct_days_covered, overlapping_days_i
 mod datetime_interval_coverage;
 pub use datetime_interval_coverage::count_distinct_nanoseconds_covered;
 
+mod datetime_overlap_depth;
+pub use datetime_overlap_depth::datetime_overlap_depth;
+
 mod datetime_calendar_boundaries;
 pub use datetime_calendar_boundaries::{
     end_of_month_datetime, end_of_quarter_datetime, end_of_year_datetime, start_of_month_datetime,

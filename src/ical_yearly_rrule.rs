@@ -9,6 +9,7 @@ pub struct IcalYearlyRRule {
     month_day: u32,
     interval_years: u32,
     count: Option<usize>,
+    until: Option<NaiveDate>,
 }
 
 fn positive(value: &str) -> Option<u32> {
@@ -20,7 +21,8 @@ fn positive(value: &str) -> Option<u32> {
 
 /// Parse FREQ=YEARLY with required BYMONTH and BYMONTHDAY.
 ///
-/// Only positive, single-valued fields are supported. An explicit caller end
+/// Only positive, single-valued fields are supported. UNTIL is an optional
+/// inclusive date and is mutually exclusive with COUNT. An explicit caller end
 /// date bounds iteration even when COUNT is omitted.
 pub fn parse_ical_yearly_rrule(input: &str) -> Option<IcalYearlyRRule> {
     let mut frequency = false;
@@ -28,6 +30,7 @@ pub fn parse_ical_yearly_rrule(input: &str) -> Option<IcalYearlyRRule> {
     let mut month_day = None;
     let mut interval = None;
     let mut count = None;
+    let mut until = None;
     for part in input.split(';') {
         let (key, value) = part.split_once('=')?;
         match key {
@@ -41,8 +44,12 @@ pub fn parse_ical_yearly_rrule(input: &str) -> Option<IcalYearlyRRule> {
                 }
                 count = Some(value.parse::<usize>().ok().filter(|&n| n > 0)?);
             }
+            "UNTIL" if until.is_none() => until = Some(crate::parse_ical_date(value)?),
             _ => return None,
         }
+    }
+    if count.is_some() && until.is_some() {
+        return None;
     }
     let month = month?;
     let month_day = month_day?;
@@ -55,6 +62,7 @@ pub fn parse_ical_yearly_rrule(input: &str) -> Option<IcalYearlyRRule> {
         month_day,
         interval_years: interval.unwrap_or(1),
         count,
+        until,
     })
 }
 
@@ -70,15 +78,16 @@ pub fn each_ical_yearly_rrule(
     if start > end || start.month() != rule.month || start.day() != rule.month_day {
         return None;
     }
+    let through = rule.until.map_or(end, |until| end.min(until));
     Some(
         std::iter::successors(Some(i64::from(start.year())), move |year| {
             year.checked_add(i64::from(rule.interval_years))
         })
-        .take_while(move |year| *year <= i64::from(end.year()))
+        .take_while(move |year| *year <= i64::from(through.year()))
         .filter_map(move |year| {
             NaiveDate::from_ymd_opt(i32::try_from(year).ok()?, rule.month, rule.month_day)
         })
-        .take_while(move |date| *date <= end)
+        .take_while(move |date| *date <= through)
         .take(rule.count.unwrap_or(usize::MAX)),
     )
 }
@@ -128,6 +137,25 @@ mod tests {
     }
 
     #[test]
+    fn until_is_inclusive_for_leap_day_recurrences() {
+        let rule =
+            parse_ical_yearly_rrule("FREQ=YEARLY;BYMONTH=2;BYMONTHDAY=29;UNTIL=20280229")
+                .unwrap();
+        assert_eq!(
+            each_ical_yearly_rrule(rule, date(2024, 2, 29), date(2040, 12, 31))
+                .unwrap()
+                .collect::<Vec<_>>(),
+            vec![date(2024, 2, 29), date(2028, 2, 29)]
+        );
+        assert_eq!(
+            each_ical_yearly_rrule(rule, date(2032, 2, 29), date(2040, 12, 31))
+                .unwrap()
+                .count(),
+            0
+        );
+    }
+
+    #[test]
     fn rejects_invalid_or_unsupported_rules() {
         for input in [
             "FREQ=YEARLY;BYMONTH=2",
@@ -141,6 +169,9 @@ mod tests {
             "FREQ=YEARLY;BYMONTH=1;BYMONTHDAY=1;INTERVAL=0",
             "FREQ=YEARLY;BYMONTH=1;BYMONTHDAY=1;BYMONTH=2",
             "FREQ=YEARLY;BYMONTH=1;BYMONTHDAY=1;BYDAY=MO",
+            "FREQ=YEARLY;BYMONTH=1;BYMONTHDAY=1;UNTIL=20240230",
+            "FREQ=YEARLY;BYMONTH=1;BYMONTHDAY=1;UNTIL=20240101;COUNT=2",
+            "FREQ=YEARLY;BYMONTH=1;BYMONTHDAY=1;UNTIL=20240101;UNTIL=20250101",
         ] {
             assert!(parse_ical_yearly_rrule(input).is_none(), "{input}");
         }

@@ -16,9 +16,9 @@ impl Workweek {
     ///
     /// A calendar with no working days is rejected.
     pub fn new(days: &[Weekday]) -> Option<Self> {
-        let mask = days.iter().fold(0_u8, |mask, day| {
-            mask | (1 << day.num_days_from_monday())
-        });
+        let mask = days
+            .iter()
+            .fold(0_u8, |mask, day| mask | (1 << day.num_days_from_monday()));
         Self::from_mask(mask)
     }
 
@@ -146,7 +146,10 @@ mod tests {
             Some(date(2024, 2, 29))
         );
         let every_day = Workweek::from_mask(0x7f).unwrap();
-        assert_eq!(every_day.count_workdays(date(2024, 2, 28), date(2024, 3, 2)), Some(4));
+        assert_eq!(
+            every_day.count_workdays(date(2024, 2, 28), date(2024, 3, 2)),
+            Some(4)
+        );
         assert_eq!(
             every_day.add_workdays(date(2024, 2, 28), 3),
             Some(date(2024, 3, 2))
@@ -163,7 +166,10 @@ mod tests {
         assert_eq!(mon.add_workdays(NaiveDate::MAX, 1), None);
         assert_eq!(mon.add_workdays(NaiveDate::MIN, -1), None);
         assert_eq!(mon.add_workdays(date(2024, 3, 1), i64::MIN), None);
-        assert_eq!(mon.add_workdays(date(2024, 3, 1), 0), Some(date(2024, 3, 1)));
+        assert_eq!(
+            mon.add_workdays(date(2024, 3, 1), 0),
+            Some(date(2024, 3, 1))
+        );
         assert_eq!(mon.count_workdays(date(2024, 3, 2), date(2024, 3, 1)), None);
     }
 

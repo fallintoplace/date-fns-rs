@@ -808,3 +808,6 @@ pub use cron_reverse_occurrences::{each_previous_cron_minute_between, CronRevers
 
 mod settlement_date;
 pub use settlement_date::settlement_date;
+
+mod ical_folding;
+pub use ical_folding::{fold_ical_content_line, unfold_ical_content_lines};

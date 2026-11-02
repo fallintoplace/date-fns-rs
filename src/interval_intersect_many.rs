@@ -81,10 +81,7 @@ mod tests {
         assert_eq!(intersect_many_date_interval_sets(&[]), Some(vec![]));
         assert_eq!(intersect_many_date_interval_sets(&[&a, &[]]), Some(vec![]));
         assert_eq!(intersect_many_date_interval_sets(&[&a, &bad]), None);
-        assert_eq!(
-            intersect_many_date_interval_sets(&[&a]),
-            Some(a.to_vec())
-        );
+        assert_eq!(intersect_many_date_interval_sets(&[&a]), Some(a.to_vec()));
     }
 
     #[test]

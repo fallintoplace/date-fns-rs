@@ -59,9 +59,7 @@ impl DateCoverageIndex {
 
     /// Return the zero-based index of a covered date, or None for a gap.
     pub fn rank(&self, date: NaiveDate) -> Option<u64> {
-        let pos = self
-            .intervals
-            .partition_point(|&(start, _)| start <= date);
+        let pos = self.intervals.partition_point(|&(start, _)| start <= date);
         let index = pos.checked_sub(1)?;
         let (start, end) = self.intervals[index];
         if date > end {

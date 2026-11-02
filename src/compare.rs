@@ -42,6 +42,16 @@ pub fn max_date(dates: &[NaiveDate]) -> Option<NaiveDate> {
     dates.iter().copied().max()
 }
 
+/// Compare dates in chronological order for sorting.
+pub fn compare_asc(left: NaiveDate, right: NaiveDate) -> std::cmp::Ordering {
+    left.cmp(&right)
+}
+
+/// Compare dates in reverse chronological order for sorting.
+pub fn compare_desc(left: NaiveDate, right: NaiveDate) -> std::cmp::Ordering {
+    right.cmp(&left)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -95,5 +105,23 @@ mod tests {
             max_date(&[NaiveDate::MAX, NaiveDate::MIN]),
             Some(NaiveDate::MAX)
         );
+    }
+}
+
+#[cfg(test)]
+mod order_tests {
+    use super::*;
+
+    #[test]
+    fn orders_dates_without_changing_input() {
+        let early = NaiveDate::from_ymd_opt(2024, 2, 29).unwrap();
+        let late = NaiveDate::from_ymd_opt(2024, 3, 1).unwrap();
+        let mut dates = [late, early, early];
+        dates.sort_by(|a, b| compare_asc(*a, *b));
+        assert_eq!(dates, [early, early, late]);
+        dates.sort_by(|a, b| compare_desc(*a, *b));
+        assert_eq!(dates, [late, early, early]);
+        assert_eq!(compare_asc(early, early), std::cmp::Ordering::Equal);
+        assert_eq!(compare_desc(NaiveDate::MIN, NaiveDate::MAX), std::cmp::Ordering::Greater);
     }
 }

@@ -794,6 +794,9 @@ pub use iso_year_quarter::{format_iso_year_quarter, parse_iso_year_quarter};
 mod ical_duration;
 pub use ical_duration::{format_ical_duration, parse_ical_duration};
 
+mod ical_utc_datetime_list;
+pub use ical_utc_datetime_list::{format_ical_utc_datetime_list, parse_ical_utc_datetime_list};
+
 mod ical_period_utc;
 pub use ical_period_utc::{format_ical_period_utc, parse_ical_period_utc};
 
@@ -826,6 +829,3 @@ pub use workweek_holidays::{add_workdays_with_holidays, count_workdays_with_holi
 
 mod ical_weekly_rrule;
 pub use ical_weekly_rrule::{each_ical_weekly_rrule, parse_ical_weekly_rrule, IcalWeeklyRRule};
-
-mod ical_utc_datetime_list;
-pub use ical_utc_datetime_list::{format_ical_utc_datetime_list, parse_ical_utc_datetime_list};

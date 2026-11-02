@@ -214,7 +214,7 @@ mod datetime_duration;
 pub use datetime_duration::{interval_to_calendar_duration, CalendarDateTimeDuration};
 
 mod convert_hours_seconds;
-pub use convert_hours_seconds::{seconds_to_hours, hours_to_seconds};
+pub use convert_hours_seconds::{hours_to_seconds, seconds_to_hours};
 
 mod datetime_differences;
 pub use datetime_differences::{

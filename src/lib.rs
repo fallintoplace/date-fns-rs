@@ -402,6 +402,9 @@ pub use datetime_interval_partition::{
     gap_between_datetime_intervals, split_datetime_interval_after, split_datetime_interval_before,
 };
 
+mod datetime_coalesce_gaps;
+pub use datetime_coalesce_gaps::coalesce_datetime_intervals_with_gap;
+
 mod datetime_interval_set_difference;
 pub use datetime_interval_set_difference::subtract_datetime_interval_sets;
 

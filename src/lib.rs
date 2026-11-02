@@ -817,3 +817,6 @@ pub use datetime_midpoint::datetime_interval_midpoint;
 
 mod iso_repeating_dates;
 pub use iso_repeating_dates::{parse_iso_repeating_date_interval, IsoRepeatedDateOccurrences};
+
+mod business_252;
+pub use business_252::business_252_year_fraction;

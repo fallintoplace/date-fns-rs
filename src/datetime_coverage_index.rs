@@ -36,7 +36,9 @@ impl DatetimeCoverageIndex {
         let mut cumulative = Vec::with_capacity(intervals.len());
         let mut total = 0_i128;
         for &(start, end) in &intervals {
-            let length = to_nanos(end)?.checked_sub(to_nanos(start)?)?.checked_add(1)?;
+            let length = to_nanos(end)?
+                .checked_sub(to_nanos(start)?)?
+                .checked_add(1)?;
             total = total.checked_add(length)?;
             cumulative.push(total);
         }
@@ -67,7 +69,11 @@ impl DatetimeCoverageIndex {
         }
         let pos = self.cumulative.partition_point(|&end| end <= index);
         let &(start, _) = self.intervals.get(pos)?;
-        let before = if pos == 0 { 0 } else { self.cumulative[pos - 1] };
+        let before = if pos == 0 {
+            0
+        } else {
+            self.cumulative[pos - 1]
+        };
         from_nanos(to_nanos(start)?.checked_add(index - before)?)
     }
 
@@ -79,7 +85,11 @@ impl DatetimeCoverageIndex {
         if value > end {
             return None;
         }
-        let before = if index == 0 { 0 } else { self.cumulative[index - 1] };
+        let before = if index == 0 {
+            0
+        } else {
+            self.cumulative[index - 1]
+        };
         before.checked_add(to_nanos(value)?.checked_sub(to_nanos(start)?)?)
     }
 
@@ -87,7 +97,11 @@ impl DatetimeCoverageIndex {
     pub fn count_before(&self, value: NaiveDateTime) -> Option<i128> {
         let point = to_nanos(value)?;
         let completed = self.intervals.partition_point(|&(_, end)| end < value);
-        let before = if completed == 0 { 0 } else { self.cumulative[completed - 1] };
+        let before = if completed == 0 {
+            0
+        } else {
+            self.cumulative[completed - 1]
+        };
         match self.intervals.get(completed) {
             Some(&(start, _)) if start < value => {
                 before.checked_add(point.checked_sub(to_nanos(start)?)?)
@@ -111,12 +125,8 @@ mod tests {
 
     #[test]
     fn supports_rank_select_and_gaps_without_enumerating_ticks() {
-        let index = DatetimeCoverageIndex::new(&[
-            (at(8), at(10)),
-            (at(1), at(2)),
-            (at(2), at(4)),
-        ])
-        .unwrap();
+        let index =
+            DatetimeCoverageIndex::new(&[(at(8), at(10)), (at(1), at(2)), (at(2), at(4))]).unwrap();
         assert_eq!(index.len(), 7);
         assert_eq!(index.select(-1), None);
         assert_eq!(index.select(0), Some(at(1)));
@@ -167,8 +177,7 @@ mod tests {
         assert_eq!(empty.select(0), None);
         assert_eq!(empty.count_before(NaiveDateTime::MIN), Some(0));
         assert!(DatetimeCoverageIndex::new(&[(at(5), at(4))]).is_none());
-        let full = DatetimeCoverageIndex::new(&[(NaiveDateTime::MIN, NaiveDateTime::MAX)])
-            .unwrap();
+        let full = DatetimeCoverageIndex::new(&[(NaiveDateTime::MIN, NaiveDateTime::MAX)]).unwrap();
         assert!(full.len() > i128::from(i64::MAX));
         assert_eq!(full.select(0), Some(NaiveDateTime::MIN));
         assert_eq!(full.select(full.len() - 1), Some(NaiveDateTime::MAX));

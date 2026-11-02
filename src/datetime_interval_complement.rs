@@ -71,10 +71,7 @@ mod tests {
         ];
         assert_eq!(
             complement_datetime_intervals(instant(1), instant(10), &exclusions),
-            Some(vec![
-                (instant(1), instant(1)),
-                (instant(6), instant(6)),
-            ])
+            Some(vec![(instant(1), instant(1)), (instant(6), instant(6)),])
         );
     }
 
@@ -85,11 +82,7 @@ mod tests {
             Some(vec![(instant(1), instant(3))])
         );
         assert_eq!(
-            complement_datetime_intervals(
-                instant(1),
-                instant(3),
-                &[(instant(0), instant(4))]
-            ),
+            complement_datetime_intervals(instant(1), instant(3), &[(instant(0), instant(4))]),
             Some(vec![])
         );
         assert_eq!(
@@ -97,11 +90,7 @@ mod tests {
             None
         );
         assert_eq!(
-            complement_datetime_intervals(
-                instant(1),
-                instant(3),
-                &[(instant(3), instant(2))]
-            ),
+            complement_datetime_intervals(instant(1), instant(3), &[(instant(3), instant(2))]),
             None
         );
     }
@@ -131,8 +120,7 @@ mod tests {
                 .filter(|bit| mask & (1 << bit) != 0)
                 .map(|bit| (instant(bit), instant(bit)))
                 .collect();
-            let free =
-                complement_datetime_intervals(instant(0), instant(7), &exclusions).unwrap();
+            let free = complement_datetime_intervals(instant(0), instant(7), &exclusions).unwrap();
             for bit in 0..8 {
                 let present = free
                     .iter()

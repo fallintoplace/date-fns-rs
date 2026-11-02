@@ -32,7 +32,6 @@ pub fn is_same_second_datetime(left: NaiveDateTime, right: NaiveDateTime) -> boo
     is_same_minute_datetime(left, right) && left.second() == right.second()
 }
 
-
 /// Return the earliest datetime in a slice, or None when empty.
 pub fn min_datetime(values: &[NaiveDateTime]) -> Option<NaiveDateTime> {
     values.iter().copied().min()
@@ -69,6 +68,7 @@ mod tests {
         assert!(is_same_year_datetime(first, next_day));
         assert!(!is_same_second_datetime(first, next_day));
     }
+
     #[test]
     fn timestamp_extrema_include_nanosecond_precision() {
         let date = NaiveDate::from_ymd_opt(2024, 2, 29).unwrap();
@@ -78,8 +78,13 @@ mod tests {
         assert_eq!(max_datetime(&[late, early]), Some(late));
         assert_eq!(min_datetime(&[]), None);
         assert_eq!(max_datetime(&[]), None);
-        assert_eq!(min_datetime(&[NaiveDateTime::MAX, NaiveDateTime::MIN]), Some(NaiveDateTime::MIN));
-        assert_eq!(max_datetime(&[NaiveDateTime::MAX, NaiveDateTime::MIN]), Some(NaiveDateTime::MAX));
+        assert_eq!(
+            min_datetime(&[NaiveDateTime::MAX, NaiveDateTime::MIN]),
+            Some(NaiveDateTime::MIN)
+        );
+        assert_eq!(
+            max_datetime(&[NaiveDateTime::MAX, NaiveDateTime::MIN]),
+            Some(NaiveDateTime::MAX)
+        );
     }
-
 }

@@ -30,7 +30,6 @@ pub fn set_millisecond_datetime(value: NaiveDateTime, millisecond: u32) -> Optio
     value.with_nanosecond(millisecond * 1_000_000 + value.nanosecond() % 1_000_000)
 }
 
-
 /// Return the whole microsecond component within the current second.
 pub fn get_microsecond_datetime(value: NaiveDateTime) -> u32 {
     value.nanosecond() / 1_000

@@ -44,6 +44,9 @@ mod tests {
     fn rejects_unrepresentable_i128_boundaries() {
         assert_eq!(from_unix_timestamp_nanos_i128(i128::MIN), None);
         assert_eq!(from_unix_timestamp_nanos_i128(i128::MAX), None);
-        assert_eq!(to_unix_timestamp_nanos_i128(from_unix_timestamp_nanos_i128(-1).unwrap()), -1);
+        assert_eq!(
+            to_unix_timestamp_nanos_i128(from_unix_timestamp_nanos_i128(-1).unwrap()),
+            -1
+        );
     }
 }

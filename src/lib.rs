@@ -184,6 +184,11 @@ mod datetime_iso_basic;
 pub use datetime_iso_basic::{format_iso_basic_local_datetime, parse_iso_basic_local_datetime};
 
 mod iso_basic_date;
+
+mod ical;
+pub use ical::{
+    format_ical_date, format_ical_datetime_utc, parse_ical_date, parse_ical_datetime_utc,
+};
 pub use iso_basic_date::{format_iso_basic_date, parse_iso_basic_date};
 
 mod metadata;

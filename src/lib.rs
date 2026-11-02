@@ -132,7 +132,7 @@ pub use weekday_arithmetic::{next_weekday, previous_weekday};
 pub use weekday_arithmetic::{next_or_same_weekday, previous_or_same_weekday};
 
 mod compare;
-pub use compare::max_date;
+pub use compare::{compare_asc, compare_desc, max_date};
 pub use compare::min_date;
 pub use compare::{is_after, is_before, is_same_day, is_same_month, is_same_year, is_weekend};
 

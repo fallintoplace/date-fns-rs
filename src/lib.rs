@@ -553,3 +553,6 @@ pub use datetime_week_year_boundaries::{
 };
 
 pub use datetime_week_boundaries::{end_of_iso_week_datetime, start_of_iso_week_datetime};
+
+mod interval_intersect_many;
+pub use interval_intersect_many::intersect_many_date_interval_sets;

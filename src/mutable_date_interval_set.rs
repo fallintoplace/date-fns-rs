@@ -102,7 +102,10 @@ mod tests {
         set.insert(date(3), date(5)).unwrap();
         set.insert(date(7), date(9)).unwrap();
         set.insert(date(6), date(6)).unwrap();
-        assert_eq!(set.intervals().collect::<Vec<_>>(), vec![(date(3), date(9))]);
+        assert_eq!(
+            set.intervals().collect::<Vec<_>>(),
+            vec![(date(3), date(9))]
+        );
         set.remove(date(5), date(7)).unwrap();
         assert_eq!(
             set.intervals().collect::<Vec<_>>(),

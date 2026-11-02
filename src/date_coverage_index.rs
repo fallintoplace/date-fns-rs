@@ -73,6 +73,24 @@ impl DateCoverageIndex {
         Some(before + u64::try_from(date.signed_duration_since(start).num_days()).ok()?)
     }
 
+    /// Find the earliest covered date on or after the query in O(log n).
+    ///
+    /// Returns None when no covered date remains.
+    pub fn first_on_or_after(&self, date: NaiveDate) -> Option<NaiveDate> {
+        let pos = self.intervals.partition_point(|&(_, end)| end < date);
+        let &(start, _) = self.intervals.get(pos)?;
+        Some(start.max(date))
+    }
+
+    /// Find the latest covered date on or before the query in O(log n).
+    ///
+    /// Returns None when all covered dates are later than the query.
+    pub fn last_on_or_before(&self, date: NaiveDate) -> Option<NaiveDate> {
+        let pos = self.intervals.partition_point(|&(start, _)| start <= date);
+        let &(_, end) = self.intervals.get(pos.checked_sub(1)?)?;
+        Some(end.min(date))
+    }
+
     /// Count covered dates strictly before a given date.
     ///
     /// This works for gaps as well as dates inside covered intervals.
@@ -150,6 +168,22 @@ mod tests {
                 }
             }
         }
+    }
+
+    #[test]
+    fn seeks_nearest_covered_dates_across_gaps() {
+        let index = DateCoverageIndex::new(&[(day(1), day(3)), (day(7), day(9))]).unwrap();
+        assert_eq!(index.first_on_or_after(day(2)), Some(day(2)));
+        assert_eq!(index.first_on_or_after(day(5)), Some(day(7)));
+        assert_eq!(index.first_on_or_after(day(10)), None);
+        assert_eq!(index.last_on_or_before(day(2)), Some(day(2)));
+        assert_eq!(index.last_on_or_before(day(5)), Some(day(3)));
+        let empty = DateCoverageIndex::new(&[]).unwrap();
+        assert_eq!(empty.first_on_or_after(day(1)), None);
+        assert_eq!(empty.last_on_or_before(day(1)), None);
+        let full = DateCoverageIndex::new(&[(NaiveDate::MIN, NaiveDate::MAX)]).unwrap();
+        assert_eq!(full.first_on_or_after(NaiveDate::MAX), Some(NaiveDate::MAX));
+        assert_eq!(full.last_on_or_before(NaiveDate::MIN), Some(NaiveDate::MIN));
     }
 
     #[test]

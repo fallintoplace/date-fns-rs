@@ -43,10 +43,19 @@ mod tests {
     #[test]
     fn formats_iso_week_year_and_parses_monday_start() {
         assert_eq!(parse_iso_week("2020-W53"), Some(date(2020, 12, 28)));
-        assert_eq!(format_iso_week(date(2021, 1, 1)).as_deref(), Some("2020-W53"));
+        assert_eq!(
+            format_iso_week(date(2021, 1, 1)).as_deref(),
+            Some("2020-W53")
+        );
         assert_eq!(parse_iso_week("2019-W01"), Some(date(2018, 12, 31)));
-        assert_eq!(format_iso_week(date(2018, 12, 31)).as_deref(), Some("2019-W01"));
-        assert_eq!(format_iso_week(date(2024, 2, 29)).as_deref(), Some("2024-W09"));
+        assert_eq!(
+            format_iso_week(date(2018, 12, 31)).as_deref(),
+            Some("2019-W01")
+        );
+        assert_eq!(
+            format_iso_week(date(2024, 2, 29)).as_deref(),
+            Some("2024-W09")
+        );
     }
 
     #[test]

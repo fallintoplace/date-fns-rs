@@ -778,3 +778,6 @@ pub use ical_text::{escape_ical_text, unescape_ical_text};
 
 mod gregorian_easter;
 pub use gregorian_easter::gregorian_easter_sunday;
+
+mod actual_actual_isda;
+pub use actual_actual_isda::actual_actual_isda_year_fraction;

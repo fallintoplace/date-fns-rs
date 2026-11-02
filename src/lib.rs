@@ -553,3 +553,6 @@ pub use datetime_week_year_boundaries::{
 };
 
 pub use datetime_week_boundaries::{end_of_iso_week_datetime, start_of_iso_week_datetime};
+
+mod financial_day_count;
+pub use financial_day_count::{financial_day_count, financial_year_fraction, DayCountConvention};

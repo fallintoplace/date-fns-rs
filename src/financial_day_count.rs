@@ -22,6 +22,9 @@ pub enum DayCountConvention {
     ///
     /// Unlike US 30/360, February endpoints are not specially adjusted.
     ThirtyE360,
+    /// European 30E+/360. The 31st at the end of a period is day 1 of
+    /// the following 30-day month; 31st starts are treated as day 30.
+    ThirtyEPlus360,
 }
 
 /// Compute a signed calendar day count under a financial convention.
@@ -34,6 +37,9 @@ pub fn financial_day_count(
     end: NaiveDate,
     convention: DayCountConvention,
 ) -> i64 {
+    if start == end {
+        return 0;
+    }
     if start > end {
         return -forward_day_count(end, start, convention);
     }
@@ -45,10 +51,16 @@ fn is_last_day_of_february(date: NaiveDate) -> bool {
 }
 
 fn forward_day_count(start: NaiveDate, end: NaiveDate, convention: DayCountConvention) -> i64 {
-    use DayCountConvention::{Actual360, Actual365Fixed, Thirty360US, ThirtyE360};
+    use DayCountConvention::{Actual360, Actual365Fixed, Thirty360US, ThirtyE360, ThirtyEPlus360};
 
     match convention {
         Actual360 | Actual365Fixed => end.signed_duration_since(start).num_days(),
+        ThirtyEPlus360 => {
+            360 * (i64::from(end.year()) - i64::from(start.year()))
+                + 30 * (i64::from(end.month()) - i64::from(start.month()))
+                + i64::from(end.day())
+                - i64::from(start.day().min(30))
+        }
         Thirty360US | ThirtyE360 => {
             let mut start_day = start.day();
             let mut end_day = end.day();
@@ -184,6 +196,7 @@ mod tests {
             DayCountConvention::Actual365Fixed,
             DayCountConvention::Thirty360US,
             DayCountConvention::ThirtyE360,
+            DayCountConvention::ThirtyEPlus360,
         ];
         let samples = [
             date(2023, 2, 28),
@@ -219,5 +232,34 @@ mod tests {
             DayCountConvention::ThirtyE360,
         );
         assert!(thirty > 0);
+    }
+}
+
+
+#[cfg(test)]
+mod thirty_e_plus_tests {
+    use super::*;
+
+    fn date(y: i32, m: u32, d: u32) -> NaiveDate {
+        NaiveDate::from_ymd_opt(y, m, d).unwrap()
+    }
+
+    #[test]
+    fn carries_end_of_month_31_into_the_next_thirty_day_month() {
+        let kind = DayCountConvention::ThirtyEPlus360;
+        assert_eq!(financial_day_count(date(2024, 1, 30), date(2024, 1, 31), kind), 1);
+        assert_eq!(financial_day_count(date(2024, 1, 31), date(2024, 2, 28), kind), 28);
+        assert_eq!(financial_day_count(date(2024, 1, 31), date(2024, 3, 31), kind), 61);
+        assert_eq!(financial_day_count(date(2024, 12, 31), date(2025, 1, 31), kind), 31);
+        assert_eq!(financial_day_count(date(2024, 1, 31), date(2024, 1, 31), kind), 0);
+        assert_eq!(financial_day_count(date(2024, 1, 31), date(2024, 1, 30), kind), -1);
+    }
+
+    #[test]
+    fn uses_a_360_day_year_and_does_not_change_other_conventions() {
+        let start = date(2024, 1, 30);
+        let end = date(2024, 1, 31);
+        assert_eq!(financial_year_fraction(start, end, DayCountConvention::ThirtyEPlus360), 1.0 / 360.0);
+        assert_eq!(financial_day_count(start, end, DayCountConvention::ThirtyE360), 0);
     }
 }

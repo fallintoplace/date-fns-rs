@@ -118,8 +118,7 @@ mod tests {
 
     #[test]
     fn until_is_inclusive_and_skips_missing_month_days() {
-        let rule = parse_ical_monthly_rrule("FREQ=MONTHLY;BYMONTHDAY=31;UNTIL=20240531")
-            .unwrap();
+        let rule = parse_ical_monthly_rrule("FREQ=MONTHLY;BYMONTHDAY=31;UNTIL=20240531").unwrap();
         assert_eq!(
             each_ical_monthly_rrule(rule, date(2024, 1, 31), date(2024, 12, 31))
                 .unwrap()

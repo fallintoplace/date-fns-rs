@@ -386,7 +386,10 @@ pub use interval_ops::is_interval_within_interval;
 pub use interval_ops::{clamp_to_interval, intersection_of_intervals, interval_length_in_days};
 
 mod first_available_date_window;
+
+mod first_available_datetime_window;
 pub use first_available_date_window::first_available_date_window;
+pub use first_available_datetime_window::first_available_datetime_window;
 
 mod interval_gap;
 pub use interval_gap::gap_between_intervals;

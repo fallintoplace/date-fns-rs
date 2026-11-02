@@ -826,3 +826,6 @@ pub use workweek_holidays::{add_workdays_with_holidays, count_workdays_with_holi
 
 mod ical_weekly_rrule;
 pub use ical_weekly_rrule::{each_ical_weekly_rrule, parse_ical_weekly_rrule, IcalWeeklyRRule};
+
+mod excel_serial_dates;
+pub use excel_serial_dates::{from_excel_1900_serial, from_excel_1904_serial, to_excel_1900_serial, to_excel_1904_serial};

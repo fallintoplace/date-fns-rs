@@ -37,6 +37,11 @@ pub use modified_julian_day::{from_modified_julian_day, to_modified_julian_day};
 mod epoch_days;
 pub use epoch_days::{from_epoch_day, to_epoch_day};
 
+mod excel_serial_dates;
+pub use excel_serial_dates::{
+    from_excel_1900_serial, from_excel_1904_serial, to_excel_1900_serial, to_excel_1904_serial,
+};
+
 mod interval_midpoint;
 pub use interval_midpoint::interval_midpoint;
 

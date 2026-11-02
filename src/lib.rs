@@ -698,6 +698,9 @@ pub use business_month_metadata::{
 mod interval_scheduling;
 pub use interval_scheduling::select_max_nonoverlapping_date_intervals;
 
+mod weighted_date_scheduling;
+pub use weighted_date_scheduling::select_max_weight_date_intervals;
+
 mod interval_split;
 pub use interval_split::{split_interval_after, split_interval_before};
 

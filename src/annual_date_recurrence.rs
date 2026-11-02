@@ -161,12 +161,21 @@ mod tests {
     #[test]
     fn validates_rules_and_handles_maximum_date() {
         let start = date(2024, 1, 1);
-        assert!(each_annual_date_in_interval(start, start, 4, 31, 1, LeapDayPolicy::Skip).is_none());
-        assert!(each_annual_date_in_interval(start, start, 2, 29, 0, LeapDayPolicy::Skip).is_none());
         assert!(
-            each_annual_date_in_interval(start, date(2023, 1, 1), 1, 1, 1, LeapDayPolicy::Skip)
-                .is_none()
+            each_annual_date_in_interval(start, start, 4, 31, 1, LeapDayPolicy::Skip).is_none()
         );
+        assert!(
+            each_annual_date_in_interval(start, start, 2, 29, 0, LeapDayPolicy::Skip).is_none()
+        );
+        assert!(each_annual_date_in_interval(
+            start,
+            date(2023, 1, 1),
+            1,
+            1,
+            1,
+            LeapDayPolicy::Skip
+        )
+        .is_none());
         let mut last = each_annual_date_in_interval(
             NaiveDate::MAX,
             NaiveDate::MAX,

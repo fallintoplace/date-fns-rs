@@ -18,9 +18,7 @@ pub fn business_252_year_fraction(
         return Some(0.0);
     }
     let last = end.pred_opt()?;
-    let days = crate::count_business_days_in_interval_excluding_holidays(
-        start, last, holidays,
-    )?;
+    let days = crate::count_business_days_in_interval_excluding_holidays(start, last, holidays)?;
     Some(days as f64 / 252.0)
 }
 
@@ -54,6 +52,9 @@ mod tests {
         let forward = business_252_year_fraction(start, end, &[]).unwrap();
         assert_eq!(business_252_year_fraction(end, start, &[]), Some(-forward));
         assert_eq!(business_252_year_fraction(start, start, &[]), Some(0.0));
-        assert_eq!(business_252_year_fraction(NaiveDate::MAX, NaiveDate::MAX, &[]), Some(0.0));
+        assert_eq!(
+            business_252_year_fraction(NaiveDate::MAX, NaiveDate::MAX, &[]),
+            Some(0.0)
+        );
     }
 }

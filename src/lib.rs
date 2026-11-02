@@ -45,6 +45,9 @@ pub use excel_serial_dates::{
 mod interval_midpoint;
 pub use interval_midpoint::interval_midpoint;
 
+mod convert_months_years;
+pub use convert_months_years::{months_to_years, years_to_months};
+
 mod months;
 pub use months::add_months_preserving_end_of_month;
 pub use months::{add_months, sub_months};

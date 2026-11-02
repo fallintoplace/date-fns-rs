@@ -110,8 +110,10 @@ mod tests {
     #[test]
     fn rejects_unsupported_fields_duplicate_keys_and_zero_values() {
         for input in [
-            "FREQ=MONTHLY", "FREQ=MONTHLY;BYMONTHDAY=-1",
-            "FREQ=MONTHLY;BYMONTHDAY=0", "FREQ=MONTHLY;BYMONTHDAY=32",
+            "FREQ=MONTHLY",
+            "FREQ=MONTHLY;BYMONTHDAY=-1",
+            "FREQ=MONTHLY;BYMONTHDAY=0",
+            "FREQ=MONTHLY;BYMONTHDAY=32",
             "FREQ=MONTHLY;BYMONTHDAY=1;COUNT=0",
             "FREQ=MONTHLY;BYMONTHDAY=1;INTERVAL=0",
             "FREQ=MONTHLY;BYMONTHDAY=1;BYMONTHDAY=2",

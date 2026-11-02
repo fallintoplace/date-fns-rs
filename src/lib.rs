@@ -88,6 +88,9 @@ pub use datetime_boundaries::{
 mod datetime_ceil_minute;
 pub use datetime_ceil_minute::ceil_to_minute_step_datetime;
 
+mod weekly_mask_recurrence;
+pub use weekly_mask_recurrence::{each_selected_weekday_in_interval, WeeklyMaskRecurrences};
+
 mod calendar_week_difference;
 pub use calendar_week_difference::difference_in_calendar_iso_week_years;
 pub use calendar_week_difference::difference_in_calendar_weeks;

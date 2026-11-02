@@ -90,6 +90,33 @@ pub fn parse_ical_content_line(input: &str) -> Option<IcalContentLine<'_>> {
     })
 }
 
+/// Serialize one unfolded iCalendar content line.
+///
+/// Parameter values are supplied in their RFC 5545 wire representation.
+/// Use RFC 6868 encoding and quotation before calling this formatter
+/// when parameter text needs escaping.
+pub fn format_ical_content_line(
+    name: &str,
+    parameters: &[(&str, &str)],
+    value: &str,
+) -> Option<String> {
+    let mut output = String::from(name);
+    for (parameter_name, parameter_value) in parameters {
+        output.push(';');
+        output.push_str(parameter_name);
+        output.push('=');
+        output.push_str(parameter_value);
+    }
+    output.push(':');
+    output.push_str(value);
+
+    let parsed = parse_ical_content_line(&output)?;
+    if parsed.name != name || parsed.parameters.as_slice() != parameters || parsed.value != value {
+        return None;
+    }
+    Some(output)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -144,5 +171,37 @@ mod tests {
         ] {
             assert!(parse_ical_content_line(invalid).is_none(), "{invalid:?}");
         }
+    }
+}
+
+#[cfg(test)]
+mod formatting_tests {
+    use super::*;
+
+    #[test]
+    fn round_trips_quoted_parameter_delimiters_and_unicode() {
+        let parameters = [("CN", r#""Doe; Jane: Zürich""#), ("ROLE", "REQ-PARTICIPANT")];
+        let text = format_ical_content_line(
+            "ATTENDEE",
+            &parameters,
+            "mailto:jane@example.org",
+        )
+        .unwrap();
+        let parsed = parse_ical_content_line(&text).unwrap();
+        assert_eq!(parsed.name, "ATTENDEE");
+        assert_eq!(parsed.parameters.as_slice(), parameters);
+        assert_eq!(parsed.value, "mailto:jane@example.org");
+        assert_eq!(
+            format_ical_content_line("X-CUSTOM", &[], "").as_deref(),
+            Some("X-CUSTOM:")
+        );
+    }
+
+    #[test]
+    fn rejects_invalid_headers_and_newline_values() {
+        assert_eq!(format_ical_content_line("BAD NAME", &[], "x"), None);
+        assert_eq!(format_ical_content_line("SUMMARY", &[("CN", "a;b")], "x"), None);
+        assert_eq!(format_ical_content_line("SUMMARY", &[], "bad\nline"), None);
+        assert_eq!(format_ical_content_line("SUMMARY", &[("CN", "\"bad")], "x"), None);
     }
 }

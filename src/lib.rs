@@ -31,6 +31,9 @@ pub use datetime_arithmetic::{add_nanoseconds_datetime, sub_nanoseconds_datetime
 mod julian_day;
 pub use julian_day::{from_julian_day, to_julian_day};
 
+mod modified_julian_day;
+pub use modified_julian_day::{from_modified_julian_day, to_modified_julian_day};
+
 mod epoch_days;
 pub use epoch_days::{from_epoch_day, to_epoch_day};
 

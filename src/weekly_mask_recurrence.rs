@@ -93,7 +93,7 @@ mod tests {
             actual,
             vec![
                 date(2024, 3, 6),
-                date(2024, 3, 15),
+                date(2024, 3, 8),
                 date(2024, 3, 18),
                 date(2024, 3, 20),
                 date(2024, 3, 22),

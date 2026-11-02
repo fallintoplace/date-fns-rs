@@ -136,12 +136,14 @@ mod tests {
             each_ical_weekly_rrule(rule, date(2024, 3, 4), date(2024, 3, 31))
                 .unwrap()
                 .collect::<Vec<_>>(),
-            vec![date(2024, 3, 4), date(2024, 3, 6), date(2024, 3, 11), date(2024, 3, 13)]
+            vec![
+                date(2024, 3, 4),
+                date(2024, 3, 6),
+                date(2024, 3, 11),
+                date(2024, 3, 13)
+            ]
         );
-        assert!(parse_ical_weekly_rrule(
-            "FREQ=WEEKLY;BYDAY=MO;COUNT=2;UNTIL=20240331"
-        )
-        .is_none());
+        assert!(parse_ical_weekly_rrule("FREQ=WEEKLY;BYDAY=MO;COUNT=2;UNTIL=20240331").is_none());
     }
 
     #[test]

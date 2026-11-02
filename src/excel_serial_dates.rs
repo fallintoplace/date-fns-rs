@@ -80,11 +80,22 @@ mod tests {
 
     #[test]
     fn round_trips_leap_dates_and_checks_overflow() {
-        for day in [date(1900, 1, 1), date(1900, 3, 1), date(2000, 2, 29), NaiveDate::MAX] {
-            assert_eq!(from_excel_1900_serial(to_excel_1900_serial(day).unwrap()), Some(day));
+        for day in [
+            date(1900, 1, 1),
+            date(1900, 3, 1),
+            date(2000, 2, 29),
+            NaiveDate::MAX,
+        ] {
+            assert_eq!(
+                from_excel_1900_serial(to_excel_1900_serial(day).unwrap()),
+                Some(day)
+            );
         }
         for day in [date(1904, 1, 1), date(2024, 2, 29), NaiveDate::MAX] {
-            assert_eq!(from_excel_1904_serial(to_excel_1904_serial(day).unwrap()), Some(day));
+            assert_eq!(
+                from_excel_1904_serial(to_excel_1904_serial(day).unwrap()),
+                Some(day)
+            );
         }
         assert_eq!(from_excel_1900_serial(i64::MAX), None);
         assert_eq!(from_excel_1904_serial(i64::MAX), None);

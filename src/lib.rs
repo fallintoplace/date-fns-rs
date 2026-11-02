@@ -265,6 +265,9 @@ pub use datetime_epoch_bucketing::{
 mod datetime_epoch_nanos;
 pub use datetime_epoch_nanos::{from_unix_timestamp_nanos, to_unix_timestamp_nanos};
 
+mod convert_seconds_milliseconds;
+pub use convert_seconds_milliseconds::{milliseconds_to_seconds, seconds_to_milliseconds};
+
 mod datetime_epoch;
 pub use datetime_epoch::{
     from_unix_timestamp_millis, from_unix_timestamp_seconds, to_unix_timestamp_millis,

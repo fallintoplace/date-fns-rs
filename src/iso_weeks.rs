@@ -29,7 +29,6 @@ pub fn get_iso_day_of_year(date: NaiveDate) -> u32 {
     (date.iso_week().week() - 1) * 7 + date.weekday().number_from_monday()
 }
 
-
 /// Return the number of weeks in the ISO week-year containing a date.
 ///
 /// This may differ from the number of weeks in the date's calendar year.
@@ -64,6 +63,7 @@ mod tests {
         assert_eq!(get_iso_weeks_in_year(2024), Some(52));
         assert_eq!(get_iso_weeks_in_year(i32::MAX), None);
     }
+
     #[test]
     fn counts_days_across_iso_week_year_boundaries() {
         assert_eq!(get_iso_day_of_year(date(2021, 1, 1)), 369);
@@ -78,6 +78,7 @@ mod tests {
             assert!((1..=371).contains(&get_iso_day_of_year(date)));
         }
     }
+
     #[test]
     fn selects_iso_year_when_counting_weeks() {
         assert_eq!(get_iso_weeks_in_iso_year(date(2021, 1, 1)), Some(53));
@@ -85,5 +86,4 @@ mod tests {
         assert_eq!(get_iso_weeks_in_iso_year(date(2018, 12, 31)), Some(52));
         assert_eq!(get_iso_weeks_in_iso_year(date(2024, 1, 1)), Some(52));
     }
-
 }

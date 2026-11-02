@@ -602,3 +602,6 @@ pub use datetime_interval_set_intersection::intersect_datetime_interval_sets;
 
 mod date_interval_set;
 pub use date_interval_set::DateIntervalSet;
+
+mod datetime_interval_set;
+pub use datetime_interval_set::DatetimeIntervalSet;

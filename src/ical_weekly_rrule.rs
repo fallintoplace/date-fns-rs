@@ -2,7 +2,7 @@
 
 use chrono::{Datelike, NaiveDate};
 
-/// A weekly iCalendar rule with BYDAY selection and an optional COUNT cap.
+/// A weekly iCalendar rule with BYDAY and optional COUNT or UNTIL.
 ///
 /// Only FREQ=WEEKLY, BYDAY, INTERVAL and COUNT fields are supported.
 /// Monday is the first weekday (WKST=MO).
@@ -11,6 +11,7 @@ pub struct IcalWeeklyRRule {
     weekday_mask: u8,
     interval_weeks: u32,
     count: Option<usize>,
+    until: Option<NaiveDate>,
 }
 
 /// Parse a strict weekly RRULE body such as FREQ=WEEKLY;BYDAY=MO,WE;COUNT=4.
@@ -22,6 +23,7 @@ pub fn parse_ical_weekly_rrule(input: &str) -> Option<IcalWeeklyRRule> {
     let mut weekdays = None;
     let mut interval = None;
     let mut count = None;
+    let mut until = None;
     for part in input.split(';') {
         let (key, value) = part.split_once('=')?;
         match key {
@@ -62,13 +64,18 @@ pub fn parse_ical_weekly_rrule(input: &str) -> Option<IcalWeeklyRRule> {
                 }
                 count = Some(occurrences);
             }
+            "UNTIL" if until.is_none() => until = Some(crate::parse_ical_date(value)?),
             _ => return None,
         }
+    }
+    if count.is_some() && until.is_some() {
+        return None;
     }
     Some(IcalWeeklyRRule {
         weekday_mask: weekdays?,
         interval_weeks: interval.unwrap_or(1),
         count,
+        until,
     })
     .filter(|_| saw_frequency)
 }
@@ -86,9 +93,10 @@ pub fn each_ical_weekly_rrule(
     if rule.weekday_mask & (1_u8 << start.weekday().num_days_from_monday()) == 0 {
         return None;
     }
+    let through = rule.until.map_or(end, |until| end.min(until));
     let dates = crate::each_selected_weekday_in_interval(
         start,
-        end,
+        through,
         rule.weekday_mask,
         rule.interval_weeks,
     )?;
@@ -122,6 +130,23 @@ mod tests {
     }
 
     #[test]
+    fn until_is_inclusive_and_cannot_be_combined_with_count() {
+        let rule = parse_ical_weekly_rrule("FREQ=WEEKLY;BYDAY=MO,WE;UNTIL=20240313").unwrap();
+        assert_eq!(
+            each_ical_weekly_rrule(rule, date(2024, 3, 4), date(2024, 3, 31))
+                .unwrap()
+                .collect::<Vec<_>>(),
+            vec![
+                date(2024, 3, 4),
+                date(2024, 3, 6),
+                date(2024, 3, 11),
+                date(2024, 3, 13)
+            ]
+        );
+        assert!(parse_ical_weekly_rrule("FREQ=WEEKLY;BYDAY=MO;COUNT=2;UNTIL=20240331").is_none());
+    }
+
+    #[test]
     fn rejects_unsupported_fields_and_duplicate_keys() {
         for invalid in [
             "FREQ=DAILY;BYDAY=MO",
@@ -129,7 +154,7 @@ mod tests {
             "FREQ=WEEKLY;BYDAY=2MO",
             "FREQ=WEEKLY;BYDAY=MO;COUNT=0",
             "FREQ=WEEKLY;BYDAY=MO;INTERVAL=0",
-            "FREQ=WEEKLY;BYDAY=MO;UNTIL=20240101",
+            "FREQ=WEEKLY;BYDAY=MO;UNTIL=20240230",
             "FREQ=WEEKLY;BYDAY=MO;BYDAY=TU",
             "FREQ=WEEKLY;BYDAY=MO;FREQ=WEEKLY",
         ] {

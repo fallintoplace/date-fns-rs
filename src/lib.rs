@@ -18,6 +18,9 @@ pub use datetime_second_iterator::{
     each_nth_second_of_datetime_interval, SecondsInDatetimeInterval,
 };
 
+mod convert_hours_minutes;
+pub use convert_hours_minutes::{minutes_to_hours, hours_to_minutes};
+
 mod datetime_arithmetic;
 pub use chrono::NaiveDateTime;
 pub use datetime_arithmetic::{

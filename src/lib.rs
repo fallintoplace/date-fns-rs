@@ -243,6 +243,9 @@ pub use iso_calendar_duration::{
 mod iso_month_day;
 pub use iso_month_day::{format_iso_month_day, parse_iso_month_day};
 
+mod iso_basic_month_day;
+pub use iso_basic_month_day::{format_iso_basic_month_day, parse_iso_basic_month_day};
+
 mod calendar_quarter_difference;
 pub use calendar_quarter_difference::difference_in_calendar_quarters;
 

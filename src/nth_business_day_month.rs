@@ -59,9 +59,10 @@ mod tests {
         assert_eq!(nth_business_day_of_month(2024, 2, 0, &[]), None);
         assert_eq!(nth_business_day_of_month(2024, 2, 32, &[]), None);
         assert_eq!(nth_business_day_of_month(2024, 2, -32, &[]), None);
-        assert_eq!(nth_business_day_of_month(2023, 2, -1, &[]), Some(
-            NaiveDate::from_ymd_opt(2023, 2, 28).unwrap()
-        ));
+        assert_eq!(
+            nth_business_day_of_month(2023, 2, -1, &[]),
+            Some(NaiveDate::from_ymd_opt(2023, 2, 28).unwrap())
+        );
         assert_eq!(nth_business_day_of_month(2024, 13, 1, &[]), None);
         assert_eq!(nth_business_day_of_month(i32::MAX, 1, 1, &[]), None);
         assert_eq!(nth_business_day_of_month(2024, 2, i8::MIN, &[]), None);

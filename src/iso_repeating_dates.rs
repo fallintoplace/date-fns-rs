@@ -42,9 +42,7 @@ impl FusedIterator for IsoRepeatedDateOccurrences {}
 ///
 /// Unlimited repetitions, signed counts, zero periods, and negative periods
 /// are rejected. Iteration stops safely if Chrono's date limit is reached.
-pub fn parse_iso_repeating_date_interval(
-    input: &str,
-) -> Option<IsoRepeatedDateOccurrences> {
+pub fn parse_iso_repeating_date_interval(input: &str) -> Option<IsoRepeatedDateOccurrences> {
     let mut fields = input.split('/');
     let repetitions = fields.next()?.strip_prefix('R')?;
     let start = fields.next()?;
@@ -61,10 +59,7 @@ pub fn parse_iso_repeating_date_interval(
     let start = crate::parse_iso_date(start)?;
     let period = crate::parse_iso_calendar_duration(period)?;
     if period.negative
-        || (period.years == 0
-            && period.months == 0
-            && period.weeks == 0
-            && period.days == 0)
+        || (period.years == 0 && period.months == 0 && period.weeks == 0 && period.days == 0)
     {
         return None;
     }
@@ -111,7 +106,10 @@ mod tests {
             "R1/2024-02-30/P1D",
             "R1/2024-01-01/P1D/extra",
         ] {
-            assert!(parse_iso_repeating_date_interval(invalid).is_none(), "{invalid}");
+            assert!(
+                parse_iso_repeating_date_interval(invalid).is_none(),
+                "{invalid}"
+            );
         }
     }
 }

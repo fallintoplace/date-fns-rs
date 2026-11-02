@@ -519,6 +519,9 @@ pub use business_month_boundaries::{
 mod interval_weekends;
 pub use interval_weekends::{each_weekend_of_interval, WeekendsInInterval};
 
+mod ical_monthly_rrule;
+pub use ical_monthly_rrule::{each_ical_monthly_rrule, parse_ical_monthly_rrule, IcalMonthlyRRule};
+
 mod monthly_day_recurrence;
 pub use monthly_day_recurrence::{
     each_day_of_month_in_interval, MonthDayPolicy, MonthlyDayRecurrences,
@@ -826,6 +829,3 @@ pub use workweek_holidays::{add_workdays_with_holidays, count_workdays_with_holi
 
 mod ical_weekly_rrule;
 pub use ical_weekly_rrule::{each_ical_weekly_rrule, parse_ical_weekly_rrule, IcalWeeklyRRule};
-
-mod ical_monthly_rrule;
-pub use ical_monthly_rrule::{each_ical_monthly_rrule, parse_ical_monthly_rrule, IcalMonthlyRRule};

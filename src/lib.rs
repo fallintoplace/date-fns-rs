@@ -618,6 +618,9 @@ pub use iso_basic_week_date::{format_iso_basic_week_date, parse_iso_basic_week_d
 mod iso_year_month;
 pub use iso_year_month::{format_iso_year_month, parse_iso_year_month};
 
+mod iso_basic_year_month;
+pub use iso_basic_year_month::{format_iso_basic_year_month, parse_iso_basic_year_month};
+
 mod date_distance_de;
 pub use date_distance_de::{format_date_distance_de, format_date_distance_strict_days_de};
 

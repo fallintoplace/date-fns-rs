@@ -139,8 +139,7 @@ mod tests {
     #[test]
     fn until_is_inclusive_for_leap_day_recurrences() {
         let rule =
-            parse_ical_yearly_rrule("FREQ=YEARLY;BYMONTH=2;BYMONTHDAY=29;UNTIL=20280229")
-                .unwrap();
+            parse_ical_yearly_rrule("FREQ=YEARLY;BYMONTH=2;BYMONTHDAY=29;UNTIL=20280229").unwrap();
         assert_eq!(
             each_ical_yearly_rrule(rule, date(2024, 2, 29), date(2040, 12, 31))
                 .unwrap()

@@ -3,20 +3,30 @@
 use chrono::{Datelike, NaiveDate, NaiveDateTime};
 
 const MONTHS: [&str; 12] = [
-    "January", "February", "March", "April", "May", "June",
-    "July", "August", "September", "October", "November", "December",
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
 ];
 const WEEKDAYS: [&str; 7] = [
-    "Sunday", "Monday", "Tuesday", "Wednesday",
-    "Thursday", "Friday", "Saturday",
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
 ];
 
-fn parse_english_name(
-    input: &str,
-    at: &mut usize,
-    names: &[&str],
-    full: bool,
-) -> Option<u32> {
+fn parse_english_name(input: &str, at: &mut usize, names: &[&str], full: bool) -> Option<u32> {
     let remaining = input.get(*at..)?;
     for (index, name) in names.iter().enumerate() {
         let token = if full { *name } else { &name[..3] };
@@ -138,8 +148,7 @@ pub fn parse_datetime_tokens(input: &str, pattern: &str) -> Option<NaiveDateTime
             continue;
         }
         let token = [
-            "yyyy", "SSS", "hh", "MM", "dd", "HH", "mm", "ss", "M", "d", "H", "h", "m",
-            "s",
+            "yyyy", "SSS", "hh", "MM", "dd", "HH", "mm", "ss", "M", "d", "H", "h", "m", "s",
         ]
         .iter()
         .find(|token| rest.starts_with(**token))
@@ -312,5 +321,4 @@ mod tests {
             None
         );
     }
-
 }

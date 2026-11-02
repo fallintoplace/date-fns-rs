@@ -110,7 +110,10 @@ mod tests {
     #[test]
     fn matches_brute_force_on_short_nanosecond_domain() {
         let base = at(0);
-        let date = |nano: i64| base.checked_add_signed(TimeDelta::nanoseconds(nano)).unwrap();
+        let date = |nano: i64| {
+            base.checked_add_signed(TimeDelta::nanoseconds(nano))
+                .unwrap()
+        };
         let candidates = [(0, 3), (2, 6), (4, 4), (7, 9)];
         for mask in 0..16_u32 {
             let ranges: Vec<_> = candidates

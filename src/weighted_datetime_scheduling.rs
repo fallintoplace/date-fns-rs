@@ -51,9 +51,12 @@ mod tests {
     use chrono::{NaiveDate, TimeDelta};
 
     fn tick(n: i64) -> NaiveDateTime {
-        NaiveDate::from_ymd_opt(2024, 2, 29).unwrap()
-            .and_hms_opt(0, 0, 0).unwrap()
-            .checked_add_signed(TimeDelta::nanoseconds(n)).unwrap()
+        NaiveDate::from_ymd_opt(2024, 2, 29)
+            .unwrap()
+            .and_hms_opt(0, 0, 0)
+            .unwrap()
+            .checked_add_signed(TimeDelta::nanoseconds(n))
+            .unwrap()
     }
 
     #[test]
@@ -64,7 +67,10 @@ mod tests {
             (tick(10), tick(20), 8),
             (tick(20), tick(21), 20),
         ];
-        assert_eq!(select_max_weight_datetime_intervals(&input), Some(vec![1, 3]));
+        assert_eq!(
+            select_max_weight_datetime_intervals(&input),
+            Some(vec![1, 3])
+        );
     }
 
     #[test]
@@ -77,9 +83,12 @@ mod tests {
             (tick(8), tick(8), -10),
         ];
         for input in 0..32_u32 {
-            let ranges: Vec<_> = candidates.iter().enumerate()
+            let ranges: Vec<_> = candidates
+                .iter()
+                .enumerate()
                 .filter(|(i, _)| input & (1 << i) != 0)
-                .map(|(_, &item)| item).collect();
+                .map(|(_, &item)| item)
+                .collect();
             let selected = select_max_weight_datetime_intervals(&ranges).unwrap();
             let obtained: i128 = selected.iter().map(|&i| i128::from(ranges[i].2)).sum();
             for pair in selected.windows(2) {
@@ -88,11 +97,13 @@ mod tests {
             let mut expected = 0_i128;
             for mask in 0..(1_usize << ranges.len()) {
                 let indices: Vec<_> = (0..ranges.len())
-                    .filter(|&i| mask & (1 << i) != 0).collect();
+                    .filter(|&i| mask & (1 << i) != 0)
+                    .collect();
                 if indices.iter().enumerate().all(|(k, &i)| {
-                    indices.iter().skip(k + 1).all(|&j| {
-                        ranges[i].1 < ranges[j].0 || ranges[j].1 < ranges[i].0
-                    })
+                    indices
+                        .iter()
+                        .skip(k + 1)
+                        .all(|&j| ranges[i].1 < ranges[j].0 || ranges[j].1 < ranges[i].0)
                 }) {
                     expected = expected.max(indices.iter().map(|&i| i128::from(ranges[i].2)).sum());
                 }
@@ -104,10 +115,16 @@ mod tests {
     #[test]
     fn includes_maximum_instants_and_rejects_bad_ranges() {
         assert_eq!(select_max_weight_datetime_intervals(&[]), Some(vec![]));
-        assert_eq!(select_max_weight_datetime_intervals(&[(tick(2), tick(1), 8)]), None);
-        assert_eq!(select_max_weight_datetime_intervals(&[
-            (NaiveDateTime::MIN, NaiveDateTime::MIN, i64::MAX),
-            (NaiveDateTime::MAX, NaiveDateTime::MAX, i64::MAX),
-        ]), Some(vec![0, 1]));
+        assert_eq!(
+            select_max_weight_datetime_intervals(&[(tick(2), tick(1), 8)]),
+            None
+        );
+        assert_eq!(
+            select_max_weight_datetime_intervals(&[
+                (NaiveDateTime::MIN, NaiveDateTime::MIN, i64::MAX),
+                (NaiveDateTime::MAX, NaiveDateTime::MAX, i64::MAX),
+            ]),
+            Some(vec![0, 1])
+        );
     }
 }

@@ -23,7 +23,6 @@ pub fn get_days_in_year(date: NaiveDate) -> u32 {
     }
 }
 
-
 /// Return the 1-based day of the current month.
 pub fn get_day_of_month(date: NaiveDate) -> u32 {
     date.day()
@@ -71,6 +70,7 @@ mod tests {
         assert!((1..=366).contains(&get_day_of_year(NaiveDate::MIN)));
         assert!((1..=366).contains(&get_day_of_year(NaiveDate::MAX)));
     }
+
     #[test]
     fn weekday_numbers_use_explicit_sunday_and_iso_conventions() {
         let leap = date(2024, 2, 29);
@@ -86,5 +86,4 @@ mod tests {
         assert!((1..=31).contains(&get_day_of_month(NaiveDate::MIN)));
         assert!(get_weekday_sunday_zero(NaiveDate::MAX) <= 6);
     }
-
 }

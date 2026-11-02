@@ -204,6 +204,12 @@ pub use half_year_day_ordinals::{get_day_of_half_year, get_days_in_half_year};
 mod iso_ordinal_date;
 pub use iso_ordinal_date::{format_iso_ordinal_date, parse_iso_ordinal_date};
 
+mod iso_calendar_duration;
+pub use iso_calendar_duration::{
+    apply_iso_calendar_duration, format_iso_calendar_duration, parse_iso_calendar_duration,
+    IsoCalendarDuration,
+};
+
 mod iso_month_day;
 pub use iso_month_day::{format_iso_month_day, parse_iso_month_day};
 

@@ -42,6 +42,21 @@ pub fn max_date(dates: &[NaiveDate]) -> Option<NaiveDate> {
     dates.iter().copied().max()
 }
 
+
+/// Compare dates in ascending order using -1, 0, or 1.
+pub fn compare_asc(left: NaiveDate, right: NaiveDate) -> i8 {
+    match left.cmp(&right) {
+        std::cmp::Ordering::Less => -1,
+        std::cmp::Ordering::Equal => 0,
+        std::cmp::Ordering::Greater => 1,
+    }
+}
+
+/// Compare dates in descending order using -1, 0, or 1.
+pub fn compare_desc(left: NaiveDate, right: NaiveDate) -> i8 {
+    compare_asc(right, left)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -96,4 +111,17 @@ mod tests {
             Some(NaiveDate::MAX)
         );
     }
+    #[test]
+    fn signed_comparisons_cover_earlier_equal_and_later_dates() {
+        let earlier = date(2024, 2, 28);
+        let later = date(2024, 2, 29);
+        assert_eq!(compare_asc(earlier, later), -1);
+        assert_eq!(compare_asc(later, earlier), 1);
+        assert_eq!(compare_asc(later, later), 0);
+        assert_eq!(compare_desc(earlier, later), 1);
+        assert_eq!(compare_desc(later, earlier), -1);
+        assert_eq!(compare_desc(earlier, earlier), 0);
+        assert_eq!(compare_asc(NaiveDate::MIN, NaiveDate::MAX), -1);
+    }
+
 }

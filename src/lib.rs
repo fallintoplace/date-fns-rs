@@ -745,3 +745,6 @@ mod datetime_coverage_index;
 mod datetime_interval_set;
 pub use datetime_coverage_index::DatetimeCoverageIndex;
 pub use datetime_interval_set::DatetimeIntervalSet;
+
+mod datetime_epoch_i128_nanos;
+pub use datetime_epoch_i128_nanos::{from_unix_timestamp_nanos_i128, to_unix_timestamp_nanos_i128};

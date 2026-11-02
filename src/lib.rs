@@ -313,6 +313,9 @@ pub use cron_schedule::{parse_cron_schedule, CronSchedule};
 mod iso_week_year_boundaries;
 pub use iso_week_year_boundaries::{end_of_iso_week_year, start_of_iso_week_year};
 
+mod datetime_rfc7231;
+pub use datetime_rfc7231::{format_rfc7231_datetime, parse_rfc7231_datetime};
+
 mod datetime_rfc3339;
 pub use datetime_rfc3339::{format_rfc3339_datetime, parse_rfc3339_datetime};
 

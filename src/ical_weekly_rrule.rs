@@ -131,10 +131,7 @@ mod tests {
 
     #[test]
     fn until_is_inclusive_and_cannot_be_combined_with_count() {
-        let rule = parse_ical_weekly_rrule(
-            "FREQ=WEEKLY;BYDAY=MO,WE;UNTIL=20240313",
-        )
-        .unwrap();
+        let rule = parse_ical_weekly_rrule("FREQ=WEEKLY;BYDAY=MO,WE;UNTIL=20240313").unwrap();
         assert_eq!(
             each_ical_weekly_rrule(rule, date(2024, 3, 4), date(2024, 3, 31))
                 .unwrap()

@@ -745,3 +745,6 @@ mod datetime_coverage_index;
 mod datetime_interval_set;
 pub use datetime_coverage_index::DatetimeCoverageIndex;
 pub use datetime_interval_set::DatetimeIntervalSet;
+
+mod business_252;
+pub use business_252::business_252_year_fraction;

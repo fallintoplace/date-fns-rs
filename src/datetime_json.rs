@@ -30,11 +30,14 @@ pub fn parse_json_datetime_utc(input: &str) -> Option<NaiveDateTime> {
         return Some(value);
     }
     let (date, time) = input.split_once(' ')?;
+    if date.is_empty() || time.is_empty() || time.contains(' ') {
+        return None;
+    }
     let mut canonical = String::with_capacity(input.len());
     canonical.push_str(date);
     canonical.push('T');
     canonical.push_str(time);
-    crate::parse_iso_local_datetime(&canonical)
+    parse_json_datetime_utc(&canonical)
 }
 
 #[cfg(test)]
@@ -88,6 +91,37 @@ mod tests {
             "2024-02-29 00:00:00 ",
             "2024-02-29T00:00:00.1234567890",
             "",
+        ] {
+            assert_eq!(parse_json_datetime_utc(input), None);
+        }
+    }
+}
+
+#[cfg(test)]
+mod space_offset_tests {
+    use super::*;
+
+    #[test]
+    fn converts_space_separated_rfc3339_and_compact_offsets() {
+        let expected = crate::NaiveDate::from_ymd_opt(2024, 2, 29)
+            .unwrap()
+            .and_hms_opt(18, 15, 0)
+            .unwrap();
+        for input in [
+            "2024-03-01 00:00:00+05:45",
+            "2024-03-01 00:00:00+0545",
+            "2024-02-29 18:15:00Z",
+        ] {
+            assert_eq!(parse_json_datetime_utc(input), Some(expected));
+        }
+    }
+
+    #[test]
+    fn rejects_repeated_spaces_and_invalid_offsets() {
+        for input in [
+            "2024-02-29  18:15:00Z",
+            "2024-02-29 18:15:00 Z",
+            "2024-02-29 18:15:00+2560",
         ] {
             assert_eq!(parse_json_datetime_utc(input), None);
         }

@@ -511,7 +511,10 @@ pub use interval_business_holidays::{
 };
 
 mod interval_business_days;
-pub use interval_business_days::{each_business_day_of_interval, BusinessDaysInInterval};
+pub use interval_business_days::{
+    each_business_day_of_interval, each_business_day_of_month, each_business_day_of_year,
+    BusinessDaysInInterval,
+};
 
 mod datetime_slot_packing;
 pub use datetime_slot_packing::pack_datetime_slots;

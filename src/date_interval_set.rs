@@ -82,11 +82,7 @@ impl DateIntervalSet {
     /// Clip the union to an inclusive query without enumerating dates.
     ///
     /// Returns None for a reversed query. The output is already normalized.
-    pub fn clipped(
-        &self,
-        start: NaiveDate,
-        end: NaiveDate,
-    ) -> Option<Vec<(NaiveDate, NaiveDate)>> {
+    pub fn clipped(&self, start: NaiveDate, end: NaiveDate) -> Option<Vec<(NaiveDate, NaiveDate)>> {
         if start > end {
             return None;
         }
@@ -118,10 +114,7 @@ mod tests {
             (date(10), date(12)),
         ])
         .unwrap();
-        assert_eq!(
-            set.intervals(),
-            &[(date(1), date(7)), (date(10), date(12))]
-        );
+        assert_eq!(set.intervals(), &[(date(1), date(7)), (date(10), date(12))]);
         assert_eq!(set.covered_days(), 10);
         assert_eq!(set.containing_interval(date(4)), Some((date(1), date(7))));
         assert_eq!(set.containing_interval(date(8)), None);
@@ -145,7 +138,10 @@ mod tests {
         assert!(!empty.contains(NaiveDate::MIN));
         assert_eq!(empty.covered_days(), 0);
         assert_eq!(empty.next_covered_date(NaiveDate::MAX), None);
-        assert_eq!(empty.next_uncovered_date(NaiveDate::MAX), Some(NaiveDate::MAX));
+        assert_eq!(
+            empty.next_uncovered_date(NaiveDate::MAX),
+            Some(NaiveDate::MAX)
+        );
         assert_eq!(empty.clipped(NaiveDate::MIN, NaiveDate::MAX), Some(vec![]));
         assert!(DateIntervalSet::new(&[(date(3), date(1))]).is_none());
         let full = DateIntervalSet::new(&[(NaiveDate::MIN, NaiveDate::MAX)]).unwrap();

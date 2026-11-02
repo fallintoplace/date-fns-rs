@@ -7,11 +7,7 @@ use chrono::{Datelike, NaiveDate};
 /// February month ends count as day 30, except that an end date which is the
 /// final maturity date keeps its actual February day. Reversed endpoints
 /// negate the forward count.
-pub fn thirty_e_360_isda_day_count(
-    start: NaiveDate,
-    end: NaiveDate,
-    end_is_maturity: bool,
-) -> i64 {
+pub fn thirty_e_360_isda_day_count(start: NaiveDate, end: NaiveDate, end_is_maturity: bool) -> i64 {
     if start > end {
         return -thirty_e_360_isda_day_count(end, start, end_is_maturity);
     }
@@ -29,7 +25,8 @@ pub fn thirty_e_360_isda_day_count(
     };
     360 * i64::from(end.year() - start.year())
         + 30 * (i64::from(end.month()) - i64::from(start.month()))
-        + i64::from(end_day) - i64::from(start_day)
+        + i64::from(end_day)
+        - i64::from(start_day)
 }
 
 #[cfg(test)]

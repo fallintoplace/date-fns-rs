@@ -190,6 +190,9 @@ pub use datetime_iso_basic::{format_iso_basic_local_datetime, parse_iso_basic_lo
 
 mod iso_basic_date;
 
+mod ical_daily_rrule;
+pub use ical_daily_rrule::{each_ical_daily_rrule, parse_ical_daily_rrule, IcalDailyRRule};
+
 mod ical;
 pub use ical::{
     format_ical_date, format_ical_datetime_utc, parse_ical_date, parse_ical_datetime_utc,

@@ -850,6 +850,9 @@ pub use settlement_date::settlement_date;
 mod ical_folding;
 pub use ical_folding::{fold_ical_content_line, unfold_ical_content_lines};
 
+mod ical_content_line;
+pub use ical_content_line::{parse_ical_content_line, IcalContentLine};
+
 mod datetime_midpoint;
 pub use datetime_midpoint::datetime_interval_midpoint;
 

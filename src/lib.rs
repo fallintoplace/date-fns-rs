@@ -367,6 +367,9 @@ pub use datetime_intervals::{
     is_within_datetime_interval,
 };
 
+mod datetime_overlap_depth;
+pub use datetime_overlap_depth::datetime_overlap_depth;
+
 mod datetime_interval_symmetric_difference;
 pub use datetime_interval_symmetric_difference::symmetric_difference_of_datetime_intervals;
 

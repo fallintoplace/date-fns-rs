@@ -564,6 +564,7 @@ mod week_of_quarter;
 pub use week_of_quarter::get_week_of_quarter;
 
 mod calendar_week_metadata;
+pub use calendar_week_metadata::is_same_week_year;
 pub use calendar_week_metadata::{get_week, get_week_year};
 
 mod calendar_week_year_bounds;

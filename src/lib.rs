@@ -553,3 +553,33 @@ pub use datetime_week_year_boundaries::{
 };
 
 pub use datetime_week_boundaries::{end_of_iso_week_datetime, start_of_iso_week_datetime};
+
+mod interval_set_intersection;
+pub use interval_set_intersection::intersect_interval_sets;
+
+mod datetime_interval_set_intersection;
+pub use datetime_interval_set_intersection::intersect_datetime_interval_sets;
+
+mod date_interval_set;
+pub use date_interval_set::DateIntervalSet;
+
+mod datetime_interval_set;
+pub use datetime_interval_set::DatetimeIntervalSet;
+
+mod configurable_workweek;
+pub use configurable_workweek::Workweek;
+
+mod indexed_holiday_calendar;
+pub use indexed_holiday_calendar::IndexedHolidayCalendar;
+
+mod datetime_day_segments;
+pub use datetime_day_segments::{each_day_segment_of_datetime_interval, DatetimeDaySegments};
+
+mod financial_day_count;
+pub use financial_day_count::{financial_day_count, financial_year_fraction, DayCountConvention};
+
+mod iso_fixed_duration;
+pub use iso_fixed_duration::{format_iso_fixed_duration, parse_iso_fixed_duration};
+
+mod retail_445_calendar;
+pub use retail_445_calendar::{Retail445Calendar, Retail445Position};

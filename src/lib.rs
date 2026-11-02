@@ -319,6 +319,11 @@ mod iso_fixed_duration;
 pub use iso_fixed_duration::{format_iso_fixed_duration, parse_iso_fixed_duration};
 
 mod iso_time;
+mod iso_hour_minute;
+pub use iso_hour_minute::{
+    format_iso_basic_hour_minute, format_iso_hour_minute, parse_iso_basic_hour_minute,
+    parse_iso_hour_minute,
+};
 pub use chrono::NaiveTime;
 pub use iso_time::{format_iso_local_time, parse_iso_local_time};
 

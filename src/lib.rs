@@ -553,3 +553,24 @@ pub use datetime_week_year_boundaries::{
 };
 
 pub use datetime_week_boundaries::{end_of_iso_week_datetime, start_of_iso_week_datetime};
+
+mod interval_complement;
+pub use interval_complement::complement_date_intervals;
+mod datetime_interval_complement;
+pub use datetime_interval_complement::complement_datetime_intervals;
+mod interval_intersect_many;
+pub use interval_intersect_many::intersect_many_date_interval_sets;
+mod mutable_date_interval_set;
+pub use mutable_date_interval_set::MutableDateIntervalSet;
+mod mutable_datetime_interval_set;
+pub use mutable_datetime_interval_set::MutableDatetimeIntervalSet;
+mod datetime_slot_packing;
+pub use datetime_slot_packing::pack_datetime_slots;
+mod iso_calendar_duration;
+pub use iso_calendar_duration::{apply_iso_calendar_duration, format_iso_calendar_duration, parse_iso_calendar_duration, IsoCalendarDuration};
+mod monthly_set_position_recurrence;
+pub use monthly_set_position_recurrence::{each_monthly_weekday_set_position, MonthlyWeekdaySetPosition};
+mod distinct_source_coverage;
+pub use distinct_source_coverage::coverage_by_distinct_sources;
+mod cron_schedule;
+pub use cron_schedule::{parse_cron_schedule, CronSchedule};

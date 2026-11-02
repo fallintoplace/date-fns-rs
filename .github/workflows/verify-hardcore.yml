@@ -1,0 +1,13 @@
+name: Verify Rust modules
+on:
+  push:
+    branches:
+      - test/verify-hardcore-datefnsrs-20261102
+jobs:
+  rust-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Run tests
+        run: cargo test --all-targets

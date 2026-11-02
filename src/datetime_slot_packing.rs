@@ -86,14 +86,7 @@ pub fn pack_datetime_slots(
     }
 
     if let Some(current) = cursor {
-        fill_gap(
-            current,
-            end,
-            slot_nanos,
-            gap_nanos,
-            limit,
-            &mut result,
-        );
+        fill_gap(current, end, slot_nanos, gap_nanos, limit, &mut result);
     }
     Some(result)
 }
@@ -114,15 +107,8 @@ mod tests {
 
     #[test]
     fn packs_with_separation_and_skips_excluded_instants() {
-        let slots = pack_datetime_slots(
-            tick(0),
-            tick(20),
-            &[(tick(7), tick(10))],
-            3,
-            1,
-            10,
-        )
-        .unwrap();
+        let slots =
+            pack_datetime_slots(tick(0), tick(20), &[(tick(7), tick(10))], 3, 1, 10).unwrap();
         assert_eq!(
             slots,
             vec![
@@ -142,18 +128,8 @@ mod tests {
 
     #[test]
     fn handles_single_nanoseconds_and_extreme_boundaries() {
-        let slots = pack_datetime_slots(
-            NaiveDateTime::MAX,
-            NaiveDateTime::MAX,
-            &[],
-            1,
-            0,
-            3,
-        );
-        assert_eq!(
-            slots,
-            Some(vec![(NaiveDateTime::MAX, NaiveDateTime::MAX)])
-        );
+        let slots = pack_datetime_slots(NaiveDateTime::MAX, NaiveDateTime::MAX, &[], 1, 0, 3);
+        assert_eq!(slots, Some(vec![(NaiveDateTime::MAX, NaiveDateTime::MAX)]));
         assert_eq!(
             pack_datetime_slots(tick(0), tick(0), &[], 1, 0, 5),
             Some(vec![(tick(0), tick(0))])
@@ -169,17 +145,7 @@ mod tests {
         assert!(pack_datetime_slots(tick(2), tick(1), &[], 1, 0, 1).is_none());
         assert!(pack_datetime_slots(tick(0), tick(1), &[], 0, 0, 1).is_none());
         assert!(pack_datetime_slots(tick(0), tick(1), &[], 1, -1, 1).is_none());
-        assert!(
-            pack_datetime_slots(
-                tick(0),
-                tick(5),
-                &[(tick(4), tick(3))],
-                1,
-                0,
-                1,
-            )
-            .is_none()
-        );
+        assert!(pack_datetime_slots(tick(0), tick(5), &[(tick(4), tick(3))], 1, 0, 1,).is_none());
         assert_eq!(
             pack_datetime_slots(tick(0), tick(1), &[], 3, 0, 4),
             Some(vec![])
@@ -188,15 +154,8 @@ mod tests {
 
     #[test]
     fn packs_without_allocating_nanoseconds_of_dense_ranges() {
-        let result = pack_datetime_slots(
-            NaiveDateTime::MIN,
-            NaiveDateTime::MAX,
-            &[],
-            1,
-            0,
-            3,
-        )
-        .unwrap();
+        let result =
+            pack_datetime_slots(NaiveDateTime::MIN, NaiveDateTime::MAX, &[], 1, 0, 3).unwrap();
         assert_eq!(result.len(), 3);
         assert_eq!(result[0].0, NaiveDateTime::MIN);
     }

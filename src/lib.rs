@@ -796,3 +796,6 @@ pub use ical_duration::{format_ical_duration, parse_ical_duration};
 
 mod ical_period_utc;
 pub use ical_period_utc::{format_ical_period_utc, parse_ical_period_utc};
+
+mod datetime_rfc2822;
+pub use datetime_rfc2822::{format_rfc2822_datetime, parse_rfc2822_datetime};

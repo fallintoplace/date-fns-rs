@@ -420,6 +420,9 @@ pub use datetime_rounding::{
 mod datetime_floor_minute;
 pub use datetime_floor_minute::floor_to_minute_step_datetime;
 
+mod distinct_source_coverage;
+pub use distinct_source_coverage::coverage_by_distinct_sources;
+
 mod interval_year_segments;
 pub use interval_year_segments::{each_year_segment_of_interval, YearSegmentsInInterval};
 

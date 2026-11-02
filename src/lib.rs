@@ -220,6 +220,9 @@ pub use datetime_differences::{
     difference_in_seconds_datetime,
 };
 
+mod convert_minutes_seconds;
+pub use convert_minutes_seconds::{seconds_to_minutes, minutes_to_seconds};
+
 mod datetime_calendar_clock_differences;
 pub use datetime_calendar_clock_differences::{
     difference_in_calendar_hours_datetime, difference_in_calendar_minutes_datetime,

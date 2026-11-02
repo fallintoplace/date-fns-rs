@@ -428,7 +428,9 @@ mod datetime_overlapping_days;
 pub use datetime_overlapping_days::overlapping_elapsed_days_datetime_intervals;
 
 mod datetime_overlap_depth;
+mod datetime_overlap_join;
 pub use datetime_overlap_depth::datetime_overlap_depth;
+pub use datetime_overlap_join::join_overlapping_datetime_intervals;
 
 mod datetime_interval_symmetric_difference;
 pub use datetime_interval_symmetric_difference::symmetric_difference_of_datetime_intervals;

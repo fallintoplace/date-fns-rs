@@ -28,9 +28,8 @@ pub fn interval_to_calendar_duration(
     if end < start {
         return None;
     }
-    let mut months = i32::try_from(
-        crate::difference_in_calendar_months_datetime(end, start)
-    ).ok()?;
+    let mut months =
+        i32::try_from(crate::difference_in_calendar_months_datetime(end, start)).ok()?;
     let mut anchor = crate::add_months_datetime(start, months)?;
     if anchor > end {
         months = months.checked_sub(1)?;
@@ -121,7 +120,10 @@ mod tests {
                 nanoseconds: 0,
             })
         );
-        assert_eq!(interval_to_calendar_duration(NaiveDateTime::MAX, start), None);
+        assert_eq!(
+            interval_to_calendar_duration(NaiveDateTime::MAX, start),
+            None
+        );
         assert!(interval_to_calendar_duration(start, NaiveDateTime::MAX).is_some());
     }
 }

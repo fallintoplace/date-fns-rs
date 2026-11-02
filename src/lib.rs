@@ -336,7 +336,7 @@ mod cron_schedule;
 
 mod cron_occurrences;
 pub use cron_occurrences::{each_cron_minute_between, CronOccurrences};
-pub use cron_schedule::{parse_cron_schedule, CronSchedule};
+pub use cron_schedule::{parse_cron_schedule, parse_cron_schedule_with_aliases, CronSchedule};
 
 mod iso_week_year_boundaries;
 pub use iso_week_year_boundaries::{end_of_iso_week_year, start_of_iso_week_year};

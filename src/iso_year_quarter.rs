@@ -55,8 +55,7 @@ mod tests {
     #[test]
     fn rejects_malformed_or_out_of_range_quarters() {
         for text in [
-            "2024-Q0", "2024-Q5", "2024-q1", "24-Q1", "+2024-Q1",
-            "2024Q1", "2024-Q01", "2024-Q1 ",
+            "2024-Q0", "2024-Q5", "2024-q1", "24-Q1", "+2024-Q1", "2024Q1", "2024-Q01", "2024-Q1 ",
         ] {
             assert_eq!(parse_iso_year_quarter(text), None, "{text}");
         }

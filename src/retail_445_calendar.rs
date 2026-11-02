@@ -79,7 +79,9 @@ impl Retail445Calendar {
         } else {
             u64::from(PERIOD_END_WEEKS[index])
         };
-        let start = self.year_start.checked_add_days(Days::new(begin_week * 7))?;
+        let start = self
+            .year_start
+            .checked_add_days(Days::new(begin_week * 7))?;
         let end = self
             .year_start
             .checked_add_days(Days::new(end_week * 7 - 1))?;
@@ -100,7 +102,9 @@ impl Retail445Calendar {
         } else {
             u64::from(quarter) * 13
         };
-        let start = self.year_start.checked_add_days(Days::new(first_week * 7))?;
+        let start = self
+            .year_start
+            .checked_add_days(Days::new(first_week * 7))?;
         let end = self
             .year_start
             .checked_add_days(Days::new(final_week * 7 - 1))?;
@@ -130,10 +134,8 @@ impl Retail445Calendar {
                     period,
                     week_of_year: u8::try_from(week_index + 1).ok()?,
                     week_of_period: u8::try_from(weeks_into_period + 1).ok()?,
-                    day_of_period: u8::try_from(
-                        weeks_into_period * 7 + (day_offset % 7) + 1,
-                    )
-                    .ok()?,
+                    day_of_period: u8::try_from(weeks_into_period * 7 + (day_offset % 7) + 1)
+                        .ok()?,
                 });
             }
         }
@@ -195,9 +197,15 @@ mod tests {
         let leap_week = Retail445Calendar::new(base, 53).unwrap();
         assert_eq!(leap_week.year_end(), date(2025, 2, 8));
         assert_eq!(leap_week.period_bounds(11), regular.period_bounds(11));
-        assert_eq!(leap_week.period_bounds(12).unwrap().0, regular.period_bounds(12).unwrap().0);
+        assert_eq!(
+            leap_week.period_bounds(12).unwrap().0,
+            regular.period_bounds(12).unwrap().0
+        );
         let (last_start, last_end) = leap_week.period_bounds(12).unwrap();
-        assert_eq!(last_end.signed_duration_since(last_start).num_days() + 1, 42);
+        assert_eq!(
+            last_end.signed_duration_since(last_start).num_days() + 1,
+            42
+        );
         let (quarter_start, quarter_end) = leap_week.quarter_bounds(4).unwrap();
         assert_eq!(
             quarter_end.signed_duration_since(quarter_start).num_days() + 1,
@@ -215,7 +223,10 @@ mod tests {
             }
         );
         assert_eq!(regular.date_for_week_day(53, 1), None);
-        assert_eq!(leap_week.date_for_week_day(53, 7), Some(leap_week.year_end()));
+        assert_eq!(
+            leap_week.date_for_week_day(53, 7),
+            Some(leap_week.year_end())
+        );
     }
 
     #[test]
@@ -231,8 +242,7 @@ mod tests {
                     calendar.date_for_week_day(position.week_of_year, (day % 7 + 1) as u8),
                     Some(current)
                 );
-                let (period_start, period_end) =
-                    calendar.period_bounds(position.period).unwrap();
+                let (period_start, period_end) = calendar.period_bounds(position.period).unwrap();
                 assert!(period_start <= current && current <= period_end);
                 assert_eq!(
                     position.day_of_period,

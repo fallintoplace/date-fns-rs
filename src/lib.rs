@@ -826,3 +826,6 @@ pub use workweek_holidays::{add_workdays_with_holidays, count_workdays_with_holi
 
 mod ical_weekly_rrule;
 pub use ical_weekly_rrule::{each_ical_weekly_rrule, parse_ical_weekly_rrule, IcalWeeklyRRule};
+
+mod modified_julian_day;
+pub use modified_julian_day::{from_modified_julian_day, to_modified_julian_day};

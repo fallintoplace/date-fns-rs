@@ -382,6 +382,12 @@ pub use business_holidays::{next_business_day_with_holidays, previous_business_d
 mod business_difference;
 pub use business_difference::difference_in_business_days;
 
+mod business_year_boundaries;
+pub use business_year_boundaries::{
+    first_business_day_of_year, first_business_day_of_year_with_holidays,
+    last_business_day_of_year, last_business_day_of_year_with_holidays,
+};
+
 mod business_year_metadata;
 pub use business_year_metadata::{get_business_day_of_year, get_business_days_in_year};
 

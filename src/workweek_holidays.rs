@@ -76,9 +76,13 @@ mod tests {
     #[test]
     fn supports_sunday_to_thursday_workweeks_and_holidays() {
         let week = Workweek::new(&[
-            Weekday::Sun, Weekday::Mon, Weekday::Tue,
-            Weekday::Wed, Weekday::Thu,
-        ]).unwrap();
+            Weekday::Sun,
+            Weekday::Mon,
+            Weekday::Tue,
+            Weekday::Wed,
+            Weekday::Thu,
+        ])
+        .unwrap();
         let holidays = [date(2024, 3, 3), date(2024, 3, 3)];
         assert_eq!(
             add_workdays_with_holidays(week, date(2024, 2, 29), 1, &holidays),
@@ -89,12 +93,7 @@ mod tests {
             Some(date(2024, 2, 29))
         );
         assert_eq!(
-            count_workdays_with_holidays(
-                week,
-                date(2024, 2, 29),
-                date(2024, 3, 4),
-                &holidays,
-            ),
+            count_workdays_with_holidays(week, date(2024, 2, 29), date(2024, 3, 4), &holidays,),
             Some(2)
         );
     }
@@ -102,7 +101,13 @@ mod tests {
     #[test]
     fn zero_shifts_and_extreme_dates_are_checked() {
         let week = Workweek::from_mask(0x7f).unwrap();
-        assert_eq!(add_workdays_with_holidays(week, NaiveDate::MAX, 0, &[]), Some(NaiveDate::MAX));
-        assert_eq!(add_workdays_with_holidays(week, NaiveDate::MAX, 1, &[]), None);
+        assert_eq!(
+            add_workdays_with_holidays(week, NaiveDate::MAX, 0, &[]),
+            Some(NaiveDate::MAX)
+        );
+        assert_eq!(
+            add_workdays_with_holidays(week, NaiveDate::MAX, 1, &[]),
+            None
+        );
     }
 }

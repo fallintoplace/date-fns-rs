@@ -55,8 +55,8 @@ pub fn each_ical_daily_rrule(
         std::iter::successors(Some(start), move |date| {
             date.checked_add_days(Days::new(u64::from(rule.interval_days)))
         })
-            .take_while(move |date| *date <= end)
-            .take(rule.count.unwrap_or(usize::MAX)),
+        .take_while(move |date| *date <= end)
+        .take(rule.count.unwrap_or(usize::MAX)),
     )
 }
 

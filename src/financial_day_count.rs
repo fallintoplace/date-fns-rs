@@ -235,7 +235,6 @@ mod tests {
     }
 }
 
-
 #[cfg(test)]
 mod thirty_e_plus_tests {
     use super::*;
@@ -247,12 +246,30 @@ mod thirty_e_plus_tests {
     #[test]
     fn carries_end_of_month_31_into_the_next_thirty_day_month() {
         let kind = DayCountConvention::ThirtyEPlus360;
-        assert_eq!(financial_day_count(date(2024, 1, 30), date(2024, 1, 31), kind), 1);
-        assert_eq!(financial_day_count(date(2024, 1, 31), date(2024, 2, 28), kind), 28);
-        assert_eq!(financial_day_count(date(2024, 1, 31), date(2024, 3, 31), kind), 61);
-        assert_eq!(financial_day_count(date(2024, 12, 31), date(2025, 1, 31), kind), 31);
-        assert_eq!(financial_day_count(date(2024, 1, 31), date(2024, 1, 31), kind), 0);
-        assert_eq!(financial_day_count(date(2024, 1, 31), date(2024, 1, 30), kind), -1);
+        assert_eq!(
+            financial_day_count(date(2024, 1, 30), date(2024, 1, 31), kind),
+            1
+        );
+        assert_eq!(
+            financial_day_count(date(2024, 1, 31), date(2024, 2, 28), kind),
+            28
+        );
+        assert_eq!(
+            financial_day_count(date(2024, 1, 31), date(2024, 3, 31), kind),
+            61
+        );
+        assert_eq!(
+            financial_day_count(date(2024, 12, 31), date(2025, 1, 31), kind),
+            31
+        );
+        assert_eq!(
+            financial_day_count(date(2024, 1, 31), date(2024, 1, 31), kind),
+            0
+        );
+        assert_eq!(
+            financial_day_count(date(2024, 1, 31), date(2024, 1, 30), kind),
+            -1
+        );
     }
 
     #[test]
@@ -263,6 +280,9 @@ mod thirty_e_plus_tests {
             financial_year_fraction(start, end, DayCountConvention::ThirtyEPlus360),
             1.0 / 360.0
         );
-        assert_eq!(financial_day_count(start, end, DayCountConvention::ThirtyE360), 0);
+        assert_eq!(
+            financial_day_count(start, end, DayCountConvention::ThirtyE360),
+            0
+        );
     }
 }

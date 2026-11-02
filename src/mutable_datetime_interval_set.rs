@@ -100,8 +100,7 @@ mod tests {
             .unwrap()
             .and_hms_opt(0, 0, 0)
             .unwrap();
-        base.checked_add_signed(TimeDelta::nanoseconds(n))
-            .unwrap()
+        base.checked_add_signed(TimeDelta::nanoseconds(n)).unwrap()
     }
 
     #[test]
@@ -126,7 +125,9 @@ mod tests {
     #[test]
     fn handles_extremes_and_invalid_intervals_without_mutation() {
         let mut index = MutableDatetimeIntervalSet::new();
-        index.insert(NaiveDateTime::MIN, NaiveDateTime::MAX).unwrap();
+        index
+            .insert(NaiveDateTime::MIN, NaiveDateTime::MAX)
+            .unwrap();
         index
             .remove(
                 NaiveDateTime::MIN

@@ -213,6 +213,11 @@ pub use quarters::{end_of_quarter, get_quarter, start_of_quarter};
 mod datetime_epoch_micros;
 pub use datetime_epoch_micros::{from_unix_timestamp_micros, to_unix_timestamp_micros};
 
+mod datetime_epoch_bucketing;
+pub use datetime_epoch_bucketing::{
+    ceil_datetime_to_epoch_step, floor_datetime_to_epoch_step, round_datetime_to_epoch_step,
+};
+
 mod datetime_epoch_nanos;
 pub use datetime_epoch_nanos::{from_unix_timestamp_nanos, to_unix_timestamp_nanos};
 

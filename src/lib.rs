@@ -556,6 +556,8 @@ pub use weekday_month_ordinals::{
 
 mod iso_expanded_years;
 pub use iso_expanded_years::{format_iso_date_extended, parse_iso_date_extended};
+mod iso_expanded_datetime;
+pub use iso_expanded_datetime::{format_iso_local_datetime_extended, parse_iso_local_datetime_extended};
 
 mod week_of_month;
 pub use week_of_month::get_week_of_month;

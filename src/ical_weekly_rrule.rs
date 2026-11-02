@@ -105,14 +105,10 @@ mod tests {
 
     #[test]
     fn handles_week_skips_multiple_days_and_count() {
-        let rule = parse_ical_weekly_rrule(
-            "FREQ=WEEKLY;INTERVAL=2;BYDAY=MO,WE;COUNT=3",
-        ).unwrap();
-        let days: Vec<_> = each_ical_weekly_rrule(
-            rule,
-            date(2024, 3, 4),
-            date(2024, 3, 31),
-        ).unwrap().collect();
+        let rule = parse_ical_weekly_rrule("FREQ=WEEKLY;INTERVAL=2;BYDAY=MO,WE;COUNT=3").unwrap();
+        let days: Vec<_> = each_ical_weekly_rrule(rule, date(2024, 3, 4), date(2024, 3, 31))
+            .unwrap()
+            .collect();
         assert_eq!(
             days,
             vec![date(2024, 3, 4), date(2024, 3, 6), date(2024, 3, 18)]
@@ -122,9 +118,7 @@ mod tests {
     #[test]
     fn rejects_dtstart_not_in_weekday_rule() {
         let rule = parse_ical_weekly_rrule("FREQ=WEEKLY;BYDAY=MO").unwrap();
-        assert!(
-            each_ical_weekly_rrule(rule, date(2024, 3, 1), date(2024, 3, 31)).is_none()
-        );
+        assert!(each_ical_weekly_rrule(rule, date(2024, 3, 1), date(2024, 3, 31)).is_none());
     }
 
     #[test]

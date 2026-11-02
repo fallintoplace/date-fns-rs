@@ -29,7 +29,10 @@ mod tests {
         let date = NaiveDate::from_ymd_opt(2021, 1, 1).unwrap();
         let value = date.and_hms_nano_opt(23, 59, 58, 123_456_789).unwrap();
         let input = "2020-W53-5T23:59:58.123456789";
-        assert_eq!(format_iso_week_local_datetime(value).as_deref(), Some(input));
+        assert_eq!(
+            format_iso_week_local_datetime(value).as_deref(),
+            Some(input)
+        );
         assert_eq!(parse_iso_week_local_datetime(input), Some(value));
         assert_eq!(
             parse_iso_week_local_datetime("2019-W01-1T00:00:00"),

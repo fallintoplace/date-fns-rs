@@ -44,7 +44,10 @@ mod tests {
             (2038, 4, 25),
         ] {
             let easter = gregorian_easter_sunday(year).unwrap();
-            assert_eq!((easter.year(), easter.month(), easter.day()), (year, month, day));
+            assert_eq!(
+                (easter.year(), easter.month(), easter.day()),
+                (year, month, day)
+            );
             assert_eq!(easter.weekday(), Weekday::Sun);
         }
     }

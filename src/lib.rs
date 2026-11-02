@@ -502,6 +502,9 @@ pub use interval_business_days::{each_business_day_of_interval, BusinessDaysInIn
 mod datetime_slot_packing;
 pub use datetime_slot_packing::pack_datetime_slots;
 
+mod weighted_datetime_scheduling;
+pub use weighted_datetime_scheduling::select_max_weight_datetime_intervals;
+
 mod datetime_hour_iterator;
 pub use datetime_hour_iterator::{each_nth_hour_of_datetime_interval, HoursInDatetimeInterval};
 
@@ -826,6 +829,3 @@ pub use workweek_holidays::{add_workdays_with_holidays, count_workdays_with_holi
 
 mod ical_weekly_rrule;
 pub use ical_weekly_rrule::{each_ical_weekly_rrule, parse_ical_weekly_rrule, IcalWeeklyRRule};
-
-mod weighted_datetime_scheduling;
-pub use weighted_datetime_scheduling::select_max_weight_datetime_intervals;

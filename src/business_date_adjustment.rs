@@ -24,9 +24,7 @@ pub fn adjust_business_date(
         return Some(date);
     }
     match convention {
-        BusinessDayAdjustment::Following => {
-            crate::next_business_day_with_holidays(date, holidays)
-        }
+        BusinessDayAdjustment::Following => crate::next_business_day_with_holidays(date, holidays),
         BusinessDayAdjustment::Preceding => {
             crate::previous_business_day_with_holidays(date, holidays)
         }

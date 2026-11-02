@@ -688,6 +688,7 @@ mod date_checked_setters;
 pub use date_checked_setters::{is_existing_calendar_date, set_day_of_month, set_day_of_week};
 
 mod fiscal_half_years;
+pub use fiscal_half_years::is_same_fiscal_half_year;
 pub use fiscal_half_years::{
     end_of_fiscal_half_year, get_fiscal_half_year, start_of_fiscal_half_year,
 };

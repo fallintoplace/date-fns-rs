@@ -345,6 +345,9 @@ pub use iso_weeks::{get_iso_week, get_iso_week_year, get_iso_weeks_in_year};
 
 mod cron_schedule;
 
+mod cron_named_schedule;
+pub use cron_named_schedule::parse_cron_schedule_named;
+
 mod cron_occurrences;
 pub use cron_occurrences::{each_cron_minute_between, CronOccurrences};
 pub use cron_schedule::{parse_cron_schedule, parse_cron_schedule_with_aliases, CronSchedule};

@@ -553,3 +553,6 @@ pub use datetime_week_year_boundaries::{
 };
 
 pub use datetime_week_boundaries::{end_of_iso_week_datetime, start_of_iso_week_datetime};
+
+mod iso_calendar_duration;
+pub use iso_calendar_duration::{apply_iso_calendar_duration, format_iso_calendar_duration, parse_iso_calendar_duration, IsoCalendarDuration};

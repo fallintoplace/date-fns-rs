@@ -164,13 +164,27 @@ mod tests {
         let monday = date(2024, 3, 4);
         let tuesday = date(2024, 3, 5);
         let holidays = [monday, monday, date(2024, 3, 2)];
-        assert_eq!(next_business_day_with_holidays(friday, &holidays), Some(tuesday));
-        assert_eq!(previous_business_day_with_holidays(tuesday, &holidays), Some(friday));
-        assert_eq!(next_business_day_with_holidays(monday, &holidays), Some(tuesday));
-        assert_eq!(previous_business_day_with_holidays(monday, &holidays), Some(friday));
+        assert_eq!(
+            next_business_day_with_holidays(friday, &holidays),
+            Some(tuesday)
+        );
+        assert_eq!(
+            previous_business_day_with_holidays(tuesday, &holidays),
+            Some(friday)
+        );
+        assert_eq!(
+            next_business_day_with_holidays(monday, &holidays),
+            Some(tuesday)
+        );
+        assert_eq!(
+            previous_business_day_with_holidays(monday, &holidays),
+            Some(friday)
+        );
         assert_eq!(next_business_day_with_holidays(friday, &[]), Some(monday));
         assert_eq!(next_business_day_with_holidays(NaiveDate::MAX, &[]), None);
-        assert_eq!(previous_business_day_with_holidays(NaiveDate::MIN, &[]), None);
+        assert_eq!(
+            previous_business_day_with_holidays(NaiveDate::MIN, &[]),
+            None
+        );
     }
-
 }

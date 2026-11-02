@@ -73,8 +73,8 @@ mod tests {
     #[test]
     fn rejects_invalid_magnitudes_and_noncanonical_zero() {
         for invalid in [
-            "-0000", "-000000", "0000", "+2400", "+1260", "+236060",
-            "+013", "+000", "+00:00", "+0000 ", "+0000000", "+010Z",
+            "-0000", "-000000", "0000", "+2400", "+1260", "+236060", "+013", "+000", "+00:00",
+            "+0000 ", "+0000000", "+010Z",
         ] {
             assert_eq!(parse_ical_utc_offset(invalid), None, "{invalid}");
         }

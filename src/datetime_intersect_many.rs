@@ -92,7 +92,9 @@ mod tests {
                 let right = make(b);
                 let result = intersect_many_datetime_interval_sets(&[&left, &right]).unwrap();
                 for n in 0..4 {
-                    let found = result.iter().any(|(first, last)| *first <= tick(n) && tick(n) <= *last);
+                    let found = result
+                        .iter()
+                        .any(|(first, last)| *first <= tick(n) && tick(n) <= *last);
                     assert_eq!(found, a & (1 << n) != 0 && b & (1 << n) != 0);
                 }
             }

@@ -35,7 +35,10 @@ mod tests {
     fn round_trips_the_http_specification_example() {
         let input = "Sun, 06 Nov 1994 08:49:37 GMT";
         let value = parse_rfc7231_datetime(input).unwrap();
-        assert_eq!(value.naive_utc().date(), NaiveDate::from_ymd_opt(1994, 11, 6).unwrap());
+        assert_eq!(
+            value.naive_utc().date(),
+            NaiveDate::from_ymd_opt(1994, 11, 6).unwrap()
+        );
         assert_eq!(format_rfc7231_datetime(value).as_deref(), Some(input));
     }
 

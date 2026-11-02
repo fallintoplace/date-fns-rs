@@ -54,9 +54,7 @@ pub fn first_available_datetime_window(
             break;
         }
         let end_of_candidate = cursor + needed_offset;
-        if blocked_start > cursor
-            && end_of_candidate < blocked_start
-            && end_of_candidate <= through
+        if blocked_start > cursor && end_of_candidate < blocked_start && end_of_candidate <= through
         {
             return Some(Some((from_nanos(cursor)?, from_nanos(end_of_candidate)?)));
         }
@@ -123,7 +121,11 @@ mod tests {
                         return None;
                     }
                     (start..=end)
-                        .all(|tick| !blocked.iter().any(|(a, b)| *a <= at(tick) && at(tick) <= *b))
+                        .all(|tick| {
+                            !blocked
+                                .iter()
+                                .any(|(a, b)| *a <= at(tick) && at(tick) <= *b)
+                        })
                         .then_some((at(start), at(end)))
                 });
                 assert_eq!(
@@ -148,12 +150,7 @@ mod tests {
             Some(None)
         );
         assert_eq!(
-            first_available_datetime_window(
-                NaiveDateTime::MIN,
-                NaiveDateTime::MAX,
-                &[],
-                1
-            ),
+            first_available_datetime_window(NaiveDateTime::MIN, NaiveDateTime::MAX, &[], 1),
             Some(Some((NaiveDateTime::MIN, NaiveDateTime::MIN)))
         );
         assert_eq!(

@@ -6,9 +6,10 @@ const HTTP_DATE: &str = "%a, %d %b %Y %H:%M:%S GMT";
 
 /// Format an HTTP date using the required GMT zone and English names.
 ///
-/// Dates with years outside 0000-9999 cannot be encoded as IMF-fixdate.
+/// Dates with years outside 0000-9999 or fractional seconds cannot be
+/// encoded without losing precision, so they return None.
 pub fn format_rfc7231_datetime(value: DateTime<Utc>) -> Option<String> {
-    if !(0..=9999).contains(&value.year()) {
+    if value.timestamp_subsec_nanos() != 0 || !(0..=9999).contains(&value.year()) {
         return None;
     }
     Some(value.format(HTTP_DATE).to_string())
@@ -64,5 +65,30 @@ mod tests {
             .unwrap()
             .and_utc();
         assert_eq!(format_rfc7231_datetime(value), None);
+    }
+}
+
+#[cfg(test)]
+mod precision_tests {
+    use super::*;
+    use chrono::{NaiveDate, TimeDelta};
+
+    #[test]
+    fn rejects_fractional_seconds_instead_of_silently_truncating_them() {
+        let second = NaiveDate::from_ymd_opt(1994, 11, 6)
+            .unwrap()
+            .and_hms_opt(8, 49, 37)
+            .unwrap()
+            .and_utc();
+        assert_eq!(
+            format_rfc7231_datetime(second).as_deref(),
+            Some("Sun, 06 Nov 1994 08:49:37 GMT")
+        );
+        let subsecond = second + TimeDelta::milliseconds(1);
+        assert_eq!(format_rfc7231_datetime(subsecond), None);
+        assert_eq!(
+            parse_rfc7231_datetime("Sun, 06 Nov 1994 08:49:37 GMT"),
+            Some(second)
+        );
     }
 }

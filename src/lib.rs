@@ -549,6 +549,11 @@ mod nth_weekday_year;
 pub use nth_weekday::nth_weekday_of_month;
 pub use nth_weekday_year::nth_weekday_of_year;
 
+mod weekday_year_ordinals;
+pub use weekday_year_ordinals::{
+    get_weekday_occurrence_from_end_of_year, get_weekday_occurrence_in_year,
+};
+
 mod weekday_month_ordinals;
 pub use weekday_month_ordinals::{
     get_weekday_occurrence_from_end_of_month, get_weekday_occurrence_in_month,

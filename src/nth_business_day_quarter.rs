@@ -32,7 +32,11 @@ pub fn nth_business_day_of_quarter(
         cursor = cursor.succ_opt()?;
     }
     let n = usize::from(occurrence.unsigned_abs());
-    let index = if occurrence > 0 { n.checked_sub(1)? } else { days.len().checked_sub(n)? };
+    let index = if occurrence > 0 {
+        n.checked_sub(1)?
+    } else {
+        days.len().checked_sub(n)?
+    };
     days.get(index).copied()
 }
 

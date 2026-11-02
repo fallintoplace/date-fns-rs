@@ -84,8 +84,14 @@ mod tests {
             split_interval_before(start, end, cut),
             Some((Some((start, start)), (cut, end)))
         );
-        assert_eq!(split_interval_before(start, end, start), Some((None, (start, end))));
-        assert_eq!(split_interval_before(start, end, end), Some((Some((start, cut)), (end, end))));
+        assert_eq!(
+            split_interval_before(start, end, start),
+            Some((None, (start, end)))
+        );
+        assert_eq!(
+            split_interval_before(start, end, end),
+            Some((Some((start, cut)), (end, end)))
+        );
         assert_eq!(
             split_interval_before(NaiveDate::MIN, NaiveDate::MIN, NaiveDate::MIN),
             Some((None, (NaiveDate::MIN, NaiveDate::MIN)))
@@ -93,5 +99,4 @@ mod tests {
         assert_eq!(split_interval_before(end, start, cut), None);
         assert_eq!(split_interval_before(start, end, date(2024, 2, 27)), None);
     }
-
 }

@@ -62,10 +62,7 @@ mod tests {
             (date(4), date(10), 7),
             (date(11), date(11), -10),
         ];
-        assert_eq!(
-            select_max_weight_date_intervals(&ranges),
-            Some(vec![1, 2])
-        );
+        assert_eq!(select_max_weight_date_intervals(&ranges), Some(vec![1, 2]));
     }
 
     #[test]

@@ -68,7 +68,6 @@ mod tests {
     }
 }
 
-
 #[cfg(test)]
 mod precision_tests {
     use super::*;
@@ -76,8 +75,11 @@ mod precision_tests {
 
     #[test]
     fn rejects_fractional_seconds_instead_of_silently_truncating_them() {
-        let second = NaiveDate::from_ymd_opt(1994, 11, 6).unwrap()
-            .and_hms_opt(8, 49, 37).unwrap().and_utc();
+        let second = NaiveDate::from_ymd_opt(1994, 11, 6)
+            .unwrap()
+            .and_hms_opt(8, 49, 37)
+            .unwrap()
+            .and_utc();
         assert_eq!(
             format_rfc7231_datetime(second).as_deref(),
             Some("Sun, 06 Nov 1994 08:49:37 GMT")

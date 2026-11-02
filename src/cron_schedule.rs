@@ -83,6 +83,23 @@ pub fn parse_cron_schedule(text: &str) -> Option<CronSchedule> {
     })
 }
 
+/// Parse a numeric cron schedule or a standard fixed-time macro.
+///
+/// Supported macros: @yearly, @annually, @monthly, @weekly, @daily,
+/// @midnight, and @hourly. @reboot is not a fixed calendar schedule.
+/// The original parse_cron_schedule remains strict and numeric-only.
+pub fn parse_cron_schedule_with_aliases(input: &str) -> Option<CronSchedule> {
+    let expanded = match input.trim() {
+        "@yearly" | "@annually" => "0 0 1 1 *",
+        "@monthly" => "0 0 1 * *",
+        "@weekly" => "0 0 * * 0",
+        "@daily" | "@midnight" => "0 0 * * *",
+        "@hourly" => "0 * * * *",
+        _ => input,
+    };
+    parse_cron_schedule(expanded)
+}
+
 impl CronSchedule {
     fn matches_date(&self, date: NaiveDate) -> bool {
         if self.months & (1_u64 << date.month()) == 0 {
@@ -272,6 +289,29 @@ mod tests {
                 .previous_before(NaiveDateTime::MIN, 0),
             None
         );
+    }
+
+    #[test]
+    fn macro_parser_expands_fixed_calendar_schedules() {
+        assert!(parse_cron_schedule("@daily").is_none());
+        let hourly = parse_cron_schedule_with_aliases("@hourly").unwrap();
+        assert!(hourly.matches(stamp(2024, 3, 1, 13, 0)));
+        assert!(!hourly.matches(stamp(2024, 3, 1, 13, 1)));
+        let weekly = parse_cron_schedule_with_aliases("@weekly").unwrap();
+        assert!(weekly.matches(stamp(2026, 11, 1, 0, 0)));
+        assert!(!weekly.matches(stamp(2026, 11, 2, 0, 0)));
+        for alias in ["@yearly", "@annually"] {
+            let schedule = parse_cron_schedule_with_aliases(alias).unwrap();
+            assert!(schedule.matches(stamp(2026, 1, 1, 0, 0)));
+            assert!(!schedule.matches(stamp(2026, 2, 1, 0, 0)));
+        }
+        let monthly = parse_cron_schedule_with_aliases("@monthly").unwrap();
+        assert!(monthly.matches(stamp(2026, 2, 1, 0, 0)));
+        let midnight = parse_cron_schedule_with_aliases("@midnight").unwrap();
+        assert!(midnight.matches(stamp(2026, 2, 2, 0, 0)));
+        assert!(parse_cron_schedule_with_aliases("@reboot").is_none());
+        assert!(parse_cron_schedule_with_aliases("@hourly more").is_none());
+        assert!(parse_cron_schedule_with_aliases("*/10 * * * *").is_some());
     }
 
     #[test]

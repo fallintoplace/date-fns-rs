@@ -511,6 +511,9 @@ pub use monthly_weekday_occurrences::{
     each_nth_weekday_of_month_in_interval, MonthlyWeekdayOccurrences,
 };
 
+mod indexed_holiday_calendar;
+pub use indexed_holiday_calendar::IndexedHolidayCalendar;
+
 mod holiday_business_difference;
 pub use holiday_business_difference::difference_in_business_days_excluding_holidays;
 

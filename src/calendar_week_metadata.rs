@@ -85,7 +85,6 @@ pub fn get_week_year(
     week_and_year(date, week_starts_on, first_week_contains_date).map(|(year, _)| year)
 }
 
-
 /// Compare week-numbering years with an explicit local week convention.
 ///
 /// The first week anchor must be from 1 through 7. Invalid anchors return None.

@@ -265,6 +265,9 @@ pub use calendar_predicates::{
     is_first_day_of_month, is_last_day_of_month, is_leap_day, is_same_quarter,
 };
 
+mod iso_fixed_duration;
+pub use iso_fixed_duration::{format_iso_fixed_duration, parse_iso_fixed_duration};
+
 mod iso_time;
 pub use chrono::NaiveTime;
 pub use iso_time::{format_iso_local_time, parse_iso_local_time};

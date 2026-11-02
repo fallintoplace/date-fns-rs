@@ -333,6 +333,9 @@ pub use iso_weeks::get_iso_day_of_year;
 pub use iso_weeks::{get_iso_week, get_iso_week_year, get_iso_weeks_in_year};
 
 mod cron_schedule;
+
+mod cron_occurrences;
+pub use cron_occurrences::{each_cron_minute_between, CronOccurrences};
 pub use cron_schedule::{parse_cron_schedule, CronSchedule};
 
 mod iso_week_year_boundaries;

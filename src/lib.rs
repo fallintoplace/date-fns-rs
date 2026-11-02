@@ -191,6 +191,8 @@ pub use datetime_iso_basic::{format_iso_basic_local_datetime, parse_iso_basic_lo
 mod iso_basic_date;
 
 mod ical;
+mod ical_floating;
+pub use ical_floating::{format_ical_floating_datetime, parse_ical_floating_datetime};
 pub use ical::{
     format_ical_date, format_ical_datetime_utc, parse_ical_date, parse_ical_datetime_utc,
 };

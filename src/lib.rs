@@ -745,3 +745,6 @@ mod datetime_coverage_index;
 mod datetime_interval_set;
 pub use datetime_coverage_index::DatetimeCoverageIndex;
 pub use datetime_interval_set::DatetimeIntervalSet;
+
+mod cron_reverse_occurrences;
+pub use cron_reverse_occurrences::{each_previous_cron_minute_between, CronReverseOccurrences};

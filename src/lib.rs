@@ -775,3 +775,6 @@ pub use ical_utc_offset::{format_ical_utc_offset, parse_ical_utc_offset};
 
 mod ical_text;
 pub use ical_text::{escape_ical_text, unescape_ical_text};
+
+mod gregorian_easter;
+pub use gregorian_easter::gregorian_easter_sunday;

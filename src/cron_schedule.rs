@@ -55,7 +55,11 @@ fn parse_field(text: &str, min: u32, max: u32, sunday_alias: bool) -> Option<(u6
             mask |= 1_u64 << bit;
         }
     }
-    (mask != 0).then_some((mask, text == "*"))
+    let wildcard = text == "*"
+        || text
+            .split_once('/')
+            .is_some_and(|(base, step)| base == "*" && numeric(step) == Some(1));
+    (mask != 0).then_some((mask, wildcard))
 }
 
 /// Parse numeric five-field cron with lists, ranges and steps.
@@ -183,6 +187,9 @@ mod tests {
         assert!(parse_cron_schedule("0 0 * * 7")
             .unwrap()
             .matches(stamp(2026, 11, 1, 0, 0)));
+        let starred_step = parse_cron_schedule("0 9 */1 * 1").unwrap();
+        assert!(starred_step.matches(stamp(2026, 11, 2, 9, 0)));
+        assert!(!starred_step.matches(stamp(2026, 11, 3, 9, 0)));
     }
 
     #[test]

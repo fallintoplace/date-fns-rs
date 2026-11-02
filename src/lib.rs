@@ -41,6 +41,11 @@ pub use months::{add_months, sub_months};
 mod half_year_arithmetic;
 pub use half_year_arithmetic::{add_half_years, sub_half_years};
 
+mod annual_date_recurrence;
+pub use annual_date_recurrence::{
+    each_annual_date_in_interval, AnnualDateRecurrences, LeapDayPolicy,
+};
+
 mod years;
 pub use years::add_years_preserving_end_of_month;
 pub use years::{add_years, sub_years};

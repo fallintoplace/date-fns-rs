@@ -19,7 +19,12 @@ pub struct DatetimeDaySegments {
 impl DatetimeDaySegments {
     fn remaining(&self) -> usize {
         self.front.map_or(0, |front| {
-            (self.back.date().signed_duration_since(front.date()).num_days() + 1) as usize
+            (self
+                .back
+                .date()
+                .signed_duration_since(front.date())
+                .num_days()
+                + 1) as usize
         })
     }
 }
@@ -29,9 +34,7 @@ impl Iterator for DatetimeDaySegments {
 
     fn next(&mut self) -> Option<Self::Item> {
         let first = self.front?;
-        let day_end = first
-            .date()
-            .and_hms_nano_opt(23, 59, 59, 999_999_999)?;
+        let day_end = first.date().and_hms_nano_opt(23, 59, 59, 999_999_999)?;
         let last = day_end.min(self.back);
         self.front = if first.date() == self.back.date() {
             None
@@ -135,7 +138,13 @@ mod tests {
         assert_eq!(
             segments,
             vec![
-                (first, at(2, 28, 23, 0).date().and_hms_nano_opt(23, 59, 59, 999_999_999).unwrap()),
+                (
+                    first,
+                    at(2, 28, 23, 0)
+                        .date()
+                        .and_hms_nano_opt(23, 59, 59, 999_999_999)
+                        .unwrap()
+                ),
                 (
                     at(2, 29, 0, 0),
                     at(2, 29, 23, 0)
@@ -170,8 +179,7 @@ mod tests {
     #[test]
     fn handles_single_instant_and_chrono_extremes() {
         let mut single =
-            each_day_segment_of_datetime_interval(NaiveDateTime::MAX, NaiveDateTime::MAX)
-                .unwrap();
+            each_day_segment_of_datetime_interval(NaiveDateTime::MAX, NaiveDateTime::MAX).unwrap();
         assert_eq!(single.len(), 1);
         assert_eq!(
             single.next_back(),
@@ -179,12 +187,12 @@ mod tests {
         );
         assert_eq!(single.next(), None);
         let mut huge =
-            each_day_segment_of_datetime_interval(NaiveDateTime::MIN, NaiveDateTime::MAX)
-                .unwrap();
+            each_day_segment_of_datetime_interval(NaiveDateTime::MIN, NaiveDateTime::MAX).unwrap();
         assert_eq!(huge.nth(usize::MAX), None);
         assert_eq!(huge.next(), None);
-        assert!(each_day_segment_of_datetime_interval(NaiveDateTime::MAX, NaiveDateTime::MIN)
-            .is_none());
+        assert!(
+            each_day_segment_of_datetime_interval(NaiveDateTime::MAX, NaiveDateTime::MIN).is_none()
+        );
     }
 
     #[test]

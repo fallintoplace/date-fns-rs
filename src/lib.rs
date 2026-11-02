@@ -563,6 +563,11 @@ pub use calendar_week_setters::{set_week, set_week_year};
 mod date_relative_en;
 pub use date_relative_en::format_relative_calendar_date_en;
 
+mod monthly_set_position_recurrence;
+pub use monthly_set_position_recurrence::{
+    each_monthly_weekday_set_position, MonthlyWeekdaySetPosition,
+};
+
 mod monthly_weekday_occurrences;
 pub use monthly_weekday_occurrences::{
     each_nth_weekday_of_month_in_interval, MonthlyWeekdayOccurrences,

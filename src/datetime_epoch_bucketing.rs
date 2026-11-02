@@ -43,10 +43,7 @@ pub fn floor_datetime_to_epoch_step(
 }
 
 /// Round up to an epoch-aligned multiple, preserving already-aligned inputs.
-pub fn ceil_datetime_to_epoch_step(
-    value: NaiveDateTime,
-    step_nanos: i64,
-) -> Option<NaiveDateTime> {
+pub fn ceil_datetime_to_epoch_step(value: NaiveDateTime, step_nanos: i64) -> Option<NaiveDateTime> {
     let (nanos, interval, remainder) = step(value, step_nanos)?;
     let rounded = if remainder == 0 {
         nanos
@@ -97,7 +94,9 @@ mod tests {
         assert_eq!(round_datetime_to_epoch_step(point, second), Some(epoch()));
         assert_eq!(
             round_datetime_to_epoch_step(
-                epoch().checked_add_signed(TimeDelta::milliseconds(500)).unwrap(),
+                epoch()
+                    .checked_add_signed(TimeDelta::milliseconds(500))
+                    .unwrap(),
                 second
             ),
             epoch().checked_add_signed(TimeDelta::seconds(1))
@@ -130,7 +129,13 @@ mod tests {
         assert_eq!(floor_datetime_to_epoch_step(epoch(), 0), None);
         assert_eq!(ceil_datetime_to_epoch_step(epoch(), -1), None);
         assert_eq!(round_datetime_to_epoch_step(epoch(), 0), None);
-        assert_eq!(ceil_datetime_to_epoch_step(NaiveDateTime::MAX, i64::MAX), None);
-        assert_eq!(floor_datetime_to_epoch_step(NaiveDateTime::MIN, i64::MAX), None);
+        assert_eq!(
+            ceil_datetime_to_epoch_step(NaiveDateTime::MAX, i64::MAX),
+            None
+        );
+        assert_eq!(
+            floor_datetime_to_epoch_step(NaiveDateTime::MIN, i64::MAX),
+            None
+        );
     }
 }

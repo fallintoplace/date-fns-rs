@@ -745,3 +745,6 @@ mod datetime_coverage_index;
 mod datetime_interval_set;
 pub use datetime_coverage_index::DatetimeCoverageIndex;
 pub use datetime_interval_set::DatetimeIntervalSet;
+
+mod workweek_holidays;
+pub use workweek_holidays::{add_workdays_with_holidays, count_workdays_with_holidays};

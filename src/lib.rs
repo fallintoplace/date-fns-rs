@@ -183,6 +183,9 @@ pub use iso_basic_date::{format_iso_basic_date, parse_iso_basic_date};
 mod metadata;
 pub use metadata::{get_day_of_year, get_days_in_month, get_days_in_year};
 
+mod datetime_duration;
+pub use datetime_duration::{interval_to_calendar_duration, CalendarDateTimeDuration};
+
 mod datetime_differences;
 pub use datetime_differences::{
     difference_in_hours_datetime, difference_in_microseconds_datetime,

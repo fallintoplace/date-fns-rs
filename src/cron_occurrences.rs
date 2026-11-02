@@ -22,7 +22,11 @@ impl Iterator for CronOccurrences {
         if self.remaining == 0 {
             return None;
         }
-        let days = self.through.date().signed_duration_since(self.after.date()).num_days();
+        let days = self
+            .through
+            .date()
+            .signed_duration_since(self.after.date())
+            .num_days();
         let search_days = u32::try_from(days).ok()?;
         let candidate = match self.schedule.next_after(self.after, search_days) {
             Some(candidate) if candidate <= self.through => candidate,
@@ -140,12 +144,8 @@ mod tests {
                 .next(),
             None
         );
-        assert!(each_cron_minute_between(
-            &every_minute,
-            stamp(2024, 3, 2, 0, 0),
-            start,
-            10
-        )
-        .is_none());
+        assert!(
+            each_cron_minute_between(&every_minute, stamp(2024, 3, 2, 0, 0), start, 10).is_none()
+        );
     }
 }

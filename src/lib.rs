@@ -503,6 +503,9 @@ pub use interval_split::{split_interval_after, split_interval_before};
 mod date_interval_coverage;
 pub use date_interval_coverage::{count_distinct_days_covered, overlapping_days_in_intervals};
 
+mod date_coverage_index;
+pub use date_coverage_index::DateCoverageIndex;
+
 mod datetime_interval_coverage;
 pub use datetime_interval_coverage::count_distinct_nanoseconds_covered;
 

@@ -652,6 +652,9 @@ pub use monthly_weekday_occurrences::{
     each_nth_weekday_of_month_in_interval, MonthlyWeekdayOccurrences,
 };
 
+mod nth_business_day_year;
+pub use nth_business_day_year::{nth_business_day_of_year, nth_business_day_of_year_with_holidays};
+
 mod nth_business_day_month;
 pub use nth_business_day_month::nth_business_day_of_month;
 

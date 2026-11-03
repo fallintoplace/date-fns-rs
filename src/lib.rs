@@ -881,7 +881,9 @@ pub use ical_period_duration_utc::{
 };
 
 mod datetime_rfc2822;
-pub use datetime_rfc2822::{format_rfc2822_datetime, parse_rfc2822_datetime};
+pub use datetime_rfc2822::{
+    format_rfc2822_datetime, parse_rfc2822_datetime, try_format_rfc2822_datetime,
+};
 
 mod datetime_epoch_i128_nanos;
 pub use datetime_epoch_i128_nanos::{from_unix_timestamp_nanos_i128, to_unix_timestamp_nanos_i128};

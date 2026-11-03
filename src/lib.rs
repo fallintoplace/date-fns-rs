@@ -1211,3 +1211,6 @@ pub use decade_day_ordinals::{get_day_of_decade, get_days_in_decade};
 
 mod century_day_ordinals;
 pub use century_day_ordinals::{get_day_of_century, get_days_in_century};
+
+mod convert_years_days;
+pub use convert_years_days::years_to_days;

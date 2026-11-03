@@ -759,6 +759,11 @@ pub use week_year_day_ordinals::{get_day_of_week_year, get_days_in_week_year};
 mod calendar_week_year_bounds;
 pub use calendar_week_year_bounds::{end_of_week_year, get_weeks_in_week_year, start_of_week_year};
 
+mod interval_week_year_segments;
+pub use interval_week_year_segments::{
+    each_week_year_segment_of_interval, WeekYearSegmentsInInterval,
+};
+
 mod interval_week_year_counts;
 pub use interval_week_year_counts::count_week_years_in_interval;
 

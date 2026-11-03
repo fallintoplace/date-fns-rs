@@ -62,10 +62,25 @@ mod tests {
     #[test]
     fn rejects_invalid_months_and_occurrences() {
         let date = day(2024, 2, 29);
-        assert_eq!(nth_weekday_of_fiscal_half_year(date, 0, Weekday::Mon, 1), None);
-        assert_eq!(nth_weekday_of_fiscal_half_year(date, 13, Weekday::Mon, 1), None);
-        assert_eq!(nth_weekday_of_fiscal_half_year(date, 4, Weekday::Mon, 0), None);
-        assert_eq!(nth_weekday_of_fiscal_half_year(date, 4, Weekday::Mon, 100), None);
-        assert_eq!(nth_weekday_of_fiscal_half_year(date, 4, Weekday::Mon, i16::MIN), None);
+        assert_eq!(
+            nth_weekday_of_fiscal_half_year(date, 0, Weekday::Mon, 1),
+            None
+        );
+        assert_eq!(
+            nth_weekday_of_fiscal_half_year(date, 13, Weekday::Mon, 1),
+            None
+        );
+        assert_eq!(
+            nth_weekday_of_fiscal_half_year(date, 4, Weekday::Mon, 0),
+            None
+        );
+        assert_eq!(
+            nth_weekday_of_fiscal_half_year(date, 4, Weekday::Mon, 100),
+            None
+        );
+        assert_eq!(
+            nth_weekday_of_fiscal_half_year(date, 4, Weekday::Mon, i16::MIN),
+            None
+        );
     }
 }

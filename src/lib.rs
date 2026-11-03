@@ -824,6 +824,9 @@ pub use datetime_format_tokens::format_datetime_tokens;
 mod full_month_difference;
 pub use full_month_difference::difference_in_months;
 
+mod datetime_full_month_difference;
+pub use datetime_full_month_difference::difference_in_months_datetime;
+
 mod full_quarter_difference;
 pub use full_quarter_difference::difference_in_quarters;
 

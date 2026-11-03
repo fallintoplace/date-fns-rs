@@ -1295,3 +1295,6 @@ pub use convert_weeks_minutes::{minutes_to_weeks, weeks_to_minutes};
 
 mod convert_weeks_seconds;
 pub use convert_weeks_seconds::{seconds_to_weeks, weeks_to_seconds};
+
+mod convert_weeks_milliseconds;
+pub use convert_weeks_milliseconds::{milliseconds_to_weeks, weeks_to_milliseconds};

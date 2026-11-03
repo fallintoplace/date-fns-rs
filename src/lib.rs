@@ -625,6 +625,12 @@ mod date_distance_en;
 pub use date_distance_en::{format_date_distance_en, format_date_distance_strict_days_en};
 
 mod centuries;
+
+mod datetime_long_period_boundaries;
+pub use datetime_long_period_boundaries::{
+    end_of_century_datetime, end_of_decade_datetime, start_of_century_datetime,
+    start_of_decade_datetime,
+};
 pub use centuries::{end_of_century, start_of_century};
 
 mod century_comparisons;

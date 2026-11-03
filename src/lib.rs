@@ -774,6 +774,9 @@ mod centuries;
 
 mod datetime_long_period_boundaries;
 pub use centuries::{end_of_century, start_of_century};
+
+mod interval_century_counts;
+pub use interval_century_counts::count_calendar_centuries_in_interval;
 pub use datetime_long_period_boundaries::{
     end_of_century_datetime, end_of_decade_datetime, start_of_century_datetime,
     start_of_decade_datetime,

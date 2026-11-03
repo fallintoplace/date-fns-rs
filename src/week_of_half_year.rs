@@ -10,8 +10,7 @@ pub fn get_week_of_half_year(date: NaiveDate, week_starts_on: Weekday) -> u32 {
     let start = crate::start_of_half_year(date);
     let elapsed = date.signed_duration_since(start).num_days();
     let offset = i64::from(
-        (start.weekday().num_days_from_monday() + 7
-            - week_starts_on.num_days_from_monday()) % 7,
+        (start.weekday().num_days_from_monday() + 7 - week_starts_on.num_days_from_monday()) % 7,
     );
     u32::try_from((elapsed + offset) / 7 + 1)
         .expect("a half-year cannot contain more than 27 partial weeks")

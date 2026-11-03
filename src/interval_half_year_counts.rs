@@ -23,9 +23,18 @@ mod tests {
 
     #[test]
     fn counts_inclusive_periods_across_boundaries() {
-        assert_eq!(count_calendar_half_years_in_interval(day(2024, 6, 30), day(2025, 1, 1)), Some(3));
-        assert_eq!(count_calendar_half_years_in_interval(day(2024, 7, 1), day(2024, 12, 31)), Some(1));
-        assert_eq!(count_calendar_half_years_in_interval(day(-1, 12, 31), day(0, 1, 1)), Some(2));
+        assert_eq!(
+            count_calendar_half_years_in_interval(day(2024, 6, 30), day(2025, 1, 1)),
+            Some(3)
+        );
+        assert_eq!(
+            count_calendar_half_years_in_interval(day(2024, 7, 1), day(2024, 12, 31)),
+            Some(1)
+        );
+        assert_eq!(
+            count_calendar_half_years_in_interval(day(-1, 12, 31), day(0, 1, 1)),
+            Some(2)
+        );
     }
 
     #[test]
@@ -34,6 +43,9 @@ mod tests {
         let last = day(2024, 12, 31);
         assert_eq!(count_calendar_half_years_in_interval(last, first), None);
         assert!(count_calendar_half_years_in_interval(NaiveDate::MIN, NaiveDate::MAX).unwrap() > 1);
-        assert_eq!(count_calendar_half_years_in_interval(NaiveDate::MAX, NaiveDate::MAX), Some(1));
+        assert_eq!(
+            count_calendar_half_years_in_interval(NaiveDate::MAX, NaiveDate::MAX),
+            Some(1)
+        );
     }
 }

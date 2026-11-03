@@ -263,6 +263,9 @@ mod metadata;
 pub use metadata::{get_day_of_month, get_iso_weekday, get_weekday_sunday_zero};
 pub use metadata::{get_day_of_year, get_days_in_month, get_days_in_year};
 
+mod format_iso_datetime_duration;
+pub use format_iso_datetime_duration::format_iso_duration;
+
 mod datetime_duration;
 pub use datetime_duration::{interval_to_calendar_duration, CalendarDateTimeDuration};
 
@@ -1211,6 +1214,3 @@ pub use decade_day_ordinals::{get_day_of_decade, get_days_in_decade};
 
 mod century_day_ordinals;
 pub use century_day_ordinals::{get_day_of_century, get_days_in_century};
-
-mod format_iso_datetime_duration;
-pub use format_iso_datetime_duration::format_iso_duration;

@@ -85,12 +85,47 @@ pub fn get_week_year(
     week_and_year(date, week_starts_on, first_week_contains_date).map(|(year, _)| year)
 }
 
+/// Compare week-numbering years with an explicit local week convention.
+///
+/// The first week anchor must be from 1 through 7. Invalid anchors return None.
+pub fn is_same_week_year(
+    left: NaiveDate,
+    right: NaiveDate,
+    week_starts_on: Weekday,
+    first_week_contains_date: u32,
+) -> Option<bool> {
+    Some(
+        get_week_year(left, week_starts_on, first_week_contains_date)?
+            == get_week_year(right, week_starts_on, first_week_contains_date)?,
+    )
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
 
     fn date(y: i32, m: u32, d: u32) -> NaiveDate {
         NaiveDate::from_ymd_opt(y, m, d).unwrap()
+    }
+
+    #[test]
+    fn compares_week_years_with_explicit_local_conventions() {
+        assert_eq!(
+            is_same_week_year(date(2020, 12, 31), date(2021, 1, 1), Weekday::Mon, 4),
+            Some(true)
+        );
+        assert_eq!(
+            is_same_week_year(date(2020, 12, 26), date(2020, 12, 27), Weekday::Sun, 1),
+            Some(false)
+        );
+        assert_eq!(
+            is_same_week_year(date(2020, 12, 31), date(2021, 1, 1), Weekday::Sun, 1),
+            Some(true)
+        );
+        assert_eq!(
+            is_same_week_year(date(2024, 1, 1), date(2024, 1, 1), Weekday::Mon, 0),
+            None
+        );
     }
 
     #[test]

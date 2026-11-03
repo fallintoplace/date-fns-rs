@@ -71,11 +71,7 @@ pub fn difference_in_calendar_fiscal_quarters(
 /// Check whether two dates belong to the same fiscal quarter.
 ///
 /// Returns None when first_month is not between 1 and 12.
-pub fn is_same_fiscal_quarter(
-    left: NaiveDate,
-    right: NaiveDate,
-    first_month: u32,
-) -> Option<bool> {
+pub fn is_same_fiscal_quarter(left: NaiveDate, right: NaiveDate, first_month: u32) -> Option<bool> {
     Some(difference_in_calendar_fiscal_quarters(left, right, first_month)? == 0)
 }
 

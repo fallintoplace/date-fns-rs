@@ -25,7 +25,11 @@ impl Iterator for FiscalHalfYearSegmentsInInterval {
             .and_then(|next| next.pred_opt())
             .unwrap_or(NaiveDate::MAX)
             .min(self.end);
-        self.next = if last < self.end { last.succ_opt() } else { None };
+        self.next = if last < self.end {
+            last.succ_opt()
+        } else {
+            None
+        };
         Some((start, last))
     }
 }
@@ -62,13 +66,10 @@ mod tests {
 
     #[test]
     fn clips_april_based_halves_across_new_year() {
-        let ranges = each_fiscal_half_year_segment_of_interval(
-            day(2023, 9, 28),
-            day(2024, 4, 2),
-            4,
-        )
-        .unwrap()
-        .collect::<Vec<_>>();
+        let ranges =
+            each_fiscal_half_year_segment_of_interval(day(2023, 9, 28), day(2024, 4, 2), 4)
+                .unwrap()
+                .collect::<Vec<_>>();
         assert_eq!(
             ranges,
             vec![

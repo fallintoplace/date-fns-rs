@@ -82,7 +82,10 @@ mod tests {
             get_business_day_of_fiscal_half_year(day(2024, 3, 29), 4),
             Some(130)
         );
-        assert_eq!(get_business_day_of_fiscal_half_year(day(2024, 3, 31), 4), None);
+        assert_eq!(
+            get_business_day_of_fiscal_half_year(day(2024, 3, 31), 4),
+            None
+        );
     }
 
     #[test]
@@ -123,8 +126,17 @@ mod tests {
         assert_eq!(get_business_days_in_fiscal_half_year(date, 0), None);
         assert_eq!(get_business_days_in_fiscal_half_year(date, 13), None);
         assert_eq!(get_business_day_of_fiscal_half_year(date, 0), None);
-        assert_eq!(get_business_day_of_fiscal_half_year_with_holidays(date, 13, &[]), None);
-        assert_eq!(get_business_days_in_fiscal_half_year(NaiveDate::MAX, 4), None);
-        assert_eq!(get_business_days_in_fiscal_half_year_with_holidays(NaiveDate::MAX, 4, &[]), None);
+        assert_eq!(
+            get_business_day_of_fiscal_half_year_with_holidays(date, 13, &[]),
+            None
+        );
+        assert_eq!(
+            get_business_days_in_fiscal_half_year(NaiveDate::MAX, 4),
+            None
+        );
+        assert_eq!(
+            get_business_days_in_fiscal_half_year_with_holidays(NaiveDate::MAX, 4, &[]),
+            None
+        );
     }
 }

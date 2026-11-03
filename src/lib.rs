@@ -870,3 +870,6 @@ pub use ical_yearly_rrule::{each_ical_yearly_rrule, parse_ical_yearly_rrule, Ica
 
 mod ical_weekly_rrule;
 pub use ical_weekly_rrule::{each_ical_weekly_rrule, parse_ical_weekly_rrule, IcalWeeklyRRule};
+
+mod interval_calendar_day_count;
+pub use interval_calendar_day_count::count_calendar_days_in_interval;

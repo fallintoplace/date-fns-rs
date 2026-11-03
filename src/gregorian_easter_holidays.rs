@@ -38,7 +38,10 @@ mod tests {
             assert_eq!(monday, date(year, monday_month, monday_day));
             assert_eq!(friday.weekday(), Weekday::Fri);
             assert_eq!(monday.weekday(), Weekday::Mon);
-            assert_eq!(friday.succ_opt().and_then(|d| d.succ_opt()), crate::gregorian_easter_sunday(year));
+            assert_eq!(
+                friday.succ_opt().and_then(|d| d.succ_opt()),
+                crate::gregorian_easter_sunday(year)
+            );
         }
     }
 

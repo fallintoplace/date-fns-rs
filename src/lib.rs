@@ -837,6 +837,9 @@ pub use iso_week_setters::{set_iso_week, set_iso_week_year};
 mod full_year_difference;
 pub use full_year_difference::difference_in_years;
 
+mod datetime_full_year_difference;
+pub use datetime_full_year_difference::difference_in_years_datetime;
+
 mod set_month;
 pub use set_month::set_month;
 

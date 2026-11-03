@@ -66,11 +66,15 @@ mod tests {
     #[test]
     fn century_boundary_uses_one_based_years() {
         assert_eq!(
-            end_of_century_datetime(datetime(2000, 12, 31)).unwrap().date(),
+            end_of_century_datetime(datetime(2000, 12, 31))
+                .unwrap()
+                .date(),
             NaiveDate::from_ymd_opt(2000, 12, 31).unwrap()
         );
         assert_eq!(
-            start_of_century_datetime(datetime(2001, 1, 1)).unwrap().date(),
+            start_of_century_datetime(datetime(2001, 1, 1))
+                .unwrap()
+                .date(),
             NaiveDate::from_ymd_opt(2001, 1, 1).unwrap()
         );
     }

@@ -182,10 +182,13 @@ mod iso;
 pub use iso::{format_iso_date, parse_iso_date};
 
 mod datetime_comparisons;
+
+mod datetime_week_comparisons;
 pub use datetime_comparisons::{
     is_same_day_datetime, is_same_hour_datetime, is_same_minute_datetime, is_same_month_datetime,
     is_same_second_datetime, is_same_year_datetime,
 };
+pub use datetime_week_comparisons::{is_same_iso_week_datetime, is_same_week_datetime};
 
 mod iso_year;
 pub use iso_year::{format_iso_year, parse_iso_year};

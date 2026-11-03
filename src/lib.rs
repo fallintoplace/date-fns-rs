@@ -791,6 +791,9 @@ pub use iso_expanded_datetime::{
 mod week_of_month;
 pub use week_of_month::get_week_of_month;
 
+mod get_weeks_in_month;
+pub use get_weeks_in_month::get_weeks_in_month;
+
 mod week_of_quarter;
 pub use week_of_quarter::get_week_of_quarter;
 

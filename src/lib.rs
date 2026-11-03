@@ -906,6 +906,9 @@ pub use fiscal_month_number::get_fiscal_month;
 mod date_checked_setters;
 pub use date_checked_setters::{is_existing_calendar_date, set_day_of_month, set_day_of_week};
 
+mod nth_configured_workday_fiscal_half_year;
+pub use nth_configured_workday_fiscal_half_year::nth_workday_of_fiscal_half_year;
+
 mod nth_weekday_fiscal_half_year;
 pub use nth_weekday_fiscal_half_year::nth_weekday_of_fiscal_half_year;
 

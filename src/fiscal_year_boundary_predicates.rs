@@ -29,9 +29,15 @@ mod tests {
     fn detects_fiscal_boundaries_across_calendar_years() {
         assert_eq!(is_first_day_of_fiscal_year(day(2024, 4, 1), 4), Some(true));
         assert_eq!(is_last_day_of_fiscal_year(day(2025, 3, 31), 4), Some(true));
-        assert_eq!(is_first_day_of_fiscal_year(day(2024, 3, 31), 4), Some(false));
+        assert_eq!(
+            is_first_day_of_fiscal_year(day(2024, 3, 31), 4),
+            Some(false)
+        );
         assert_eq!(is_last_day_of_fiscal_year(day(2025, 4, 1), 4), Some(false));
-        assert_eq!(is_first_day_of_fiscal_year(day(2025, 3, 31), 4), Some(false));
+        assert_eq!(
+            is_first_day_of_fiscal_year(day(2025, 3, 31), 4),
+            Some(false)
+        );
         assert_eq!(is_last_day_of_fiscal_year(day(2024, 4, 1), 4), Some(false));
     }
 

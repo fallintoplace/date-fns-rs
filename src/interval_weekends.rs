@@ -50,6 +50,16 @@ pub fn each_weekend_of_interval(start: NaiveDate, end: NaiveDate) -> Option<Week
     Some(WeekendsInInterval { next: first, end })
 }
 
+/// Iterate Saturdays and Sundays in the calendar month of a date.
+pub fn each_weekend_of_month(date: NaiveDate) -> Option<WeekendsInInterval> {
+    each_weekend_of_interval(crate::start_of_month(date), crate::end_of_month(date))
+}
+
+/// Iterate Saturdays and Sundays in the calendar year of a date.
+pub fn each_weekend_of_year(date: NaiveDate) -> Option<WeekendsInInterval> {
+    each_weekend_of_interval(crate::start_of_year(date), crate::end_of_year(date))
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -98,5 +108,20 @@ mod tests {
         assert_eq!(days.next(), expected);
         assert_eq!(days.next(), None);
         assert_eq!(days.next(), None);
+    }
+}
+
+#[cfg(test)]
+mod scoped_weekend_tests {
+    use super::*;
+
+    #[test]
+    fn iterates_full_month_and_year_weekends() {
+        let date = NaiveDate::from_ymd_opt(2024, 3, 15).unwrap();
+        let month = each_weekend_of_month(date).unwrap().collect::<Vec<_>>();
+        assert_eq!(month.len(), 10);
+        assert_eq!(month.first().copied(), NaiveDate::from_ymd_opt(2024, 3, 2));
+        assert_eq!(month.last().copied(), NaiveDate::from_ymd_opt(2024, 3, 31));
+        assert_eq!(each_weekend_of_year(date).unwrap().count(), 104);
     }
 }

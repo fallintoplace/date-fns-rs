@@ -349,6 +349,9 @@ pub use datetime_epoch::{
 mod half_years;
 pub use half_years::{end_of_half_year, get_half_year, start_of_half_year};
 
+mod nth_weekday_half_year;
+pub use nth_weekday_half_year::nth_weekday_of_half_year;
+
 mod business_half_year_metadata;
 pub use business_half_year_metadata::{
     get_business_day_of_half_year, get_business_day_of_half_year_with_holidays,

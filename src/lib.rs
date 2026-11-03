@@ -332,6 +332,11 @@ mod datetime_iso;
 pub use datetime_iso::{format_iso_local_datetime, parse_iso_local_datetime};
 
 mod half_year_predicates;
+
+mod datetime_period_comparisons;
+pub use datetime_period_comparisons::{
+    is_same_half_year_datetime, is_same_quarter_datetime,
+};
 pub use half_year_predicates::{
     is_first_day_of_half_year, is_last_day_of_half_year, is_same_half_year,
 };

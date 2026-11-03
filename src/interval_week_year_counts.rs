@@ -48,10 +48,20 @@ mod tests {
     fn validates_rules_and_supported_date_limits() {
         let first = day(2024, 1, 1);
         let last = day(2024, 12, 31);
-        assert_eq!(count_week_years_in_interval(last, first, Weekday::Mon, 4), None);
-        assert_eq!(count_week_years_in_interval(first, last, Weekday::Mon, 0), None);
-        assert_eq!(count_week_years_in_interval(first, last, Weekday::Mon, 8), None);
-        let count = count_week_years_in_interval(NaiveDate::MIN, NaiveDate::MAX, Weekday::Mon, 4).unwrap();
+        assert_eq!(
+            count_week_years_in_interval(last, first, Weekday::Mon, 4),
+            None
+        );
+        assert_eq!(
+            count_week_years_in_interval(first, last, Weekday::Mon, 0),
+            None
+        );
+        assert_eq!(
+            count_week_years_in_interval(first, last, Weekday::Mon, 8),
+            None
+        );
+        let count =
+            count_week_years_in_interval(NaiveDate::MIN, NaiveDate::MAX, Weekday::Mon, 4).unwrap();
         assert!(count > 1);
         assert_eq!(
             count_week_years_in_interval(NaiveDate::MAX, NaiveDate::MAX, Weekday::Mon, 4),

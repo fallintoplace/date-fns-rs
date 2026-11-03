@@ -49,27 +49,17 @@ mod tests {
         ])
         .unwrap();
         let holidays = [day(3, 3), day(3, 3), day(3, 1)];
-        let result: Vec<_> = each_workday_of_interval_with_holidays(
-            week,
-            day(2, 29),
-            day(3, 5),
-            &holidays,
-        )
-        .unwrap()
-        .collect();
+        let result: Vec<_> =
+            each_workday_of_interval_with_holidays(week, day(2, 29), day(3, 5), &holidays)
+                .unwrap()
+                .collect();
         assert_eq!(result, vec![day(2, 29), day(3, 4), day(3, 5)]);
     }
 
     #[test]
     fn rejects_reversed_ranges_and_handles_date_boundaries() {
         let week = Workweek::from_mask(0x7f).unwrap();
-        assert!(each_workday_of_interval_with_holidays(
-            week,
-            day(3, 5),
-            day(3, 4),
-            &[]
-        )
-        .is_none());
+        assert!(each_workday_of_interval_with_holidays(week, day(3, 5), day(3, 4), &[]).is_none());
         let days: Vec<_> =
             each_workday_of_interval_with_holidays(week, NaiveDate::MAX, NaiveDate::MAX, &[])
                 .unwrap()

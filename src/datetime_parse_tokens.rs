@@ -53,7 +53,7 @@ fn digits(input: &str, index: &mut usize, min: usize, max: usize) -> Option<u32>
 /// Parse a full date and optional clock fields from numeric date-fns style tokens.
 ///
 /// Supported: yyyy, MMMM, MMM, MM, M, dd, d, EEEE, EEE, HH, H,
-/// hh, h, mm, m, ss, s, SSS and uppercase AM/PM using a.
+/// hh, h, mm, m, ss, s, S through SSSSSSSSS, and uppercase AM/PM using a.
 /// Date fields are required. A twelve-hour clock requires an AM/PM field.\n/// Unspecified clock fields default to zero.
 /// Doubled single quotes represent literal apostrophes. Unsupported tokens,
 /// duplicate fields, invalid dates or clock values, and trailing data fail.
@@ -66,7 +66,7 @@ pub fn parse_datetime_tokens(input: &str, pattern: &str) -> Option<NaiveDateTime
     let mut hour = None;
     let mut minute = None;
     let mut second = None;
-    let mut millisecond = None;
+    let mut nanosecond = None;
     let mut weekday = None;
     let mut pm = None;
     let mut twelve_hour = false;
@@ -113,6 +113,17 @@ pub fn parse_datetime_tokens(input: &str, pattern: &str) -> Option<NaiveDateTime
         }
 
         let rest = &pattern[pi..];
+        if rest.starts_with('S') {
+            let width = rest.bytes().take_while(|c| *c == b'S').count();
+            if width > 9 || nanosecond.is_some() {
+                return None;
+            }
+            let fraction = digits(input, &mut ii, width, width)?;
+            let scale = 10_u32.pow((9 - width) as u32);
+            nanosecond = Some(fraction.checked_mul(scale)?);
+            pi += width;
+            continue;
+        }
         if rest.starts_with("MMMM") || rest.starts_with("MMM") {
             let full = rest.starts_with("MMMM");
             let parsed = parse_english_name(input, &mut ii, &MONTHS, full)? + 1;
@@ -148,7 +159,7 @@ pub fn parse_datetime_tokens(input: &str, pattern: &str) -> Option<NaiveDateTime
             continue;
         }
         let token = [
-            "yyyy", "SSS", "hh", "MM", "dd", "HH", "mm", "ss", "M", "d", "H", "h", "m", "s",
+            "yyyy", "hh", "MM", "dd", "HH", "mm", "ss", "M", "d", "H", "h", "m", "s",
         ]
         .iter()
         .find(|token| rest.starts_with(**token))
@@ -156,7 +167,6 @@ pub fn parse_datetime_tokens(input: &str, pattern: &str) -> Option<NaiveDateTime
         if let Some(token) = token {
             let (min, max) = match token {
                 "yyyy" => (4, 4),
-                "SSS" => (3, 3),
                 "MM" | "dd" | "HH" | "hh" | "mm" | "ss" => (2, 2),
                 _ => (1, 2),
             };
@@ -168,7 +178,6 @@ pub fn parse_datetime_tokens(input: &str, pattern: &str) -> Option<NaiveDateTime
                 "HH" | "H" | "hh" | "h" => &mut hour,
                 "mm" | "m" => &mut minute,
                 "ss" | "s" => &mut second,
-                "SSS" => &mut millisecond,
                 _ => return None,
             };
             if target.replace(parsed).is_some() {
@@ -207,11 +216,11 @@ pub fn parse_datetime_tokens(input: &str, pattern: &str) -> Option<NaiveDateTime
         }
         hour.unwrap_or(0)
     };
-    date.and_hms_milli_opt(
+    date.and_hms_nano_opt(
         parsed_hour,
         minute.unwrap_or(0),
         second.unwrap_or(0),
-        millisecond.unwrap_or(0),
+        nanosecond.unwrap_or(0),
     )
 }
 
@@ -219,6 +228,35 @@ pub fn parse_datetime_tokens(input: &str, pattern: &str) -> Option<NaiveDateTime
 mod tests {
     use super::*;
     use chrono::Timelike;
+
+    #[test]
+    fn parses_fractional_seconds_without_losing_nanoseconds() {
+        let date = NaiveDate::from_ymd_opt(2024, 2, 29).unwrap();
+        for (suffix, token, nanos) in [
+            ("1", "S", 100_000_000),
+            ("12", "SS", 120_000_000),
+            ("123", "SSS", 123_000_000),
+            ("123456", "SSSSSS", 123_456_000),
+            ("123456789", "SSSSSSSSS", 123_456_789),
+        ] {
+            let input = format!("2024-02-29 12:34:56.{suffix}");
+            let pattern = format!("yyyy-MM-dd HH:mm:ss.{token}");
+            let result = parse_datetime_tokens(&input, &pattern).unwrap();
+            assert_eq!(result.date(), date);
+            assert_eq!(result.nanosecond(), nanos);
+        }
+        assert_eq!(
+            parse_datetime_tokens("2024-02-29 12:34:56.1", "yyyy-MM-dd HH:mm:ss.SS"),
+            None
+        );
+        assert_eq!(
+            parse_datetime_tokens(
+                "2024-02-29 12:34:56.1234567890",
+                "yyyy-MM-dd HH:mm:ss.SSSSSSSSSS"
+            ),
+            None
+        );
+    }
 
     #[test]
     fn parses_leap_days_and_fractional_clock_values() {

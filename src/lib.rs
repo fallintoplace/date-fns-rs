@@ -366,6 +366,9 @@ pub use fiscal_quarters::difference_in_calendar_fiscal_quarters;
 pub use fiscal_quarters::is_same_fiscal_quarter;
 pub use fiscal_quarters::{end_of_fiscal_quarter, get_fiscal_quarter, start_of_fiscal_quarter};
 
+mod interval_fiscal_quarter_counts;
+pub use interval_fiscal_quarter_counts::count_fiscal_quarters_in_interval;
+
 mod datetime_fiscal_quarter_boundaries;
 pub use datetime_fiscal_quarter_boundaries::{
     end_of_fiscal_quarter_datetime, start_of_fiscal_quarter_datetime,

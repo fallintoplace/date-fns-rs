@@ -30,17 +30,38 @@ mod tests {
 
     #[test]
     fn compares_decades_ignoring_month_and_clock() {
-        assert!(is_same_decade_datetime(at(2020, 1, 1, 0), at(2029, 12, 31, 23)));
-        assert!(!is_same_decade_datetime(at(2019, 12, 31, 23), at(2020, 1, 1, 0)));
-        assert!(is_same_decade_datetime(at(-10, 1, 1, 0), at(-1, 12, 31, 23)));
+        assert!(is_same_decade_datetime(
+            at(2020, 1, 1, 0),
+            at(2029, 12, 31, 23)
+        ));
+        assert!(!is_same_decade_datetime(
+            at(2019, 12, 31, 23),
+            at(2020, 1, 1, 0)
+        ));
+        assert!(is_same_decade_datetime(
+            at(-10, 1, 1, 0),
+            at(-1, 12, 31, 23)
+        ));
         assert!(!is_same_decade_datetime(at(-1, 12, 31, 23), at(0, 1, 1, 0)));
     }
 
     #[test]
     fn compares_one_based_centuries_and_supported_limits() {
-        assert!(is_same_century_datetime(at(2001, 1, 1, 0), at(2100, 12, 31, 23)));
-        assert!(!is_same_century_datetime(at(2000, 12, 31, 23), at(2001, 1, 1, 0)));
-        assert!(is_same_century_datetime(NaiveDateTime::MIN, NaiveDateTime::MIN));
-        assert!(is_same_decade_datetime(NaiveDateTime::MAX, NaiveDateTime::MAX));
+        assert!(is_same_century_datetime(
+            at(2001, 1, 1, 0),
+            at(2100, 12, 31, 23)
+        ));
+        assert!(!is_same_century_datetime(
+            at(2000, 12, 31, 23),
+            at(2001, 1, 1, 0)
+        ));
+        assert!(is_same_century_datetime(
+            NaiveDateTime::MIN,
+            NaiveDateTime::MIN
+        ));
+        assert!(is_same_decade_datetime(
+            NaiveDateTime::MAX,
+            NaiveDateTime::MAX
+        ));
     }
 }

@@ -746,6 +746,11 @@ pub use set_year::set_year;
 mod set_day_of_year;
 pub use set_day_of_year::set_day_of_year;
 
+mod datetime_iso_basic_ordinal;
+pub use datetime_iso_basic_ordinal::{
+    format_iso_basic_ordinal_local_datetime, parse_iso_basic_ordinal_local_datetime,
+};
+
 mod iso_basic_ordinal_date;
 pub use iso_basic_ordinal_date::{format_iso_basic_ordinal_date, parse_iso_basic_ordinal_date};
 

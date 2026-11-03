@@ -98,7 +98,13 @@ mod tests {
         assert_eq!(nth_workday_of_fiscal_quarter(date, 0, week, 1, &[]), None);
         assert_eq!(nth_workday_of_fiscal_quarter(date, 13, week, 1, &[]), None);
         assert_eq!(nth_workday_of_fiscal_quarter(date, 4, week, 0, &[]), None);
-        assert_eq!(nth_workday_of_fiscal_quarter(date, 4, week, i16::MIN, &[]), None);
-        assert_eq!(nth_workday_of_fiscal_quarter(NaiveDate::MAX, 2, week, 1, &[]), None);
+        assert_eq!(
+            nth_workday_of_fiscal_quarter(date, 4, week, i16::MIN, &[]),
+            None
+        );
+        assert_eq!(
+            nth_workday_of_fiscal_quarter(NaiveDate::MAX, 2, week, 1, &[]),
+            None
+        );
     }
 }

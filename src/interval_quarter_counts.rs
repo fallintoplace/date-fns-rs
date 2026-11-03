@@ -43,8 +43,7 @@ mod tests {
 
     #[test]
     fn handles_the_complete_chrono_date_range() {
-        let total =
-            count_calendar_quarters_in_interval(NaiveDate::MIN, NaiveDate::MAX).unwrap();
+        let total = count_calendar_quarters_in_interval(NaiveDate::MIN, NaiveDate::MAX).unwrap();
         assert!(total > 0);
         assert_eq!(
             count_calendar_quarters_in_interval(NaiveDate::MIN, NaiveDate::MIN),

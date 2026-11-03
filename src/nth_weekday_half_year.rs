@@ -65,7 +65,10 @@ mod tests {
         assert_eq!(nth_weekday_of_half_year(2024, 0, Weekday::Mon, 1), None);
         assert_eq!(nth_weekday_of_half_year(2024, 3, Weekday::Mon, 1), None);
         assert_eq!(nth_weekday_of_half_year(2024, 1, Weekday::Mon, 0), None);
-        assert_eq!(nth_weekday_of_half_year(2024, 1, Weekday::Mon, i16::MIN), None);
+        assert_eq!(
+            nth_weekday_of_half_year(2024, 1, Weekday::Mon, i16::MIN),
+            None
+        );
         assert_eq!(nth_weekday_of_half_year(i32::MAX, 1, Weekday::Mon, 1), None);
     }
 }

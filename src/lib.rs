@@ -694,6 +694,9 @@ pub use fiscal_half_years::{
 
 pub use fiscal_half_years::difference_in_calendar_fiscal_half_years;
 
+mod week_of_fiscal_half_year;
+pub use week_of_fiscal_half_year::get_week_of_fiscal_half_year;
+
 mod business_month_metadata;
 pub use business_month_metadata::{get_business_day_of_month, get_business_days_in_month};
 

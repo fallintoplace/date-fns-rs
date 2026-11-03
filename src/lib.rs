@@ -272,6 +272,9 @@ pub use datetime_calendar_clock_differences::{
 
 pub use datetime_differences::difference_in_nanoseconds_datetime;
 
+mod week_of_half_year;
+pub use week_of_half_year::get_week_of_half_year;
+
 mod half_year_day_ordinals;
 pub use half_year_day_ordinals::{get_day_of_half_year, get_days_in_half_year};
 

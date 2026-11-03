@@ -619,9 +619,7 @@ mod iso_year_month;
 pub use iso_year_month::{format_iso_year_month, parse_iso_year_month};
 
 mod iso_year_month_interval;
-pub use iso_year_month_interval::{
-    format_iso_year_month_interval, parse_iso_year_month_interval,
-};
+pub use iso_year_month_interval::{format_iso_year_month_interval, parse_iso_year_month_interval};
 
 mod date_distance_de;
 pub use date_distance_de::{format_date_distance_de, format_date_distance_strict_days_de};

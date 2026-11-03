@@ -42,10 +42,7 @@ mod tests {
         let end = date(2021, 1, 10);
         let label = "2020-W53/2021-W01";
         assert_eq!(parse_iso_week_interval(label), Some((start, end)));
-        assert_eq!(
-            format_iso_week_interval(start, end).as_deref(),
-            Some(label)
-        );
+        assert_eq!(format_iso_week_interval(start, end).as_deref(), Some(label));
         assert_eq!(
             parse_iso_week_interval("2019-W01/2019-W01"),
             Some((date(2018, 12, 31), date(2019, 1, 6)))

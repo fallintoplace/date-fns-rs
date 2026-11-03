@@ -118,6 +118,7 @@ mod weeks;
 pub use weeks::{end_of_iso_week, end_of_week, start_of_iso_week, start_of_week};
 
 mod week_comparisons;
+pub use week_comparisons::is_same_iso_week_year;
 pub use week_comparisons::{is_same_iso_week, is_same_week};
 
 mod week_boundary_predicates;

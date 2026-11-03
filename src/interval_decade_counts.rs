@@ -1,6 +1,6 @@
 //! Constant-time inclusive period counts for date intervals.
 
-use chrono::{NaiveDate};
+use chrono::NaiveDate;
 
 /// Count distinct standard Gregorian decades touched by an inclusive interval.
 ///

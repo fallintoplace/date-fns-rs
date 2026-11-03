@@ -149,6 +149,9 @@ pub use weekday_arithmetic::{next_weekday, previous_weekday};
 
 pub use weekday_arithmetic::{next_or_same_weekday, previous_or_same_weekday};
 
+mod datetime_weekday_navigation;
+pub use datetime_weekday_navigation::{next_day_datetime, previous_day_datetime};
+
 mod weekday_predicates;
 pub use weekday_predicates::{
     is_friday, is_monday, is_saturday, is_sunday, is_thursday, is_tuesday, is_wednesday,
@@ -1211,6 +1214,3 @@ pub use decade_day_ordinals::{get_day_of_decade, get_days_in_decade};
 
 mod century_day_ordinals;
 pub use century_day_ordinals::{get_day_of_century, get_days_in_century};
-
-mod datetime_weekday_navigation;
-pub use datetime_weekday_navigation::{next_day_datetime, previous_day_datetime};

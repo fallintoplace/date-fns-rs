@@ -123,6 +123,9 @@ mod tests {
         );
         let wide = difference_in_calendar_iso_weeks(NaiveDate::MAX, NaiveDate::MIN);
         assert!(wide > 0);
-        assert_eq!(difference_in_calendar_iso_weeks(NaiveDate::MIN, NaiveDate::MAX), -wide);
+        assert_eq!(
+            difference_in_calendar_iso_weeks(NaiveDate::MIN, NaiveDate::MAX),
+            -wide
+        );
     }
 }

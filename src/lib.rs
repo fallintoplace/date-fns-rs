@@ -870,3 +870,6 @@ pub use ical_yearly_rrule::{each_ical_yearly_rrule, parse_ical_yearly_rrule, Ica
 
 mod ical_weekly_rrule;
 pub use ical_weekly_rrule::{each_ical_weekly_rrule, parse_ical_weekly_rrule, IcalWeeklyRRule};
+
+mod week_of_fiscal_quarter;
+pub use week_of_fiscal_quarter::get_week_of_fiscal_quarter;

@@ -23,6 +23,21 @@ pub fn get_days_in_year(date: NaiveDate) -> u32 {
     }
 }
 
+/// Return the 1-based day of the current month.
+pub fn get_day_of_month(date: NaiveDate) -> u32 {
+    date.day()
+}
+
+/// Return the day of week with Sunday = 0 and Saturday = 6.
+pub fn get_weekday_sunday_zero(date: NaiveDate) -> u32 {
+    date.weekday().num_days_from_sunday()
+}
+
+/// Return the ISO weekday with Monday = 1 and Sunday = 7.
+pub fn get_iso_weekday(date: NaiveDate) -> u32 {
+    date.weekday().number_from_monday()
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -54,5 +69,21 @@ mod tests {
         assert_eq!(get_days_in_year(date(2023, 1, 1)), 365);
         assert!((1..=366).contains(&get_day_of_year(NaiveDate::MIN)));
         assert!((1..=366).contains(&get_day_of_year(NaiveDate::MAX)));
+    }
+
+    #[test]
+    fn weekday_numbers_use_explicit_sunday_and_iso_conventions() {
+        let leap = date(2024, 2, 29);
+        assert_eq!(get_day_of_month(leap), 29);
+        assert_eq!(get_weekday_sunday_zero(leap), 4);
+        assert_eq!(get_iso_weekday(leap), 4);
+        let sunday = date(2024, 3, 3);
+        assert_eq!(get_weekday_sunday_zero(sunday), 0);
+        assert_eq!(get_iso_weekday(sunday), 7);
+        let monday = date(2024, 3, 4);
+        assert_eq!(get_weekday_sunday_zero(monday), 1);
+        assert_eq!(get_iso_weekday(monday), 1);
+        assert!((1..=31).contains(&get_day_of_month(NaiveDate::MIN)));
+        assert!(get_weekday_sunday_zero(NaiveDate::MAX) <= 6);
     }
 }

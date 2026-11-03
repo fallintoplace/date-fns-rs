@@ -370,6 +370,11 @@ pub use business_half_year_metadata::{
     get_business_days_in_half_year, get_business_days_in_half_year_with_holidays,
 };
 
+mod datetime_fiscal_half_year_boundaries;
+pub use datetime_fiscal_half_year_boundaries::{
+    end_of_fiscal_half_year_datetime, start_of_fiscal_half_year_datetime,
+};
+
 mod datetime_half_year_boundaries;
 pub use datetime_half_year_boundaries::{end_of_half_year_datetime, start_of_half_year_datetime};
 

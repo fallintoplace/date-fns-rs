@@ -543,6 +543,12 @@ pub use business_holidays::{next_business_day_with_holidays, previous_business_d
 mod business_difference;
 pub use business_difference::difference_in_business_days;
 
+mod fiscal_business_year_metadata;
+pub use fiscal_business_year_metadata::{
+    get_business_day_of_fiscal_year, get_business_day_of_fiscal_year_with_holidays,
+    get_business_days_in_fiscal_year, get_business_days_in_fiscal_year_with_holidays,
+};
+
 mod business_year_metadata;
 pub use business_year_metadata::{get_business_day_of_year, get_business_days_in_year};
 

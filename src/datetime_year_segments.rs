@@ -82,10 +82,15 @@ mod tests {
     fn clips_partial_segments_preserving_nanoseconds() {
         let start = at(2023, 12, 30, 13);
         let end = at(2025, 1, 2, 6);
-        let segments: Vec<_> = each_year_segment_of_datetime_interval(start, end).unwrap().collect();
+        let segments: Vec<_> = each_year_segment_of_datetime_interval(start, end)
+            .unwrap()
+            .collect();
 
         assert_eq!(
-            segments.iter().map(|(first, last)| (first.date(), last.date())).collect::<Vec<_>>(),
+            segments
+                .iter()
+                .map(|(first, last)| (first.date(), last.date()))
+                .collect::<Vec<_>>(),
             vec![
                 (day(2023, 12, 30), day(2023, 12, 31)),
                 (day(2024, 1, 1), day(2024, 12, 31)),
@@ -97,7 +102,9 @@ mod tests {
         assert_eq!(segments[1].0, day(2024, 1, 1).and_hms_opt(0, 0, 0).unwrap());
         assert_eq!(
             segments[1].1,
-            day(2024, 12, 31).and_hms_nano_opt(23, 59, 59, 999_999_999).unwrap()
+            day(2024, 12, 31)
+                .and_hms_nano_opt(23, 59, 59, 999_999_999)
+                .unwrap()
         );
         for adjacent in segments.windows(2) {
             assert_eq!(
@@ -112,12 +119,17 @@ mod tests {
         let first = at(2023, 12, 30, 13);
         let last = at(2025, 1, 2, 6);
         assert!(each_year_segment_of_datetime_interval(last, first).is_none());
-        let mut end = each_year_segment_of_datetime_interval(NaiveDateTime::MAX, NaiveDateTime::MAX).unwrap();
+        let mut end =
+            each_year_segment_of_datetime_interval(NaiveDateTime::MAX, NaiveDateTime::MAX).unwrap();
         assert_eq!(end.next(), Some((NaiveDateTime::MAX, NaiveDateTime::MAX)));
         assert_eq!(end.next(), None);
         assert_eq!(end.next(), None);
-        let mut beginning = each_year_segment_of_datetime_interval(NaiveDateTime::MIN, NaiveDateTime::MIN).unwrap();
-        assert_eq!(beginning.next(), Some((NaiveDateTime::MIN, NaiveDateTime::MIN)));
+        let mut beginning =
+            each_year_segment_of_datetime_interval(NaiveDateTime::MIN, NaiveDateTime::MIN).unwrap();
+        assert_eq!(
+            beginning.next(),
+            Some((NaiveDateTime::MIN, NaiveDateTime::MIN))
+        );
         assert_eq!(beginning.next(), None);
     }
 }

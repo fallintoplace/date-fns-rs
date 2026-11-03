@@ -27,7 +27,10 @@ mod tests {
             count_calendar_decades_in_interval(day(2019, 12, 31), day(2020, 1, 1)),
             Some(2)
         );
-        assert_eq!(count_calendar_decades_in_interval(day(-1, 12, 31), day(0, 1, 1)), Some(2));
+        assert_eq!(
+            count_calendar_decades_in_interval(day(-1, 12, 31), day(0, 1, 1)),
+            Some(2)
+        );
         assert_eq!(
             count_calendar_decades_in_interval(day(2020, 3, 1), day(2029, 12, 31)),
             Some(1)
@@ -41,6 +44,9 @@ mod tests {
         assert_eq!(count_calendar_decades_in_interval(last, first), None);
         let count = count_calendar_decades_in_interval(NaiveDate::MIN, NaiveDate::MAX).unwrap();
         assert!(count > 1);
-        assert_eq!(count_calendar_decades_in_interval(NaiveDate::MAX, NaiveDate::MAX), Some(1));
+        assert_eq!(
+            count_calendar_decades_in_interval(NaiveDate::MAX, NaiveDate::MAX),
+            Some(1)
+        );
     }
 }

@@ -827,6 +827,9 @@ pub use full_month_difference::difference_in_months;
 mod full_quarter_difference;
 pub use full_quarter_difference::difference_in_quarters;
 
+mod datetime_full_quarter_difference;
+pub use datetime_full_quarter_difference::difference_in_quarters_datetime;
+
 mod iso_week_year_arithmetic;
 pub use iso_week_year_arithmetic::{add_iso_week_years, sub_iso_week_years};
 

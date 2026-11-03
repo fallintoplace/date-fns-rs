@@ -879,8 +879,8 @@ mod centuries;
 
 mod datetime_long_period_boundaries;
 mod datetime_long_period_comparisons;
-pub use datetime_long_period_comparisons::{is_same_century_datetime, is_same_decade_datetime};
 pub use centuries::{end_of_century, start_of_century};
+pub use datetime_long_period_comparisons::{is_same_century_datetime, is_same_decade_datetime};
 
 mod interval_century_segments;
 pub use interval_century_segments::{each_century_segment_of_interval, CenturySegmentsInInterval};

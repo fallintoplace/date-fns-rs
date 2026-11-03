@@ -43,7 +43,8 @@ fn english_ordinal(number: u32) -> String {
 }
 
 /// Format date-only calendar values using common date-fns tokens.
-/// Supported: yyyy, yy, MMMM, MMM, MM, M, Mo, dd, d, do, EEEE, EEE, E.
+/// Supported: yyyy, yy, QQQQ, QQQ, QQ, Qo, Q, MMMM, MMM, MM, M, Mo,
+/// dd, d, do, EEEE, EEE, E.
 /// Use single quotes to escape literal text, doubling a quote inside it.
 /// Unsupported tokens, unclosed quotes and years outside 0000-9999 return None.
 pub fn format_date_tokens(date: NaiveDate, pattern: &str) -> Option<String> {
@@ -81,14 +82,19 @@ pub fn format_date_tokens(date: NaiveDate, pattern: &str) -> Option<String> {
             continue;
         }
         let rest = &pattern[i..];
+        if rest.starts_with("QQQQQ") {
+            return None;
+        }
         let token = [
-            "yyyy", "MMMM", "EEEE", "MMM", "EEE", "yy", "MM", "dd", "Mo", "do", "M", "d", "E",
+            "yyyy", "QQQQ", "MMMM", "EEEE", "QQQ", "MMM", "EEE", "yy", "QQ", "Qo", "MM", "dd",
+            "Mo", "do", "Q", "M", "d", "E",
         ]
         .iter()
         .find(|token| rest.starts_with(**token))
         .copied();
         if let Some(token) = token {
             let month = (date.month() - 1) as usize;
+            let quarter = (date.month() - 1) / 3 + 1;
             let weekday = date.weekday().num_days_from_sunday() as usize;
             let value = match token {
                 "yyyy" => {
@@ -98,6 +104,11 @@ pub fn format_date_tokens(date: NaiveDate, pattern: &str) -> Option<String> {
                     format!("{:04}", date.year())
                 }
                 "yy" => format!("{:02}", date.year().rem_euclid(100)),
+                "Q" => quarter.to_string(),
+                "QQ" => format!("{quarter:02}"),
+                "Qo" => english_ordinal(quarter),
+                "QQQ" => format!("Q{quarter}"),
+                "QQQQ" => format!("{} quarter", english_ordinal(quarter)),
                 "MMMM" => MONTHS[month].to_owned(),
                 "MMM" => MONTHS[month][..3].to_owned(),
                 "MM" => format!("{:02}", date.month()),
@@ -129,6 +140,22 @@ mod tests {
     use super::*;
 
     #[test]
+    fn formats_quarters_with_date_fns_tokens() {
+        let first = NaiveDate::from_ymd_opt(2024, 1, 31).unwrap();
+        let last = NaiveDate::from_ymd_opt(2024, 12, 31).unwrap();
+        assert_eq!(
+            format_date_tokens(first, "Q QQ Qo QQQ QQQQ").as_deref(),
+            Some("1 01 1st Q1 1st quarter")
+        );
+        assert_eq!(
+            format_date_tokens(last, "Q QQ Qo QQQ QQQQ").as_deref(),
+            Some("4 04 4th Q4 4th quarter")
+        );
+        assert_eq!(format_date_tokens(first, "'Q' Q"), Some("Q 1".to_string()));
+        assert_eq!(format_date_tokens(first, "QQQQQ"), None);
+    }
+
+    #[test]
     fn formats_common_date_tokens_and_quoted_text() {
         let day = NaiveDate::from_ymd_opt(2024, 2, 29).unwrap();
         assert_eq!(
@@ -152,7 +179,7 @@ mod tests {
     #[test]
     fn rejects_unsupported_tokens_and_unclosed_literals() {
         let day = NaiveDate::from_ymd_opt(2024, 1, 1).unwrap();
-        assert_eq!(format_date_tokens(day, "QQ"), None);
+        assert_eq!(format_date_tokens(day, "PP"), None);
         assert_eq!(format_date_tokens(day, "'unfinished"), None);
         assert_eq!(format_date_tokens(NaiveDate::MAX, "yyyy"), None);
     }

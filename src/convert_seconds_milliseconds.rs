@@ -35,9 +35,15 @@ mod tests {
         assert_eq!(seconds_to_milliseconds(i64::MIN), None);
         let max_safe = i64::MAX / 1000;
         let min_safe = i64::MIN / 1000;
-        assert_eq!(seconds_to_milliseconds(max_safe), max_safe.checked_mul(1000));
+        assert_eq!(
+            seconds_to_milliseconds(max_safe),
+            max_safe.checked_mul(1000)
+        );
         assert_eq!(seconds_to_milliseconds(max_safe + 1), None);
-        assert_eq!(seconds_to_milliseconds(min_safe), min_safe.checked_mul(1000));
+        assert_eq!(
+            seconds_to_milliseconds(min_safe),
+            min_safe.checked_mul(1000)
+        );
         assert_eq!(seconds_to_milliseconds(min_safe - 1), None);
     }
 }

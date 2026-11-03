@@ -956,6 +956,10 @@ pub use long_period_boundary_predicates::{
 
 mod century_comparisons;
 pub use century_comparisons::{difference_in_calendar_centuries, is_same_century};
+mod datetime_long_period_differences;
+pub use datetime_long_period_differences::{
+    difference_in_calendar_centuries_datetime, difference_in_calendar_decades_datetime,
+};
 
 mod set_quarter;
 pub use set_quarter::set_quarter;

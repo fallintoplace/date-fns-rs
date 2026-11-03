@@ -627,6 +627,9 @@ pub use distinct_source_coverage::coverage_by_distinct_sources;
 mod interval_coalesce_gaps;
 pub use interval_coalesce_gaps::coalesce_date_intervals_with_gap;
 
+mod interval_half_year_segments;
+pub use interval_half_year_segments::{each_half_year_segment_of_interval, HalfYearSegmentsInInterval};
+
 mod interval_year_segments;
 pub use interval_year_segments::{each_year_segment_of_interval, YearSegmentsInInterval};
 

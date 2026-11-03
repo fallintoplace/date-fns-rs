@@ -410,7 +410,9 @@ mod fiscal_year_day_ordinals;
 pub use fiscal_year_day_ordinals::{get_day_of_fiscal_year, get_days_in_fiscal_year};
 
 mod fiscal_year_boundary_predicates;
-pub use fiscal_year_boundary_predicates::{is_first_day_of_fiscal_year, is_last_day_of_fiscal_year};
+pub use fiscal_year_boundary_predicates::{
+    is_first_day_of_fiscal_year, is_last_day_of_fiscal_year,
+};
 
 mod fiscal_years;
 pub use fiscal_years::is_same_fiscal_year;

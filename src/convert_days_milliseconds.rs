@@ -39,8 +39,14 @@ mod tests {
         assert_eq!(days_to_milliseconds(i64::MIN), None);
         let largest = i64::MAX / 86_400_000;
         let smallest = i64::MIN / 86_400_000;
-        assert_eq!(days_to_milliseconds(largest), largest.checked_mul(86_400_000));
-        assert_eq!(days_to_milliseconds(smallest), smallest.checked_mul(86_400_000));
+        assert_eq!(
+            days_to_milliseconds(largest),
+            largest.checked_mul(86_400_000)
+        );
+        assert_eq!(
+            days_to_milliseconds(smallest),
+            smallest.checked_mul(86_400_000)
+        );
         assert_eq!(days_to_milliseconds(largest + 1), None);
         assert_eq!(days_to_milliseconds(smallest - 1), None);
     }

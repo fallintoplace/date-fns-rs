@@ -29,10 +29,8 @@ mod tests {
     fn rejects_out_of_range_results_without_overflow() {
         assert_eq!(years_to_days(i64::MAX), None);
         assert_eq!(years_to_days(i64::MIN), None);
-        let maximum =
-            i64::try_from(i128::from(i64::MAX) * 10_000 / 3_652_425).unwrap();
-        let minimum =
-            i64::try_from(i128::from(i64::MIN) * 10_000 / 3_652_425).unwrap();
+        let maximum = i64::try_from(i128::from(i64::MAX) * 10_000 / 3_652_425).unwrap();
+        let minimum = i64::try_from(i128::from(i64::MIN) * 10_000 / 3_652_425).unwrap();
         assert!(years_to_days(maximum).is_some());
         assert!(years_to_days(minimum).is_some());
         assert_eq!(years_to_days(maximum + 1), None);

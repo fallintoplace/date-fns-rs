@@ -471,6 +471,9 @@ pub use datetime_iso9075::{format_iso9075_datetime, parse_iso9075_datetime};
 mod datetime_iso;
 pub use datetime_iso::{format_iso_local_datetime, parse_iso_local_datetime};
 
+mod datetime_fiscal_half_year_comparisons;
+pub use datetime_fiscal_half_year_comparisons::is_same_fiscal_half_year_datetime;
+
 mod half_year_predicates;
 
 mod datetime_period_comparisons;

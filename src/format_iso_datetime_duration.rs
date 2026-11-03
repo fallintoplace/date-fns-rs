@@ -27,17 +27,30 @@ mod tests {
 
     fn empty() -> CalendarDateTimeDuration {
         CalendarDateTimeDuration {
-            years: 0, months: 0, days: 0, hours: 0, minutes: 0,
-            seconds: 0, nanoseconds: 0,
+            years: 0,
+            months: 0,
+            days: 0,
+            hours: 0,
+            minutes: 0,
+            seconds: 0,
+            nanoseconds: 0,
         }
     }
 
     #[test]
     fn matches_date_fns_whole_duration_formatting() {
-        assert_eq!(format_iso_duration(empty()).as_deref(), Some("P0Y0M0DT0H0M0S"));
+        assert_eq!(
+            format_iso_duration(empty()).as_deref(),
+            Some("P0Y0M0DT0H0M0S")
+        );
         let duration = CalendarDateTimeDuration {
-            years: 39, months: 2, days: 20, hours: 7, minutes: 5,
-            seconds: 0, nanoseconds: 0,
+            years: 39,
+            months: 2,
+            days: 20,
+            hours: 7,
+            minutes: 5,
+            seconds: 0,
+            nanoseconds: 0,
         };
         assert_eq!(
             format_iso_duration(duration).as_deref(),

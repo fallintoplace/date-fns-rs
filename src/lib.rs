@@ -1301,3 +1301,6 @@ pub use convert_weeks_milliseconds::{milliseconds_to_weeks, weeks_to_millisecond
 
 mod gregorian_easter_holidays;
 pub use gregorian_easter_holidays::{gregorian_easter_monday, gregorian_good_friday};
+
+mod orthodox_easter_holidays;
+pub use orthodox_easter_holidays::{orthodox_easter_monday, orthodox_good_friday};

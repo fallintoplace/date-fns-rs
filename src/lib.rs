@@ -592,8 +592,8 @@ pub use interval_overlap_join::join_overlapping_date_intervals;
 mod interval_month_segments;
 pub use interval_month_segments::{each_month_segment_of_interval, MonthSegmentsInInterval};
 
-mod interval_years;
 mod interval_year_counts;
+mod interval_years;
 pub use interval_year_counts::count_calendar_years_in_interval;
 pub use interval_years::{each_year_of_interval, YearsInInterval};
 

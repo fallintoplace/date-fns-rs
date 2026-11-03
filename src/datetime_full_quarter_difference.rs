@@ -38,10 +38,22 @@ mod tests {
     #[test]
     fn honors_clamped_quarter_anniversaries_and_clock_time() {
         let start = at(2024, 1, 31, 12);
-        assert_eq!(difference_in_quarters_datetime(at(2024, 4, 30, 11), start), 0);
-        assert_eq!(difference_in_quarters_datetime(at(2024, 4, 30, 12), start), 1);
-        assert_eq!(difference_in_quarters_datetime(at(2024, 7, 31, 12), start), 2);
-        assert_eq!(difference_in_quarters_datetime(at(2024, 4, 29, 23), start), 0);
+        assert_eq!(
+            difference_in_quarters_datetime(at(2024, 4, 30, 11), start),
+            0
+        );
+        assert_eq!(
+            difference_in_quarters_datetime(at(2024, 4, 30, 12), start),
+            1
+        );
+        assert_eq!(
+            difference_in_quarters_datetime(at(2024, 7, 31, 12), start),
+            2
+        );
+        assert_eq!(
+            difference_in_quarters_datetime(at(2024, 4, 29, 23), start),
+            0
+        );
     }
 
     #[test]

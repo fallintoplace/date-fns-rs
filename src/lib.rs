@@ -128,6 +128,9 @@ pub use calendar_week_difference::difference_in_calendar_weeks;
 mod datetime_week_boundaries;
 pub use datetime_week_boundaries::{end_of_week_datetime, start_of_week_datetime};
 
+mod convert_years_days;
+pub use convert_years_days::years_to_days;
+
 mod convert_days_weeks;
 pub use convert_days_weeks::{days_to_weeks, weeks_to_days};
 
@@ -1211,6 +1214,3 @@ pub use decade_day_ordinals::{get_day_of_decade, get_days_in_decade};
 
 mod century_day_ordinals;
 pub use century_day_ordinals::{get_day_of_century, get_days_in_century};
-
-mod convert_years_days;
-pub use convert_years_days::years_to_days;

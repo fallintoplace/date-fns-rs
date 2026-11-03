@@ -71,8 +71,14 @@ mod tests {
         let date = day(2025, 1, 15);
         assert_eq!(get_business_days_in_fiscal_year(date, 4), Some(261));
         assert_eq!(get_business_day_of_fiscal_year(day(2024, 4, 1), 4), Some(1));
-        assert_eq!(get_business_day_of_fiscal_year(day(2024, 12, 31), 4), Some(197));
-        assert_eq!(get_business_day_of_fiscal_year(day(2025, 3, 31), 4), Some(261));
+        assert_eq!(
+            get_business_day_of_fiscal_year(day(2024, 12, 31), 4),
+            Some(197)
+        );
+        assert_eq!(
+            get_business_day_of_fiscal_year(day(2025, 3, 31), 4),
+            Some(261)
+        );
         assert_eq!(get_business_day_of_fiscal_year(day(2025, 3, 30), 4), None);
     }
 
@@ -114,8 +120,14 @@ mod tests {
         assert_eq!(get_business_days_in_fiscal_year(date, 0), None);
         assert_eq!(get_business_days_in_fiscal_year(date, 13), None);
         assert_eq!(get_business_day_of_fiscal_year(date, 0), None);
-        assert_eq!(get_business_day_of_fiscal_year_with_holidays(date, 13, &[]), None);
+        assert_eq!(
+            get_business_day_of_fiscal_year_with_holidays(date, 13, &[]),
+            None
+        );
         assert_eq!(get_business_days_in_fiscal_year(NaiveDate::MAX, 4), None);
-        assert_eq!(get_business_days_in_fiscal_year_with_holidays(NaiveDate::MAX, 4, &[]), None);
+        assert_eq!(
+            get_business_days_in_fiscal_year_with_holidays(NaiveDate::MAX, 4, &[]),
+            None
+        );
     }
 }

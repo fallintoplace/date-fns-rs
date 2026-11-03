@@ -68,10 +68,22 @@ mod tests {
     #[test]
     fn checks_months_occurrences_and_supported_bounds() {
         let date = day(2024, 2, 29);
-        assert_eq!(nth_weekday_of_fiscal_quarter(date, 0, Weekday::Mon, 1), None);
-        assert_eq!(nth_weekday_of_fiscal_quarter(date, 13, Weekday::Mon, 1), None);
-        assert_eq!(nth_weekday_of_fiscal_quarter(date, 2, Weekday::Mon, 0), None);
-        assert_eq!(nth_weekday_of_fiscal_quarter(date, 2, Weekday::Mon, 20), None);
+        assert_eq!(
+            nth_weekday_of_fiscal_quarter(date, 0, Weekday::Mon, 1),
+            None
+        );
+        assert_eq!(
+            nth_weekday_of_fiscal_quarter(date, 13, Weekday::Mon, 1),
+            None
+        );
+        assert_eq!(
+            nth_weekday_of_fiscal_quarter(date, 2, Weekday::Mon, 0),
+            None
+        );
+        assert_eq!(
+            nth_weekday_of_fiscal_quarter(date, 2, Weekday::Mon, 20),
+            None
+        );
         assert_eq!(
             nth_weekday_of_fiscal_quarter(date, 2, Weekday::Mon, i16::MIN),
             None

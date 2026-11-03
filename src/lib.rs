@@ -479,6 +479,9 @@ pub use convert_seconds_milliseconds::{milliseconds_to_seconds, seconds_to_milli
 mod convert_quarters_years;
 pub use convert_quarters_years::{quarters_to_years, years_to_quarters};
 
+mod fiscal_week_count_quarter;
+pub use fiscal_week_count_quarter::get_weeks_in_fiscal_quarter;
+
 mod week_of_fiscal_quarter;
 pub use week_of_fiscal_quarter::get_week_of_fiscal_quarter;
 

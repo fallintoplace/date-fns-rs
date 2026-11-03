@@ -81,8 +81,8 @@ pub fn format_datetime_tokens(value: NaiveDateTime, pattern: &str) -> Option<Str
             continue;
         }
         let token = [
-            "yyyy", "MMMM", "EEEE", "MMM", "EEE", "yy", "hh", "MM", "dd", "HH", "mm", "ss",
-            "M", "d", "H", "h", "m", "s", "a",
+            "yyyy", "MMMM", "EEEE", "MMM", "EEE", "yy", "hh", "MM", "dd", "HH", "mm", "ss", "M",
+            "d", "H", "h", "m", "s", "a",
         ]
         .iter()
         .find(|token| rest.starts_with(**token))
@@ -148,7 +148,10 @@ mod tests {
             ("SSSSSS", "123456"),
             ("SSSSSSSSS", "123456789"),
         ] {
-            assert_eq!(format_datetime_tokens(value, pattern).as_deref(), Some(expected));
+            assert_eq!(
+                format_datetime_tokens(value, pattern).as_deref(),
+                Some(expected)
+            );
         }
         assert_eq!(format_datetime_tokens(value, "SSSSSSSSSS"), None);
         let zero = value.with_nanosecond(0).unwrap();

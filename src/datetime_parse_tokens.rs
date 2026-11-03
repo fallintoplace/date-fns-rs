@@ -250,7 +250,10 @@ mod tests {
             None
         );
         assert_eq!(
-            parse_datetime_tokens("2024-02-29 12:34:56.1234567890", "yyyy-MM-dd HH:mm:ss.SSSSSSSSSS"),
+            parse_datetime_tokens(
+                "2024-02-29 12:34:56.1234567890",
+                "yyyy-MM-dd HH:mm:ss.SSSSSSSSSS"
+            ),
             None
         );
     }

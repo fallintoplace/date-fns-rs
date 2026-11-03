@@ -1292,3 +1292,6 @@ pub use convert_weeks_hours::{hours_to_weeks, weeks_to_hours};
 
 mod convert_weeks_minutes;
 pub use convert_weeks_minutes::{minutes_to_weeks, weeks_to_minutes};
+
+mod convert_weeks_seconds;
+pub use convert_weeks_seconds::{seconds_to_weeks, weeks_to_seconds};

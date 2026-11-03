@@ -455,6 +455,9 @@ pub use datetime_interval_symmetric_difference::symmetric_difference_of_datetime
 mod interval_weeks;
 pub use interval_weeks::{each_week_of_interval, WeeksInInterval};
 
+mod interval_week_counts;
+pub use interval_week_counts::count_calendar_weeks_in_interval;
+
 mod interval_week_segments;
 pub use interval_week_segments::{each_week_segment_of_interval, WeekSegmentsInInterval};
 

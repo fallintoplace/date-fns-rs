@@ -40,18 +40,36 @@ mod tests {
 
     #[test]
     fn counts_completed_iso_years_not_calendar_year_changes() {
-        assert_eq!(difference_in_iso_week_years(day(2012, 1, 1), day(2010, 1, 1)), 1);
-        assert_eq!(difference_in_iso_week_years(day(2024, 12, 30), day(2024, 1, 1)), 1);
-        assert_eq!(difference_in_iso_week_years(day(2025, 1, 1), day(2024, 1, 8)), 0);
-        assert_eq!(difference_in_iso_week_years(day(2021, 1, 3), day(2020, 12, 31)), 0);
+        assert_eq!(
+            difference_in_iso_week_years(day(2012, 1, 1), day(2010, 1, 1)),
+            1
+        );
+        assert_eq!(
+            difference_in_iso_week_years(day(2024, 12, 30), day(2024, 1, 1)),
+            1
+        );
+        assert_eq!(
+            difference_in_iso_week_years(day(2025, 1, 1), day(2024, 1, 8)),
+            0
+        );
+        assert_eq!(
+            difference_in_iso_week_years(day(2021, 1, 3), day(2020, 12, 31)),
+            0
+        );
     }
 
     #[test]
     fn handles_week_fifty_three_and_signed_differences() {
         let start = day(2020, 12, 31);
         let end = day(2021, 12, 30);
-        assert_eq!(difference_in_iso_week_years(end, start), 0);
-        assert_eq!(difference_in_iso_week_years(start, end), 0);
+        assert_eq!(
+            difference_in_iso_week_years(end, start),
+            0
+        );
+        assert_eq!(
+            difference_in_iso_week_years(start, end),
+            0
+        );
         let a = day(2024, 1, 1);
         let b = day(2024, 12, 30);
         assert_eq!(difference_in_iso_week_years(a, b), -1);
@@ -61,6 +79,9 @@ mod tests {
     fn stays_symmetric_at_chrono_limits() {
         let delta = difference_in_iso_week_years(NaiveDate::MAX, NaiveDate::MIN);
         assert!(delta > 0);
-        assert_eq!(difference_in_iso_week_years(NaiveDate::MIN, NaiveDate::MAX), -delta);
+        assert_eq!(
+            difference_in_iso_week_years(NaiveDate::MIN, NaiveDate::MAX),
+            -delta
+        );
     }
 }

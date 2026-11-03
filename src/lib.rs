@@ -1283,3 +1283,6 @@ pub use convert_days_minutes::{days_to_minutes, minutes_to_days};
 
 mod convert_days_seconds;
 pub use convert_days_seconds::{days_to_seconds, seconds_to_days};
+
+mod convert_days_milliseconds;
+pub use convert_days_milliseconds::{days_to_milliseconds, milliseconds_to_days};

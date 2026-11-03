@@ -32,7 +32,10 @@ mod tests {
         let last = timestamp(2025, 3, 31, 23);
         let following = timestamp(2025, 4, 1, 0);
         assert_eq!(is_same_fiscal_year_datetime(first, last, 4), Some(true));
-        assert_eq!(is_same_fiscal_year_datetime(last, following, 4), Some(false));
+        assert_eq!(
+            is_same_fiscal_year_datetime(last, following, 4),
+            Some(false)
+        );
         assert_eq!(is_same_fiscal_year_datetime(first, first, 4), Some(true));
     }
 

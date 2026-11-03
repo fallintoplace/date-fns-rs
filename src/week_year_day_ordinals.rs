@@ -11,8 +11,7 @@ pub fn get_day_of_week_year(
     week_starts_on: Weekday,
     first_week_contains_date: u32,
 ) -> Option<u32> {
-    let start =
-        crate::start_of_week_year(date, week_starts_on, first_week_contains_date)?;
+    let start = crate::start_of_week_year(date, week_starts_on, first_week_contains_date)?;
     u32::try_from(date.signed_duration_since(start).num_days() + 1).ok()
 }
 

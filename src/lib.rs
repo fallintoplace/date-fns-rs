@@ -420,6 +420,9 @@ pub use relative_calendar_period_predicates::{
 mod convert_quarters_years;
 pub use convert_quarters_years::{quarters_to_years, years_to_quarters};
 
+mod week_of_fiscal_quarter;
+pub use week_of_fiscal_quarter::get_week_of_fiscal_quarter;
+
 mod quarter_arithmetic;
 pub use quarter_arithmetic::{add_quarters, sub_quarters};
 

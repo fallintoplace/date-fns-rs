@@ -195,6 +195,11 @@ pub use datetime_week_comparisons::{is_same_iso_week_datetime, is_same_week_date
 mod iso_year;
 pub use iso_year::{format_iso_year, parse_iso_year};
 
+mod datetime_iso_basic_week;
+pub use datetime_iso_basic_week::{
+    format_iso_basic_week_local_datetime, parse_iso_basic_week_local_datetime,
+};
+
 mod datetime_iso_week;
 pub use datetime_iso_week::{format_iso_week_local_datetime, parse_iso_week_local_datetime};
 

@@ -53,8 +53,13 @@ mod tests {
 
     fn empty() -> CalendarDateTimeDuration {
         CalendarDateTimeDuration {
-            years: 0, months: 0, days: 0, hours: 0, minutes: 0,
-            seconds: 0, nanoseconds: 0,
+            years: 0,
+            months: 0,
+            days: 0,
+            hours: 0,
+            minutes: 0,
+            seconds: 0,
+            nanoseconds: 0,
         }
     }
 
@@ -76,7 +81,10 @@ mod tests {
 
     #[test]
     fn supports_empty_zero_and_fractional_durations() {
-        assert_eq!(format_calendar_duration_en(empty(), false, ""), Some(String::new()));
+        assert_eq!(
+            format_calendar_duration_en(empty(), false, ""),
+            Some(String::new())
+        );
         let mut duration = empty();
         duration.seconds = 1;
         assert_eq!(

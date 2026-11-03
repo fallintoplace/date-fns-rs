@@ -17,8 +17,7 @@ pub fn set_day_of_week(date: NaiveDate, index: u32, week_starts_on: Weekday) -> 
     let from_monday = date.weekday().num_days_from_monday() as i64;
     let start_from_monday = week_starts_on.num_days_from_monday() as i64;
     let days_since_start = (from_monday - start_from_monday).rem_euclid(7);
-    let first = crate::add_days(date, -days_since_start)?;
-    crate::add_days(first, i64::from(index))
+    crate::add_days(date, i64::from(index) - days_since_start)
 }
 
 /// Check whether the given year-month-day represents a valid Gregorian date.
@@ -60,6 +59,26 @@ mod tests {
         assert_eq!(
             set_day_of_week(NaiveDate::MIN, 0, Weekday::Mon).is_some(),
             NaiveDate::MIN.weekday() == Weekday::Mon
+        );
+    }
+
+    #[test]
+    fn valid_target_near_minimum_date_skips_out_of_range_week_start() {
+        let first = NaiveDate::MIN;
+        let previous_weekday = [
+            Weekday::Sun,
+            Weekday::Mon,
+            Weekday::Tue,
+            Weekday::Wed,
+            Weekday::Thu,
+            Weekday::Fri,
+            Weekday::Sat,
+        ][first.weekday().num_days_from_monday() as usize];
+
+        assert_eq!(set_day_of_week(first, 1, previous_weekday), Some(first));
+        assert_eq!(
+            set_day_of_week(first, 2, previous_weekday),
+            first.succ_opt()
         );
     }
 }

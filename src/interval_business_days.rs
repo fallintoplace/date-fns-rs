@@ -65,6 +65,20 @@ pub fn each_business_day_of_interval(
     Some(BusinessDaysInInterval { next: first, end })
 }
 
+/// Iterate Monday-Friday dates within a date's calendar month.
+///
+/// Holiday calendars are not applied.
+pub fn each_business_day_of_month(date: NaiveDate) -> Option<BusinessDaysInInterval> {
+    each_business_day_of_interval(crate::start_of_month(date), crate::end_of_month(date))
+}
+
+/// Iterate Monday-Friday dates within a date's calendar year.
+///
+/// Holiday calendars are not applied.
+pub fn each_business_day_of_year(date: NaiveDate) -> Option<BusinessDaysInInterval> {
+    each_business_day_of_interval(crate::start_of_year(date), crate::end_of_year(date))
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -133,5 +147,21 @@ mod tests {
         let mut extreme = each_business_day_of_interval(NaiveDate::MIN, NaiveDate::MAX).unwrap();
         assert_eq!(extreme.nth(usize::MAX), None);
         assert_eq!(extreme.next(), None);
+    }
+}
+
+#[cfg(test)]
+mod scoped_business_day_tests {
+    use super::*;
+
+    #[test]
+    fn matches_month_and_year_business_day_counts() {
+        let date = NaiveDate::from_ymd_opt(2024, 3, 15).unwrap();
+        assert_eq!(each_business_day_of_month(date).unwrap().count(), 21);
+        assert_eq!(each_business_day_of_year(date).unwrap().count(), 262);
+        assert_eq!(
+            each_business_day_of_month(date).unwrap().len(),
+            crate::get_business_days_in_month(date) as usize
+        );
     }
 }

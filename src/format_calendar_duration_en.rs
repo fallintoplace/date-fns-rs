@@ -96,7 +96,9 @@ mod tests {
             format_calendar_duration_en(duration, false, " ").as_deref(),
             Some("1.25 seconds")
         );
-        assert!(format_calendar_duration_en(empty(), true, " ").unwrap().contains("0 years"));
+        assert!(format_calendar_duration_en(empty(), true, " ")
+            .unwrap()
+            .contains("0 years"));
     }
 
     #[test]

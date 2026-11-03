@@ -355,6 +355,12 @@ pub use nth_weekday_half_year::nth_weekday_of_half_year;
 mod nth_configured_workday_half_year;
 pub use nth_configured_workday_half_year::nth_workday_of_half_year;
 
+mod fiscal_business_half_year_metadata;
+pub use fiscal_business_half_year_metadata::{
+    get_business_day_of_fiscal_half_year, get_business_day_of_fiscal_half_year_with_holidays,
+    get_business_days_in_fiscal_half_year, get_business_days_in_fiscal_half_year_with_holidays,
+};
+
 mod business_half_year_metadata;
 pub use business_half_year_metadata::{
     get_business_day_of_half_year, get_business_day_of_half_year_with_holidays,

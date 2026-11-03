@@ -150,6 +150,7 @@ pub use weekday_predicates::{
 mod compare;
 pub use compare::max_date;
 pub use compare::min_date;
+pub use compare::{compare_asc, compare_desc};
 pub use compare::{is_after, is_before, is_same_day, is_same_month, is_same_year, is_weekend};
 
 mod datetime_components;
@@ -436,6 +437,7 @@ pub use quarter_arithmetic::{add_quarters, sub_quarters};
 
 mod iso_weeks;
 pub use iso_weeks::get_iso_day_of_year;
+pub use iso_weeks::get_iso_weeks_in_iso_year;
 pub use iso_weeks::{get_iso_week, get_iso_week_year, get_iso_weeks_in_year};
 
 mod cron_schedule;

@@ -490,6 +490,11 @@ mod cron_occurrences;
 pub use cron_occurrences::{each_cron_minute_between, CronOccurrences};
 pub use cron_schedule::{parse_cron_schedule, parse_cron_schedule_with_aliases, CronSchedule};
 
+mod interval_iso_week_year_segments;
+pub use interval_iso_week_year_segments::{
+    each_iso_week_year_segment_of_interval, IsoWeekYearSegmentsInInterval,
+};
+
 mod iso_week_year_boundaries;
 pub use iso_week_year_boundaries::{end_of_iso_week_year, start_of_iso_week_year};
 

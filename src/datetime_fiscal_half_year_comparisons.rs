@@ -31,16 +31,28 @@ mod tests {
         let first = timestamp(2023, 10, 1, 0);
         let last = timestamp(2024, 3, 31, 23);
         let following = timestamp(2024, 4, 1, 0);
-        assert_eq!(is_same_fiscal_half_year_datetime(first, last, 4), Some(true));
-        assert_eq!(is_same_fiscal_half_year_datetime(last, following, 4), Some(false));
-        assert_eq!(is_same_fiscal_half_year_datetime(first, first, 4), Some(true));
+        assert_eq!(
+            is_same_fiscal_half_year_datetime(first, last, 4),
+            Some(true)
+        );
+        assert_eq!(
+            is_same_fiscal_half_year_datetime(last, following, 4),
+            Some(false)
+        );
+        assert_eq!(
+            is_same_fiscal_half_year_datetime(first, first, 4),
+            Some(true)
+        );
     }
 
     #[test]
     fn validates_months_and_extreme_timestamps() {
         let instant = timestamp(2023, 10, 1, 0);
         assert_eq!(is_same_fiscal_half_year_datetime(instant, instant, 0), None);
-        assert_eq!(is_same_fiscal_half_year_datetime(instant, instant, 13), None);
+        assert_eq!(
+            is_same_fiscal_half_year_datetime(instant, instant, 13),
+            None
+        );
         assert_eq!(
             is_same_fiscal_half_year_datetime(NaiveDateTime::MIN, NaiveDateTime::MIN, 1),
             Some(true)

@@ -588,6 +588,9 @@ pub use interval_business_holidays::{
     each_business_day_of_interval_excluding_holidays, HolidayBusinessDaysInInterval,
 };
 
+mod interval_configured_workdays;
+pub use interval_configured_workdays::each_workday_of_interval_with_holidays;
+
 mod interval_business_days;
 pub use interval_business_days::{
     each_business_day_of_interval, each_business_day_of_month, each_business_day_of_year,

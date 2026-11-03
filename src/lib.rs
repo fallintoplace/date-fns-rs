@@ -735,6 +735,9 @@ pub use datetime_slot_packing::pack_datetime_slots;
 mod weighted_datetime_scheduling;
 pub use weighted_datetime_scheduling::select_max_weight_datetime_intervals;
 
+mod datetime_aligned_hours;
+pub use datetime_aligned_hours::each_hour_of_datetime_interval;
+
 mod datetime_hour_iterator;
 pub use datetime_hour_iterator::{each_nth_hour_of_datetime_interval, HoursInDatetimeInterval};
 
@@ -1211,6 +1214,3 @@ pub use decade_day_ordinals::{get_day_of_decade, get_days_in_decade};
 
 mod century_day_ordinals;
 pub use century_day_ordinals::{get_day_of_century, get_days_in_century};
-
-mod datetime_aligned_hours;
-pub use datetime_aligned_hours::each_hour_of_datetime_interval;

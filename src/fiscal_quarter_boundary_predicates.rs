@@ -27,12 +27,30 @@ mod tests {
 
     #[test]
     fn detects_fiscal_boundaries_across_calendar_years() {
-        assert_eq!(is_first_day_of_fiscal_quarter(day(2023, 11, 1), 2), Some(true));
-        assert_eq!(is_last_day_of_fiscal_quarter(day(2024, 1, 31), 2), Some(true));
-        assert_eq!(is_first_day_of_fiscal_quarter(day(2023, 10, 31), 2), Some(false));
-        assert_eq!(is_last_day_of_fiscal_quarter(day(2024, 2, 1), 2), Some(false));
-        assert_eq!(is_first_day_of_fiscal_quarter(day(2024, 1, 31), 2), Some(false));
-        assert_eq!(is_last_day_of_fiscal_quarter(day(2023, 11, 1), 2), Some(false));
+        assert_eq!(
+            is_first_day_of_fiscal_quarter(day(2023, 11, 1), 2),
+            Some(true)
+        );
+        assert_eq!(
+            is_last_day_of_fiscal_quarter(day(2024, 1, 31), 2),
+            Some(true)
+        );
+        assert_eq!(
+            is_first_day_of_fiscal_quarter(day(2023, 10, 31), 2),
+            Some(false)
+        );
+        assert_eq!(
+            is_last_day_of_fiscal_quarter(day(2024, 2, 1), 2),
+            Some(false)
+        );
+        assert_eq!(
+            is_first_day_of_fiscal_quarter(day(2024, 1, 31), 2),
+            Some(false)
+        );
+        assert_eq!(
+            is_last_day_of_fiscal_quarter(day(2023, 11, 1), 2),
+            Some(false)
+        );
     }
 
     #[test]
@@ -40,7 +58,10 @@ mod tests {
         let date = day(2023, 11, 1);
         assert_eq!(is_first_day_of_fiscal_quarter(date, 0), None);
         assert_eq!(is_last_day_of_fiscal_quarter(date, 13), None);
-        assert_eq!(is_first_day_of_fiscal_quarter(NaiveDate::MIN, 1), Some(true));
+        assert_eq!(
+            is_first_day_of_fiscal_quarter(NaiveDate::MIN, 1),
+            Some(true)
+        );
         assert_eq!(is_last_day_of_fiscal_quarter(NaiveDate::MAX, 1), Some(true));
         assert_eq!(is_last_day_of_fiscal_quarter(NaiveDate::MAX, 2), None);
     }

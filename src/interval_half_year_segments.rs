@@ -19,7 +19,11 @@ impl Iterator for HalfYearSegmentsInInterval {
     fn next(&mut self) -> Option<Self::Item> {
         let start = self.next?;
         let last = end_of_half_year(start).min(self.end);
-        self.next = if last < self.end { last.succ_opt() } else { None };
+        self.next = if last < self.end {
+            last.succ_opt()
+        } else {
+            None
+        };
         Some((start, last))
     }
 }
@@ -50,12 +54,9 @@ mod tests {
 
     #[test]
     fn clips_halves_across_new_year() {
-        let ranges = each_half_year_segment_of_interval(
-            day(2024, 6, 28),
-            day(2025, 1, 2),
-        )
-        .unwrap()
-        .collect::<Vec<_>>();
+        let ranges = each_half_year_segment_of_interval(day(2024, 6, 28), day(2025, 1, 2))
+            .unwrap()
+            .collect::<Vec<_>>();
         assert_eq!(
             ranges,
             vec![
@@ -74,10 +75,6 @@ mod tests {
             assert_eq!(ranges.next(), None);
             assert_eq!(ranges.next(), None);
         }
-        assert!(each_half_year_segment_of_interval(
-            day(2024, 7, 1),
-            day(2024, 6, 30)
-        )
-        .is_none());
+        assert!(each_half_year_segment_of_interval(day(2024, 7, 1), day(2024, 6, 30)).is_none());
     }
 }

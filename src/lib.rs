@@ -938,6 +938,12 @@ pub use week_of_fiscal_half_year::get_week_of_fiscal_half_year;
 
 mod business_month_metadata;
 
+mod fiscal_business_quarter_metadata;
+pub use fiscal_business_quarter_metadata::{
+    get_business_day_of_fiscal_quarter, get_business_day_of_fiscal_quarter_with_holidays,
+    get_business_days_in_fiscal_quarter, get_business_days_in_fiscal_quarter_with_holidays,
+};
+
 mod business_quarter_metadata;
 pub use business_month_metadata::{get_business_day_of_month, get_business_days_in_month};
 pub use business_quarter_metadata::{

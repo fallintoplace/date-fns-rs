@@ -8,6 +8,7 @@ pub struct IcalMonthlyRRule {
     month_day: u32,
     interval_months: u32,
     count: Option<usize>,
+    until: Option<NaiveDate>,
 }
 
 fn positive(value: &str) -> Option<u32> {
@@ -19,13 +20,15 @@ fn positive(value: &str) -> Option<u32> {
 
 /// Parse FREQ=MONTHLY with required BYMONTHDAY=1..31.
 ///
-/// INTERVAL and COUNT are optional positive integers. Ordinal BYDAY,
+/// INTERVAL and COUNT are optional positive integers. UNTIL is an optional
+/// inclusive date and is mutually exclusive with COUNT. Ordinal BYDAY,
 /// negative month days and all other RRULE components are unsupported.
 pub fn parse_ical_monthly_rrule(input: &str) -> Option<IcalMonthlyRRule> {
     let mut frequency = false;
     let mut month_day = None;
     let mut interval = None;
     let mut count = None;
+    let mut until = None;
     for part in input.split(';') {
         let (key, value) = part.split_once('=')?;
         match key {
@@ -40,14 +43,19 @@ pub fn parse_ical_monthly_rrule(input: &str) -> Option<IcalMonthlyRRule> {
                 }
                 count = Some(value.parse::<usize>().ok().filter(|&n| n > 0)?);
             }
+            "UNTIL" if until.is_none() => until = Some(crate::parse_ical_date(value)?),
             _ => return None,
         }
+    }
+    if count.is_some() && until.is_some() {
+        return None;
     }
     let month_day = month_day?;
     (frequency && month_day <= 31).then_some(IcalMonthlyRRule {
         month_day,
         interval_months: interval.unwrap_or(1),
         count,
+        until,
     })
 }
 
@@ -64,12 +72,13 @@ pub fn each_ical_monthly_rrule(
         return None;
     }
     let first = start.with_day(1)?;
+    let through = rule.until.map_or(end, |until| end.min(until));
     Some(
         std::iter::successors(Some(first), move |month| {
             month.checked_add_months(Months::new(rule.interval_months))
         })
         .filter_map(move |month| month.with_day(rule.month_day))
-        .take_while(move |date| *date <= end)
+        .take_while(move |date| *date <= through)
         .take(rule.count.unwrap_or(usize::MAX)),
     )
 }
@@ -108,6 +117,23 @@ mod tests {
     }
 
     #[test]
+    fn until_is_inclusive_and_skips_missing_month_days() {
+        let rule = parse_ical_monthly_rrule("FREQ=MONTHLY;BYMONTHDAY=31;UNTIL=20240531").unwrap();
+        assert_eq!(
+            each_ical_monthly_rrule(rule, date(2024, 1, 31), date(2024, 12, 31))
+                .unwrap()
+                .collect::<Vec<_>>(),
+            vec![date(2024, 1, 31), date(2024, 3, 31), date(2024, 5, 31)]
+        );
+        assert_eq!(
+            each_ical_monthly_rrule(rule, date(2024, 7, 31), date(2024, 12, 31))
+                .unwrap()
+                .count(),
+            0
+        );
+    }
+
+    #[test]
     fn rejects_unsupported_fields_duplicate_keys_and_zero_values() {
         for input in [
             "FREQ=MONTHLY",
@@ -118,6 +144,9 @@ mod tests {
             "FREQ=MONTHLY;BYMONTHDAY=1;INTERVAL=0",
             "FREQ=MONTHLY;BYMONTHDAY=1;BYMONTHDAY=2",
             "FREQ=MONTHLY;BYMONTHDAY=1;BYDAY=MO",
+            "FREQ=MONTHLY;BYMONTHDAY=1;UNTIL=20240230",
+            "FREQ=MONTHLY;BYMONTHDAY=1;COUNT=2;UNTIL=20240331",
+            "FREQ=MONTHLY;BYMONTHDAY=1;UNTIL=20240331;UNTIL=20240430",
             "FREQ=DAILY;BYMONTHDAY=1",
         ] {
             assert!(parse_ical_monthly_rrule(input).is_none(), "{input}");

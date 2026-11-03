@@ -887,6 +887,9 @@ pub use iso_year_month_interval::{format_iso_year_month_interval, parse_iso_year
 mod date_distance_de;
 pub use date_distance_de::{format_date_distance_de, format_date_distance_strict_days_de};
 
+mod format_calendar_duration_en;
+pub use format_calendar_duration_en::format_calendar_duration_en;
+
 mod date_distance_en;
 pub use date_distance_en::{format_date_distance_en, format_date_distance_strict_days_en};
 

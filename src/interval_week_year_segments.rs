@@ -18,13 +18,10 @@ impl Iterator for WeekYearSegmentsInInterval {
 
     fn next(&mut self) -> Option<Self::Item> {
         let start = self.next?;
-        let last = crate::end_of_week_year(
-            start,
-            self.week_starts_on,
-            self.first_week_contains_date,
-        )
-        .unwrap_or(self.end)
-        .min(self.end);
+        let last =
+            crate::end_of_week_year(start, self.week_starts_on, self.first_week_contains_date)
+                .unwrap_or(self.end)
+                .min(self.end);
         self.next = if last < self.end {
             last.succ_opt()
         } else {
@@ -70,14 +67,10 @@ mod tests {
 
     #[test]
     fn splits_iso_week_years_after_january_third() {
-        let ranges = each_week_year_segment_of_interval(
-            day(2020, 12, 31),
-            day(2021, 1, 5),
-            Weekday::Mon,
-            4,
-        )
-        .unwrap()
-        .collect::<Vec<_>>();
+        let ranges =
+            each_week_year_segment_of_interval(day(2020, 12, 31), day(2021, 1, 5), Weekday::Mon, 4)
+                .unwrap()
+                .collect::<Vec<_>>();
         assert_eq!(
             ranges,
             vec![
@@ -89,14 +82,10 @@ mod tests {
 
     #[test]
     fn splits_us_style_years_in_december() {
-        let ranges = each_week_year_segment_of_interval(
-            day(2020, 12, 26),
-            day(2021, 1, 2),
-            Weekday::Sun,
-            1,
-        )
-        .unwrap()
-        .collect::<Vec<_>>();
+        let ranges =
+            each_week_year_segment_of_interval(day(2020, 12, 26), day(2021, 1, 2), Weekday::Sun, 1)
+                .unwrap()
+                .collect::<Vec<_>>();
         assert_eq!(
             ranges,
             vec![
@@ -114,8 +103,7 @@ mod tests {
         assert!(each_week_year_segment_of_interval(first, last, Weekday::Mon, 0).is_none());
         assert!(each_week_year_segment_of_interval(first, last, Weekday::Mon, 8).is_none());
         for edge in [NaiveDate::MIN, NaiveDate::MAX] {
-            let mut iter =
-                each_week_year_segment_of_interval(edge, edge, Weekday::Mon, 4).unwrap();
+            let mut iter = each_week_year_segment_of_interval(edge, edge, Weekday::Mon, 4).unwrap();
             assert_eq!(iter.next(), Some((edge, edge)));
             assert_eq!(iter.next(), None);
             assert_eq!(iter.next(), None);

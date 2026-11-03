@@ -1286,3 +1286,6 @@ pub use convert_days_seconds::{days_to_seconds, seconds_to_days};
 
 mod convert_days_milliseconds;
 pub use convert_days_milliseconds::{days_to_milliseconds, milliseconds_to_days};
+
+mod convert_weeks_hours;
+pub use convert_weeks_hours::{hours_to_weeks, weeks_to_hours};

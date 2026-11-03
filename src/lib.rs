@@ -381,6 +381,11 @@ pub use datetime_half_year_boundaries::{end_of_half_year_datetime, start_of_half
 mod fiscal_quarter_day_ordinals;
 pub use fiscal_quarter_day_ordinals::{get_day_of_fiscal_quarter, get_days_in_fiscal_quarter};
 
+mod fiscal_quarter_boundary_predicates;
+pub use fiscal_quarter_boundary_predicates::{
+    is_first_day_of_fiscal_quarter, is_last_day_of_fiscal_quarter,
+};
+
 mod fiscal_quarters;
 pub use fiscal_quarters::difference_in_calendar_fiscal_quarters;
 pub use fiscal_quarters::is_same_fiscal_quarter;

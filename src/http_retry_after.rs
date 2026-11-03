@@ -42,7 +42,10 @@ mod tests {
         let date_text = "Sun, 06 Nov 1994 08:49:37 GMT";
         let date = parse_http_retry_after(date_text).unwrap();
         assert_eq!(format_http_retry_after(&date).as_deref(), Some(date_text));
-        assert_eq!(parse_http_retry_after("0"), Some(RetryAfter::DelaySeconds(0)));
+        assert_eq!(
+            parse_http_retry_after("0"),
+            Some(RetryAfter::DelaySeconds(0))
+        );
         assert_eq!(
             parse_http_retry_after("000120"),
             Some(RetryAfter::DelaySeconds(120))

@@ -70,11 +70,26 @@ mod tests {
     fn counts_cross_year_fiscal_workdays() {
         let date = day(2024, 1, 15);
         assert_eq!(get_business_days_in_fiscal_quarter(date, 2), Some(66));
-        assert_eq!(get_business_day_of_fiscal_quarter(day(2023, 11, 1), 2), Some(1));
-        assert_eq!(get_business_day_of_fiscal_quarter(day(2024, 1, 1), 2), Some(44));
-        assert_eq!(get_business_day_of_fiscal_quarter(day(2024, 1, 31), 2), Some(66));
-        assert_eq!(get_business_day_of_fiscal_quarter(day(2024, 1, 28), 2), None);
-        assert_eq!(get_business_day_of_fiscal_quarter(day(2024, 2, 1), 2), Some(1));
+        assert_eq!(
+            get_business_day_of_fiscal_quarter(day(2023, 11, 1), 2),
+            Some(1)
+        );
+        assert_eq!(
+            get_business_day_of_fiscal_quarter(day(2024, 1, 1), 2),
+            Some(44)
+        );
+        assert_eq!(
+            get_business_day_of_fiscal_quarter(day(2024, 1, 31), 2),
+            Some(66)
+        );
+        assert_eq!(
+            get_business_day_of_fiscal_quarter(day(2024, 1, 28), 2),
+            None
+        );
+        assert_eq!(
+            get_business_day_of_fiscal_quarter(day(2024, 2, 1), 2),
+            Some(1)
+        );
     }
 
     #[test]
@@ -115,8 +130,14 @@ mod tests {
         assert_eq!(get_business_days_in_fiscal_quarter(date, 0), None);
         assert_eq!(get_business_days_in_fiscal_quarter(date, 13), None);
         assert_eq!(get_business_day_of_fiscal_quarter(date, 0), None);
-        assert_eq!(get_business_day_of_fiscal_quarter_with_holidays(date, 13, &[]), None);
+        assert_eq!(
+            get_business_day_of_fiscal_quarter_with_holidays(date, 13, &[]),
+            None
+        );
         assert_eq!(get_business_days_in_fiscal_quarter(NaiveDate::MAX, 2), None);
-        assert_eq!(get_business_days_in_fiscal_quarter_with_holidays(NaiveDate::MAX, 2, &[]), None);
+        assert_eq!(
+            get_business_days_in_fiscal_quarter_with_holidays(NaiveDate::MAX, 2, &[]),
+            None
+        );
     }
 }

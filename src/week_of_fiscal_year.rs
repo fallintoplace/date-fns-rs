@@ -29,12 +29,30 @@ mod tests {
 
     #[test]
     fn follows_april_to_march_fiscal_years() {
-        assert_eq!(get_week_of_fiscal_year(day(2024, 4, 1), 4, Weekday::Mon), Some(1));
-        assert_eq!(get_week_of_fiscal_year(day(2024, 4, 7), 4, Weekday::Mon), Some(1));
-        assert_eq!(get_week_of_fiscal_year(day(2024, 4, 8), 4, Weekday::Mon), Some(2));
-        assert_eq!(get_week_of_fiscal_year(day(2024, 4, 7), 4, Weekday::Sun), Some(2));
-        assert_eq!(get_week_of_fiscal_year(day(2025, 3, 31), 4, Weekday::Mon), Some(53));
-        assert_eq!(get_week_of_fiscal_year(day(2025, 4, 1), 4, Weekday::Mon), Some(1));
+        assert_eq!(
+            get_week_of_fiscal_year(day(2024, 4, 1), 4, Weekday::Mon),
+            Some(1)
+        );
+        assert_eq!(
+            get_week_of_fiscal_year(day(2024, 4, 7), 4, Weekday::Mon),
+            Some(1)
+        );
+        assert_eq!(
+            get_week_of_fiscal_year(day(2024, 4, 8), 4, Weekday::Mon),
+            Some(2)
+        );
+        assert_eq!(
+            get_week_of_fiscal_year(day(2024, 4, 7), 4, Weekday::Sun),
+            Some(2)
+        );
+        assert_eq!(
+            get_week_of_fiscal_year(day(2025, 3, 31), 4, Weekday::Mon),
+            Some(53)
+        );
+        assert_eq!(
+            get_week_of_fiscal_year(day(2025, 4, 1), 4, Weekday::Mon),
+            Some(1)
+        );
     }
 
     #[test]
@@ -42,7 +60,10 @@ mod tests {
         let date = day(2024, 3, 1);
         assert_eq!(get_week_of_fiscal_year(date, 0, Weekday::Mon), None);
         assert_eq!(get_week_of_fiscal_year(date, 13, Weekday::Mon), None);
-        assert_eq!(get_week_of_fiscal_year(NaiveDate::MIN, 2, Weekday::Mon), None);
+        assert_eq!(
+            get_week_of_fiscal_year(NaiveDate::MIN, 2, Weekday::Mon),
+            None
+        );
         assert!(get_week_of_fiscal_year(NaiveDate::MAX, 1, Weekday::Sun).is_some());
     }
 }

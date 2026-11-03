@@ -779,7 +779,13 @@ pub use fiscal_half_years::{
 pub use fiscal_half_years::difference_in_calendar_fiscal_half_years;
 
 mod business_month_metadata;
+
+mod business_quarter_metadata;
 pub use business_month_metadata::{get_business_day_of_month, get_business_days_in_month};
+pub use business_quarter_metadata::{
+    get_business_day_of_quarter, get_business_day_of_quarter_with_holidays,
+    get_business_days_in_quarter, get_business_days_in_quarter_with_holidays,
+};
 
 pub use business_month_metadata::{
     get_business_day_of_month_with_holidays, get_business_days_in_month_with_holidays,

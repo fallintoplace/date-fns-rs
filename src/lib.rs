@@ -445,6 +445,9 @@ pub use business_days::{
     add_business_days, is_business_day, next_business_day, previous_business_day, sub_business_days,
 };
 
+mod nearest_configured_workday;
+pub use nearest_configured_workday::nearest_workday_with_holidays;
+
 mod business_holidays;
 
 mod observed_holidays;

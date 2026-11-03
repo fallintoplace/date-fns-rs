@@ -725,6 +725,9 @@ mod nth_weekday_year;
 pub use nth_weekday::nth_weekday_of_month;
 pub use nth_weekday_year::nth_weekday_of_year;
 
+mod nth_configured_workday_fiscal_quarter;
+pub use nth_configured_workday_fiscal_quarter::nth_workday_of_fiscal_quarter;
+
 mod nth_weekday_fiscal_quarter;
 pub use nth_weekday_fiscal_quarter::nth_weekday_of_fiscal_quarter;
 

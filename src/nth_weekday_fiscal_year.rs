@@ -66,6 +66,9 @@ mod tests {
         assert_eq!(nth_weekday_of_fiscal_year(date, 13, Weekday::Mon, 1), None);
         assert_eq!(nth_weekday_of_fiscal_year(date, 4, Weekday::Mon, 0), None);
         assert_eq!(nth_weekday_of_fiscal_year(date, 4, Weekday::Mon, 100), None);
-        assert_eq!(nth_weekday_of_fiscal_year(date, 4, Weekday::Mon, i16::MIN), None);
+        assert_eq!(
+            nth_weekday_of_fiscal_year(date, 4, Weekday::Mon, i16::MIN),
+            None
+        );
     }
 }

@@ -1213,4 +1213,4 @@ mod century_day_ordinals;
 pub use century_day_ordinals::{get_day_of_century, get_days_in_century};
 
 mod convert_weeks_milliseconds;
-pub use convert_weeks_milliseconds::{weeks_to_milliseconds, milliseconds_to_weeks};
+pub use convert_weeks_milliseconds::{milliseconds_to_weeks, weeks_to_milliseconds};

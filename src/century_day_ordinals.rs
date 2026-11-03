@@ -41,9 +41,7 @@ mod tests {
     fn handles_bce_and_date_limits_without_overflow() {
         assert_eq!(get_day_of_century(day(0, 12, 31)), get_days_in_century(day(0, 1, 1)));
         for edge in [NaiveDate::MIN, NaiveDate::MAX] {
-            if let (Some(day), Some(days)) =
-                (get_day_of_century(edge), get_days_in_century(edge))
-            {
+            if let (Some(day), Some(days)) = (get_day_of_century(edge), get_days_in_century(edge)) {
                 assert!((1..=days).contains(&day));
             }
         }

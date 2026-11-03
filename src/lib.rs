@@ -764,6 +764,9 @@ pub use nth_business_day_year::{nth_business_day_of_year, nth_business_day_of_ye
 mod nth_business_day_month;
 pub use nth_business_day_month::nth_business_day_of_month;
 
+mod nth_configured_workday_month;
+pub use nth_configured_workday_month::nth_workday_of_month;
+
 mod nth_business_day_quarter;
 pub use nth_business_day_quarter::nth_business_day_of_quarter;
 

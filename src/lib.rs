@@ -87,6 +87,9 @@ pub use decades::add_decades;
 pub use decades::sub_decades;
 pub use decades::{end_of_decade, start_of_decade};
 
+mod get_decade;
+pub use get_decade::get_decade;
+
 mod decade_comparisons;
 pub use decade_comparisons::{
     difference_in_calendar_decades_with_offset, is_same_decade, is_same_decade_with_offset,
@@ -1211,6 +1214,3 @@ pub use decade_day_ordinals::{get_day_of_decade, get_days_in_decade};
 
 mod century_day_ordinals;
 pub use century_day_ordinals::{get_day_of_century, get_days_in_century};
-
-mod get_decade;
-pub use get_decade::get_decade;

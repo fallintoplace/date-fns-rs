@@ -1,10 +1,13 @@
-//! Fixed-length year-to-day conversion for durations.
+//! Mean Gregorian year to day conversions.
 
-/// Convert `years` into 365-day years, returning None on integer overflow.
+/// Convert whole years to days using the Gregorian mean of 365.2425 days.
 ///
-/// This matches date-fns yearsToDays, not elapsed calendar days across leap years.
+/// Matches the date-fns yearsToDays conversion for whole-year counts.
+/// Results truncate toward zero and return None if outside the i64 range.
+/// This is a duration conversion, not the number of days in particular years.
 pub fn years_to_days(years: i64) -> Option<i64> {
-    years.checked_mul(365)
+    let scaled = i128::from(years) * 3_652_425;
+    i64::try_from(scaled / 10_000).ok()
 }
 
 #[cfg(test)]
@@ -12,22 +15,27 @@ mod tests {
     use super::*;
 
     #[test]
-    fn converts_positive_negative_and_zero_durations() {
+    fn uses_the_mean_gregorian_year_like_date_fns() {
         assert_eq!(years_to_days(0), Some(0));
         assert_eq!(years_to_days(1), Some(365));
         assert_eq!(years_to_days(2), Some(730));
-        assert_eq!(years_to_days(-2), Some(-730));
+        assert_eq!(years_to_days(4), Some(1460));
+        assert_eq!(years_to_days(5), Some(1826));
+        assert_eq!(years_to_days(400), Some(146097));
+        assert_eq!(years_to_days(-5), Some(-1826));
     }
 
     #[test]
-    fn does_not_wrap_at_integer_limits() {
+    fn rejects_out_of_range_results_without_overflow() {
         assert_eq!(years_to_days(i64::MAX), None);
         assert_eq!(years_to_days(i64::MIN), None);
-        let max = i64::MAX / 365;
-        let min = i64::MIN / 365;
-        assert_eq!(years_to_days(max), max.checked_mul(365));
-        assert_eq!(years_to_days(min), min.checked_mul(365));
-        assert_eq!(years_to_days(max + 1), None);
-        assert_eq!(years_to_days(min - 1), None);
+        let maximum =
+            i64::try_from(i128::from(i64::MAX) * 10_000 / 3_652_425).unwrap();
+        let minimum =
+            i64::try_from(i128::from(i64::MIN) * 10_000 / 3_652_425).unwrap();
+        assert!(years_to_days(maximum).is_some());
+        assert!(years_to_days(minimum).is_some());
+        assert_eq!(years_to_days(maximum + 1), None);
+        assert_eq!(years_to_days(minimum - 1), None);
     }
 }

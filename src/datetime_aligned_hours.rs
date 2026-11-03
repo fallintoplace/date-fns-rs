@@ -64,8 +64,7 @@ mod tests {
     #[test]
     fn exhausts_cleanly_at_maximum_datetime() {
         let mut values =
-            each_hour_of_datetime_interval(NaiveDateTime::MAX, NaiveDateTime::MAX, 1)
-                .unwrap();
+            each_hour_of_datetime_interval(NaiveDateTime::MAX, NaiveDateTime::MAX, 1).unwrap();
         assert!(values.next().is_some());
         assert_eq!(values.next(), None);
         assert_eq!(values.next(), None);

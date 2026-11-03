@@ -711,7 +711,9 @@ mod interval_quarter_segments;
 pub use interval_quarter_segments::{each_quarter_segment_of_interval, QuarterSegmentsInInterval};
 
 mod datetime_quarter_segments;
-pub use datetime_quarter_segments::{each_quarter_segment_of_datetime_interval, DatetimeQuarterSegments};
+pub use datetime_quarter_segments::{
+    each_quarter_segment_of_datetime_interval, DatetimeQuarterSegments,
+};
 
 mod date_slot_packing;
 mod interval_weekdays;

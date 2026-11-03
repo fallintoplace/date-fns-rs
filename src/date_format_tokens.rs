@@ -86,8 +86,8 @@ pub fn format_date_tokens(date: NaiveDate, pattern: &str) -> Option<String> {
             return None;
         }
         let token = [
-            "yyyy", "QQQQ", "MMMM", "EEEE", "QQQ", "MMM", "EEE", "yy", "QQ", "Qo", "MM",
-            "dd", "Mo", "do", "Q", "M", "d", "E",
+            "yyyy", "QQQQ", "MMMM", "EEEE", "QQQ", "MMM", "EEE", "yy", "QQ", "Qo", "MM", "dd",
+            "Mo", "do", "Q", "M", "d", "E",
         ]
         .iter()
         .find(|token| rest.starts_with(**token))

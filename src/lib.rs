@@ -548,7 +548,9 @@ pub use business_month_boundaries::{
 };
 
 mod interval_weekends;
-pub use interval_weekends::{each_weekend_of_interval, WeekendsInInterval};
+pub use interval_weekends::{
+    each_weekend_of_interval, each_weekend_of_month, each_weekend_of_year, WeekendsInInterval,
+};
 
 mod ical_monthly_rrule;
 pub use ical_monthly_rrule::{each_ical_monthly_rrule, parse_ical_monthly_rrule, IcalMonthlyRRule};

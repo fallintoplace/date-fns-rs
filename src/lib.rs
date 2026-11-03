@@ -991,6 +991,9 @@ pub use interval_fiscal_half_year_segments::{
 mod interval_fiscal_half_year_counts;
 pub use interval_fiscal_half_year_counts::count_fiscal_half_years_in_interval;
 
+mod fiscal_week_count_year;
+pub use fiscal_week_count_year::get_weeks_in_fiscal_year;
+
 mod week_of_fiscal_year;
 pub use week_of_fiscal_year::get_week_of_fiscal_year;
 

@@ -196,6 +196,11 @@ pub use datetime_week_comparisons::{is_same_iso_week_datetime, is_same_week_date
 mod iso_year;
 pub use iso_year::{format_iso_year, parse_iso_year};
 
+mod datetime_iso_basic_week;
+pub use datetime_iso_basic_week::{
+    format_iso_basic_week_local_datetime, parse_iso_basic_week_local_datetime,
+};
+
 mod datetime_iso_week;
 pub use datetime_iso_week::{format_iso_week_local_datetime, parse_iso_week_local_datetime};
 
@@ -681,6 +686,10 @@ pub use weekday_month_ordinals::{
 
 mod iso_expanded_years;
 pub use iso_expanded_years::{format_iso_date_extended, parse_iso_date_extended};
+mod iso_expanded_datetime;
+pub use iso_expanded_datetime::{
+    format_iso_local_datetime_extended, parse_iso_local_datetime_extended,
+};
 
 mod week_of_month;
 pub use week_of_month::get_week_of_month;
@@ -737,6 +746,11 @@ pub use set_year::set_year;
 
 mod set_day_of_year;
 pub use set_day_of_year::set_day_of_year;
+
+mod datetime_iso_basic_ordinal;
+pub use datetime_iso_basic_ordinal::{
+    format_iso_basic_ordinal_local_datetime, parse_iso_basic_ordinal_local_datetime,
+};
 
 mod iso_basic_ordinal_date;
 pub use iso_basic_ordinal_date::{format_iso_basic_ordinal_date, parse_iso_basic_ordinal_date};

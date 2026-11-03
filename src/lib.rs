@@ -307,6 +307,8 @@ mod calendar_quarter_difference;
 pub use calendar_quarter_difference::difference_in_calendar_quarters;
 
 mod calendar_half_year_difference;
+mod interval_half_year_counts;
+pub use interval_half_year_counts::count_calendar_half_years_in_interval;
 pub use calendar_half_year_difference::difference_in_calendar_half_years;
 
 mod convert_minutes_milliseconds;

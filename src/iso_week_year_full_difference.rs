@@ -62,14 +62,8 @@ mod tests {
     fn handles_week_fifty_three_and_signed_differences() {
         let start = day(2020, 12, 31);
         let end = day(2021, 12, 30);
-        assert_eq!(
-            difference_in_iso_week_years(end, start),
-            0
-        );
-        assert_eq!(
-            difference_in_iso_week_years(start, end),
-            0
-        );
+        assert_eq!(difference_in_iso_week_years(end, start), 0);
+        assert_eq!(difference_in_iso_week_years(start, end), 0);
         let a = day(2024, 1, 1);
         let b = day(2024, 12, 30);
         assert_eq!(difference_in_iso_week_years(a, b), -1);

@@ -54,7 +54,8 @@ impl FusedIterator for DatetimeWeekSegments {}
 /// Returns None for reversed ranges and never allocates an intermediate list.
 pub fn each_week_segment_of_datetime_interval(
     start: NaiveDateTime,
-    end: NaiveDateTime, week_starts_on: Weekday,
+    end: NaiveDateTime,
+    week_starts_on: Weekday,
 ) -> Option<DatetimeWeekSegments> {
     if start > end {
         return None;
@@ -82,10 +83,15 @@ mod tests {
     fn clips_partial_segments_preserving_nanoseconds() {
         let start = at(2024, 3, 1, 13);
         let end = at(2024, 3, 12, 6);
-        let segments: Vec<_> = each_week_segment_of_datetime_interval(start, end, Weekday::Mon).unwrap().collect();
+        let segments: Vec<_> = each_week_segment_of_datetime_interval(start, end, Weekday::Mon)
+            .unwrap()
+            .collect();
 
         assert_eq!(
-            segments.iter().map(|(first, last)| (first.date(), last.date())).collect::<Vec<_>>(),
+            segments
+                .iter()
+                .map(|(first, last)| (first.date(), last.date()))
+                .collect::<Vec<_>>(),
             vec![
                 (day(2024, 3, 1), day(2024, 3, 3)),
                 (day(2024, 3, 4), day(2024, 3, 10)),
@@ -97,7 +103,9 @@ mod tests {
         assert_eq!(segments[1].0, day(2024, 3, 4).and_hms_opt(0, 0, 0).unwrap());
         assert_eq!(
             segments[1].1,
-            day(2024, 3, 10).and_hms_nano_opt(23, 59, 59, 999_999_999).unwrap()
+            day(2024, 3, 10)
+                .and_hms_nano_opt(23, 59, 59, 999_999_999)
+                .unwrap()
         );
         for adjacent in segments.windows(2) {
             assert_eq!(
@@ -112,12 +120,25 @@ mod tests {
         let first = at(2024, 3, 1, 13);
         let last = at(2024, 3, 12, 6);
         assert!(each_week_segment_of_datetime_interval(last, first, Weekday::Mon).is_none());
-        let mut end = each_week_segment_of_datetime_interval(NaiveDateTime::MAX, NaiveDateTime::MAX, Weekday::Mon).unwrap();
+        let mut end = each_week_segment_of_datetime_interval(
+            NaiveDateTime::MAX,
+            NaiveDateTime::MAX,
+            Weekday::Mon,
+        )
+        .unwrap();
         assert_eq!(end.next(), Some((NaiveDateTime::MAX, NaiveDateTime::MAX)));
         assert_eq!(end.next(), None);
         assert_eq!(end.next(), None);
-        let mut beginning = each_week_segment_of_datetime_interval(NaiveDateTime::MIN, NaiveDateTime::MIN, Weekday::Mon).unwrap();
-        assert_eq!(beginning.next(), Some((NaiveDateTime::MIN, NaiveDateTime::MIN)));
+        let mut beginning = each_week_segment_of_datetime_interval(
+            NaiveDateTime::MIN,
+            NaiveDateTime::MIN,
+            Weekday::Mon,
+        )
+        .unwrap();
+        assert_eq!(
+            beginning.next(),
+            Some((NaiveDateTime::MIN, NaiveDateTime::MIN))
+        );
         assert_eq!(beginning.next(), None);
     }
 

@@ -655,6 +655,9 @@ pub use interval_week_counts::count_calendar_weeks_in_interval;
 mod interval_week_segments;
 pub use interval_week_segments::{each_week_segment_of_interval, WeekSegmentsInInterval};
 
+mod datetime_week_segments;
+pub use datetime_week_segments::{each_week_segment_of_datetime_interval, DatetimeWeekSegments};
+
 mod interval_months;
 pub use interval_months::{each_month_of_interval, MonthsInInterval};
 

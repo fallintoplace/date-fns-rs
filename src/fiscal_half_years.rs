@@ -60,6 +60,17 @@ pub fn difference_in_calendar_fiscal_half_years(
     Some(index(left) - index(right))
 }
 
+/// Check whether two dates belong to the same fiscal half-year.
+///
+/// Returns None when first_month is not between 1 and 12.
+pub fn is_same_fiscal_half_year(
+    left: NaiveDate,
+    right: NaiveDate,
+    first_month: u32,
+) -> Option<bool> {
+    Some(difference_in_calendar_fiscal_half_years(left, right, first_month)? == 0)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -98,6 +109,7 @@ mod tests {
             Some(NaiveDate::MIN)
         );
     }
+
     #[test]
     fn fiscal_half_year_differences_follow_april_and_october() {
         let march = date(2024, 3, 31);
@@ -138,6 +150,26 @@ mod tests {
         assert_eq!(
             difference_in_calendar_fiscal_half_years(NaiveDate::MIN, NaiveDate::MAX, 7),
             Some(-wide)
+        );
+    }
+
+    #[test]
+    fn fiscal_half_year_equality_spans_calendar_years() {
+        assert_eq!(
+            is_same_fiscal_half_year(date(2023, 10, 1), date(2024, 3, 31), 4),
+            Some(true)
+        );
+        assert_eq!(
+            is_same_fiscal_half_year(date(2024, 3, 31), date(2024, 4, 1), 4),
+            Some(false)
+        );
+        assert_eq!(
+            is_same_fiscal_half_year(date(2024, 1, 1), date(2024, 1, 1), 0),
+            None
+        );
+        assert_eq!(
+            is_same_fiscal_half_year(NaiveDate::MIN, NaiveDate::MIN, 12),
+            Some(true)
         );
     }
 }

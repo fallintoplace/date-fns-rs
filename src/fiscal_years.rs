@@ -25,7 +25,14 @@ pub fn start_of_fiscal_year(date: NaiveDate, first_month: u32) -> Option<NaiveDa
 /// For example, March 2024 belongs to fiscal year 2023 when the fiscal
 /// year starts in April.
 pub fn get_fiscal_year(date: NaiveDate, first_month: u32) -> Option<i32> {
-    Some(start_of_fiscal_year(date, first_month)?.year())
+    if !(1..=12).contains(&first_month) {
+        return None;
+    }
+    if date.month() < first_month {
+        date.year().checked_sub(1)
+    } else {
+        Some(date.year())
+    }
 }
 
 /// Find the last inclusive calendar day of the date's fiscal year.
@@ -63,12 +70,39 @@ pub fn difference_in_calendar_fiscal_years(
     Some(label(left) - label(right))
 }
 
+/// Check whether two dates belong to the same fiscal year.
+///
+/// The fiscal year starts in first_month (1 through 12).
+pub fn is_same_fiscal_year(left: NaiveDate, right: NaiveDate, first_month: u32) -> Option<bool> {
+    difference_in_calendar_fiscal_years(left, right, first_month).map(|difference| difference == 0)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
 
     fn date(y: i32, m: u32, d: u32) -> NaiveDate {
         NaiveDate::from_ymd_opt(y, m, d).unwrap()
+    }
+
+    #[test]
+    fn compares_fiscal_years_across_new_year() {
+        assert_eq!(
+            is_same_fiscal_year(date(2024, 4, 1), date(2025, 3, 31), 4),
+            Some(true)
+        );
+        assert_eq!(
+            is_same_fiscal_year(date(2024, 3, 31), date(2024, 4, 1), 4),
+            Some(false)
+        );
+        assert_eq!(
+            is_same_fiscal_year(date(2023, 12, 31), date(2024, 1, 1), 1),
+            Some(false)
+        );
+        assert_eq!(
+            is_same_fiscal_year(date(2024, 1, 1), date(2024, 1, 1), 0),
+            None
+        );
     }
 
     #[test]
@@ -108,6 +142,7 @@ mod tests {
         assert_eq!(end_of_fiscal_year(NaiveDate::MAX, 1), Some(NaiveDate::MAX));
         assert_eq!(end_of_fiscal_year(NaiveDate::MAX, 2), None);
     }
+
     #[test]
     fn fiscal_year_difference_counts_only_year_boundaries() {
         let march = date(2024, 3, 31);
@@ -140,5 +175,14 @@ mod tests {
             difference_in_calendar_fiscal_years(NaiveDate::MIN, NaiveDate::MAX, 4),
             Some(-wide)
         );
+    }
+
+    #[test]
+    fn fiscal_year_label_is_available_when_start_date_is_out_of_range() {
+        let first = NaiveDate::MIN;
+        assert_eq!(start_of_fiscal_year(first, 2), None);
+        assert_eq!(get_fiscal_year(first, 2), first.year().checked_sub(1));
+        assert_eq!(get_fiscal_year(first, 0), None);
+        assert_eq!(get_fiscal_year(first, 13), None);
     }
 }

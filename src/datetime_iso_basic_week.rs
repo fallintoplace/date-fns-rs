@@ -29,7 +29,10 @@ mod tests {
         let day = NaiveDate::from_ymd_opt(2021, 1, 1).unwrap();
         let value = day.and_hms_nano_opt(23, 59, 58, 123_456_789).unwrap();
         let text = "2020W535T235958.123456789";
-        assert_eq!(format_iso_basic_week_local_datetime(value).as_deref(), Some(text));
+        assert_eq!(
+            format_iso_basic_week_local_datetime(value).as_deref(),
+            Some(text)
+        );
         assert_eq!(parse_iso_basic_week_local_datetime(text), Some(value));
         assert_eq!(
             parse_iso_basic_week_local_datetime("2019W011T000000"),
@@ -48,8 +51,15 @@ mod tests {
             "2020W535T000000.1234567890",
             "2020W535 000000",
         ] {
-            assert_eq!(parse_iso_basic_week_local_datetime(invalid), None, "{invalid}");
+            assert_eq!(
+                parse_iso_basic_week_local_datetime(invalid),
+                None,
+                "{invalid}"
+            );
         }
-        assert_eq!(format_iso_basic_week_local_datetime(NaiveDateTime::MAX), None);
+        assert_eq!(
+            format_iso_basic_week_local_datetime(NaiveDateTime::MAX),
+            None
+        );
     }
 }

@@ -224,6 +224,10 @@ mod ical;
 pub use ical::{
     format_ical_date, format_ical_datetime_utc, parse_ical_date, parse_ical_datetime_utc,
 };
+mod ical_temporal_value;
+pub use ical_temporal_value::{
+    format_ical_temporal_value, parse_ical_temporal_value, IcalTemporalValue,
+};
 pub use iso_basic_date::{format_iso_basic_date, parse_iso_basic_date};
 
 mod metadata;

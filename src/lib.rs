@@ -1277,3 +1277,6 @@ pub use century_day_ordinals::{get_day_of_century, get_days_in_century};
 
 mod convert_days_hours;
 pub use convert_days_hours::{days_to_hours, hours_to_days};
+
+mod convert_days_minutes;
+pub use convert_days_minutes::{days_to_minutes, minutes_to_days};

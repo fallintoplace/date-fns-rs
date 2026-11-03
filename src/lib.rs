@@ -18,6 +18,9 @@ pub use datetime_second_iterator::{
     each_nth_second_of_datetime_interval, SecondsInDatetimeInterval,
 };
 
+mod convert_hours_minutes;
+pub use convert_hours_minutes::{hours_to_minutes, minutes_to_hours};
+
 mod datetime_arithmetic;
 pub use chrono::NaiveDateTime;
 pub use datetime_arithmetic::{
@@ -44,6 +47,9 @@ pub use excel_serial_dates::{
 
 mod interval_midpoint;
 pub use interval_midpoint::interval_midpoint;
+
+mod convert_months_years;
+pub use convert_months_years::{months_to_years, years_to_months};
 
 mod months;
 pub use months::add_months_preserving_end_of_month;
@@ -114,10 +120,14 @@ pub use calendar_week_difference::difference_in_calendar_weeks;
 mod datetime_week_boundaries;
 pub use datetime_week_boundaries::{end_of_week_datetime, start_of_week_datetime};
 
+mod convert_days_weeks;
+pub use convert_days_weeks::{days_to_weeks, weeks_to_days};
+
 mod weeks;
 pub use weeks::{end_of_iso_week, end_of_week, start_of_iso_week, start_of_week};
 
 mod week_comparisons;
+pub use week_comparisons::is_same_iso_week_year;
 pub use week_comparisons::{is_same_iso_week, is_same_week};
 
 mod week_boundary_predicates;
@@ -131,12 +141,24 @@ pub use weekday_arithmetic::{next_weekday, previous_weekday};
 
 pub use weekday_arithmetic::{next_or_same_weekday, previous_or_same_weekday};
 
+mod weekday_predicates;
+pub use weekday_predicates::{
+    is_friday, is_monday, is_saturday, is_sunday, is_thursday, is_tuesday, is_wednesday,
+};
+
 mod compare;
 pub use compare::max_date;
 pub use compare::min_date;
 pub use compare::{is_after, is_before, is_same_day, is_same_month, is_same_year, is_weekend};
 
 mod datetime_components;
+
+mod datetime_clock_getters;
+pub use datetime_clock_getters::{get_hour_datetime, get_minute_datetime, get_second_datetime};
+pub use datetime_components::{
+    get_microsecond_datetime, get_nanosecond_datetime, set_microsecond_datetime,
+    set_nanosecond_datetime,
+};
 pub use datetime_components::{
     get_millisecond_datetime, set_hour_datetime, set_millisecond_datetime, set_minute_datetime,
     set_second_datetime,
@@ -160,19 +182,28 @@ mod iso;
 pub use iso::{format_iso_date, parse_iso_date};
 
 mod datetime_comparisons;
+
+mod datetime_week_comparisons;
 pub use datetime_comparisons::{
     is_same_day_datetime, is_same_hour_datetime, is_same_minute_datetime, is_same_month_datetime,
     is_same_second_datetime, is_same_year_datetime,
 };
+pub use datetime_week_comparisons::{is_same_iso_week_datetime, is_same_week_datetime};
 
 mod iso_year;
 pub use iso_year::{format_iso_year, parse_iso_year};
+
+mod datetime_iso_week;
+pub use datetime_iso_week::{format_iso_week_local_datetime, parse_iso_week_local_datetime};
 
 mod iso_week_date;
 pub use iso_week_date::{format_iso_week_date, parse_iso_week_date};
 
 mod iso_week_reduced;
 pub use iso_week_reduced::{format_iso_week, parse_iso_week};
+
+mod iso_week_interval;
+pub use iso_week_interval::{format_iso_week_interval, parse_iso_week_interval};
 
 mod datetime_interval_complement;
 pub use datetime_interval_complement::complement_datetime_intervals;
@@ -200,18 +231,28 @@ mod iso_basic_date;
 
 mod ical_daily_rrule;
 pub use ical_daily_rrule::{each_ical_daily_rrule, parse_ical_daily_rrule, IcalDailyRRule};
+mod ical_recurrence_set;
+pub use ical_recurrence_set::combine_ical_date_recurrences;
 
 mod ical;
 pub use ical::{
     format_ical_date, format_ical_datetime_utc, parse_ical_date, parse_ical_datetime_utc,
 };
+mod ical_temporal_value;
+pub use ical_temporal_value::{
+    format_ical_temporal_value, parse_ical_temporal_value, IcalTemporalValue,
+};
 pub use iso_basic_date::{format_iso_basic_date, parse_iso_basic_date};
 
 mod metadata;
+pub use metadata::{get_day_of_month, get_iso_weekday, get_weekday_sunday_zero};
 pub use metadata::{get_day_of_year, get_days_in_month, get_days_in_year};
 
 mod datetime_duration;
 pub use datetime_duration::{interval_to_calendar_duration, CalendarDateTimeDuration};
+
+mod convert_hours_seconds;
+pub use convert_hours_seconds::{hours_to_seconds, seconds_to_hours};
 
 mod datetime_differences;
 pub use datetime_differences::{
@@ -219,6 +260,9 @@ pub use datetime_differences::{
     difference_in_milliseconds_datetime, difference_in_minutes_datetime,
     difference_in_seconds_datetime,
 };
+
+mod convert_minutes_seconds;
+pub use convert_minutes_seconds::{minutes_to_seconds, seconds_to_minutes};
 
 mod datetime_calendar_clock_differences;
 pub use datetime_calendar_clock_differences::{
@@ -228,8 +272,16 @@ pub use datetime_calendar_clock_differences::{
 
 pub use datetime_differences::difference_in_nanoseconds_datetime;
 
+mod week_of_half_year;
+pub use week_of_half_year::get_week_of_half_year;
+
 mod half_year_day_ordinals;
 pub use half_year_day_ordinals::{get_day_of_half_year, get_days_in_half_year};
+
+mod datetime_iso_ordinal;
+pub use datetime_iso_ordinal::{
+    format_iso_ordinal_local_datetime, parse_iso_ordinal_local_datetime,
+};
 
 mod iso_ordinal_date;
 pub use iso_ordinal_date::{format_iso_ordinal_date, parse_iso_ordinal_date};
@@ -249,10 +301,16 @@ pub use calendar_quarter_difference::difference_in_calendar_quarters;
 mod calendar_half_year_difference;
 pub use calendar_half_year_difference::difference_in_calendar_half_years;
 
+mod convert_months_quarters;
+pub use convert_months_quarters::{months_to_quarters, quarters_to_months};
+
 mod quarters;
 pub use quarters::get_day_of_quarter;
 pub use quarters::get_days_in_quarter;
 pub use quarters::{end_of_quarter, get_quarter, start_of_quarter};
+
+mod convert_hours_milliseconds;
+pub use convert_hours_milliseconds::{hours_to_milliseconds, milliseconds_to_hours};
 
 mod datetime_epoch_micros;
 pub use datetime_epoch_micros::{from_unix_timestamp_micros, to_unix_timestamp_micros};
@@ -274,8 +332,17 @@ pub use datetime_epoch::{
 mod half_years;
 pub use half_years::{end_of_half_year, get_half_year, start_of_half_year};
 
+mod business_half_year_metadata;
+pub use business_half_year_metadata::{
+    get_business_day_of_half_year, get_business_day_of_half_year_with_holidays,
+    get_business_days_in_half_year, get_business_days_in_half_year_with_holidays,
+};
+
 mod datetime_half_year_boundaries;
 pub use datetime_half_year_boundaries::{end_of_half_year_datetime, start_of_half_year_datetime};
+
+mod fiscal_quarter_day_ordinals;
+pub use fiscal_quarter_day_ordinals::{get_day_of_fiscal_quarter, get_days_in_fiscal_quarter};
 
 mod fiscal_quarters;
 pub use fiscal_quarters::difference_in_calendar_fiscal_quarters;
@@ -291,6 +358,9 @@ mod retail_445_calendar;
 mod retail_calendar_patterns;
 pub use retail_445_calendar::{Retail445Calendar, Retail445Position};
 pub use retail_calendar_patterns::{RetailCalendar, RetailPeriodPosition, RetailQuarterPattern};
+
+mod fiscal_year_day_ordinals;
+pub use fiscal_year_day_ordinals::{get_day_of_fiscal_year, get_days_in_fiscal_year};
 
 mod fiscal_years;
 pub use fiscal_years::{end_of_fiscal_year, get_fiscal_year, start_of_fiscal_year};
@@ -322,6 +392,9 @@ mod iso_time;
 pub use chrono::NaiveTime;
 pub use iso_time::{format_iso_local_time, parse_iso_local_time};
 
+mod iso_local_time_interval;
+pub use iso_local_time_interval::{format_iso_local_time_interval, parse_iso_local_time_interval};
+
 mod iso_basic_time;
 pub use iso_basic_time::{format_iso_basic_local_time, parse_iso_basic_local_time};
 
@@ -332,9 +405,23 @@ mod datetime_iso;
 pub use datetime_iso::{format_iso_local_datetime, parse_iso_local_datetime};
 
 mod half_year_predicates;
+
+mod datetime_period_comparisons;
+pub use datetime_period_comparisons::{is_same_half_year_datetime, is_same_quarter_datetime};
 pub use half_year_predicates::{
     is_first_day_of_half_year, is_last_day_of_half_year, is_same_half_year,
 };
+mod relative_calendar_period_predicates;
+pub use relative_calendar_period_predicates::{
+    is_next_calendar_month, is_next_calendar_quarter, is_next_calendar_year,
+    is_previous_calendar_month, is_previous_calendar_quarter, is_previous_calendar_year,
+};
+
+mod convert_quarters_years;
+pub use convert_quarters_years::{quarters_to_years, years_to_quarters};
+
+mod week_of_fiscal_quarter;
+pub use week_of_fiscal_quarter::get_week_of_fiscal_quarter;
 
 mod quarter_arithmetic;
 pub use quarter_arithmetic::{add_quarters, sub_quarters};
@@ -358,17 +445,26 @@ pub use iso_week_year_boundaries::{end_of_iso_week_year, start_of_iso_week_year}
 mod datetime_rfc7231;
 pub use datetime_rfc7231::{format_rfc7231_datetime, parse_rfc7231_datetime};
 
+mod http_retry_after;
+pub use http_retry_after::{format_http_retry_after, parse_http_retry_after, RetryAfter};
+
 mod datetime_rfc3339;
 pub use datetime_rfc3339::{format_rfc3339_datetime, parse_rfc3339_datetime};
 
 mod configurable_workweek;
 pub use configurable_workweek::Workweek;
 
+mod configurable_workday_predicate;
+pub use configurable_workday_predicate::is_workday_with_holidays;
+
 mod business_days;
 pub use business_days::nearest_business_day;
 pub use business_days::{
     add_business_days, is_business_day, next_business_day, previous_business_day, sub_business_days,
 };
+
+mod nearest_configured_workday;
+pub use nearest_configured_workday::nearest_workday_with_holidays;
 
 mod business_holidays;
 
@@ -455,11 +551,17 @@ pub use datetime_interval_symmetric_difference::symmetric_difference_of_datetime
 mod interval_weeks;
 pub use interval_weeks::{each_week_of_interval, WeeksInInterval};
 
+mod interval_week_counts;
+pub use interval_week_counts::count_calendar_weeks_in_interval;
+
 mod interval_week_segments;
 pub use interval_week_segments::{each_week_segment_of_interval, WeekSegmentsInInterval};
 
 mod interval_months;
 pub use interval_months::{each_month_of_interval, MonthsInInterval};
+
+mod interval_month_counts;
+pub use interval_month_counts::count_calendar_months_in_interval;
 
 mod datetime_intersect_many;
 pub use datetime_intersect_many::intersect_many_datetime_interval_sets;
@@ -497,6 +599,9 @@ pub use interval_year_segments::{each_year_segment_of_interval, YearSegmentsInIn
 mod interval_quarters;
 pub use interval_quarters::{each_quarter_of_interval, QuartersInInterval};
 
+mod interval_quarter_counts;
+pub use interval_quarter_counts::count_calendar_quarters_in_interval;
+
 mod interval_quarter_segments;
 pub use interval_quarter_segments::{each_quarter_segment_of_interval, QuarterSegmentsInInterval};
 
@@ -510,8 +615,14 @@ pub use interval_business_holidays::{
     each_business_day_of_interval_excluding_holidays, HolidayBusinessDaysInInterval,
 };
 
+mod interval_configured_workdays;
+pub use interval_configured_workdays::each_workday_of_interval_with_holidays;
+
 mod interval_business_days;
-pub use interval_business_days::{each_business_day_of_interval, BusinessDaysInInterval};
+pub use interval_business_days::{
+    each_business_day_of_interval, each_business_day_of_month, each_business_day_of_year,
+    BusinessDaysInInterval,
+};
 
 mod datetime_slot_packing;
 pub use datetime_slot_packing::pack_datetime_slots;
@@ -534,7 +645,9 @@ pub use business_month_boundaries::{
 };
 
 mod interval_weekends;
-pub use interval_weekends::{each_weekend_of_interval, WeekendsInInterval};
+pub use interval_weekends::{
+    each_weekend_of_interval, each_weekend_of_month, each_weekend_of_year, WeekendsInInterval,
+};
 
 mod ical_monthly_rrule;
 pub use ical_monthly_rrule::{each_ical_monthly_rrule, parse_ical_monthly_rrule, IcalMonthlyRRule};
@@ -564,7 +677,11 @@ mod week_of_quarter;
 pub use week_of_quarter::get_week_of_quarter;
 
 mod calendar_week_metadata;
+pub use calendar_week_metadata::is_same_week_year;
 pub use calendar_week_metadata::{get_week, get_week_year};
+
+mod week_year_day_ordinals;
+pub use week_year_day_ordinals::{get_day_of_week_year, get_days_in_week_year};
 
 mod calendar_week_year_bounds;
 pub use calendar_week_year_bounds::{end_of_week_year, get_weeks_in_week_year, start_of_week_year};
@@ -618,6 +735,9 @@ pub use iso_basic_week_date::{format_iso_basic_week_date, parse_iso_basic_week_d
 mod iso_year_month;
 pub use iso_year_month::{format_iso_year_month, parse_iso_year_month};
 
+mod iso_year_month_interval;
+pub use iso_year_month_interval::{format_iso_year_month_interval, parse_iso_year_month_interval};
+
 mod date_distance_de;
 pub use date_distance_de::{format_date_distance_de, format_date_distance_strict_days_de};
 
@@ -625,7 +745,13 @@ mod date_distance_en;
 pub use date_distance_en::{format_date_distance_en, format_date_distance_strict_days_en};
 
 mod centuries;
+
+mod datetime_long_period_boundaries;
 pub use centuries::{end_of_century, start_of_century};
+pub use datetime_long_period_boundaries::{
+    end_of_century_datetime, end_of_decade_datetime, start_of_century_datetime,
+    start_of_decade_datetime,
+};
 
 mod century_comparisons;
 pub use century_comparisons::{difference_in_calendar_centuries, is_same_century};
@@ -638,6 +764,9 @@ pub use weekday_occurrence_count::count_weekday_occurrences;
 
 mod financial_day_count;
 pub use financial_day_count::{financial_day_count, financial_year_fraction, DayCountConvention};
+
+mod interval_calendar_day_count;
+pub use interval_calendar_day_count::count_calendar_days_in_interval;
 
 mod interval_day_counts;
 pub use interval_day_counts::{count_business_days_in_interval, count_weekend_days_in_interval};
@@ -652,6 +781,11 @@ pub use calendar_week_setters::{set_week, set_week_year};
 
 mod date_relative_en;
 pub use date_relative_en::format_relative_calendar_date_en;
+mod relative_day_predicates;
+pub use relative_day_predicates::{is_today, is_tomorrow, is_yesterday};
+
+mod date_relative_de;
+pub use date_relative_de::format_relative_calendar_date_de;
 
 mod monthly_set_position_recurrence;
 pub use monthly_set_position_recurrence::{
@@ -668,6 +802,9 @@ pub use nth_business_day_year::{nth_business_day_of_year, nth_business_day_of_ye
 
 mod nth_business_day_month;
 pub use nth_business_day_month::nth_business_day_of_month;
+
+mod nth_configured_workday_month;
+pub use nth_configured_workday_month::nth_workday_of_month;
 
 mod nth_business_day_quarter;
 pub use nth_business_day_quarter::nth_business_day_of_quarter;
@@ -687,15 +824,33 @@ pub use fiscal_month_number::get_fiscal_month;
 mod date_checked_setters;
 pub use date_checked_setters::{is_existing_calendar_date, set_day_of_month, set_day_of_week};
 
+mod fiscal_half_year_day_ordinals;
+pub use fiscal_half_year_day_ordinals::{
+    get_day_of_fiscal_half_year, get_days_in_fiscal_half_year,
+};
+
 mod fiscal_half_years;
+pub use fiscal_half_years::is_same_fiscal_half_year;
 pub use fiscal_half_years::{
     end_of_fiscal_half_year, get_fiscal_half_year, start_of_fiscal_half_year,
 };
 
 pub use fiscal_half_years::difference_in_calendar_fiscal_half_years;
 
+mod week_of_fiscal_year;
+pub use week_of_fiscal_year::get_week_of_fiscal_year;
+
+mod week_of_fiscal_half_year;
+pub use week_of_fiscal_half_year::get_week_of_fiscal_half_year;
+
 mod business_month_metadata;
+
+mod business_quarter_metadata;
 pub use business_month_metadata::{get_business_day_of_month, get_business_days_in_month};
+pub use business_quarter_metadata::{
+    get_business_day_of_quarter, get_business_day_of_quarter_with_holidays,
+    get_business_days_in_quarter, get_business_days_in_quarter_with_holidays,
+};
 
 pub use business_month_metadata::{
     get_business_day_of_month_with_holidays, get_business_days_in_month_with_holidays,
@@ -834,9 +989,15 @@ pub use ical_utc_datetime_list::{format_ical_utc_datetime_list, parse_ical_utc_d
 
 mod ical_period_utc;
 pub use ical_period_utc::{format_ical_period_utc, parse_ical_period_utc};
+mod ical_period_duration_utc;
+pub use ical_period_duration_utc::{
+    format_ical_period_duration_utc, parse_ical_period_duration_utc,
+};
 
 mod datetime_rfc2822;
-pub use datetime_rfc2822::{format_rfc2822_datetime, parse_rfc2822_datetime};
+pub use datetime_rfc2822::{
+    format_rfc2822_datetime, parse_rfc2822_datetime, try_format_rfc2822_datetime,
+};
 
 mod datetime_epoch_i128_nanos;
 pub use datetime_epoch_i128_nanos::{from_unix_timestamp_nanos_i128, to_unix_timestamp_nanos_i128};
@@ -870,3 +1031,9 @@ pub use ical_yearly_rrule::{each_ical_yearly_rrule, parse_ical_yearly_rrule, Ica
 
 mod ical_weekly_rrule;
 pub use ical_weekly_rrule::{each_ical_weekly_rrule, parse_ical_weekly_rrule, IcalWeeklyRRule};
+
+mod decade_day_ordinals;
+pub use decade_day_ordinals::{get_day_of_decade, get_days_in_decade};
+
+mod century_day_ordinals;
+pub use century_day_ordinals::{get_day_of_century, get_days_in_century};

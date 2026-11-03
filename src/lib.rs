@@ -174,6 +174,9 @@ pub use iso_week_date::{format_iso_week_date, parse_iso_week_date};
 mod iso_week_reduced;
 pub use iso_week_reduced::{format_iso_week, parse_iso_week};
 
+mod iso_week_interval;
+pub use iso_week_interval::{format_iso_week_interval, parse_iso_week_interval};
+
 mod datetime_interval_complement;
 pub use datetime_interval_complement::complement_datetime_intervals;
 

@@ -24,9 +24,18 @@ mod tests {
 
     #[test]
     fn counts_both_endpoints_and_leap_days() {
-        assert_eq!(count_calendar_days_in_interval(day(2024, 2, 28), day(2024, 3, 1)), Some(3));
-        assert_eq!(count_calendar_days_in_interval(day(2024, 2, 29), day(2024, 2, 29)), Some(1));
-        assert_eq!(count_calendar_days_in_interval(day(2024, 3, 1), day(2024, 2, 28)), None);
+        assert_eq!(
+            count_calendar_days_in_interval(day(2024, 2, 28), day(2024, 3, 1)),
+            Some(3)
+        );
+        assert_eq!(
+            count_calendar_days_in_interval(day(2024, 2, 29), day(2024, 2, 29)),
+            Some(1)
+        );
+        assert_eq!(
+            count_calendar_days_in_interval(day(2024, 3, 1), day(2024, 2, 28)),
+            None
+        );
     }
 
     #[test]

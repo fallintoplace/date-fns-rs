@@ -680,6 +680,9 @@ mod calendar_week_metadata;
 pub use calendar_week_metadata::is_same_week_year;
 pub use calendar_week_metadata::{get_week, get_week_year};
 
+mod week_year_day_ordinals;
+pub use week_year_day_ordinals::{get_day_of_week_year, get_days_in_week_year};
+
 mod calendar_week_year_bounds;
 pub use calendar_week_year_bounds::{end_of_week_year, get_weeks_in_week_year, start_of_week_year};
 

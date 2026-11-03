@@ -150,6 +150,7 @@ pub use weekday_predicates::{
 mod compare;
 pub use compare::max_date;
 pub use compare::min_date;
+pub use compare::{compare_asc, compare_desc};
 pub use compare::{is_after, is_before, is_same_day, is_same_month, is_same_year, is_weekend};
 
 mod datetime_components;

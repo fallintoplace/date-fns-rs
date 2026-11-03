@@ -41,7 +41,10 @@ mod tests {
         let date = day(2023, 4, 1);
         assert_eq!(get_weeks_in_fiscal_year(date, 0, Weekday::Mon), None);
         assert_eq!(get_weeks_in_fiscal_year(date, 13, Weekday::Sun), None);
-        assert_eq!(get_weeks_in_fiscal_year(NaiveDate::MAX, 2, Weekday::Mon), None);
+        assert_eq!(
+            get_weeks_in_fiscal_year(NaiveDate::MAX, 2, Weekday::Mon),
+            None
+        );
         assert!(get_weeks_in_fiscal_year(NaiveDate::MAX, 1, Weekday::Mon).is_some());
     }
 }

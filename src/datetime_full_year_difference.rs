@@ -52,7 +52,10 @@ mod tests {
         assert_eq!(difference_in_years_datetime(start, end), 0);
         assert_eq!(difference_in_years_datetime(start, start), 0);
         assert_eq!(difference_in_years_datetime(at(2026, 12, 31, 23), start), 2);
-        assert_eq!(difference_in_years_datetime(start, at(2026, 12, 31, 23)), -2);
+        assert_eq!(
+            difference_in_years_datetime(start, at(2026, 12, 31, 23)),
+            -2
+        );
     }
 
     #[test]

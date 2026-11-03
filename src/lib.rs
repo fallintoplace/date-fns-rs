@@ -351,6 +351,7 @@ pub use fiscal_quarter_day_ordinals::{get_day_of_fiscal_quarter, get_days_in_fis
 
 mod fiscal_quarters;
 pub use fiscal_quarters::difference_in_calendar_fiscal_quarters;
+pub use fiscal_quarters::is_same_fiscal_quarter;
 pub use fiscal_quarters::{end_of_fiscal_quarter, get_fiscal_quarter, start_of_fiscal_quarter};
 
 mod datetime_fiscal_quarter_boundaries;

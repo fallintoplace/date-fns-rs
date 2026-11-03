@@ -754,6 +754,9 @@ pub use date_relative_en::format_relative_calendar_date_en;
 mod relative_day_predicates;
 pub use relative_day_predicates::{is_today, is_tomorrow, is_yesterday};
 
+mod date_relative_de;
+pub use date_relative_de::format_relative_calendar_date_de;
+
 mod monthly_set_position_recurrence;
 pub use monthly_set_position_recurrence::{
     each_monthly_weekday_set_position, MonthlyWeekdaySetPosition,

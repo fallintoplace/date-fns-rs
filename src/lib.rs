@@ -1211,3 +1211,6 @@ pub use decade_day_ordinals::{get_day_of_decade, get_days_in_decade};
 
 mod century_day_ordinals;
 pub use century_day_ordinals::{get_day_of_century, get_days_in_century};
+
+mod datetime_weekday_navigation;
+pub use datetime_weekday_navigation::{next_day_datetime, previous_day_datetime};

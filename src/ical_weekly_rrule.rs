@@ -2,13 +2,13 @@
 
 use chrono::{Datelike, NaiveDate};
 
-/// A weekly iCalendar rule with BYDAY and optional COUNT or UNTIL.
+/// A weekly iCalendar rule with optional BYDAY, COUNT, or UNTIL.
 ///
-/// Only FREQ=WEEKLY, BYDAY, INTERVAL and COUNT fields are supported.
+/// Only FREQ=WEEKLY, BYDAY, INTERVAL, COUNT and UNTIL fields are supported.
 /// Monday is the first weekday (WKST=MO).
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub struct IcalWeeklyRRule {
-    weekday_mask: u8,
+    weekday_mask: Option<u8>,
     interval_weeks: u32,
     count: Option<usize>,
     until: Option<NaiveDate>,
@@ -72,7 +72,7 @@ pub fn parse_ical_weekly_rrule(input: &str) -> Option<IcalWeeklyRRule> {
         return None;
     }
     Some(IcalWeeklyRRule {
-        weekday_mask: weekdays?,
+        weekday_mask: weekdays,
         interval_weeks: interval.unwrap_or(1),
         count,
         until,
@@ -82,22 +82,26 @@ pub fn parse_ical_weekly_rrule(input: &str) -> Option<IcalWeeklyRRule> {
 
 /// Enumerate a weekly rule within an inclusive bounded date interval.
 ///
-/// DTSTART is the anchor for alternating weeks and the first occurrence.
-/// A DTSTART whose weekday is absent from BYDAY is rejected because RFC 5545
+/// DTSTART anchors alternating weeks and is the first occurrence.
+/// An omitted BYDAY defaults to the weekday of DTSTART.
+/// An explicit BYDAY that excludes DTSTART is rejected because RFC 5545
 /// defines the resulting recurrence set as unspecified.
 pub fn each_ical_weekly_rrule(
     rule: IcalWeeklyRRule,
     start: NaiveDate,
     end: NaiveDate,
 ) -> Option<impl Iterator<Item = NaiveDate>> {
-    if rule.weekday_mask & (1_u8 << start.weekday().num_days_from_monday()) == 0 {
+    let weekday_mask = rule
+        .weekday_mask
+        .unwrap_or(1_u8 << start.weekday().num_days_from_monday());
+    if weekday_mask & (1_u8 << start.weekday().num_days_from_monday()) == 0 {
         return None;
     }
     let through = rule.until.map_or(end, |until| end.min(until));
     let dates = crate::each_selected_weekday_in_interval(
         start,
         through,
-        rule.weekday_mask,
+        weekday_mask,
         rule.interval_weeks,
     )?;
     Some(dates.take(rule.count.unwrap_or(usize::MAX)))
@@ -120,6 +124,24 @@ mod tests {
         assert_eq!(
             days,
             vec![date(2024, 3, 4), date(2024, 3, 6), date(2024, 3, 18)]
+        );
+    }
+
+    #[test]
+    fn omitted_byday_defaults_to_dtstart_weekday() {
+        let rule = parse_ical_weekly_rrule("FREQ=WEEKLY;INTERVAL=2;COUNT=3").unwrap();
+        assert_eq!(
+            each_ical_weekly_rrule(rule, date(2024, 3, 1), date(2024, 4, 20))
+                .unwrap()
+                .collect::<Vec<_>>(),
+            vec![date(2024, 3, 1), date(2024, 3, 15), date(2024, 3, 29)]
+        );
+        let daily = parse_ical_weekly_rrule("FREQ=WEEKLY").unwrap();
+        assert_eq!(
+            each_ical_weekly_rrule(daily, date(2024, 12, 30), date(2025, 1, 13))
+                .unwrap()
+                .collect::<Vec<_>>(),
+            vec![date(2024, 12, 30), date(2025, 1, 6), date(2025, 1, 13)]
         );
     }
 
@@ -150,7 +172,6 @@ mod tests {
     fn rejects_unsupported_fields_and_duplicate_keys() {
         for invalid in [
             "FREQ=DAILY;BYDAY=MO",
-            "FREQ=WEEKLY",
             "FREQ=WEEKLY;BYDAY=2MO",
             "FREQ=WEEKLY;BYDAY=MO;COUNT=0",
             "FREQ=WEEKLY;BYDAY=MO;INTERVAL=0",

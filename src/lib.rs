@@ -461,6 +461,9 @@ pub use interval_week_segments::{each_week_segment_of_interval, WeekSegmentsInIn
 mod interval_months;
 pub use interval_months::{each_month_of_interval, MonthsInInterval};
 
+mod interval_month_counts;
+pub use interval_month_counts::count_calendar_months_in_interval;
+
 mod datetime_intersect_many;
 pub use datetime_intersect_many::intersect_many_datetime_interval_sets;
 

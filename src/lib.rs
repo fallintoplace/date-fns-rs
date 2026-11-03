@@ -374,6 +374,9 @@ mod iso_time;
 pub use chrono::NaiveTime;
 pub use iso_time::{format_iso_local_time, parse_iso_local_time};
 
+mod iso_local_time_interval;
+pub use iso_local_time_interval::{format_iso_local_time_interval, parse_iso_local_time_interval};
+
 mod iso_basic_time;
 pub use iso_basic_time::{format_iso_basic_local_time, parse_iso_basic_local_time};
 

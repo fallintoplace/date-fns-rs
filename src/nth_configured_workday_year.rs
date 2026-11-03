@@ -34,7 +34,8 @@ pub fn nth_workday_of_year(
                 return Some(current);
             }
         }
-        if current == if forward { last } else { first } {
+        let boundary = if forward { last } else { first };
+        if current == boundary {
             return None;
         }
         current = if forward {

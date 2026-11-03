@@ -684,6 +684,9 @@ pub use datetime_rounding::{
     round_to_nearest_second_datetime,
 };
 
+mod datetime_hour_step_rounding;
+pub use datetime_hour_step_rounding::round_to_nearest_hours_datetime;
+
 mod datetime_floor_minute;
 pub use datetime_floor_minute::floor_to_minute_step_datetime;
 
@@ -1211,6 +1214,3 @@ pub use decade_day_ordinals::{get_day_of_decade, get_days_in_decade};
 
 mod century_day_ordinals;
 pub use century_day_ordinals::{get_day_of_century, get_days_in_century};
-
-mod datetime_hour_step_rounding;
-pub use datetime_hour_step_rounding::round_to_nearest_hours_datetime;

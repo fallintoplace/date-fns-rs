@@ -384,6 +384,9 @@ mod fiscal_years;
 pub use fiscal_years::is_same_fiscal_year;
 pub use fiscal_years::{end_of_fiscal_year, get_fiscal_year, start_of_fiscal_year};
 
+mod interval_fiscal_year_counts;
+pub use interval_fiscal_year_counts::count_fiscal_years_in_interval;
+
 mod datetime_fiscal_year_boundaries;
 pub use datetime_fiscal_year_boundaries::{
     end_of_fiscal_year_datetime, start_of_fiscal_year_datetime,

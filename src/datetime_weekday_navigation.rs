@@ -48,11 +48,11 @@ mod tests {
         let start = at(2024, 2, 28);
         assert_eq!(
             next_day_datetime(start, Weekday::Thu),
-            Some(at(2024, 2, 29)
+            Some(at(2024, 2, 29))
         );
         assert_eq!(
             previous_day_datetime(start, Weekday::Tue),
-            Some(at(2024, 2, 27)
+            Some(at(2024, 2, 27))
         );
     }
 

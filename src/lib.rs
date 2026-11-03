@@ -94,6 +94,9 @@ pub use decade_comparisons::{
 
 mod difference;
 
+mod interval_decade_segments;
+pub use interval_decade_segments::{each_decade_segment_of_interval, DecadeSegmentsInInterval};
+
 mod interval_decade_counts;
 pub use interval_decade_counts::count_calendar_decades_in_interval;
 

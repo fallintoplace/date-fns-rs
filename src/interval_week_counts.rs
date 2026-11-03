@@ -47,23 +47,14 @@ mod tests {
     #[test]
     fn rejects_reversed_ranges_and_handles_chrono_limits() {
         assert_eq!(
-            count_calendar_weeks_in_interval(
-                day(2024, 2, 29),
-                day(2024, 2, 28),
-                Weekday::Mon
-            ),
+            count_calendar_weeks_in_interval(day(2024, 2, 29), day(2024, 2, 28), Weekday::Mon),
             None
         );
         let total =
-            count_calendar_weeks_in_interval(NaiveDate::MIN, NaiveDate::MAX, Weekday::Mon)
-                .unwrap();
+            count_calendar_weeks_in_interval(NaiveDate::MIN, NaiveDate::MAX, Weekday::Mon).unwrap();
         assert!(total > 0);
         assert_eq!(
-            count_calendar_weeks_in_interval(
-                NaiveDate::MAX,
-                NaiveDate::MAX,
-                Weekday::Sun
-            ),
+            count_calendar_weeks_in_interval(NaiveDate::MAX, NaiveDate::MAX, Weekday::Sun),
             Some(1)
         );
     }

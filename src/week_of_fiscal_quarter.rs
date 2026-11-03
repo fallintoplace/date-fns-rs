@@ -29,12 +29,30 @@ mod tests {
 
     #[test]
     fn handles_partial_weeks_and_february_first_fiscal_quarters() {
-        assert_eq!(get_week_of_fiscal_quarter(day(2024, 2, 1), 2, Weekday::Mon), Some(1));
-        assert_eq!(get_week_of_fiscal_quarter(day(2024, 2, 4), 2, Weekday::Mon), Some(1));
-        assert_eq!(get_week_of_fiscal_quarter(day(2024, 2, 5), 2, Weekday::Mon), Some(2));
-        assert_eq!(get_week_of_fiscal_quarter(day(2024, 2, 4), 2, Weekday::Sun), Some(2));
-        assert_eq!(get_week_of_fiscal_quarter(day(2024, 4, 30), 2, Weekday::Mon), Some(14));
-        assert_eq!(get_week_of_fiscal_quarter(day(2024, 5, 1), 2, Weekday::Mon), Some(1));
+        assert_eq!(
+            get_week_of_fiscal_quarter(day(2024, 2, 1), 2, Weekday::Mon),
+            Some(1)
+        );
+        assert_eq!(
+            get_week_of_fiscal_quarter(day(2024, 2, 4), 2, Weekday::Mon),
+            Some(1)
+        );
+        assert_eq!(
+            get_week_of_fiscal_quarter(day(2024, 2, 5), 2, Weekday::Mon),
+            Some(2)
+        );
+        assert_eq!(
+            get_week_of_fiscal_quarter(day(2024, 2, 4), 2, Weekday::Sun),
+            Some(2)
+        );
+        assert_eq!(
+            get_week_of_fiscal_quarter(day(2024, 4, 30), 2, Weekday::Mon),
+            Some(14)
+        );
+        assert_eq!(
+            get_week_of_fiscal_quarter(day(2024, 5, 1), 2, Weekday::Mon),
+            Some(1)
+        );
     }
 
     #[test]
@@ -42,7 +60,10 @@ mod tests {
         let date = day(2024, 6, 15);
         assert_eq!(get_week_of_fiscal_quarter(date, 0, Weekday::Mon), None);
         assert_eq!(get_week_of_fiscal_quarter(date, 13, Weekday::Mon), None);
-        assert_eq!(get_week_of_fiscal_quarter(NaiveDate::MIN, 2, Weekday::Mon), None);
+        assert_eq!(
+            get_week_of_fiscal_quarter(NaiveDate::MIN, 2, Weekday::Mon),
+            None
+        );
         assert!(get_week_of_fiscal_quarter(NaiveDate::MAX, 1, Weekday::Sun).is_some());
     }
 }

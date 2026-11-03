@@ -4,7 +4,8 @@ use chrono::{Datelike, NaiveDateTime};
 
 /// Whether both timestamps belong to the same Gregorian quarter.
 pub fn is_same_quarter_datetime(left: NaiveDateTime, right: NaiveDateTime) -> bool {
-    left.year() == right.year() && crate::get_quarter(left.date()) == crate::get_quarter(right.date())
+    left.year() == right.year()
+        && crate::get_quarter(left.date()) == crate::get_quarter(right.date())
 }
 
 /// Whether both timestamps belong to the same January-June or July-December half.

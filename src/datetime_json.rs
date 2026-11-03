@@ -40,6 +40,14 @@ pub fn parse_json_datetime_utc(input: &str) -> Option<NaiveDateTime> {
     parse_json_datetime_utc(&canonical)
 }
 
+/// Format a naive UTC timestamp as an explicit JSON-friendly ISO string.
+///
+/// Fractional nanoseconds are preserved. Returns None for years that cannot
+/// be expressed as strict four-digit ISO dates or invalid leap-second values.
+pub fn format_json_datetime_utc(value: NaiveDateTime) -> Option<String> {
+    Some(format!("{}Z", crate::format_iso_local_datetime(value)?))
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -125,5 +133,32 @@ mod space_offset_tests {
         ] {
             assert_eq!(parse_json_datetime_utc(input), None);
         }
+    }
+}
+
+#[cfg(test)]
+mod json_formatter_tests {
+    use super::*;
+
+    #[test]
+    fn round_trips_utc_timestamps_without_losing_nanoseconds() {
+        let value = chrono::NaiveDate::from_ymd_opt(2024, 2, 29)
+            .unwrap()
+            .and_hms_nano_opt(23, 59, 58, 123_400_001)
+            .unwrap();
+        let expected = "2024-02-29T23:59:58.123400001Z";
+        assert_eq!(format_json_datetime_utc(value).as_deref(), Some(expected));
+        assert_eq!(parse_json_datetime_utc(expected), Some(value));
+
+        let whole = value.date().and_hms_opt(0, 0, 0).unwrap();
+        assert_eq!(
+            format_json_datetime_utc(whole).as_deref(),
+            Some("2024-02-29T00:00:00Z")
+        );
+    }
+
+    #[test]
+    fn rejects_unsupported_years_without_truncating() {
+        assert_eq!(format_json_datetime_utc(NaiveDateTime::MAX), None);
     }
 }

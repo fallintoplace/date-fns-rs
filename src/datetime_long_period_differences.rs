@@ -5,20 +5,14 @@ use chrono::NaiveDateTime;
 /// Count signed Gregorian decade boundaries, ignoring month, day and time.
 ///
 /// Standard decades span years 2020-2029, 2030-2039, and so on.
-pub fn difference_in_calendar_decades_datetime(
-    left: NaiveDateTime,
-    right: NaiveDateTime,
-) -> i64 {
+pub fn difference_in_calendar_decades_datetime(left: NaiveDateTime, right: NaiveDateTime) -> i64 {
     crate::difference_in_calendar_decades(left.date(), right.date())
 }
 
 /// Count signed one-based century boundaries, ignoring clock precision.
 ///
 /// The 21st century begins January 1, 2001, not January 1, 2000.
-pub fn difference_in_calendar_centuries_datetime(
-    left: NaiveDateTime,
-    right: NaiveDateTime,
-) -> i32 {
+pub fn difference_in_calendar_centuries_datetime(left: NaiveDateTime, right: NaiveDateTime) -> i32 {
     crate::difference_in_calendar_centuries(left.date(), right.date())
 }
 

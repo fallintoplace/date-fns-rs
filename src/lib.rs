@@ -93,6 +93,10 @@ pub use decade_comparisons::{
 };
 
 mod difference;
+
+mod interval_decade_counts;
+pub use interval_decade_counts::count_calendar_decades_in_interval;
+
 pub use difference::difference_in_calendar_decades;
 pub use difference::{
     difference_in_calendar_days, difference_in_calendar_months, difference_in_calendar_years,

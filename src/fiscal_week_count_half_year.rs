@@ -27,8 +27,14 @@ mod tests {
     #[test]
     fn counts_partial_weeks_with_configurable_week_starts() {
         let date = day(2023, 1, 1);
-        assert_eq!(get_weeks_in_fiscal_half_year(date, 1, Weekday::Mon), Some(27));
-        assert_eq!(get_weeks_in_fiscal_half_year(date, 1, Weekday::Sun), Some(26));
+        assert_eq!(
+            get_weeks_in_fiscal_half_year(date, 1, Weekday::Mon),
+            Some(27)
+        );
+        assert_eq!(
+            get_weeks_in_fiscal_half_year(date, 1, Weekday::Sun),
+            Some(26)
+        );
         let last = crate::end_of_fiscal_half_year(date, 1).unwrap();
         assert_eq!(
             get_weeks_in_fiscal_half_year(date, 1, Weekday::Mon),
@@ -41,7 +47,10 @@ mod tests {
         let date = day(2023, 1, 1);
         assert_eq!(get_weeks_in_fiscal_half_year(date, 0, Weekday::Mon), None);
         assert_eq!(get_weeks_in_fiscal_half_year(date, 13, Weekday::Sun), None);
-        assert_eq!(get_weeks_in_fiscal_half_year(NaiveDate::MAX, 2, Weekday::Mon), None);
+        assert_eq!(
+            get_weeks_in_fiscal_half_year(NaiveDate::MAX, 2, Weekday::Mon),
+            None
+        );
         assert!(get_weeks_in_fiscal_half_year(NaiveDate::MAX, 1, Weekday::Mon).is_some());
     }
 }

@@ -43,9 +43,7 @@ mod tests {
         assert_eq!(get_days_in_decade(last_bce), Some(3652));
         assert_eq!(get_day_of_decade(last_bce), Some(3652));
         for edge in [NaiveDate::MIN, NaiveDate::MAX] {
-            if let (Some(day), Some(days)) =
-                (get_day_of_decade(edge), get_days_in_decade(edge))
-            {
+            if let (Some(day), Some(days)) = (get_day_of_decade(edge), get_days_in_decade(edge)) {
                 assert!((1..=days).contains(&day));
             }
         }

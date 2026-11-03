@@ -394,6 +394,9 @@ mod retail_calendar_patterns;
 pub use retail_445_calendar::{Retail445Calendar, Retail445Position};
 pub use retail_calendar_patterns::{RetailCalendar, RetailPeriodPosition, RetailQuarterPattern};
 
+mod nth_configured_workday_fiscal_year;
+pub use nth_configured_workday_fiscal_year::nth_workday_of_fiscal_year;
+
 mod nth_weekday_fiscal_year;
 pub use nth_weekday_fiscal_year::nth_weekday_of_fiscal_year;
 

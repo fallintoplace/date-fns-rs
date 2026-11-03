@@ -890,6 +890,11 @@ pub use datetime_long_period_boundaries::{
 };
 pub use interval_century_counts::count_calendar_centuries_in_interval;
 
+mod long_period_boundary_predicates;
+pub use long_period_boundary_predicates::{
+    is_first_day_of_century, is_first_day_of_decade, is_last_day_of_century, is_last_day_of_decade,
+};
+
 mod century_comparisons;
 pub use century_comparisons::{difference_in_calendar_centuries, is_same_century};
 

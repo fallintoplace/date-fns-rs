@@ -212,6 +212,7 @@ pub use ical::{
 pub use iso_basic_date::{format_iso_basic_date, parse_iso_basic_date};
 
 mod metadata;
+pub use metadata::{get_day_of_month, get_iso_weekday, get_weekday_sunday_zero};
 pub use metadata::{get_day_of_year, get_days_in_month, get_days_in_year};
 
 mod datetime_duration;

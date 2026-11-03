@@ -701,6 +701,9 @@ pub use interval_half_year_segments::{
 mod interval_year_segments;
 pub use interval_year_segments::{each_year_segment_of_interval, YearSegmentsInInterval};
 
+mod datetime_year_segments;
+pub use datetime_year_segments::{each_year_segment_of_datetime_interval, DatetimeYearSegments};
+
 mod interval_quarters;
 pub use interval_quarters::{each_quarter_of_interval, QuartersInInterval};
 

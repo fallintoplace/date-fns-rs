@@ -31,7 +31,10 @@ mod tests {
         let day = NaiveDate::from_ymd_opt(2024, 2, 29).unwrap();
         let value = day.and_hms_nano_opt(12, 34, 56, 120_000_001).unwrap();
         let text = "2024060T123456.120000001";
-        assert_eq!(format_iso_basic_ordinal_local_datetime(value).as_deref(), Some(text));
+        assert_eq!(
+            format_iso_basic_ordinal_local_datetime(value).as_deref(),
+            Some(text)
+        );
         assert_eq!(parse_iso_basic_ordinal_local_datetime(text), Some(value));
         assert_eq!(
             parse_iso_basic_ordinal_local_datetime("2023365T000000"),
@@ -51,8 +54,15 @@ mod tests {
             "2024060T000000.1234567890",
             "2024060 000000",
         ] {
-            assert_eq!(parse_iso_basic_ordinal_local_datetime(invalid), None, "{invalid}");
+            assert_eq!(
+                parse_iso_basic_ordinal_local_datetime(invalid),
+                None,
+                "{invalid}"
+            );
         }
-        assert_eq!(format_iso_basic_ordinal_local_datetime(NaiveDateTime::MIN), None);
+        assert_eq!(
+            format_iso_basic_ordinal_local_datetime(NaiveDateTime::MIN),
+            None
+        );
     }
 }

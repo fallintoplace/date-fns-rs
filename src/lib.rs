@@ -13,6 +13,9 @@ pub use arithmetic::{add_days, add_weeks, sub_days, sub_weeks};
 mod datetime_day_segments;
 pub use datetime_day_segments::{each_day_segment_of_datetime_interval, DatetimeDaySegments};
 
+mod datetime_aligned_minutes;
+pub use datetime_aligned_minutes::each_minute_of_datetime_interval;
+
 mod datetime_second_iterator;
 pub use datetime_second_iterator::{
     each_nth_second_of_datetime_interval, SecondsInDatetimeInterval,

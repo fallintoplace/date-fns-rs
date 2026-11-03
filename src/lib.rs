@@ -152,6 +152,9 @@ pub use compare::min_date;
 pub use compare::{is_after, is_before, is_same_day, is_same_month, is_same_year, is_weekend};
 
 mod datetime_components;
+
+mod datetime_clock_getters;
+pub use datetime_clock_getters::{get_hour_datetime, get_minute_datetime, get_second_datetime};
 pub use datetime_components::{
     get_microsecond_datetime, get_nanosecond_datetime, set_microsecond_datetime,
     set_nanosecond_datetime,

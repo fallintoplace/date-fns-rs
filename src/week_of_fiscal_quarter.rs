@@ -14,8 +14,7 @@ pub fn get_week_of_fiscal_quarter(
     let start = crate::start_of_fiscal_quarter(date, first_month)?;
     let elapsed = date.signed_duration_since(start).num_days();
     let offset = i64::from(
-        (start.weekday().num_days_from_monday() + 7
-            - week_starts_on.num_days_from_monday()) % 7,
+        (start.weekday().num_days_from_monday() + 7 - week_starts_on.num_days_from_monday()) % 7,
     );
     u32::try_from((elapsed + offset) / 7 + 1).ok()
 }

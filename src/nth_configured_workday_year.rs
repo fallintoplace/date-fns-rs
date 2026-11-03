@@ -83,10 +83,7 @@ mod tests {
             Some(day(2024, 12, 30))
         );
         let every_day = Workweek::from_mask(0x7f).unwrap();
-        assert_eq!(
-            nth_workday_of_year(every_day, 2024, 366, &[]),
-            Some(last)
-        );
+        assert_eq!(nth_workday_of_year(every_day, 2024, 366, &[]), Some(last));
         assert_eq!(nth_workday_of_year(every_day, 2024, 367, &[]), None);
     }
 

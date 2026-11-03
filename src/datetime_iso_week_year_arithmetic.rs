@@ -6,18 +6,12 @@ use chrono::NaiveDateTime;
 ///
 /// Returns None if the target year lacks the source ISO week, including
 /// week 53, or if the resulting date lies outside Chrono's range.
-pub fn add_iso_week_years_datetime(
-    value: NaiveDateTime,
-    years: i32,
-) -> Option<NaiveDateTime> {
+pub fn add_iso_week_years_datetime(value: NaiveDateTime, years: i32) -> Option<NaiveDateTime> {
     Some(crate::add_iso_week_years(value.date(), years)?.and_time(value.time()))
 }
 
 /// Subtract ISO week-numbering years while preserving nanosecond precision.
-pub fn sub_iso_week_years_datetime(
-    value: NaiveDateTime,
-    years: i32,
-) -> Option<NaiveDateTime> {
+pub fn sub_iso_week_years_datetime(value: NaiveDateTime, years: i32) -> Option<NaiveDateTime> {
     Some(crate::sub_iso_week_years(value.date(), years)?.and_time(value.time()))
 }
 
@@ -43,7 +37,10 @@ mod tests {
             sub_iso_week_years_datetime(at(2024, 1, 1), 1),
             Some(at(2023, 1, 2))
         );
-        assert_eq!(add_iso_week_years_datetime(at(2024, 1, 1), 0), Some(at(2024, 1, 1)));
+        assert_eq!(
+            add_iso_week_years_datetime(at(2024, 1, 1), 0),
+            Some(at(2024, 1, 1))
+        );
     }
 
     #[test]

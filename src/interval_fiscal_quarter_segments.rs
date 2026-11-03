@@ -25,7 +25,11 @@ impl Iterator for FiscalQuarterSegmentsInInterval {
             .and_then(|next| next.pred_opt())
             .unwrap_or(NaiveDate::MAX)
             .min(self.end);
-        self.next = if last < self.end { last.succ_opt() } else { None };
+        self.next = if last < self.end {
+            last.succ_opt()
+        } else {
+            None
+        };
         Some((start, last))
     }
 }
@@ -62,13 +66,9 @@ mod tests {
 
     #[test]
     fn clips_february_based_quarters_across_new_year() {
-        let ranges = each_fiscal_quarter_segment_of_interval(
-            day(2024, 1, 30),
-            day(2024, 5, 2),
-            2,
-        )
-        .unwrap()
-        .collect::<Vec<_>>();
+        let ranges = each_fiscal_quarter_segment_of_interval(day(2024, 1, 30), day(2024, 5, 2), 2)
+            .unwrap()
+            .collect::<Vec<_>>();
         assert_eq!(
             ranges,
             vec![

@@ -8,11 +8,7 @@ use crate::Workweek;
 ///
 /// Holidays may be unsorted or duplicated. Holiday dates on non-working
 /// weekdays do not change the answer.
-pub fn is_workday_with_holidays(
-    week: Workweek,
-    date: NaiveDate,
-    holidays: &[NaiveDate],
-) -> bool {
+pub fn is_workday_with_holidays(week: Workweek, date: NaiveDate, holidays: &[NaiveDate]) -> bool {
     week.is_workday(date) && !holidays.contains(&date)
 }
 

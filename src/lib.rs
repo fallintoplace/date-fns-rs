@@ -627,11 +627,11 @@ pub use date_distance_en::{format_date_distance_en, format_date_distance_strict_
 mod centuries;
 
 mod datetime_long_period_boundaries;
+pub use centuries::{end_of_century, start_of_century};
 pub use datetime_long_period_boundaries::{
     end_of_century_datetime, end_of_decade_datetime, start_of_century_datetime,
     start_of_decade_datetime,
 };
-pub use centuries::{end_of_century, start_of_century};
 
 mod century_comparisons;
 pub use century_comparisons::{difference_in_calendar_centuries, is_same_century};

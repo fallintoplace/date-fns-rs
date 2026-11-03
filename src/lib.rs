@@ -691,7 +691,13 @@ mod date_distance_en;
 pub use date_distance_en::{format_date_distance_en, format_date_distance_strict_days_en};
 
 mod centuries;
+
+mod datetime_long_period_boundaries;
 pub use centuries::{end_of_century, start_of_century};
+pub use datetime_long_period_boundaries::{
+    end_of_century_datetime, end_of_decade_datetime, start_of_century_datetime,
+    start_of_decade_datetime,
+};
 
 mod century_comparisons;
 pub use century_comparisons::{difference_in_calendar_centuries, is_same_century};

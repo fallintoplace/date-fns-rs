@@ -421,6 +421,9 @@ pub use relative_calendar_period_predicates::{
     is_previous_calendar_month, is_previous_calendar_quarter, is_previous_calendar_year,
 };
 
+mod convert_seconds_milliseconds;
+pub use convert_seconds_milliseconds::{milliseconds_to_seconds, seconds_to_milliseconds};
+
 mod convert_quarters_years;
 pub use convert_quarters_years::{quarters_to_years, years_to_quarters};
 

@@ -14,6 +14,19 @@ pub fn format_rfc2822_datetime(value: DateTime<FixedOffset>) -> String {
     value.to_rfc2822()
 }
 
+/// Format a timestamp without silently dropping fractional seconds.
+///
+/// RFC 2822 represents whole seconds and four-digit years. Returns None
+/// when the original timestamp cannot be represented faithfully.
+pub fn try_format_rfc2822_datetime(value: DateTime<FixedOffset>) -> Option<String> {
+    use chrono::Datelike;
+
+    if value.timestamp_subsec_nanos() != 0 || !(0..=9999).contains(&value.year()) {
+        return None;
+    }
+    Some(format_rfc2822_datetime(value))
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -41,5 +54,32 @@ mod tests {
         ] {
             assert_eq!(parse_rfc2822_datetime(invalid), None, "{invalid}");
         }
+    }
+}
+
+#[cfg(test)]
+mod precision_tests {
+    use super::*;
+
+    #[test]
+    fn rejects_fractional_seconds_before_serialization() {
+        let whole = parse_rfc2822_datetime("Fri, 21 Nov 1997 09:55:06 -0600").unwrap();
+        assert_eq!(
+            try_format_rfc2822_datetime(whole).as_deref(),
+            Some("Fri, 21 Nov 1997 09:55:06 -0600")
+        );
+        let fractional = whole + chrono::TimeDelta::milliseconds(1);
+        assert_eq!(try_format_rfc2822_datetime(fractional), None);
+    }
+
+    #[test]
+    fn rejects_years_without_four_digit_rfc2822_encoding() {
+        let far = chrono::NaiveDate::from_ymd_opt(10000, 1, 1)
+            .unwrap()
+            .and_hms_opt(0, 0, 0)
+            .unwrap()
+            .and_utc()
+            .fixed_offset();
+        assert_eq!(try_format_rfc2822_datetime(far), None);
     }
 }

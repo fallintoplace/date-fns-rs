@@ -94,6 +94,9 @@ pub use decade_comparisons::{
 
 mod difference;
 
+mod interval_decade_segments;
+pub use interval_decade_segments::{each_decade_segment_of_interval, DecadeSegmentsInInterval};
+
 mod interval_decade_counts;
 pub use interval_decade_counts::count_calendar_decades_in_interval;
 
@@ -355,6 +358,12 @@ pub use nth_weekday_half_year::nth_weekday_of_half_year;
 mod nth_configured_workday_half_year;
 pub use nth_configured_workday_half_year::nth_workday_of_half_year;
 
+mod fiscal_business_half_year_metadata;
+pub use fiscal_business_half_year_metadata::{
+    get_business_day_of_fiscal_half_year, get_business_day_of_fiscal_half_year_with_holidays,
+    get_business_days_in_fiscal_half_year, get_business_days_in_fiscal_half_year_with_holidays,
+};
+
 mod business_half_year_metadata;
 pub use business_half_year_metadata::{
     get_business_day_of_half_year, get_business_day_of_half_year_with_holidays,
@@ -390,6 +399,9 @@ mod retail_445_calendar;
 mod retail_calendar_patterns;
 pub use retail_445_calendar::{Retail445Calendar, Retail445Position};
 pub use retail_calendar_patterns::{RetailCalendar, RetailPeriodPosition, RetailQuarterPattern};
+
+mod nth_configured_workday_fiscal_year;
+pub use nth_configured_workday_fiscal_year::nth_workday_of_fiscal_year;
 
 mod nth_weekday_fiscal_year;
 pub use nth_weekday_fiscal_year::nth_weekday_of_fiscal_year;
@@ -486,6 +498,11 @@ pub use cron_named_schedule::parse_cron_schedule_named;
 mod cron_occurrences;
 pub use cron_occurrences::{each_cron_minute_between, CronOccurrences};
 pub use cron_schedule::{parse_cron_schedule, parse_cron_schedule_with_aliases, CronSchedule};
+
+mod interval_iso_week_year_segments;
+pub use interval_iso_week_year_segments::{
+    each_iso_week_year_segment_of_interval, IsoWeekYearSegmentsInInterval,
+};
 
 mod iso_week_year_boundaries;
 pub use iso_week_year_boundaries::{end_of_iso_week_year, start_of_iso_week_year};
@@ -723,6 +740,9 @@ mod nth_weekday_year;
 pub use nth_weekday::nth_weekday_of_month;
 pub use nth_weekday_year::nth_weekday_of_year;
 
+mod nth_configured_workday_fiscal_quarter;
+pub use nth_configured_workday_fiscal_quarter::nth_workday_of_fiscal_quarter;
+
 mod nth_weekday_fiscal_quarter;
 pub use nth_weekday_fiscal_quarter::nth_weekday_of_fiscal_quarter;
 
@@ -756,6 +776,11 @@ pub use week_year_day_ordinals::{get_day_of_week_year, get_days_in_week_year};
 
 mod calendar_week_year_bounds;
 pub use calendar_week_year_bounds::{end_of_week_year, get_weeks_in_week_year, start_of_week_year};
+
+mod interval_week_year_segments;
+pub use interval_week_year_segments::{
+    each_week_year_segment_of_interval, WeekYearSegmentsInInterval,
+};
 
 mod interval_week_year_counts;
 pub use interval_week_year_counts::count_week_years_in_interval;
@@ -827,6 +852,9 @@ mod centuries;
 
 mod datetime_long_period_boundaries;
 pub use centuries::{end_of_century, start_of_century};
+
+mod interval_century_segments;
+pub use interval_century_segments::{each_century_segment_of_interval, CenturySegmentsInInterval};
 
 mod interval_century_counts;
 pub use datetime_long_period_boundaries::{
@@ -912,6 +940,9 @@ pub use fiscal_month_number::get_fiscal_month;
 mod date_checked_setters;
 pub use date_checked_setters::{is_existing_calendar_date, set_day_of_month, set_day_of_week};
 
+mod nth_configured_workday_fiscal_half_year;
+pub use nth_configured_workday_fiscal_half_year::nth_workday_of_fiscal_half_year;
+
 mod nth_weekday_fiscal_half_year;
 pub use nth_weekday_fiscal_half_year::nth_weekday_of_fiscal_half_year;
 
@@ -943,6 +974,12 @@ mod week_of_fiscal_half_year;
 pub use week_of_fiscal_half_year::get_week_of_fiscal_half_year;
 
 mod business_month_metadata;
+
+mod fiscal_business_quarter_metadata;
+pub use fiscal_business_quarter_metadata::{
+    get_business_day_of_fiscal_quarter, get_business_day_of_fiscal_quarter_with_holidays,
+    get_business_days_in_fiscal_quarter, get_business_days_in_fiscal_quarter_with_holidays,
+};
 
 mod business_quarter_metadata;
 pub use business_month_metadata::{get_business_day_of_month, get_business_days_in_month};

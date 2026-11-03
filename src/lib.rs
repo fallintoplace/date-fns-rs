@@ -141,6 +141,11 @@ pub use weekday_arithmetic::{next_weekday, previous_weekday};
 
 pub use weekday_arithmetic::{next_or_same_weekday, previous_or_same_weekday};
 
+mod weekday_predicates;
+pub use weekday_predicates::{
+    is_friday, is_monday, is_saturday, is_sunday, is_thursday, is_tuesday, is_wednesday,
+};
+
 mod compare;
 pub use compare::max_date;
 pub use compare::min_date;

@@ -62,6 +62,9 @@ mod tests {
             end_of_fiscal_half_year_datetime(NaiveDateTime::MAX, 1),
             Some(NaiveDateTime::MAX)
         );
-        assert_eq!(end_of_fiscal_half_year_datetime(NaiveDateTime::MAX, 2), None);
+        assert_eq!(
+            end_of_fiscal_half_year_datetime(NaiveDateTime::MAX, 2),
+            None
+        );
     }
 }

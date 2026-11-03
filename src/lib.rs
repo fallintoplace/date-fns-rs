@@ -731,6 +731,11 @@ pub use interval_quarter_counts::count_calendar_quarters_in_interval;
 mod interval_quarter_segments;
 pub use interval_quarter_segments::{each_quarter_segment_of_interval, QuarterSegmentsInInterval};
 
+mod datetime_quarter_segments;
+pub use datetime_quarter_segments::{
+    each_quarter_segment_of_datetime_interval, DatetimeQuarterSegments,
+};
+
 mod date_slot_packing;
 mod interval_weekdays;
 pub use date_slot_packing::pack_date_slots;

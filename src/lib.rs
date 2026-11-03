@@ -383,6 +383,9 @@ mod retail_calendar_patterns;
 pub use retail_445_calendar::{Retail445Calendar, Retail445Position};
 pub use retail_calendar_patterns::{RetailCalendar, RetailPeriodPosition, RetailQuarterPattern};
 
+mod nth_weekday_fiscal_year;
+pub use nth_weekday_fiscal_year::nth_weekday_of_fiscal_year;
+
 mod fiscal_year_day_ordinals;
 pub use fiscal_year_day_ordinals::{get_day_of_fiscal_year, get_days_in_fiscal_year};
 

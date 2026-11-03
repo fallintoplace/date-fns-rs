@@ -150,6 +150,7 @@ pub use weekday_predicates::{
 mod compare;
 pub use compare::max_date;
 pub use compare::min_date;
+pub use compare::{compare_asc, compare_desc};
 pub use compare::{is_after, is_before, is_same_day, is_same_month, is_same_year, is_weekend};
 
 mod datetime_components;
@@ -350,6 +351,7 @@ pub use fiscal_quarter_day_ordinals::{get_day_of_fiscal_quarter, get_days_in_fis
 
 mod fiscal_quarters;
 pub use fiscal_quarters::difference_in_calendar_fiscal_quarters;
+pub use fiscal_quarters::is_same_fiscal_quarter;
 pub use fiscal_quarters::{end_of_fiscal_quarter, get_fiscal_quarter, start_of_fiscal_quarter};
 
 mod datetime_fiscal_quarter_boundaries;
@@ -436,6 +438,7 @@ pub use quarter_arithmetic::{add_quarters, sub_quarters};
 
 mod iso_weeks;
 pub use iso_weeks::get_iso_day_of_year;
+pub use iso_weeks::get_iso_weeks_in_iso_year;
 pub use iso_weeks::{get_iso_week, get_iso_week_year, get_iso_weeks_in_year};
 
 mod cron_schedule;

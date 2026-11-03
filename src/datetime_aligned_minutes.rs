@@ -15,9 +15,7 @@ pub fn each_minute_of_datetime_interval(
     if start > end {
         return None;
     }
-    let aligned = start
-        .date()
-        .and_hms_opt(start.hour(), start.minute(), 0)?;
+    let aligned = start.date().and_hms_opt(start.hour(), start.minute(), 0)?;
     crate::each_nth_minute_of_datetime_interval(aligned, end, step_minutes)
 }
 
@@ -36,8 +34,6 @@ mod tests {
     #[test]
     fn floors_partial_minutes_and_crosses_midnight() {
         let start = at(2024, 2, 29, 23, 59)
-            .with_nanosecond(0)
-            .unwrap()
             .checked_add_signed(chrono::TimeDelta::seconds(30))
             .unwrap();
         let end = at(2024, 3, 1, 0, 1);
@@ -46,11 +42,7 @@ mod tests {
             .collect();
         assert_eq!(
             items,
-            vec![
-                at(2024, 2, 29, 23, 59),
-                at(2024, 3, 1, 0, 0),
-                end,
-            ]
+            vec![at(2024, 2, 29, 23, 59), at(2024, 3, 1, 0, 0), end,]
         );
     }
 
@@ -69,8 +61,7 @@ mod tests {
     #[test]
     fn stays_fused_at_chrono_datetime_limits() {
         let mut items =
-            each_minute_of_datetime_interval(NaiveDateTime::MAX, NaiveDateTime::MAX, 1)
-                .unwrap();
+            each_minute_of_datetime_interval(NaiveDateTime::MAX, NaiveDateTime::MAX, 1).unwrap();
         assert!(items.next().is_some());
         assert_eq!(items.next(), None);
         assert_eq!(items.next(), None);

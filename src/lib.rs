@@ -828,6 +828,9 @@ pub use fiscal_half_years::{
 
 pub use fiscal_half_years::difference_in_calendar_fiscal_half_years;
 
+mod week_of_fiscal_year;
+pub use week_of_fiscal_year::get_week_of_fiscal_year;
+
 mod week_of_fiscal_half_year;
 pub use week_of_fiscal_half_year::get_week_of_fiscal_half_year;
 

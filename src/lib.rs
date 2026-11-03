@@ -839,6 +839,9 @@ pub use full_quarter_difference::difference_in_quarters;
 mod iso_week_year_arithmetic;
 pub use iso_week_year_arithmetic::{add_iso_week_years, sub_iso_week_years};
 
+mod iso_week_year_full_difference;
+pub use iso_week_year_full_difference::difference_in_iso_week_years;
+
 mod iso_week_setters;
 pub use iso_week_setters::set_iso_day_of_week;
 pub use iso_week_setters::{set_iso_week, set_iso_week_year};

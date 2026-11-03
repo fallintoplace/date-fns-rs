@@ -1,0 +1,56 @@
+//! Compare fiscal quarters using naive date-times.
+
+use chrono::NaiveDateTime;
+
+/// Check whether two naive date-times belong to the same fiscal quarter.
+///
+/// Clock time does not affect membership. `first_month` is 1 through 12;
+/// invalid months return None.
+pub fn is_same_fiscal_quarter_datetime(
+    left: NaiveDateTime,
+    right: NaiveDateTime,
+    first_month: u32,
+) -> Option<bool> {
+    crate::is_same_fiscal_quarter(left.date(), right.date(), first_month)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use chrono::NaiveDate;
+
+    fn timestamp(year: i32, month: u32, day: u32, hour: u32) -> NaiveDateTime {
+        NaiveDate::from_ymd_opt(year, month, day)
+            .unwrap()
+            .and_hms_opt(hour, 0, 0)
+            .unwrap()
+    }
+
+    #[test]
+    fn compares_fiscal_periods_across_boundaries() {
+        let first = timestamp(2024, 2, 1, 0);
+        let last = timestamp(2024, 4, 30, 23);
+        let following = timestamp(2024, 5, 1, 0);
+        assert_eq!(is_same_fiscal_quarter_datetime(first, last, 2), Some(true));
+        assert_eq!(
+            is_same_fiscal_quarter_datetime(last, following, 2),
+            Some(false)
+        );
+        assert_eq!(is_same_fiscal_quarter_datetime(first, first, 2), Some(true));
+    }
+
+    #[test]
+    fn validates_months_and_extreme_timestamps() {
+        let instant = timestamp(2024, 2, 1, 0);
+        assert_eq!(is_same_fiscal_quarter_datetime(instant, instant, 0), None);
+        assert_eq!(is_same_fiscal_quarter_datetime(instant, instant, 13), None);
+        assert_eq!(
+            is_same_fiscal_quarter_datetime(NaiveDateTime::MIN, NaiveDateTime::MIN, 1),
+            Some(true)
+        );
+        assert_eq!(
+            is_same_fiscal_quarter_datetime(NaiveDateTime::MAX, NaiveDateTime::MAX, 1),
+            Some(true)
+        );
+    }
+}

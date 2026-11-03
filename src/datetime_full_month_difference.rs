@@ -42,7 +42,10 @@ mod tests {
         assert_eq!(difference_in_months_datetime(at(2024, 2, 29, 12), start), 1);
         assert_eq!(difference_in_months_datetime(at(2024, 3, 31, 11), start), 1);
         assert_eq!(difference_in_months_datetime(at(2024, 3, 31, 12), start), 2);
-        assert_eq!(difference_in_months_datetime(at(2023, 2, 28, 12), at(2023, 1, 31, 12)), 1);
+        assert_eq!(
+            difference_in_months_datetime(at(2023, 2, 28, 12), at(2023, 1, 31, 12)),
+            1
+        );
     }
 
     #[test]
@@ -53,7 +56,10 @@ mod tests {
         assert_eq!(difference_in_months_datetime(start, end), 0);
         assert_eq!(difference_in_months_datetime(start, start), 0);
         assert_eq!(difference_in_months_datetime(start, at(2024, 1, 29, 12)), 1);
-        assert_eq!(difference_in_months_datetime(at(2024, 1, 29, 12), start), -1);
+        assert_eq!(
+            difference_in_months_datetime(at(2024, 1, 29, 12), start),
+            -1
+        );
     }
 
     #[test]

@@ -13,6 +13,9 @@ pub use arithmetic::{add_days, add_weeks, sub_days, sub_weeks};
 mod datetime_day_segments;
 pub use datetime_day_segments::{each_day_segment_of_datetime_interval, DatetimeDaySegments};
 
+mod datetime_aligned_minutes;
+pub use datetime_aligned_minutes::each_minute_of_datetime_interval;
+
 mod datetime_second_iterator;
 pub use datetime_second_iterator::{
     each_nth_second_of_datetime_interval, SecondsInDatetimeInterval,
@@ -87,6 +90,9 @@ pub use decades::add_decades;
 pub use decades::sub_decades;
 pub use decades::{end_of_decade, start_of_decade};
 
+mod get_decade;
+pub use get_decade::get_decade;
+
 mod decade_comparisons;
 pub use decade_comparisons::{
     difference_in_calendar_decades_with_offset, is_same_decade, is_same_decade_with_offset,
@@ -128,6 +134,9 @@ pub use calendar_week_difference::difference_in_calendar_weeks;
 mod datetime_week_boundaries;
 pub use datetime_week_boundaries::{end_of_week_datetime, start_of_week_datetime};
 
+mod convert_years_days;
+pub use convert_years_days::years_to_days;
+
 mod convert_days_weeks;
 pub use convert_days_weeks::{days_to_weeks, weeks_to_days};
 
@@ -148,6 +157,9 @@ pub use weekday_arithmetic::nearest_weekday;
 pub use weekday_arithmetic::{next_weekday, previous_weekday};
 
 pub use weekday_arithmetic::{next_or_same_weekday, previous_or_same_weekday};
+
+mod datetime_weekday_navigation;
+pub use datetime_weekday_navigation::{next_day_datetime, previous_day_datetime};
 
 mod weekday_predicates;
 pub use weekday_predicates::{
@@ -262,6 +274,9 @@ pub use iso_basic_date::{format_iso_basic_date, parse_iso_basic_date};
 mod metadata;
 pub use metadata::{get_day_of_month, get_iso_weekday, get_weekday_sunday_zero};
 pub use metadata::{get_day_of_year, get_days_in_month, get_days_in_year};
+
+mod format_iso_datetime_duration;
+pub use format_iso_datetime_duration::format_iso_duration;
 
 mod datetime_duration;
 pub use datetime_duration::{interval_to_calendar_duration, CalendarDateTimeDuration};
@@ -655,6 +670,9 @@ pub use interval_week_counts::count_calendar_weeks_in_interval;
 mod interval_week_segments;
 pub use interval_week_segments::{each_week_segment_of_interval, WeekSegmentsInInterval};
 
+mod datetime_week_segments;
+pub use datetime_week_segments::{each_week_segment_of_datetime_interval, DatetimeWeekSegments};
+
 mod interval_months;
 pub use interval_months::{each_month_of_interval, MonthsInInterval};
 
@@ -673,6 +691,9 @@ pub use interval_overlap_join::join_overlapping_date_intervals;
 mod interval_month_segments;
 pub use interval_month_segments::{each_month_segment_of_interval, MonthSegmentsInInterval};
 
+mod datetime_month_segments;
+pub use datetime_month_segments::{each_month_segment_of_datetime_interval, DatetimeMonthSegments};
+
 mod interval_year_counts;
 mod interval_years;
 pub use interval_year_counts::count_calendar_years_in_interval;
@@ -683,6 +704,9 @@ pub use datetime_rounding::{
     round_to_nearest_hour_datetime, round_to_nearest_minute_datetime,
     round_to_nearest_second_datetime,
 };
+
+mod datetime_hour_step_rounding;
+pub use datetime_hour_step_rounding::round_to_nearest_hours_datetime;
 
 mod datetime_floor_minute;
 pub use datetime_floor_minute::floor_to_minute_step_datetime;
@@ -701,6 +725,9 @@ pub use interval_half_year_segments::{
 mod interval_year_segments;
 pub use interval_year_segments::{each_year_segment_of_interval, YearSegmentsInInterval};
 
+mod datetime_year_segments;
+pub use datetime_year_segments::{each_year_segment_of_datetime_interval, DatetimeYearSegments};
+
 mod interval_quarters;
 pub use interval_quarters::{each_quarter_of_interval, QuartersInInterval};
 
@@ -709,6 +736,11 @@ pub use interval_quarter_counts::count_calendar_quarters_in_interval;
 
 mod interval_quarter_segments;
 pub use interval_quarter_segments::{each_quarter_segment_of_interval, QuarterSegmentsInInterval};
+
+mod datetime_quarter_segments;
+pub use datetime_quarter_segments::{
+    each_quarter_segment_of_datetime_interval, DatetimeQuarterSegments,
+};
 
 mod date_slot_packing;
 mod interval_weekdays;
@@ -734,6 +766,9 @@ pub use datetime_slot_packing::pack_datetime_slots;
 
 mod weighted_datetime_scheduling;
 pub use weighted_datetime_scheduling::select_max_weight_datetime_intervals;
+
+mod datetime_aligned_hours;
+pub use datetime_aligned_hours::each_hour_of_datetime_interval;
 
 mod datetime_hour_iterator;
 pub use datetime_hour_iterator::{each_nth_hour_of_datetime_interval, HoursInDatetimeInterval};
@@ -791,6 +826,9 @@ pub use iso_expanded_datetime::{
 mod week_of_month;
 pub use week_of_month::get_week_of_month;
 
+mod get_weeks_in_month;
+pub use get_weeks_in_month::get_weeks_in_month;
+
 mod week_of_quarter;
 pub use week_of_quarter::get_week_of_quarter;
 
@@ -824,11 +862,24 @@ pub use datetime_format_tokens::format_datetime_tokens;
 mod full_month_difference;
 pub use full_month_difference::difference_in_months;
 
+mod datetime_full_month_difference;
+pub use datetime_full_month_difference::difference_in_months_datetime;
+
 mod full_quarter_difference;
 pub use full_quarter_difference::difference_in_quarters;
 
+mod datetime_full_quarter_difference;
+pub use datetime_full_quarter_difference::difference_in_quarters_datetime;
+
 mod iso_week_year_arithmetic;
 pub use iso_week_year_arithmetic::{add_iso_week_years, sub_iso_week_years};
+mod datetime_iso_week_year_arithmetic;
+pub use datetime_iso_week_year_arithmetic::{
+    add_iso_week_years_datetime, sub_iso_week_years_datetime,
+};
+
+mod iso_week_year_full_difference;
+pub use iso_week_year_full_difference::difference_in_iso_week_years;
 
 mod iso_week_setters;
 pub use iso_week_setters::set_iso_day_of_week;
@@ -836,6 +887,9 @@ pub use iso_week_setters::{set_iso_week, set_iso_week_year};
 
 mod full_year_difference;
 pub use full_year_difference::difference_in_years;
+
+mod datetime_full_year_difference;
+pub use datetime_full_year_difference::difference_in_years_datetime;
 
 mod set_month;
 pub use set_month::set_month;
@@ -872,13 +926,18 @@ pub use iso_year_month_interval::{format_iso_year_month_interval, parse_iso_year
 mod date_distance_de;
 pub use date_distance_de::{format_date_distance_de, format_date_distance_strict_days_de};
 
+mod format_calendar_duration_en;
+pub use format_calendar_duration_en::format_calendar_duration_en;
+
 mod date_distance_en;
 pub use date_distance_en::{format_date_distance_en, format_date_distance_strict_days_en};
 
 mod centuries;
 
 mod datetime_long_period_boundaries;
+mod datetime_long_period_comparisons;
 pub use centuries::{end_of_century, start_of_century};
+pub use datetime_long_period_comparisons::{is_same_century_datetime, is_same_decade_datetime};
 
 mod interval_century_segments;
 pub use interval_century_segments::{each_century_segment_of_interval, CenturySegmentsInInterval};
@@ -897,6 +956,10 @@ pub use long_period_boundary_predicates::{
 
 mod century_comparisons;
 pub use century_comparisons::{difference_in_calendar_centuries, is_same_century};
+mod datetime_long_period_differences;
+pub use datetime_long_period_differences::{
+    difference_in_calendar_centuries_datetime, difference_in_calendar_decades_datetime,
+};
 
 mod set_quarter;
 pub use set_quarter::set_quarter;
@@ -1211,6 +1274,9 @@ pub use decade_day_ordinals::{get_day_of_decade, get_days_in_decade};
 
 mod century_day_ordinals;
 pub use century_day_ordinals::{get_day_of_century, get_days_in_century};
+
+mod convert_days_hours;
+pub use convert_days_hours::{days_to_hours, hours_to_days};
 
 mod convert_days_minutes;
 pub use convert_days_minutes::{days_to_minutes, minutes_to_days};

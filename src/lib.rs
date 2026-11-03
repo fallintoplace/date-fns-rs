@@ -326,6 +326,12 @@ pub use datetime_epoch::{
 mod half_years;
 pub use half_years::{end_of_half_year, get_half_year, start_of_half_year};
 
+mod business_half_year_metadata;
+pub use business_half_year_metadata::{
+    get_business_day_of_half_year, get_business_day_of_half_year_with_holidays,
+    get_business_days_in_half_year, get_business_days_in_half_year_with_holidays,
+};
+
 mod datetime_half_year_boundaries;
 pub use datetime_half_year_boundaries::{end_of_half_year_datetime, start_of_half_year_datetime};
 

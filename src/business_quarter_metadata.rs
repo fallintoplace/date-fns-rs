@@ -25,10 +25,7 @@ pub fn get_business_day_of_quarter(date: NaiveDate) -> Option<u32> {
 /// Count workdays in the quarter after excluding caller-supplied holidays.
 ///
 /// Duplicate entries and weekend holidays are ignored.
-pub fn get_business_days_in_quarter_with_holidays(
-    date: NaiveDate,
-    holidays: &[NaiveDate],
-) -> u32 {
+pub fn get_business_days_in_quarter_with_holidays(date: NaiveDate, holidays: &[NaiveDate]) -> u32 {
     crate::count_business_days_in_interval_excluding_holidays(
         crate::start_of_quarter(date),
         crate::end_of_quarter(date),

@@ -1351,3 +1351,8 @@ pub use datetime_full_long_period_differences::{
 
 mod datetime_full_half_year_difference;
 pub use datetime_full_half_year_difference::difference_in_half_years_datetime;
+
+mod datetime_inclusive_weekdays;
+pub use datetime_inclusive_weekdays::{
+    nearest_day_datetime, next_or_same_day_datetime, previous_or_same_day_datetime,
+};

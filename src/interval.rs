@@ -228,11 +228,22 @@ mod tests {
     fn clamps_dates_to_inclusive_bounds() {
         let start = date(2024, 2, 28);
         let end = date(2024, 3, 1);
-        assert_eq!(clamp_date_to_interval(date(2024, 2, 27), start, end), Some(start));
-        assert_eq!(clamp_date_to_interval(date(2024, 2, 29), start, end), Some(date(2024, 2, 29)));
-        assert_eq!(clamp_date_to_interval(date(2024, 3, 2), start, end), Some(end));
+        assert_eq!(
+            clamp_date_to_interval(date(2024, 2, 27), start, end),
+            Some(start)
+        );
+        assert_eq!(
+            clamp_date_to_interval(date(2024, 2, 29), start, end),
+            Some(date(2024, 2, 29))
+        );
+        assert_eq!(
+            clamp_date_to_interval(date(2024, 3, 2), start, end),
+            Some(end)
+        );
         assert_eq!(clamp_date_to_interval(start, end, start), None);
-        assert_eq!(clamp_date_to_interval(NaiveDate::MAX, NaiveDate::MIN, NaiveDate::MAX), Some(NaiveDate::MAX));
+        assert_eq!(
+            clamp_date_to_interval(NaiveDate::MAX, NaiveDate::MIN, NaiveDate::MAX),
+            Some(NaiveDate::MAX)
+        );
     }
-
 }

@@ -86,6 +86,20 @@ pub fn are_datetime_intervals_adjacent(
     )
 }
 
+/// Return elapsed nanoseconds between ordered timestamps using i128.
+///
+/// Unlike i64 nanosecond differences, this covers the full Chrono range.
+/// Reversed intervals and Chrono leap-second encodings return None.
+pub fn datetime_interval_duration_nanos(start: NaiveDateTime, end: NaiveDateTime) -> Option<i128> {
+    if start > end
+        || start.and_utc().timestamp_subsec_nanos() >= 1_000_000_000
+        || end.and_utc().timestamp_subsec_nanos() >= 1_000_000_000
+    {
+        return None;
+    }
+    Some(crate::to_unix_timestamp_nanos_i128(end) - crate::to_unix_timestamp_nanos_i128(start))
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -186,5 +200,18 @@ mod tests {
             are_datetime_intervals_adjacent(NaiveDateTime::MAX, NaiveDateTime::MAX, last, last),
             Some(false)
         );
+    }
+    #[test]
+    fn counts_elapsed_nanoseconds_across_full_chrono_range() {
+        let start = NaiveDate::from_ymd_opt(2024, 2, 29)
+            .unwrap()
+            .and_hms_nano_opt(23, 59, 59, 999_999_998)
+            .unwrap();
+        let end = start.checked_add_signed(TimeDelta::nanoseconds(3)).unwrap();
+        assert_eq!(datetime_interval_duration_nanos(start, end), Some(3));
+        assert_eq!(datetime_interval_duration_nanos(end, start), None);
+        assert_eq!(datetime_interval_duration_nanos(start, start), Some(0));
+        let full = datetime_interval_duration_nanos(NaiveDateTime::MIN, NaiveDateTime::MAX);
+        assert!(full.unwrap() > i128::from(i64::MAX));
     }
 }

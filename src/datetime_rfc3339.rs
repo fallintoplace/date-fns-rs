@@ -8,9 +8,10 @@ pub fn parse_rfc3339_datetime(input: &str) -> Option<DateTime<FixedOffset>> {
 }
 
 /// Format a timestamp using an RFC3339 offset and optional fractional seconds.
-/// Returns None for years outside the four-digit RFC3339 range.
+/// Returns None for years outside the four-digit RFC3339 range or offsets
+/// that cannot be represented with whole-minute precision.
 pub fn format_rfc3339_datetime(value: DateTime<FixedOffset>) -> Option<String> {
-    if !(0..=9999).contains(&value.year()) {
+    if !(0..=9999).contains(&value.year()) || value.offset().local_minus_utc() % 60 != 0 {
         return None;
     }
     Some(value.to_rfc3339_opts(SecondsFormat::AutoSi, true))
@@ -39,4 +40,18 @@ mod tests {
         assert_eq!(parse_rfc3339_datetime("2023-02-29T10:00:00Z"), None);
         assert_eq!(parse_rfc3339_datetime("bad"), None);
     }
+    #[test]
+    fn rejects_non_minute_offsets_without_silent_truncation() {
+        let utc = chrono::NaiveDate::from_ymd_opt(2024, 2, 29)
+            .unwrap()
+            .and_hms_opt(12, 0, 0)
+            .unwrap()
+            .and_utc();
+        let seconds = utc.with_timezone(&FixedOffset::east_opt(3_661).unwrap());
+        assert_eq!(format_rfc3339_datetime(seconds), None);
+        let minutes = utc.with_timezone(&FixedOffset::east_opt(3_660).unwrap());
+        assert!(format_rfc3339_datetime(minutes).is_some());
+    }
+
+
 }

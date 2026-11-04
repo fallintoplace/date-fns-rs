@@ -402,6 +402,8 @@ pub use fiscal_quarter_boundary_predicates::{
 };
 
 mod fiscal_quarters;
+mod relative_fiscal_quarters;
+pub use relative_fiscal_quarters::{is_next_fiscal_quarter, is_previous_fiscal_quarter};
 pub use fiscal_quarters::difference_in_calendar_fiscal_quarters;
 pub use fiscal_quarters::is_same_fiscal_quarter;
 pub use fiscal_quarters::{end_of_fiscal_quarter, get_fiscal_quarter, start_of_fiscal_quarter};

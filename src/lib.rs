@@ -660,6 +660,7 @@ mod interval_merge;
 pub use interval_merge::merge_intervals;
 
 mod datetime_intervals;
+pub use datetime_intervals::datetime_interval_duration_micros;
 pub use datetime_intervals::datetime_interval_duration_nanos;
 pub use datetime_intervals::are_datetime_intervals_adjacent;
 pub use datetime_intervals::is_datetime_interval_within_datetime_interval;

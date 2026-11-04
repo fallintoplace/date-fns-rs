@@ -100,6 +100,17 @@ pub fn datetime_interval_duration_nanos(start: NaiveDateTime, end: NaiveDateTime
     Some(crate::to_unix_timestamp_nanos_i128(end) - crate::to_unix_timestamp_nanos_i128(start))
 }
 
+/// Return whole elapsed microseconds between ordered timestamps.
+///
+/// Sub-microsecond fractions are truncated. Returns None for reversed ranges
+/// or intervals whose duration cannot fit in i64 microseconds.
+pub fn datetime_interval_duration_micros(start: NaiveDateTime, end: NaiveDateTime) -> Option<i64> {
+    if start > end {
+        return None;
+    }
+    end.signed_duration_since(start).num_microseconds()
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -213,5 +224,22 @@ mod tests {
         assert_eq!(datetime_interval_duration_nanos(start, start), Some(0));
         let full = datetime_interval_duration_nanos(NaiveDateTime::MIN, NaiveDateTime::MAX);
         assert!(full.unwrap() > i128::from(i64::MAX));
+    }
+    #[test]
+    fn counts_whole_microseconds_and_checks_large_intervals() {
+        let start = NaiveDate::from_ymd_opt(2024, 2, 29)
+            .unwrap()
+            .and_hms_opt(12, 0, 0)
+            .unwrap();
+        let end = start
+            .checked_add_signed(TimeDelta::nanoseconds(1_500))
+            .unwrap();
+        assert_eq!(datetime_interval_duration_micros(start, end), Some(1));
+        assert_eq!(datetime_interval_duration_micros(end, start), None);
+        assert_eq!(datetime_interval_duration_micros(start, start), Some(0));
+        assert_eq!(
+            datetime_interval_duration_micros(NaiveDateTime::MIN, NaiveDateTime::MAX),
+            None
+        );
     }
 }

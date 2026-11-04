@@ -55,20 +55,14 @@ pub fn datetime_interval_duration_millis(start: NaiveDateTime, end: NaiveDateTim
 ///
 /// Unlike i64 nanosecond differences, this covers the full Chrono range.
 /// Reversed intervals and Chrono leap-second encodings return None.
-pub fn datetime_interval_duration_nanos(
-    start: NaiveDateTime,
-    end: NaiveDateTime,
-) -> Option<i128> {
+pub fn datetime_interval_duration_nanos(start: NaiveDateTime, end: NaiveDateTime) -> Option<i128> {
     if start > end
         || start.and_utc().timestamp_subsec_nanos() >= 1_000_000_000
         || end.and_utc().timestamp_subsec_nanos() >= 1_000_000_000
     {
         return None;
     }
-    Some(
-        crate::to_unix_timestamp_nanos_i128(end)
-            - crate::to_unix_timestamp_nanos_i128(start),
-    )
+    Some(crate::to_unix_timestamp_nanos_i128(end) - crate::to_unix_timestamp_nanos_i128(start))
 }
 
 #[cfg(test)]
@@ -125,6 +119,4 @@ mod tests {
         let full = datetime_interval_duration_nanos(NaiveDateTime::MIN, NaiveDateTime::MAX);
         assert!(full.unwrap() > i128::from(i64::MAX));
     }
-
-
 }

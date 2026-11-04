@@ -39,7 +39,10 @@ mod tests {
         assert_eq!(is_next_fiscal_half_year(april, march, 4), Some(true));
         assert_eq!(is_next_fiscal_half_year(october, september, 4), Some(true));
         assert_eq!(is_previous_fiscal_half_year(march, april, 4), Some(true));
-        assert_eq!(is_previous_fiscal_half_year(september, october, 4), Some(true));
+        assert_eq!(
+            is_previous_fiscal_half_year(september, october, 4),
+            Some(true)
+        );
         assert_eq!(is_next_fiscal_half_year(october, march, 4), Some(false));
     }
 

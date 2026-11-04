@@ -1048,11 +1048,11 @@ pub use fiscal_half_year_day_ordinals::{
 
 mod fiscal_half_years;
 mod relative_fiscal_half_years;
-pub use relative_fiscal_half_years::{is_next_fiscal_half_year, is_previous_fiscal_half_year};
 pub use fiscal_half_years::is_same_fiscal_half_year;
 pub use fiscal_half_years::{
     end_of_fiscal_half_year, get_fiscal_half_year, start_of_fiscal_half_year,
 };
+pub use relative_fiscal_half_years::{is_next_fiscal_half_year, is_previous_fiscal_half_year};
 
 pub use fiscal_half_years::difference_in_calendar_fiscal_half_years;
 

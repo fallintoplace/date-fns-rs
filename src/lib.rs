@@ -1304,3 +1304,6 @@ pub use gregorian_easter_holidays::{gregorian_easter_monday, gregorian_good_frid
 
 mod orthodox_easter_holidays;
 pub use orthodox_easter_holidays::{orthodox_easter_monday, orthodox_good_friday};
+
+mod datetime_half_year_arithmetic;
+pub use datetime_half_year_arithmetic::{add_half_years_datetime, sub_half_years_datetime};

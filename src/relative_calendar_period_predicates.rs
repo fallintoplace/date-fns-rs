@@ -40,6 +40,20 @@ pub fn is_previous_calendar_year(target: NaiveDate, reference: NaiveDate) -> boo
     i64::from(target.year()) - i64::from(reference.year()) == -1
 }
 
+fn half_year_index(date: NaiveDate) -> i64 {
+    i64::from(date.year()) * 2 + i64::from(date.month0() / 6)
+}
+
+/// Check whether the target belongs to the immediately following half-year.
+pub fn is_next_calendar_half_year(target: NaiveDate, reference: NaiveDate) -> bool {
+    half_year_index(target) - half_year_index(reference) == 1
+}
+
+/// Check whether the target belongs to the immediately preceding half-year.
+pub fn is_previous_calendar_half_year(target: NaiveDate, reference: NaiveDate) -> bool {
+    half_year_index(target) - half_year_index(reference) == -1
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -71,5 +85,29 @@ mod tests {
         assert!(is_next_calendar_year(zero, previous));
         assert!(!is_next_calendar_year(NaiveDate::MIN, NaiveDate::MAX));
         assert!(!is_previous_calendar_month(NaiveDate::MAX, NaiveDate::MIN));
+    }
+    #[test]
+    fn recognizes_adjacent_half_years_across_calendar_years() {
+        assert!(is_next_calendar_half_year(
+            date(2024, 7, 1),
+            date(2024, 6, 30)
+        ));
+        assert!(is_next_calendar_half_year(
+            date(2025, 1, 1),
+            date(2024, 12, 31)
+        ));
+        assert!(is_previous_calendar_half_year(
+            date(2024, 12, 31),
+            date(2025, 1, 1)
+        ));
+        assert!(!is_next_calendar_half_year(
+            date(2024, 6, 1),
+            date(2024, 1, 1)
+        ));
+        assert!(!is_next_calendar_half_year(
+            date(2025, 7, 1),
+            date(2024, 1, 1)
+        ));
+        assert!(is_next_calendar_half_year(date(0, 1, 1), date(-1, 12, 31)));
     }
 }

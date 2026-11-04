@@ -1331,3 +1331,6 @@ mod orthodox_easter_holidays;
 pub use orthodox_easter_holidays::{orthodox_easter_monday, orthodox_good_friday};
 
 pub use convert_years_days::days_to_years;
+
+mod convert_mean_months_days;
+pub use convert_mean_months_days::{days_to_mean_months, mean_months_to_days};

@@ -88,12 +88,26 @@ mod tests {
     }
     #[test]
     fn recognizes_adjacent_half_years_across_calendar_years() {
-        assert!(is_next_calendar_half_year(date(2024, 7, 1), date(2024, 6, 30)));
-        assert!(is_next_calendar_half_year(date(2025, 1, 1), date(2024, 12, 31)));
-        assert!(is_previous_calendar_half_year(date(2024, 12, 31), date(2025, 1, 1)));
-        assert!(!is_next_calendar_half_year(date(2024, 6, 1), date(2024, 1, 1)));
-        assert!(!is_next_calendar_half_year(date(2025, 7, 1), date(2024, 1, 1)));
+        assert!(is_next_calendar_half_year(
+            date(2024, 7, 1),
+            date(2024, 6, 30)
+        ));
+        assert!(is_next_calendar_half_year(
+            date(2025, 1, 1),
+            date(2024, 12, 31)
+        ));
+        assert!(is_previous_calendar_half_year(
+            date(2024, 12, 31),
+            date(2025, 1, 1)
+        ));
+        assert!(!is_next_calendar_half_year(
+            date(2024, 6, 1),
+            date(2024, 1, 1)
+        ));
+        assert!(!is_next_calendar_half_year(
+            date(2025, 7, 1),
+            date(2024, 1, 1)
+        ));
         assert!(is_next_calendar_half_year(date(0, 1, 1), date(-1, 12, 31)));
     }
-
 }

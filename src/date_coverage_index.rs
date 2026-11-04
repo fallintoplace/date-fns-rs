@@ -108,6 +108,19 @@ impl DateCoverageIndex {
         }
         count
     }
+    /// Count covered calendar dates in an inclusive query range in O(log n).
+    ///
+    /// Invalid query bounds return None.
+    pub fn count_inclusive(&self, start: NaiveDate, end: NaiveDate) -> Option<u64> {
+        if start > end {
+            return None;
+        }
+        let before = self.count_before(start);
+        let through = self
+            .count_before(end)
+            .checked_add(u64::from(self.rank(end).is_some()))?;
+        through.checked_sub(before)
+    }
 }
 
 #[cfg(test)]
@@ -204,4 +217,24 @@ mod tests {
         assert_eq!(boundaries.select(1), Some(NaiveDate::MAX));
         assert_eq!(boundaries.rank(NaiveDate::MAX), Some(1));
     }
+    #[test]
+    fn counts_covered_days_in_inclusive_queries() {
+        let day = |m, d| NaiveDate::from_ymd_opt(2024, m, d).unwrap();
+        let index = DateCoverageIndex::new(&[
+            (day(2, 28), day(3, 1)),
+            (day(3, 5), day(3, 6)),
+        ])
+        .unwrap();
+        assert_eq!(index.count_inclusive(day(2, 29), day(3, 5)), Some(3));
+        assert_eq!(index.count_inclusive(day(3, 2), day(3, 4)), Some(0));
+        assert_eq!(index.count_inclusive(day(2, 28), day(3, 6)), Some(5));
+        assert_eq!(index.count_inclusive(day(3, 6), day(3, 5)), None);
+        let full = DateCoverageIndex::new(&[(NaiveDate::MIN, NaiveDate::MAX)]).unwrap();
+        assert_eq!(
+            full.count_inclusive(NaiveDate::MIN, NaiveDate::MAX),
+            Some(full.len())
+        );
+    }
+
+
 }

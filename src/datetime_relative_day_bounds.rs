@@ -25,40 +25,27 @@ mod tests {
     fn resolves_today_yesterday_and_tomorrow_across_leap_days() {
         let date = NaiveDate::from_ymd_opt(2024, 2, 29).unwrap();
         let reference = date.and_hms_opt(14, 15, 16).unwrap();
-        let (today_start, today_end) =
-            relative_day_datetime_bounds(reference, 0).unwrap();
+        let (today_start, today_end) = relative_day_datetime_bounds(reference, 0).unwrap();
         assert_eq!(today_start, date.and_hms_opt(0, 0, 0).unwrap());
         assert_eq!(
             today_end,
             date.and_hms_nano_opt(23, 59, 59, 999_999_999).unwrap()
         );
-        assert_eq!(
-            relative_day_datetime_bounds(reference, -1).unwrap().0.date(),
-            NaiveDate::from_ymd_opt(2024, 2, 28).unwrap()
-        );
-        assert_eq!(
-            relative_day_datetime_bounds(reference, 1).unwrap().0.date(),
-            NaiveDate::from_ymd_opt(2024, 3, 1).unwrap()
-        );
+        let yesterday = relative_day_datetime_bounds(reference, -1).unwrap().0.date();
+        assert_eq!(yesterday, NaiveDate::from_ymd_opt(2024, 2, 28).unwrap());
+        let tomorrow = relative_day_datetime_bounds(reference, 1).unwrap().0.date();
+        assert_eq!(tomorrow, NaiveDate::from_ymd_opt(2024, 3, 1).unwrap());
     }
 
     #[test]
     fn handles_date_extremes_and_large_offsets() {
-        assert_eq!(
-            relative_day_datetime_bounds(NaiveDateTime::MAX, 1),
-            None
-        );
-        assert_eq!(
-            relative_day_datetime_bounds(NaiveDateTime::MIN, -1),
-            None
-        );
+        assert_eq!(relative_day_datetime_bounds(NaiveDateTime::MAX, 1), None);
+        assert_eq!(relative_day_datetime_bounds(NaiveDateTime::MIN, -1), None);
         assert_eq!(
             relative_day_datetime_bounds(NaiveDateTime::MIN, i64::MIN),
             None
         );
-        assert_eq!(
-            relative_day_datetime_bounds(NaiveDateTime::MAX, 0).unwrap().1,
-            NaiveDateTime::MAX
-        );
+        let last = relative_day_datetime_bounds(NaiveDateTime::MAX, 0).unwrap().1;
+        assert_eq!(last, NaiveDateTime::MAX);
     }
 }

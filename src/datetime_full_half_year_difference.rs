@@ -63,10 +63,7 @@ mod tests {
         let next = at(2025, 1, 1, 0);
         assert_eq!(difference_in_half_years_datetime(next, first), 0);
         assert_eq!(difference_in_half_years_datetime(first, first), 0);
-        let span = difference_in_half_years_datetime(
-            NaiveDateTime::MAX,
-            NaiveDateTime::MIN,
-        );
+        let span = difference_in_half_years_datetime(NaiveDateTime::MAX, NaiveDateTime::MIN);
         assert!(span > 0);
         assert_eq!(
             difference_in_half_years_datetime(NaiveDateTime::MIN, NaiveDateTime::MAX),

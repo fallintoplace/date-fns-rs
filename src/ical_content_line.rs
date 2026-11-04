@@ -61,8 +61,7 @@ fn valid_param_value(value: &str) -> bool {
             let start = index;
             while index < bytes.len() && bytes[index] != b',' {
                 let byte = bytes[index];
-                if matches!(byte, b'"' | b';' | b':')
-                    || (byte.is_ascii_control() && byte != b'\t')
+                if matches!(byte, b'"' | b';' | b':') || (byte.is_ascii_control() && byte != b'\t')
                 {
                     return false;
                 }
@@ -231,5 +230,4 @@ mod tests {
             assert!(parse_ical_content_line(invalid).is_none(), "{invalid:?}");
         }
     }
-
 }

@@ -76,7 +76,10 @@ mod tests {
     fn counts_inclusive_endpoint_touches_and_duplicate_ranges() {
         let left = [(day(3), day(5)), (day(1), day(2))];
         let right = [(day(5), day(6)), (day(2), day(3)), (day(7), day(8))];
-        assert_eq!(count_overlapping_date_interval_pairs(&left, &right), Some(3));
+        assert_eq!(
+            count_overlapping_date_interval_pairs(&left, &right),
+            Some(3)
+        );
         assert_eq!(
             count_overlapping_date_interval_pairs(
                 &[(day(2), day(3)), (day(2), day(3))],
@@ -116,5 +119,4 @@ mod tests {
             }
         }
     }
-
 }

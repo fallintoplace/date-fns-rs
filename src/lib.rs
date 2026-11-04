@@ -1372,6 +1372,5 @@ pub use orthodox_easter_extended_holidays::{
 
 mod date_locale_fr;
 pub use date_locale_fr::{
-    format_date_distance_fr, format_date_distance_strict_days_fr,
-    format_relative_calendar_date_fr,
+    format_date_distance_fr, format_date_distance_strict_days_fr, format_relative_calendar_date_fr,
 };

@@ -100,6 +100,17 @@ pub fn are_intervals_overlapping(
     (a_start <= a_end && b_start <= b_end).then_some(a_start <= b_end && b_start <= a_end)
 }
 
+/// Clamp a date to a valid inclusive interval.
+///
+/// Returns None when start is after end. Both endpoints are included.
+pub fn clamp_date_to_interval(
+    date: NaiveDate,
+    start: NaiveDate,
+    end: NaiveDate,
+) -> Option<NaiveDate> {
+    (start <= end).then(|| date.clamp(start, end))
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -212,5 +223,27 @@ mod tests {
         let mut extreme = each_day_of_interval(NaiveDate::MIN, NaiveDate::MAX).unwrap();
         assert_eq!(extreme.nth_back(usize::MAX), None);
         assert_eq!(extreme.next(), None);
+    }
+    #[test]
+    fn clamps_dates_to_inclusive_bounds() {
+        let start = date(2024, 2, 28);
+        let end = date(2024, 3, 1);
+        assert_eq!(
+            clamp_date_to_interval(date(2024, 2, 27), start, end),
+            Some(start)
+        );
+        assert_eq!(
+            clamp_date_to_interval(date(2024, 2, 29), start, end),
+            Some(date(2024, 2, 29))
+        );
+        assert_eq!(
+            clamp_date_to_interval(date(2024, 3, 2), start, end),
+            Some(end)
+        );
+        assert_eq!(clamp_date_to_interval(start, end, start), None);
+        assert_eq!(
+            clamp_date_to_interval(NaiveDate::MAX, NaiveDate::MIN, NaiveDate::MAX),
+            Some(NaiveDate::MAX)
+        );
     }
 }

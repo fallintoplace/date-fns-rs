@@ -644,6 +644,7 @@ mod interval_merge;
 pub use interval_merge::merge_intervals;
 
 mod datetime_intervals;
+pub use datetime_intervals::datetime_interval_duration_micros;
 pub use datetime_intervals::{
     are_datetime_intervals_overlapping, clamp_datetime_to_interval,
     datetime_interval_duration_millis, intersection_of_datetime_intervals,

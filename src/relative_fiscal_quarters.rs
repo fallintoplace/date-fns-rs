@@ -37,7 +37,10 @@ mod tests {
         assert_eq!(is_next_fiscal_quarter(july, june, 4), Some(true));
         assert_eq!(is_previous_fiscal_quarter(june, july, 4), Some(true));
         assert_eq!(is_next_fiscal_quarter(june, june, 4), Some(false));
-        assert_eq!(is_next_fiscal_quarter(date(2025, 1, 1), june, 4), Some(false));
+        assert_eq!(
+            is_next_fiscal_quarter(date(2025, 1, 1), june, 4),
+            Some(false)
+        );
     }
 
     #[test]

@@ -1369,3 +1369,6 @@ mod orthodox_easter_extended_holidays;
 pub use orthodox_easter_extended_holidays::{
     orthodox_ascension_day, orthodox_pentecost_monday, orthodox_pentecost_sunday,
 };
+
+mod datetime_relative_day_bounds;
+pub use datetime_relative_day_bounds::relative_day_datetime_bounds;

@@ -1369,3 +1369,6 @@ mod orthodox_easter_extended_holidays;
 pub use orthodox_easter_extended_holidays::{
     orthodox_ascension_day, orthodox_pentecost_monday, orthodox_pentecost_sunday,
 };
+
+mod datetime_field_patch;
+pub use datetime_field_patch::{set_datetime_fields, DateTimeFieldPatch};

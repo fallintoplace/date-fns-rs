@@ -5,18 +5,12 @@ use chrono::NaiveDateTime;
 /// Add calendar half-years while preserving the original clock time.
 ///
 /// Missing target days clamp to the last day of the target month.
-pub fn add_half_years_datetime(
-    value: NaiveDateTime,
-    half_years: i32,
-) -> Option<NaiveDateTime> {
+pub fn add_half_years_datetime(value: NaiveDateTime, half_years: i32) -> Option<NaiveDateTime> {
     Some(crate::add_half_years(value.date(), half_years)?.and_time(value.time()))
 }
 
 /// Subtract calendar half-years while preserving clock precision.
-pub fn sub_half_years_datetime(
-    value: NaiveDateTime,
-    half_years: i32,
-) -> Option<NaiveDateTime> {
+pub fn sub_half_years_datetime(value: NaiveDateTime, half_years: i32) -> Option<NaiveDateTime> {
     Some(crate::sub_half_years(value.date(), half_years)?.and_time(value.time()))
 }
 

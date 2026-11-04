@@ -132,11 +132,7 @@ impl DatetimeCoverageIndex {
     /// Count covered nanosecond ticks in an inclusive range in O(log n).
     ///
     /// Reversed inputs and leap-second representations return None.
-    pub fn count_inclusive(
-        &self,
-        start: NaiveDateTime,
-        end: NaiveDateTime,
-    ) -> Option<i128> {
+    pub fn count_inclusive(&self, start: NaiveDateTime, end: NaiveDateTime) -> Option<i128> {
         if start > end {
             return None;
         }
@@ -250,15 +246,10 @@ mod tests {
         assert_eq!(index.count_inclusive(at(2), at(8)), Some(4));
         assert_eq!(index.count_inclusive(at(4), at(6)), Some(0));
         assert_eq!(index.count_inclusive(at(9), at(8)), None);
-        let full = DatetimeCoverageIndex::new(&[
-            (NaiveDateTime::MIN, NaiveDateTime::MAX)
-        ])
-        .unwrap();
+        let full = DatetimeCoverageIndex::new(&[(NaiveDateTime::MIN, NaiveDateTime::MAX)]).unwrap();
         assert_eq!(
             full.count_inclusive(NaiveDateTime::MIN, NaiveDateTime::MAX),
             Some(full.len())
         );
     }
-
-
 }

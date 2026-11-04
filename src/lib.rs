@@ -1343,3 +1343,8 @@ pub use datetime_decade_arithmetic::{add_decades_datetime, sub_decades_datetime}
 
 mod datetime_century_arithmetic;
 pub use datetime_century_arithmetic::{add_centuries_datetime, sub_centuries_datetime};
+
+mod datetime_full_long_period_differences;
+pub use datetime_full_long_period_differences::{
+    difference_in_centuries_datetime, difference_in_decades_datetime,
+};

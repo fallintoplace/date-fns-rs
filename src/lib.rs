@@ -1304,3 +1304,8 @@ pub use gregorian_easter_holidays::{gregorian_easter_monday, gregorian_good_frid
 
 mod orthodox_easter_holidays;
 pub use orthodox_easter_holidays::{orthodox_easter_monday, orthodox_good_friday};
+
+mod gregorian_easter_extended_holidays;
+pub use gregorian_easter_extended_holidays::{
+    gregorian_ascension_day, gregorian_pentecost_monday, gregorian_pentecost_sunday,
+};

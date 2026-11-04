@@ -3,7 +3,13 @@
 use chrono::{Datelike, NaiveDate, Weekday};
 
 const WEEKDAYS: [&str; 7] = [
-    "domenica", "lunedì", "martedì", "mercoledì", "giovedì", "venerdì", "sabato",
+    "domenica",
+    "lunedì",
+    "martedì",
+    "mercoledì",
+    "giovedì",
+    "venerdì",
+    "sabato",
 ];
 
 /// Format exact calendar-day distance in Italian, optionally with direction.

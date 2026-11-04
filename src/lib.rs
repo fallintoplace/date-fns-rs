@@ -1304,3 +1304,8 @@ pub use gregorian_easter_holidays::{gregorian_easter_monday, gregorian_good_frid
 
 mod orthodox_easter_holidays;
 pub use orthodox_easter_holidays::{orthodox_easter_monday, orthodox_good_friday};
+
+mod datetime_inclusive_weekdays;
+pub use datetime_inclusive_weekdays::{
+    nearest_day_datetime, next_or_same_day_datetime, previous_or_same_day_datetime,
+};

@@ -51,6 +51,21 @@ pub fn datetime_interval_duration_millis(start: NaiveDateTime, end: NaiveDateTim
     (start <= end).then(|| end.signed_duration_since(start).num_milliseconds())
 }
 
+/// Return whether an inclusive datetime interval is contained in another.
+///
+/// Reversed endpoints in either interval return None.
+pub fn is_datetime_interval_within_datetime_interval(
+    inner_start: NaiveDateTime,
+    inner_end: NaiveDateTime,
+    outer_start: NaiveDateTime,
+    outer_end: NaiveDateTime,
+) -> Option<bool> {
+    if inner_start > inner_end || outer_start > outer_end {
+        return None;
+    }
+    Some(inner_start >= outer_start && inner_end <= outer_end)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -90,6 +105,35 @@ mod tests {
         assert_eq!(
             clamp_datetime_to_interval(NaiveDateTime::MIN, NaiveDateTime::MAX, NaiveDateTime::MAX),
             Some(NaiveDateTime::MAX)
+        );
+    }
+    #[test]
+    fn tests_inclusive_datetime_containment() {
+        let a = NaiveDate::from_ymd_opt(2024, 2, 29)
+            .unwrap()
+            .and_hms_opt(23, 59, 59)
+            .unwrap();
+        let b = a.checked_add_signed(TimeDelta::nanoseconds(1)).unwrap();
+        let c = a.checked_add_signed(TimeDelta::nanoseconds(2)).unwrap();
+        assert_eq!(
+            is_datetime_interval_within_datetime_interval(b, c, a, c),
+            Some(true)
+        );
+        assert_eq!(
+            is_datetime_interval_within_datetime_interval(a, c, b, c),
+            Some(false)
+        );
+        assert_eq!(
+            is_datetime_interval_within_datetime_interval(c, c, a, c),
+            Some(true)
+        );
+        assert_eq!(
+            is_datetime_interval_within_datetime_interval(c, b, a, c),
+            None
+        );
+        assert_eq!(
+            is_datetime_interval_within_datetime_interval(a, b, c, b),
+            None
         );
     }
 }

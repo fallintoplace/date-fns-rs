@@ -97,6 +97,4 @@ mod precision_tests {
         let minutes = utc.with_timezone(&FixedOffset::east_opt(-3_660).unwrap());
         assert!(try_format_rfc2822_datetime(minutes).is_some());
     }
-
-
 }

@@ -220,11 +220,8 @@ mod tests {
     #[test]
     fn counts_covered_days_in_inclusive_queries() {
         let day = |m, d| NaiveDate::from_ymd_opt(2024, m, d).unwrap();
-        let index = DateCoverageIndex::new(&[
-            (day(2, 28), day(3, 1)),
-            (day(3, 5), day(3, 6)),
-        ])
-        .unwrap();
+        let index =
+            DateCoverageIndex::new(&[(day(2, 28), day(3, 1)), (day(3, 5), day(3, 6))]).unwrap();
         assert_eq!(index.count_inclusive(day(2, 29), day(3, 5)), Some(3));
         assert_eq!(index.count_inclusive(day(3, 2), day(3, 4)), Some(0));
         assert_eq!(index.count_inclusive(day(2, 28), day(3, 6)), Some(5));
@@ -235,6 +232,4 @@ mod tests {
             Some(full.len())
         );
     }
-
-
 }

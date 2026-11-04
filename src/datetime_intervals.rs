@@ -139,15 +139,8 @@ mod tests {
             None
         );
         assert_eq!(
-            are_datetime_intervals_adjacent(
-                NaiveDateTime::MAX,
-                NaiveDateTime::MAX,
-                last,
-                last
-            ),
+            are_datetime_intervals_adjacent(NaiveDateTime::MAX, NaiveDateTime::MAX, last, last),
             Some(false)
         );
     }
-
-
 }

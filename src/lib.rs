@@ -1340,3 +1340,6 @@ pub use datetime_half_year_arithmetic::{add_half_years_datetime, sub_half_years_
 
 mod datetime_decade_arithmetic;
 pub use datetime_decade_arithmetic::{add_decades_datetime, sub_decades_datetime};
+
+mod datetime_century_arithmetic;
+pub use datetime_century_arithmetic::{add_centuries_datetime, sub_centuries_datetime};

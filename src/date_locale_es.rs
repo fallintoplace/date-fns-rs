@@ -3,7 +3,13 @@
 use chrono::{Datelike, NaiveDate};
 
 const WEEKDAYS: [&str; 7] = [
-    "domingo", "lunes", "martes", "miércoles", "jueves", "viernes", "sábado",
+    "domingo",
+    "lunes",
+    "martes",
+    "miércoles",
+    "jueves",
+    "viernes",
+    "sábado",
 ];
 
 /// Format exact calendar-day distance in Spanish, optionally with direction.

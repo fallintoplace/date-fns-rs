@@ -1304,3 +1304,6 @@ pub use gregorian_easter_holidays::{gregorian_easter_monday, gregorian_good_frid
 
 mod orthodox_easter_holidays;
 pub use orthodox_easter_holidays::{orthodox_easter_monday, orthodox_good_friday};
+
+mod convert_mean_months_days;
+pub use convert_mean_months_days::{days_to_mean_months, mean_months_to_days};

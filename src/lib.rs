@@ -1369,3 +1369,9 @@ mod orthodox_easter_extended_holidays;
 pub use orthodox_easter_extended_holidays::{
     orthodox_ascension_day, orthodox_pentecost_monday, orthodox_pentecost_sunday,
 };
+
+mod date_locale_fr;
+pub use date_locale_fr::{
+    format_date_distance_fr, format_date_distance_strict_days_fr,
+    format_relative_calendar_date_fr,
+};

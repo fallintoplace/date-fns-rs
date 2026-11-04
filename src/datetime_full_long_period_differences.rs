@@ -30,31 +30,49 @@ mod tests {
     #[test]
     fn differentiates_full_decades_from_boundary_counts() {
         let start = at(2020, 2, 29, 12);
-        assert_eq!(difference_in_decades_datetime(at(2030, 2, 28, 11), start), 0);
-        assert_eq!(difference_in_decades_datetime(at(2030, 2, 28, 12), start), 1);
-        assert_eq!(difference_in_decades_datetime(at(2040, 2, 29, 12), start), 2);
-        assert_eq!(difference_in_decades_datetime(start, at(2030, 2, 28, 12)), -1);
+        assert_eq!(
+            difference_in_decades_datetime(at(2030, 2, 28, 11), start),
+            0
+        );
+        assert_eq!(
+            difference_in_decades_datetime(at(2030, 2, 28, 12), start),
+            1
+        );
+        assert_eq!(
+            difference_in_decades_datetime(at(2040, 2, 29, 12), start),
+            2
+        );
+        assert_eq!(
+            difference_in_decades_datetime(start, at(2030, 2, 28, 12)),
+            -1
+        );
     }
 
     #[test]
     fn counts_complete_centuries_and_truncates_partial_ones() {
         let start = at(2000, 2, 29, 12);
-        assert_eq!(difference_in_centuries_datetime(at(2100, 2, 28, 11), start), 0);
-        assert_eq!(difference_in_centuries_datetime(at(2100, 2, 28, 12), start), 1);
-        assert_eq!(difference_in_centuries_datetime(at(2200, 2, 28, 12), start), 2);
-        assert_eq!(difference_in_centuries_datetime(start, at(2100, 2, 28, 12)), -1);
+        assert_eq!(
+            difference_in_centuries_datetime(at(2100, 2, 28, 11), start),
+            0
+        );
+        assert_eq!(
+            difference_in_centuries_datetime(at(2100, 2, 28, 12), start),
+            1
+        );
+        assert_eq!(
+            difference_in_centuries_datetime(at(2200, 2, 28, 12), start),
+            2
+        );
+        assert_eq!(
+            difference_in_centuries_datetime(start, at(2100, 2, 28, 12)),
+            -1
+        );
     }
 
     #[test]
     fn spans_chrono_limits_and_equal_datetimes() {
-        let decade_span = difference_in_decades_datetime(
-            NaiveDateTime::MAX,
-            NaiveDateTime::MIN,
-        );
-        let century_span = difference_in_centuries_datetime(
-            NaiveDateTime::MAX,
-            NaiveDateTime::MIN,
-        );
+        let decade_span = difference_in_decades_datetime(NaiveDateTime::MAX, NaiveDateTime::MIN);
+        let century_span = difference_in_centuries_datetime(NaiveDateTime::MAX, NaiveDateTime::MIN);
         assert!(decade_span > century_span);
         assert!(century_span > 0);
         assert_eq!(

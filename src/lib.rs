@@ -1348,3 +1348,6 @@ mod datetime_full_long_period_differences;
 pub use datetime_full_long_period_differences::{
     difference_in_centuries_datetime, difference_in_decades_datetime,
 };
+
+mod datetime_full_half_year_difference;
+pub use datetime_full_half_year_difference::difference_in_half_years_datetime;

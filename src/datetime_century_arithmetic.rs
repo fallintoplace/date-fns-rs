@@ -26,10 +26,22 @@ mod tests {
 
     #[test]
     fn shifts_centuries_without_losing_clock_precision() {
-        assert_eq!(add_centuries_datetime(at(2000, 2, 29), 1), Some(at(2100, 2, 28)));
-        assert_eq!(sub_centuries_datetime(at(2000, 2, 29), 1), Some(at(1900, 2, 28)));
-        assert_eq!(add_centuries_datetime(at(2024, 6, 15), -1), Some(at(1924, 6, 15)));
-        assert_eq!(sub_centuries_datetime(at(2024, 6, 15), -1), Some(at(2124, 6, 15)));
+        assert_eq!(
+            add_centuries_datetime(at(2000, 2, 29), 1),
+            Some(at(2100, 2, 28))
+        );
+        assert_eq!(
+            sub_centuries_datetime(at(2000, 2, 29), 1),
+            Some(at(1900, 2, 28))
+        );
+        assert_eq!(
+            add_centuries_datetime(at(2024, 6, 15), -1),
+            Some(at(1924, 6, 15))
+        );
+        assert_eq!(
+            sub_centuries_datetime(at(2024, 6, 15), -1),
+            Some(at(2124, 6, 15))
+        );
     }
 
     #[test]

@@ -31,7 +31,8 @@ mod tests {
             today_end,
             date.and_hms_nano_opt(23, 59, 59, 999_999_999).unwrap()
         );
-        let yesterday = relative_day_datetime_bounds(reference, -1).unwrap().0.date();
+        let (yesterday_start, _) = relative_day_datetime_bounds(reference, -1).unwrap();
+        let yesterday = yesterday_start.date();
         assert_eq!(yesterday, NaiveDate::from_ymd_opt(2024, 2, 28).unwrap());
         let tomorrow = relative_day_datetime_bounds(reference, 1).unwrap().0.date();
         assert_eq!(tomorrow, NaiveDate::from_ymd_opt(2024, 3, 1).unwrap());
@@ -45,7 +46,7 @@ mod tests {
             relative_day_datetime_bounds(NaiveDateTime::MIN, i64::MIN),
             None
         );
-        let last = relative_day_datetime_bounds(NaiveDateTime::MAX, 0).unwrap().1;
+        let (_, last) = relative_day_datetime_bounds(NaiveDateTime::MAX, 0).unwrap();
         assert_eq!(last, NaiveDateTime::MAX);
     }
 }

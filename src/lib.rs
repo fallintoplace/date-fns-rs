@@ -360,6 +360,7 @@ mod datetime_epoch_nanos;
 pub use datetime_epoch_nanos::{from_unix_timestamp_nanos, to_unix_timestamp_nanos};
 
 mod datetime_epoch;
+pub use datetime_epoch::try_to_unix_timestamp_millis;
 pub use datetime_epoch::{
     from_unix_timestamp_millis, from_unix_timestamp_seconds, to_unix_timestamp_millis,
     to_unix_timestamp_seconds,

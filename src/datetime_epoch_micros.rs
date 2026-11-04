@@ -17,6 +17,14 @@ pub fn from_unix_timestamp_micros(value: i64) -> Option<NaiveDateTime> {
     DateTime::<Utc>::from_timestamp_micros(value).map(|value| value.naive_utc())
 }
 
+/// Convert to Unix microseconds only when no nanoseconds are lost.
+///
+/// Returns None for timestamps that are not microsecond-aligned.
+pub fn try_to_unix_timestamp_micros(value: NaiveDateTime) -> Option<i64> {
+    (value.and_utc().timestamp_subsec_nanos() % 1_000 == 0)
+        .then(|| to_unix_timestamp_micros(value))
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -52,4 +60,20 @@ mod tests {
         assert_eq!(from_unix_timestamp_micros(i64::MAX), None);
         assert_eq!(from_unix_timestamp_micros(i64::MIN), None);
     }
+    #[test]
+    fn checked_microsecond_conversion_preserves_precision() {
+        let value = NaiveDate::from_ymd_opt(2024, 2, 29)
+            .unwrap()
+            .and_hms_micro_opt(12, 34, 56, 123_456)
+            .unwrap();
+        assert_eq!(
+            try_to_unix_timestamp_micros(value),
+            Some(to_unix_timestamp_micros(value))
+        );
+        let finer = value + chrono::TimeDelta::nanoseconds(1);
+        assert_eq!(try_to_unix_timestamp_micros(finer), None);
+        let before = from_unix_timestamp_micros(-1).unwrap();
+        assert_eq!(try_to_unix_timestamp_micros(before), Some(-1));
+    }
+
 }

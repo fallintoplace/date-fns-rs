@@ -702,7 +702,10 @@ pub use datetime_intersect_many::intersect_many_datetime_interval_sets;
 mod interval_intersect_many;
 
 mod interval_overlap_join;
+
+mod interval_overlap_count;
 pub use interval_intersect_many::intersect_many_date_interval_sets;
+pub use interval_overlap_count::count_overlapping_date_interval_pairs;
 pub use interval_overlap_join::join_overlapping_date_intervals;
 
 mod interval_month_segments;

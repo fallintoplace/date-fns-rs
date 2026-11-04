@@ -186,6 +186,7 @@ pub use datetime_components::{
 };
 
 mod interval;
+pub use interval::clamp_date_to_interval;
 pub use interval::{
     are_intervals_overlapping, each_day_of_interval, is_within_interval, DaysInInterval,
 };

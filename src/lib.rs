@@ -319,6 +319,9 @@ pub use datetime_iso_ordinal::{
 mod iso_ordinal_date;
 pub use iso_ordinal_date::{format_iso_ordinal_date, parse_iso_ordinal_date};
 
+mod datetime_iso_calendar_duration_apply;
+pub use datetime_iso_calendar_duration_apply::apply_iso_calendar_duration_datetime;
+
 mod iso_calendar_duration;
 pub use iso_calendar_duration::{
     apply_iso_calendar_duration, format_iso_calendar_duration, parse_iso_calendar_duration,
@@ -1369,6 +1372,3 @@ mod orthodox_easter_extended_holidays;
 pub use orthodox_easter_extended_holidays::{
     orthodox_ascension_day, orthodox_pentecost_monday, orthodox_pentecost_sunday,
 };
-
-mod datetime_iso_calendar_duration_apply;
-pub use datetime_iso_calendar_duration_apply::apply_iso_calendar_duration_datetime;

@@ -72,7 +72,10 @@ mod tests {
             .unwrap()
             .and_hms_nano_opt(8, 15, 30, 123_000_000)
             .unwrap();
-        assert_eq!(apply_calendar_datetime_duration(start, one_month), Some(leap_end));
+        assert_eq!(
+            apply_calendar_datetime_duration(start, one_month),
+            Some(leap_end)
+        );
     }
 
     #[test]

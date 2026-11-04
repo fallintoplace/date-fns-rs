@@ -1334,3 +1334,6 @@ pub use convert_years_days::days_to_years;
 
 mod convert_mean_months_days;
 pub use convert_mean_months_days::{days_to_mean_months, mean_months_to_days};
+
+mod datetime_half_year_arithmetic;
+pub use datetime_half_year_arithmetic::{add_half_years_datetime, sub_half_years_datetime};

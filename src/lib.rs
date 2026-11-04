@@ -519,6 +519,12 @@ pub use datetime_quarter_metadata::{
 pub use half_year_predicates::{
     is_first_day_of_half_year, is_last_day_of_half_year, is_same_half_year,
 };
+mod relative_reference_date_predicates;
+pub use relative_reference_date_predicates::{
+    is_this_calendar_quarter, is_this_calendar_week, is_this_calendar_year,
+    is_this_iso_calendar_week, is_this_month,
+};
+
 mod relative_calendar_period_predicates;
 pub use relative_calendar_period_predicates::{
     is_next_calendar_half_year, is_previous_calendar_half_year,
@@ -1368,10 +1374,4 @@ pub use gregorian_easter_extended_holidays::{
 mod orthodox_easter_extended_holidays;
 pub use orthodox_easter_extended_holidays::{
     orthodox_ascension_day, orthodox_pentecost_monday, orthodox_pentecost_sunday,
-};
-
-mod relative_reference_date_predicates;
-pub use relative_reference_date_predicates::{
-    is_this_calendar_quarter, is_this_calendar_week, is_this_calendar_year,
-    is_this_iso_calendar_week, is_this_month,
 };

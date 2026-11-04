@@ -16,12 +16,15 @@ pub fn format_rfc2822_datetime(value: DateTime<FixedOffset>) -> String {
 
 /// Format a timestamp without silently dropping fractional seconds.
 ///
-/// RFC 2822 represents whole seconds and four-digit years. Returns None
-/// when the original timestamp cannot be represented faithfully.
+/// RFC 2822 represents whole seconds, four-digit years, and minute-precision
+/// offsets. Returns None when the timestamp cannot be represented faithfully.
 pub fn try_format_rfc2822_datetime(value: DateTime<FixedOffset>) -> Option<String> {
     use chrono::Datelike;
 
-    if value.timestamp_subsec_nanos() != 0 || !(0..=9999).contains(&value.year()) {
+    if value.timestamp_subsec_nanos() != 0
+        || !(0..=9999).contains(&value.year())
+        || value.offset().local_minus_utc() % 60 != 0
+    {
         return None;
     }
     Some(format_rfc2822_datetime(value))
@@ -81,5 +84,17 @@ mod precision_tests {
             .and_utc()
             .fixed_offset();
         assert_eq!(try_format_rfc2822_datetime(far), None);
+    }
+    #[test]
+    fn checked_formatter_rejects_second_precision_offsets() {
+        let utc = chrono::NaiveDate::from_ymd_opt(2024, 2, 29)
+            .unwrap()
+            .and_hms_opt(12, 0, 0)
+            .unwrap()
+            .and_utc();
+        let seconds = utc.with_timezone(&FixedOffset::east_opt(-3_661).unwrap());
+        assert_eq!(try_format_rfc2822_datetime(seconds), None);
+        let minutes = utc.with_timezone(&FixedOffset::east_opt(-3_660).unwrap());
+        assert!(try_format_rfc2822_datetime(minutes).is_some());
     }
 }

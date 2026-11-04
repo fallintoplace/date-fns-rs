@@ -127,6 +127,8 @@ mod weekly_mask_recurrence;
 pub use weekly_mask_recurrence::{each_selected_weekday_in_interval, WeeklyMaskRecurrences};
 
 mod calendar_week_difference;
+mod relative_calendar_weeks;
+pub use relative_calendar_weeks::{is_next_calendar_week, is_previous_calendar_week};
 pub use calendar_week_difference::difference_in_calendar_iso_week_years;
 pub use calendar_week_difference::difference_in_calendar_iso_weeks;
 pub use calendar_week_difference::difference_in_calendar_weeks;

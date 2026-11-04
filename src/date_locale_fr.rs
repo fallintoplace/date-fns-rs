@@ -96,7 +96,10 @@ mod tests {
             format_date_distance_strict_days_fr(start, end, true),
             "il y a 2 jours"
         );
-        assert_eq!(format_date_distance_strict_days_fr(start, start, true), "0 jours");
+        assert_eq!(
+            format_date_distance_strict_days_fr(start, start, true),
+            "0 jours"
+        );
         assert_eq!(
             format_date_distance_fr(date(2024, 1, 8), date(2024, 1, 1)),
             "dans 1 semaine"
@@ -114,7 +117,10 @@ mod tests {
     #[test]
     fn labels_today_adjacent_days_and_weekdays() {
         let monday = date(2024, 12, 30);
-        assert_eq!(format_relative_calendar_date_fr(monday, monday), "aujourd'hui");
+        assert_eq!(
+            format_relative_calendar_date_fr(monday, monday),
+            "aujourd'hui"
+        );
         assert_eq!(
             format_relative_calendar_date_fr(date(2024, 12, 31), monday),
             "demain"

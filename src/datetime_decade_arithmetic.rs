@@ -26,10 +26,22 @@ mod tests {
 
     #[test]
     fn shifts_decades_and_retains_nanoseconds() {
-        assert_eq!(add_decades_datetime(at(2024, 2, 29), 1), Some(at(2034, 2, 28)));
-        assert_eq!(sub_decades_datetime(at(2024, 2, 29), 1), Some(at(2014, 2, 28)));
-        assert_eq!(add_decades_datetime(at(2024, 1, 1), -2), Some(at(2004, 1, 1)));
-        assert_eq!(sub_decades_datetime(at(2024, 1, 1), -2), Some(at(2044, 1, 1)));
+        assert_eq!(
+            add_decades_datetime(at(2024, 2, 29), 1),
+            Some(at(2034, 2, 28))
+        );
+        assert_eq!(
+            sub_decades_datetime(at(2024, 2, 29), 1),
+            Some(at(2014, 2, 28))
+        );
+        assert_eq!(
+            add_decades_datetime(at(2024, 1, 1), -2),
+            Some(at(2004, 1, 1))
+        );
+        assert_eq!(
+            sub_decades_datetime(at(2024, 1, 1), -2),
+            Some(at(2044, 1, 1))
+        );
     }
 
     #[test]

@@ -80,5 +80,4 @@ mod tests {
         let before = from_unix_timestamp_millis(-1).unwrap();
         assert_eq!(try_to_unix_timestamp_millis(before), Some(-1));
     }
-
 }

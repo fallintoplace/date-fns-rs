@@ -79,7 +79,10 @@ mod tests {
     fn counts_inclusive_nanosecond_touches_and_duplicates() {
         let left = [(tick(1), tick(3)), (tick(5), tick(7))];
         let right = [(tick(3), tick(5)), (tick(7), tick(8))];
-        assert_eq!(count_overlapping_datetime_interval_pairs(&left, &right), Some(3));
+        assert_eq!(
+            count_overlapping_datetime_interval_pairs(&left, &right),
+            Some(3)
+        );
         assert_eq!(
             count_overlapping_datetime_interval_pairs(
                 &[(tick(2), tick(3)), (tick(2), tick(3))],
@@ -125,5 +128,4 @@ mod tests {
             }
         }
     }
-
 }

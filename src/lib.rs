@@ -127,9 +127,11 @@ mod weekly_mask_recurrence;
 pub use weekly_mask_recurrence::{each_selected_weekday_in_interval, WeeklyMaskRecurrences};
 
 mod calendar_week_difference;
+mod relative_calendar_weeks;
 pub use calendar_week_difference::difference_in_calendar_iso_week_years;
 pub use calendar_week_difference::difference_in_calendar_iso_weeks;
 pub use calendar_week_difference::difference_in_calendar_weeks;
+pub use relative_calendar_weeks::{is_next_calendar_week, is_previous_calendar_week};
 
 mod datetime_week_boundaries;
 pub use datetime_week_boundaries::{end_of_week_datetime, start_of_week_datetime};
@@ -186,6 +188,7 @@ pub use datetime_components::{
 };
 
 mod interval;
+pub use interval::clamp_date_to_interval;
 pub use interval::{
     are_intervals_overlapping, each_day_of_interval, is_within_interval, DaysInInterval,
 };
@@ -348,6 +351,7 @@ mod convert_hours_milliseconds;
 pub use convert_hours_milliseconds::{hours_to_milliseconds, milliseconds_to_hours};
 
 mod datetime_epoch_micros;
+pub use datetime_epoch_micros::try_to_unix_timestamp_micros;
 pub use datetime_epoch_micros::{from_unix_timestamp_micros, to_unix_timestamp_micros};
 
 mod datetime_epoch_bucketing;
@@ -359,6 +363,7 @@ mod datetime_epoch_nanos;
 pub use datetime_epoch_nanos::{from_unix_timestamp_nanos, to_unix_timestamp_nanos};
 
 mod datetime_epoch;
+pub use datetime_epoch::try_to_unix_timestamp_millis;
 pub use datetime_epoch::{
     from_unix_timestamp_millis, from_unix_timestamp_seconds, to_unix_timestamp_millis,
     to_unix_timestamp_seconds,
@@ -402,9 +407,11 @@ pub use fiscal_quarter_boundary_predicates::{
 };
 
 mod fiscal_quarters;
+mod relative_fiscal_quarters;
 pub use fiscal_quarters::difference_in_calendar_fiscal_quarters;
 pub use fiscal_quarters::is_same_fiscal_quarter;
 pub use fiscal_quarters::{end_of_fiscal_quarter, get_fiscal_quarter, start_of_fiscal_quarter};
+pub use relative_fiscal_quarters::{is_next_fiscal_quarter, is_previous_fiscal_quarter};
 
 mod interval_fiscal_quarter_segments;
 pub use interval_fiscal_quarter_segments::{
@@ -443,8 +450,10 @@ pub use fiscal_year_boundary_predicates::{
 };
 
 mod fiscal_years;
+mod relative_fiscal_years;
 pub use fiscal_years::is_same_fiscal_year;
 pub use fiscal_years::{end_of_fiscal_year, get_fiscal_year, start_of_fiscal_year};
+pub use relative_fiscal_years::{is_next_fiscal_year, is_previous_fiscal_year};
 
 mod interval_fiscal_year_segments;
 pub use interval_fiscal_year_segments::{
@@ -502,11 +511,18 @@ pub use datetime_fiscal_half_year_comparisons::is_same_fiscal_half_year_datetime
 mod half_year_predicates;
 
 mod datetime_period_comparisons;
+mod datetime_quarter_metadata;
 pub use datetime_period_comparisons::{is_same_half_year_datetime, is_same_quarter_datetime};
+pub use datetime_quarter_metadata::{
+    get_day_of_quarter_datetime, get_days_in_quarter_datetime, get_quarter_datetime,
+};
 pub use half_year_predicates::{
     is_first_day_of_half_year, is_last_day_of_half_year, is_same_half_year,
 };
 mod relative_calendar_period_predicates;
+pub use relative_calendar_period_predicates::{
+    is_next_calendar_half_year, is_previous_calendar_half_year,
+};
 pub use relative_calendar_period_predicates::{
     is_next_calendar_month, is_next_calendar_quarter, is_next_calendar_year,
     is_previous_calendar_month, is_previous_calendar_quarter, is_previous_calendar_year,
@@ -644,6 +660,7 @@ mod interval_merge;
 pub use interval_merge::merge_intervals;
 
 mod datetime_intervals;
+pub use datetime_intervals::is_datetime_interval_within_datetime_interval;
 pub use datetime_intervals::{
     are_datetime_intervals_overlapping, clamp_datetime_to_interval,
     datetime_interval_duration_millis, intersection_of_datetime_intervals,
@@ -655,6 +672,9 @@ pub use datetime_overlapping_days::overlapping_elapsed_days_datetime_intervals;
 
 mod datetime_overlap_depth;
 mod datetime_overlap_join;
+
+mod datetime_overlap_count;
+pub use datetime_overlap_count::count_overlapping_datetime_interval_pairs;
 pub use datetime_overlap_depth::datetime_overlap_depth;
 pub use datetime_overlap_join::join_overlapping_datetime_intervals;
 
@@ -685,7 +705,10 @@ pub use datetime_intersect_many::intersect_many_datetime_interval_sets;
 mod interval_intersect_many;
 
 mod interval_overlap_join;
+
+mod interval_overlap_count;
 pub use interval_intersect_many::intersect_many_date_interval_sets;
+pub use interval_overlap_count::count_overlapping_date_interval_pairs;
 pub use interval_overlap_join::join_overlapping_date_intervals;
 
 mod interval_month_segments;
@@ -1047,10 +1070,12 @@ pub use fiscal_half_year_day_ordinals::{
 };
 
 mod fiscal_half_years;
+mod relative_fiscal_half_years;
 pub use fiscal_half_years::is_same_fiscal_half_year;
 pub use fiscal_half_years::{
     end_of_fiscal_half_year, get_fiscal_half_year, start_of_fiscal_half_year,
 };
+pub use relative_fiscal_half_years::{is_next_fiscal_half_year, is_previous_fiscal_half_year};
 
 pub use fiscal_half_years::difference_in_calendar_fiscal_half_years;
 
@@ -1304,6 +1329,28 @@ pub use gregorian_easter_holidays::{gregorian_easter_monday, gregorian_good_frid
 
 mod orthodox_easter_holidays;
 pub use orthodox_easter_holidays::{orthodox_easter_monday, orthodox_good_friday};
+
+pub use convert_years_days::days_to_years;
+
+mod convert_mean_months_days;
+pub use convert_mean_months_days::{days_to_mean_months, mean_months_to_days};
+
+mod datetime_half_year_arithmetic;
+pub use datetime_half_year_arithmetic::{add_half_years_datetime, sub_half_years_datetime};
+
+mod datetime_decade_arithmetic;
+pub use datetime_decade_arithmetic::{add_decades_datetime, sub_decades_datetime};
+
+mod datetime_century_arithmetic;
+pub use datetime_century_arithmetic::{add_centuries_datetime, sub_centuries_datetime};
+
+mod datetime_full_long_period_differences;
+pub use datetime_full_long_period_differences::{
+    difference_in_centuries_datetime, difference_in_decades_datetime,
+};
+
+mod datetime_full_half_year_difference;
+pub use datetime_full_half_year_difference::difference_in_half_years_datetime;
 
 mod datetime_inclusive_weekdays;
 pub use datetime_inclusive_weekdays::{

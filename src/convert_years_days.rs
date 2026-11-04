@@ -10,7 +10,6 @@ pub fn years_to_days(years: i64) -> Option<i64> {
     i64::try_from(scaled / 10_000).ok()
 }
 
-
 /// Convert whole days to complete mean Gregorian years.
 ///
 /// Uses 365.2425 days per year, with truncation toward zero.
@@ -47,7 +46,6 @@ mod tests {
         assert_eq!(years_to_days(minimum - 1), None);
     }
 }
-
 
 #[cfg(test)]
 mod inverse_tests {

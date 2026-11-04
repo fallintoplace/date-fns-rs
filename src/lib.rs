@@ -1369,3 +1369,9 @@ mod orthodox_easter_extended_holidays;
 pub use orthodox_easter_extended_holidays::{
     orthodox_ascension_day, orthodox_pentecost_monday, orthodox_pentecost_sunday,
 };
+
+mod relative_reference_date_predicates;
+pub use relative_reference_date_predicates::{
+    is_this_calendar_quarter, is_this_calendar_week, is_this_calendar_year,
+    is_this_iso_calendar_week, is_this_month,
+};

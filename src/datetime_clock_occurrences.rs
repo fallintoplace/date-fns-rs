@@ -6,10 +6,7 @@ use chrono::{NaiveDateTime, NaiveTime};
 ///
 /// Returns None when the next calendar day is outside Chrono's range.
 /// This function uses local naive time and makes no daylight-saving assumption.
-pub fn next_occurrence_of_time(
-    after: NaiveDateTime,
-    time: NaiveTime,
-) -> Option<NaiveDateTime> {
+pub fn next_occurrence_of_time(after: NaiveDateTime, time: NaiveTime) -> Option<NaiveDateTime> {
     let today = after.date().and_time(time);
     if today > after {
         Some(today)
@@ -51,7 +48,11 @@ mod tests {
         );
         assert_eq!(
             previous_occurrence_of_time(reference, clock),
-            Some(NaiveDate::from_ymd_opt(2024, 2, 28).unwrap().and_time(clock))
+            Some(
+                NaiveDate::from_ymd_opt(2024, 2, 28)
+                    .unwrap()
+                    .and_time(clock)
+            )
         );
         assert_eq!(
             next_occurrence_of_time(day.and_hms_opt(8, 0, 0).unwrap(), clock),
@@ -75,9 +76,6 @@ mod tests {
             Some(start.date().and_time(clock))
         );
         assert_eq!(next_occurrence_of_time(NaiveDateTime::MAX, clock), None);
-        assert_eq!(
-            previous_occurrence_of_time(NaiveDateTime::MIN, clock),
-            None
-        );
+        assert_eq!(previous_occurrence_of_time(NaiveDateTime::MIN, clock), None);
     }
 }

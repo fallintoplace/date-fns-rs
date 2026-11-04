@@ -502,6 +502,8 @@ pub use datetime_fiscal_half_year_comparisons::is_same_fiscal_half_year_datetime
 mod half_year_predicates;
 
 mod datetime_period_comparisons;
+mod datetime_quarter_metadata;
+pub use datetime_quarter_metadata::{get_quarter_datetime, get_day_of_quarter_datetime, get_days_in_quarter_datetime};
 pub use datetime_period_comparisons::{is_same_half_year_datetime, is_same_quarter_datetime};
 pub use half_year_predicates::{
     is_first_day_of_half_year, is_last_day_of_half_year, is_same_half_year,

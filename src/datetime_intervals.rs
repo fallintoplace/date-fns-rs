@@ -55,10 +55,7 @@ pub fn datetime_interval_duration_millis(start: NaiveDateTime, end: NaiveDateTim
 ///
 /// Sub-microsecond fractions are truncated. Returns None for reversed ranges
 /// or intervals whose duration cannot fit in i64 microseconds.
-pub fn datetime_interval_duration_micros(
-    start: NaiveDateTime,
-    end: NaiveDateTime,
-) -> Option<i64> {
+pub fn datetime_interval_duration_micros(start: NaiveDateTime, end: NaiveDateTime) -> Option<i64> {
     if start > end {
         return None;
     }
@@ -123,6 +120,4 @@ mod tests {
             None
         );
     }
-
-
 }

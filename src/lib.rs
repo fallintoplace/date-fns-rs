@@ -1356,3 +1356,8 @@ mod datetime_inclusive_weekdays;
 pub use datetime_inclusive_weekdays::{
     nearest_day_datetime, next_or_same_day_datetime, previous_or_same_day_datetime,
 };
+
+mod gregorian_easter_extended_holidays;
+pub use gregorian_easter_extended_holidays::{
+    gregorian_ascension_day, gregorian_pentecost_monday, gregorian_pentecost_sunday,
+};

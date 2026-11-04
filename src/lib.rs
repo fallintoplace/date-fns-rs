@@ -879,6 +879,11 @@ pub use interval_week_year_counts::count_week_years_in_interval;
 mod full_week_difference;
 pub use full_week_difference::difference_in_weeks;
 
+mod date_locale_it;
+pub use date_locale_it::{
+    format_date_distance_it, format_date_distance_strict_days_it, format_relative_calendar_date_it,
+};
+
 mod date_format_tokens;
 pub use date_format_tokens::format_date_tokens;
 
@@ -1368,9 +1373,4 @@ pub use gregorian_easter_extended_holidays::{
 mod orthodox_easter_extended_holidays;
 pub use orthodox_easter_extended_holidays::{
     orthodox_ascension_day, orthodox_pentecost_monday, orthodox_pentecost_sunday,
-};
-
-mod date_locale_it;
-pub use date_locale_it::{
-    format_date_distance_it, format_date_distance_strict_days_it, format_relative_calendar_date_it,
 };

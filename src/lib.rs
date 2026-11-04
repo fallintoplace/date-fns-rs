@@ -444,9 +444,9 @@ pub use fiscal_year_boundary_predicates::{
 
 mod fiscal_years;
 mod relative_fiscal_years;
-pub use relative_fiscal_years::{is_next_fiscal_year, is_previous_fiscal_year};
 pub use fiscal_years::is_same_fiscal_year;
 pub use fiscal_years::{end_of_fiscal_year, get_fiscal_year, start_of_fiscal_year};
+pub use relative_fiscal_years::{is_next_fiscal_year, is_previous_fiscal_year};
 
 mod interval_fiscal_year_segments;
 pub use interval_fiscal_year_segments::{

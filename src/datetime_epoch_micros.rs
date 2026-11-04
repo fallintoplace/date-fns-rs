@@ -21,8 +21,7 @@ pub fn from_unix_timestamp_micros(value: i64) -> Option<NaiveDateTime> {
 ///
 /// Returns None for timestamps that are not microsecond-aligned.
 pub fn try_to_unix_timestamp_micros(value: NaiveDateTime) -> Option<i64> {
-    (value.and_utc().timestamp_subsec_nanos() % 1_000 == 0)
-        .then(|| to_unix_timestamp_micros(value))
+    (value.and_utc().timestamp_subsec_nanos() % 1_000 == 0).then(|| to_unix_timestamp_micros(value))
 }
 
 #[cfg(test)]
@@ -75,5 +74,4 @@ mod tests {
         let before = from_unix_timestamp_micros(-1).unwrap();
         assert_eq!(try_to_unix_timestamp_micros(before), Some(-1));
     }
-
 }

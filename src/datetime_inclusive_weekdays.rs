@@ -3,10 +3,7 @@
 use chrono::{NaiveDateTime, Weekday};
 
 /// Find the next weekday, including the starting date if it matches.
-pub fn next_or_same_day_datetime(
-    value: NaiveDateTime,
-    weekday: Weekday,
-) -> Option<NaiveDateTime> {
+pub fn next_or_same_day_datetime(value: NaiveDateTime, weekday: Weekday) -> Option<NaiveDateTime> {
     Some(crate::next_or_same_weekday(value.date(), weekday)?.and_time(value.time()))
 }
 

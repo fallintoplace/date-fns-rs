@@ -38,13 +38,51 @@ fn split_unquoted(text: &str) -> Option<Vec<&str>> {
 }
 
 fn valid_param_value(value: &str) -> bool {
-    if value.is_empty() {
+    let bytes = value.as_bytes();
+    if bytes.is_empty() {
         return false;
     }
-    if let Some(inner) = value.strip_prefix('"').and_then(|s| s.strip_suffix('"')) {
-        return !inner.contains('"') && !inner.chars().any(char::is_control);
+
+    let mut index = 0;
+    loop {
+        if bytes[index] == b'"' {
+            index += 1;
+            while index < bytes.len() && bytes[index] != b'"' {
+                if bytes[index].is_ascii_control() && bytes[index] != b'\t' {
+                    return false;
+                }
+                index += 1;
+            }
+            if bytes.get(index) != Some(&b'"') {
+                return false;
+            }
+            index += 1;
+        } else {
+            let start = index;
+            while index < bytes.len() && bytes[index] != b',' {
+                let byte = bytes[index];
+                if matches!(byte, b'"' | b';' | b':') || (byte.is_ascii_control() && byte != b'\t')
+                {
+                    return false;
+                }
+                index += 1;
+            }
+            if index == start {
+                return false;
+            }
+        }
+
+        if index == bytes.len() {
+            return true;
+        }
+        if bytes[index] != b',' {
+            return false;
+        }
+        index += 1;
+        if index == bytes.len() {
+            return false;
+        }
     }
-    !value.contains('"') && !value.contains(';') && !value.contains(':')
 }
 
 /// Parse one unfolded iCalendar content line, retaining borrowed values.
@@ -141,6 +179,53 @@ mod tests {
             "SUMMARY:line\nbreak",
             "SUMMARY:line\r\n more",
             "SUMMARY:\0bad",
+        ] {
+            assert!(parse_ical_content_line(invalid).is_none(), "{invalid:?}");
+        }
+    }
+    #[test]
+    fn accepts_quoted_and_unquoted_parameter_value_lists() {
+        let line = r#"ATTENDEE;MEMBER="mailto:jane@example.org","mailto:john@example.org";ROLE=CHAIR:mailto:chair@example.org"#;
+        let parsed = parse_ical_content_line(line).unwrap();
+        assert_eq!(
+            parsed.parameters,
+            vec![
+                (
+                    "MEMBER",
+                    r#""mailto:jane@example.org","mailto:john@example.org""#
+                ),
+                ("ROLE", "CHAIR")
+            ]
+        );
+        assert_eq!(
+            parse_ical_content_line("X-ITEM;COLORS=red,green,blue:ok")
+                .unwrap()
+                .parameters,
+            vec![("COLORS", "red,green,blue")]
+        );
+        assert_eq!(
+            parse_ical_content_line(r#"X-ITEM;PART="one,two",three:ok"#)
+                .unwrap()
+                .parameters,
+            vec![("PART", r#""one,two",three"#)]
+        );
+        assert_eq!(
+            parse_ical_content_line(r#"X-ITEM;PART="":ok"#)
+                .unwrap()
+                .parameters,
+            vec![("PART", r#""""#)]
+        );
+    }
+
+    #[test]
+    fn rejects_empty_list_members_and_unbalanced_quotes() {
+        for invalid in [
+            "X-ITEM;PART=,one:ok",
+            "X-ITEM;PART=one,:ok",
+            "X-ITEM;PART=one,,two:ok",
+            r#"X-ITEM;PART="one",two"broken:ok"#,
+            r#"X-ITEM;PART="one","two:ok"#,
+            "X-ITEM;PART=one;bad:ok",
         ] {
             assert!(parse_ical_content_line(invalid).is_none(), "{invalid:?}");
         }

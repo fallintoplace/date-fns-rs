@@ -66,6 +66,26 @@ pub fn is_datetime_interval_within_datetime_interval(
     Some(inner_start >= outer_start && inner_end <= outer_end)
 }
 
+/// Test whether two disjoint inclusive datetime ranges touch by one nanosecond.
+///
+/// Shared endpoints are overlap, not adjacency. Invalid ranges return None.
+/// A missing successor at Chrono's maximum timestamp is never adjacent.
+pub fn are_datetime_intervals_adjacent(
+    a_start: NaiveDateTime,
+    a_end: NaiveDateTime,
+    b_start: NaiveDateTime,
+    b_end: NaiveDateTime,
+) -> Option<bool> {
+    if a_start > a_end || b_start > b_end {
+        return None;
+    }
+    let tick = chrono::TimeDelta::nanoseconds(1);
+    Some(
+        a_end.checked_add_signed(tick) == Some(b_start)
+            || b_end.checked_add_signed(tick) == Some(a_start),
+    )
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -134,6 +154,37 @@ mod tests {
         assert_eq!(
             is_datetime_interval_within_datetime_interval(a, b, c, b),
             None
+        );
+    }
+    #[test]
+    fn checks_nanosecond_adjacency_across_midnight() {
+        let last = NaiveDate::from_ymd_opt(2024, 2, 29)
+            .unwrap()
+            .and_hms_nano_opt(23, 59, 59, 999_999_999)
+            .unwrap();
+        let first = NaiveDate::from_ymd_opt(2024, 3, 1)
+            .unwrap()
+            .and_hms_opt(0, 0, 0)
+            .unwrap();
+        assert_eq!(
+            are_datetime_intervals_adjacent(last, last, first, first),
+            Some(true)
+        );
+        assert_eq!(
+            are_datetime_intervals_adjacent(first, first, last, last),
+            Some(true)
+        );
+        assert_eq!(
+            are_datetime_intervals_adjacent(last, first, first, first),
+            Some(false)
+        );
+        assert_eq!(
+            are_datetime_intervals_adjacent(first, last, last, first),
+            None
+        );
+        assert_eq!(
+            are_datetime_intervals_adjacent(NaiveDateTime::MAX, NaiveDateTime::MAX, last, last),
+            Some(false)
         );
     }
 }

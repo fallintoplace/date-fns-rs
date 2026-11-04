@@ -660,6 +660,7 @@ mod interval_merge;
 pub use interval_merge::merge_intervals;
 
 mod datetime_intervals;
+pub use datetime_intervals::are_datetime_intervals_adjacent;
 pub use datetime_intervals::is_datetime_interval_within_datetime_interval;
 pub use datetime_intervals::{
     are_datetime_intervals_overlapping, clamp_datetime_to_interval,

@@ -1010,6 +1010,11 @@ pub use interval_day_counts::count_weekday_occurrences_in_interval;
 mod calendar_week_setters;
 pub use calendar_week_setters::{set_week, set_week_year};
 
+mod date_locale_es;
+pub use date_locale_es::{
+    format_date_distance_es, format_date_distance_strict_days_es, format_relative_calendar_date_es,
+};
+
 mod date_relative_en;
 pub use date_relative_en::format_relative_calendar_date_en;
 mod relative_day_predicates;
@@ -1368,9 +1373,4 @@ pub use gregorian_easter_extended_holidays::{
 mod orthodox_easter_extended_holidays;
 pub use orthodox_easter_extended_holidays::{
     orthodox_ascension_day, orthodox_pentecost_monday, orthodox_pentecost_sunday,
-};
-
-mod date_locale_es;
-pub use date_locale_es::{
-    format_date_distance_es, format_date_distance_strict_days_es, format_relative_calendar_date_es,
 };

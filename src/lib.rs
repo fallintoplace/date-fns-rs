@@ -10,6 +10,9 @@ pub use chrono::{NaiveDate, Weekday};
 mod arithmetic;
 pub use arithmetic::{add_days, add_weeks, sub_days, sub_weeks};
 
+mod datetime_relative_day_bounds;
+pub use datetime_relative_day_bounds::relative_day_datetime_bounds;
+
 mod datetime_day_segments;
 pub use datetime_day_segments::{each_day_segment_of_datetime_interval, DatetimeDaySegments};
 

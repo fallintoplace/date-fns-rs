@@ -973,6 +973,11 @@ pub use date_distance_de::{format_date_distance_de, format_date_distance_strict_
 mod format_calendar_duration_en;
 pub use format_calendar_duration_en::format_calendar_duration_en;
 
+mod date_locale_fr;
+pub use date_locale_fr::{
+    format_date_distance_fr, format_date_distance_strict_days_fr, format_relative_calendar_date_fr,
+};
+
 mod date_distance_en;
 pub use date_distance_en::{format_date_distance_en, format_date_distance_strict_days_en};
 

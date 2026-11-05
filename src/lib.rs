@@ -281,6 +281,9 @@ pub use metadata::{get_day_of_year, get_days_in_month, get_days_in_year};
 mod format_iso_datetime_duration;
 pub use format_iso_datetime_duration::format_iso_duration;
 
+mod datetime_apply_duration;
+pub use datetime_apply_duration::apply_calendar_datetime_duration;
+
 mod datetime_duration;
 pub use datetime_duration::{interval_to_calendar_duration, CalendarDateTimeDuration};
 

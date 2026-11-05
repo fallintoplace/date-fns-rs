@@ -1064,6 +1064,9 @@ pub use half_year_intervals::{each_half_year_of_interval, HalfYearsInInterval};
 mod fiscal_month_number;
 pub use fiscal_month_number::get_fiscal_month;
 
+mod date_field_patch;
+pub use date_field_patch::{set_date_fields, DateFieldPatch};
+
 mod date_checked_setters;
 pub use date_checked_setters::{is_existing_calendar_date, set_day_of_month, set_day_of_week};
 

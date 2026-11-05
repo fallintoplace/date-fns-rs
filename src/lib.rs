@@ -802,6 +802,9 @@ pub use weighted_datetime_scheduling::select_max_weight_datetime_intervals;
 mod datetime_aligned_hours;
 pub use datetime_aligned_hours::each_hour_of_datetime_interval;
 
+mod datetime_clock_occurrences;
+pub use datetime_clock_occurrences::{next_occurrence_of_time, previous_occurrence_of_time};
+
 mod datetime_hour_iterator;
 pub use datetime_hour_iterator::{each_nth_hour_of_datetime_interval, HoursInDatetimeInterval};
 

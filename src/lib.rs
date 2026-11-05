@@ -1176,6 +1176,9 @@ pub use datetime_business_arithmetic::{
     sub_business_days_datetime, sub_business_days_with_holidays_datetime,
 };
 
+mod datetime_field_patch;
+pub use datetime_field_patch::{set_datetime_fields, DateTimeFieldPatch};
+
 mod datetime_checked_setters;
 pub use datetime_checked_setters::{
     set_day_of_month_datetime, set_day_of_week_datetime, set_day_of_year_datetime,
